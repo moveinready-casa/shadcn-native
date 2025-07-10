@@ -1,0 +1,5 @@
+{
+  "*.(ts,tsx)": ["turbo run check-types --"],
+  "*.(ts,tsx,js,jsx)": ["turbo run lint --"],
+  "*": ["turbo run format --"]
+}
