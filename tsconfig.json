@@ -1,12 +1,17 @@
 {
-  "extends": "@tsconfig/react-native/tsconfig.json",
+  "extends": "./tsconfig.base.json",
   "compilerOptions": {
+    "plugins": [
+      {
+        "name": "next"
+      }
+    ],
     "paths": {
       "@/*": ["./*"]
     },
     "target": "esnext",
     "types": ["react-native", "jest"]
   },
-  "include": ["**/*.ts", "**/*.tsx", "app/content/index.mdx"],
+  "include": ["**/*.ts", "**/*.tsx", "app/content/index.mdx", "next-env.d.ts"],
   "exclude": ["node_modules"]
 }
