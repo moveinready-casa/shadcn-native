@@ -7,6 +7,6 @@
     "target": "esnext",
     "types": ["react-native", "jest"]
   },
-  "include": ["**/*.ts", "**/*.tsx"],
+  "include": ["**/*.ts", "**/*.tsx", "app/content/index.mdx"],
   "exclude": ["node_modules"]
 }
