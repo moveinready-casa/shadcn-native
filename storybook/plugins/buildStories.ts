@@ -1,6 +1,7 @@
 import fs from "fs";
 import path from "path";
 import {glob} from "glob";
+import type {Plugin, HmrContext} from "vite";
 
 interface BuildStoriesOptions {
   registryPath?: string;
@@ -103,7 +104,9 @@ export async function buildComponentStories(
   await builder.build();
 }
 
-export function createBuildStoriesPlugin(options: BuildStoriesOptions = {}) {
+export function createBuildStoriesPlugin(
+  options: BuildStoriesOptions = {},
+): Plugin {
   let builder: ComponentStoryBuilder;
   let rootDir: string;
 
@@ -124,8 +127,6 @@ export function createBuildStoriesPlugin(options: BuildStoriesOptions = {}) {
         path.join(registryDir, "**/*.{tsx,ts,mdx}"),
       );
       componentFiles.forEach((file) => {
-        // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-        // @ts-ignore
         this.addWatchFile(file);
       });
     },
@@ -133,7 +134,7 @@ export function createBuildStoriesPlugin(options: BuildStoriesOptions = {}) {
       const registryDir = path.join(rootDir, "../registry/ui");
       server.watcher.add(registryDir);
     },
-    async handleHotUpdate(ctx: any) {
+    async handleHotUpdate(ctx: HmrContext) {
       if (
         ctx.file.includes(`${path.sep}.stories${path.sep}`) ||
         ctx.file.includes(`/.stories/`)
@@ -145,7 +146,7 @@ export function createBuildStoriesPlugin(options: BuildStoriesOptions = {}) {
         await builder.build();
       }
     },
-  } as const;
+  };
 }
 
 // CLI usage when run directly
