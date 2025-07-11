@@ -24,4 +24,4 @@ jobs:
         run: pnpm install
 
       - name: Run eslint on changed files
-        run: pnpx turbo run lint
+        run: pnpm run lint

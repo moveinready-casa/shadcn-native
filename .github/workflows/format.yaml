@@ -23,4 +23,4 @@ jobs:
         run: pnpm install
 
       - name: Run prettier on changed files
-        run: pnpx turbo run format
+        run: pnpm run format
