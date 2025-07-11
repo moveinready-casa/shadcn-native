@@ -32,8 +32,6 @@ const eslintConfig = [
     ...reactNative,
     ignores: ["node_modules", "!/app/registry"],
   },
-  ...storybook.configs["flat/recommended"],
-  ...storybook.configs["flat/recommended"],
 ];
 
 export default eslintConfig;
