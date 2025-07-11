@@ -5,8 +5,8 @@
       {
         "name": "next"
       }
-    ],
+    ]
   },
   "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", ".next/types/**/*.ts"],
-  "exclude": ["node_modules", "app/registry"]
+  "exclude": ["node_modules", "app/registry", "storybook"]
 }

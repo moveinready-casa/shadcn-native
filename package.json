@@ -15,12 +15,16 @@
     "postbuild": "pagefind --site .next/server/app --output-path public/_pagefind"
   },
   "dependencies": {
+    "nativewind": "^4.1.23",
     "next": "15.3.5",
     "nextra": "^4.2.17",
     "nextra-theme-docs": "^4.2.17",
-    "react": "^19.0.0",
-    "react-dom": "^19.0.0",
-    "react-native": "^0.80.1"
+    "react": "^19.1.0",
+    "react-dom": "^19.1.0",
+    "react-native": "^0.80.1",
+    "react-native-reanimated": "^3.18.0",
+    "react-native-safe-area-context": "5.4.0",
+    "react-native-web": "^0.20.0"
   },
   "devDependencies": {
     "@babel/core": "^7.28.0",
@@ -33,12 +37,14 @@
     "@jest/globals": "^30.0.4",
     "@react-native/babel-preset": "^0.80.1",
     "@react-native/eslint-config": "^0.80.1",
+    "@react-native/typescript-config": "^0.80.1",
     "@tailwindcss/postcss": "^4.1.11",
     "@testing-library/react-native": "^13.2.0",
     "@tsconfig/react-native": "^3.0.6",
     "@types/node": "^20",
-    "@types/react": "^19",
-    "@types/react-dom": "^19",
+    "@types/react": "^19.1",
+    "@types/react-dom": "^19.1",
+    "@types/react-native-web": "^0.19.1",
     "@typescript-eslint/eslint-plugin": "^8.36.0",
     "@typescript-eslint/parser": "^8.36.0",
     "babel-jest": "^30.0.4",
@@ -55,7 +61,7 @@
     "prettier": "^3.6.2",
     "prettier-plugin-tailwindcss": "^0.6.14",
     "react-test-renderer": "19.0.0",
-    "tailwindcss": "^4.1.11",
+    "tailwindcss": "^4.0.0",
     "typescript": "^5"
   },
   "packageManager": "pnpm@10.13.1",
