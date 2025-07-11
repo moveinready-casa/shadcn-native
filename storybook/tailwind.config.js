@@ -1,9 +1,10 @@
 /** @type {import('tailwindcss').Config} */
-module.exports = {
+export default {
   content: [
     "./storybook/**/*.{js,jsx,ts,tsx}",
     "../app/registry/**/*.{js,jsx,ts,tsx}",
   ],
+  // eslint-disable-next-line
   presets: [require("nativewind/preset")],
   theme: {
     extend: {},

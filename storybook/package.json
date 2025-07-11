@@ -8,6 +8,7 @@
     "build-storybook": "storybook build"
   },
   "dependencies": {
+    "@storybook/builder-vite": "^9.0.16",
     "nativewind": "^4.1.23",
     "react": "^19.1.0",
     "react-native": "^0.80.1",
