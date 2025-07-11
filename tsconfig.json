@@ -17,7 +17,7 @@
     "nativewind-env.d.ts",
     "storybook/**/*.ts",
     "storybook/**/*.tsx",
-    "app/registry/**/*.tsx"
+    "registry/**/*.tsx"
   ],
   "exclude": ["node_modules"]
 }

@@ -34,7 +34,7 @@ const eslintConfig = [
   },
   {
     files: ["**/*.{js,jsx,mjs,cjs,ts,tsx}"],
-    ignores: ["app/registry"],
+    ignores: ["registry"],
     plugins: {
       react,
     },
@@ -54,11 +54,11 @@ const eslintConfig = [
     },
   },
   {
-    files: ["app/registry/**/*.{js,jsx,mjs,cjs,ts,tsx}"],
+    files: ["registry/**/*.{js,jsx,mjs,cjs,ts,tsx}"],
     plugins: {
       reactNative,
     },
-    ignores: ["!/app/registry"],
+    ignores: ["!/registry"],
   },
 ];
 

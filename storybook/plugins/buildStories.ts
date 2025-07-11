@@ -12,7 +12,7 @@ export class ComponentStoryBuilder {
   private outputPath: string;
 
   constructor(options: BuildStoriesOptions = {}) {
-    this.registryPath = options.registryPath || "../app/registry";
+    this.registryPath = options.registryPath || "../registry/ui";
     this.outputPath = options.outputPath || ".stories";
   }
 
@@ -24,7 +24,6 @@ export class ComponentStoryBuilder {
 
   private getComponentName(filePath: string): string {
     const basename = path.basename(filePath, ".tsx");
-    // Convert to PascalCase for story names
     return basename.charAt(0).toUpperCase() + basename.slice(1);
   }
 
@@ -36,7 +35,6 @@ export class ComponentStoryBuilder {
       return storyPath;
     }
 
-    // Also try with lowercase component name
     const lowercaseStoryFilename = `${componentName.toLowerCase()}.stories.tsx`;
     const lowercaseStoryPath = path.join(
       this.registryPath,
@@ -64,11 +62,9 @@ export class ComponentStoryBuilder {
   public async build(): Promise<void> {
     console.log("🔨 Building stories...");
 
-    // Ensure output directories exist
     this.ensureDirectoryExists(this.outputPath);
     this.ensureDirectoryExists(path.join(this.outputPath, "stories"));
 
-    // Find all .tsx files in the registry root (excluding subdirectories)
     const componentPattern = path.join(this.registryPath, "*.tsx");
     const componentFiles = glob.sync(componentPattern);
 
@@ -78,14 +74,12 @@ export class ComponentStoryBuilder {
       const componentName = this.getComponentName(componentFile);
       const storyFile = this.findStoryFile(componentName);
 
-      // Copy component to output directory
       const outputComponentPath = path.join(
         this.outputPath,
         path.basename(componentFile),
       );
       this.copyFile(componentFile, outputComponentPath);
 
-      // Copy story if it exists
       if (storyFile) {
         const outputStoryPath = path.join(
           this.outputPath,
@@ -102,7 +96,6 @@ export class ComponentStoryBuilder {
   }
 }
 
-// Standalone function for easy integration
 export async function buildComponentStories(
   options: BuildStoriesOptions = {},
 ): Promise<void> {
@@ -110,7 +103,6 @@ export async function buildComponentStories(
   await builder.build();
 }
 
-// Vite plugin factory
 export function createBuildStoriesPlugin(options: BuildStoriesOptions = {}) {
   let builder: ComponentStoryBuilder;
   let rootDir: string;
@@ -120,15 +112,14 @@ export function createBuildStoriesPlugin(options: BuildStoriesOptions = {}) {
     async configResolved(resolved: any) {
       rootDir = resolved.root;
       builder = new ComponentStoryBuilder({
-        registryPath: path.join(rootDir, "../app/registry"),
+        registryPath: path.join(rootDir, "../registry/ui"),
         outputPath: path.join(rootDir, ".stories"),
         ...options,
       });
       await builder.build();
     },
     buildStart() {
-      // Ensure Vite also watches files in the registry and stories directories
-      const registryDir = path.join(rootDir, "../app/registry");
+      const registryDir = path.join(rootDir, "../registry/ui");
       const componentFiles = glob.sync(
         path.join(registryDir, "**/*.{tsx,ts,mdx}"),
       );
@@ -139,12 +130,10 @@ export function createBuildStoriesPlugin(options: BuildStoriesOptions = {}) {
       });
     },
     configureServer(server: any) {
-      // Ask chokidar to observe the entire registry tree
-      const registryDir = path.join(rootDir, "../app/registry");
+      const registryDir = path.join(rootDir, "../registry/ui");
       server.watcher.add(registryDir);
     },
     async handleHotUpdate(ctx: any) {
-      // Skip if the changed file is in the output directory
       if (
         ctx.file.includes(`${path.sep}.stories${path.sep}`) ||
         ctx.file.includes(`/.stories/`)
@@ -152,7 +141,6 @@ export function createBuildStoriesPlugin(options: BuildStoriesOptions = {}) {
         return;
       }
 
-      // Rebuild if a registry file changed
       if (ctx.file.includes(`${path.sep}registry${path.sep}`)) {
         await builder.build();
       }
