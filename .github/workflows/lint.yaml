@@ -24,4 +24,13 @@ jobs:
         run: pnpm install
 
       - name: Run eslint on changed files
-        run: pnpm run lint
+        run: |
+          # Get changed files (JS, TS, TSX, JSX) between base and head
+          CHANGED_FILES=$(git diff --name-only --diff-filter=d ${{ github.event.pull_request.base.sha }}..${{ github.event.pull_request.head.sha }} -- '*.js' '*.jsx' '*.ts' '*.tsx' '*.mjs' '*.mts' | tr '\n' ' ')
+
+          if [ -n "$CHANGED_FILES" ]; then
+            echo "Linting changed files: $CHANGED_FILES"
+            pnpx eslint $CHANGED_FILES
+          else
+            echo "No JavaScript/TypeScript files changed"
+          fi
