@@ -1,0 +1,61 @@
+# Accordion
+
+A vertically stacked set of interactive headings that each reveal an associated section of content.
+
+import {
+  Accordion,
+  AccordionItem,
+  AccordionTrigger,
+  AccordionContent,
+} from "@/registry/ui/accordion";
+
+## Example
+
+<Accordion type="single" collapsible className="w-full">
+  <AccordionItem value="item-1">
+    <AccordionTrigger>Is it accessible?</AccordionTrigger>
+    <AccordionContent>
+      Yes. It adheres to the WAI-ARIA design pattern.
+    </AccordionContent>
+  </AccordionItem>
+  <AccordionItem value="item-2">
+    <AccordionTrigger>Is it unstyled?</AccordionTrigger>
+    <AccordionContent>
+      Yes. It's unstyled by default, giving you freedom over the look and feel.
+    </AccordionContent>
+  </AccordionItem>
+</Accordion>
+
+## Installation
+
+```bash
+pnpm add @rn-primitives/accordion lucide-react-native
+```
+
+## Usage
+
+```tsx
+import {
+  Accordion,
+  AccordionItem,
+  AccordionTrigger,
+  AccordionContent,
+} from "@/registry/ui/accordion";
+
+export default function Example() {
+  return (
+    <Accordion type="single" collapsible>
+      <AccordionItem value="item-1">
+        <AccordionTrigger>Is it accessible?</AccordionTrigger>
+        <AccordionContent>
+          Yes. It adheres to the WAI-ARIA design pattern.
+        </AccordionContent>
+      </AccordionItem>
+    </Accordion>
+  );
+}
+```
+
+---
+
+Inspired by the [shadcn/ui Accordion](https://ui.shadcn.com/docs/components/accordion) and powered by [`rn-primitives`](https://rnprimitives.com/).

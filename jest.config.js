@@ -14,6 +14,7 @@ const jestConfig = {
   moduleFileExtensions: ["ts", "tsx", "js", "flow"],
   preset: "react-native",
   testMatch: ["**/*.spec.tsx"],
+  setupFilesAfterEnv: ["./jest-setup.ts"],
 };
 
 export default jestConfig;
