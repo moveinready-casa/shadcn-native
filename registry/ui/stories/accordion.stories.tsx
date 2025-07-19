@@ -15,6 +15,8 @@ function AccordionStory({
   disabled,
   value,
   defaultValue,
+  compact,
+  variant,
 }: AccordionProps) {
   return (
     <Accordion
@@ -24,6 +26,8 @@ function AccordionStory({
       disabled={disabled}
       value={value}
       defaultValue={defaultValue}
+      compact={compact}
+      variant={variant}
       className="w-full"
     >
       <AccordionItem value="item-1">
@@ -89,6 +93,13 @@ const meta: Meta<typeof AccordionStory> = {
     },
     defaultValue: {
       control: "text",
+    },
+    compact: {
+      control: "boolean",
+    },
+    variant: {
+      control: "select",
+      options: ["shadcn", "shadow", "bordered", "splitted"],
     },
   },
 };

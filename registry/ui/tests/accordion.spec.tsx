@@ -1,5 +1,9 @@
 import {afterEach, describe, expect, it, jest} from "@jest/globals";
-import {cleanup, fireEvent, render} from "@testing-library/react-native";
+import {
+  cleanup,
+  fireEvent,
+  render,
+} from "@testing-library/react-native";
 import {
   Accordion,
   AccordionContent,
@@ -292,6 +296,32 @@ describe("Accordion", () => {
           "className",
           "text-red-500",
         );
+      });
+
+      it("renders custom start content when specified", () => {
+        const {queryAllByTestId} = render(
+          <TestAccordion
+            triggerProps={{startContent: <Text testID="start-content">Start</Text>}}
+          />,
+        );
+
+        expect(queryAllByTestId("start-content")[0]).toHaveTextContent("Start");
+      });
+
+      it("renders a custom indicator when specified", () => {
+        const {queryAllByTestId} = render(
+          <TestAccordion
+            triggerProps={{
+              indicator: (isExpanded) => (
+                <Text testID="indicator">{isExpanded ? "open" : "closed"}</Text>
+              ),
+            }}
+          />,
+        );
+
+        expect(queryAllByTestId("indicator")[0]).toHaveTextContent("closed");
+        fireEvent.press(queryAllByTestId("trigger-1")[0]);
+        expect(queryAllByTestId("indicator")[0]).toHaveTextContent("open");
       });
     });
 

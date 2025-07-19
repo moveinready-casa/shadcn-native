@@ -1,3 +1,4 @@
+// TODO: Add themes
 import React, {
   ComponentProps,
   createContext,
@@ -14,6 +15,7 @@ import Reanimated, {
   useSharedValue,
   useAnimatedStyle,
   withTiming,
+  AnimatedProps,
 } from "react-native-reanimated";
 import {ChevronDownIcon} from "lucide-react-native";
 import {tv} from "tailwind-variants";
@@ -25,6 +27,9 @@ export type AccordionState = {
   onValueChange?: (value: string | string[] | null) => void;
   collapsible?: boolean;
   disabled?: boolean;
+  /*Additional props */
+  compact?: boolean;
+  variant?: "shadcn" | "shadow" | "bordered" | "splitted";
 };
 
 export type AccordionReturn = {
@@ -43,6 +48,8 @@ export const useAccordion = ({
   onValueChange,
   collapsible = true,
   disabled,
+  compact,
+  variant,
 }: AccordionState): AccordionReturn => {
   if (
     type === "single" &&
@@ -80,6 +87,8 @@ export const useAccordion = ({
       defaultValue,
       collapsible,
       disabled,
+      compact,
+      variant,
     },
     componentProps: {
       accessibilityRole: type === "multiple" ? "list" : undefined,
@@ -94,6 +103,7 @@ export type AccordionItemState = {
 
 export type AccordionItemReturn = {
   componentProps: React.ComponentProps<typeof View> | HTMLDivElement;
+  props: AccordionReturn["props"];
   state: {
     isExpanded: boolean;
     isDisabled: boolean;
@@ -112,7 +122,7 @@ export const useAccordionItem = ({
   props,
 }: AccordionItemState): AccordionItemReturn => {
   const {expandedValue, setExpandedValue} = state;
-  const {type, collapsible} = props;
+  const {type, collapsible, compact, variant} = props;
   const isMultiple = type === "multiple";
 
   const controlled = () => {
@@ -178,6 +188,12 @@ export const useAccordionItem = ({
   const {isFocusVisible, focusProps} = useFocusRing();
 
   return {
+    props: {
+      type,
+      collapsible,
+      compact,
+      variant,
+    },
     componentProps: {
       "data-state": isExpanded ? "open" : "closed",
     },
@@ -213,6 +229,24 @@ export type AccordionProps = {
 } & AccordionState &
   ComponentProps<typeof View>;
 
+export const accordion = tv({
+  slots: {
+    root: "p-2 rounded",
+  },
+  variants: {
+    variant: {
+      shadcn: {},
+      shadow: {
+        root: "bg-slate-100 shadow-sm",
+      },
+      bordered: {
+        root: "border",
+      },
+      splitted: {},
+    },
+  },
+});
+
 export function Accordion({
   children,
   asChild = false,
@@ -222,6 +256,8 @@ export function Accordion({
   onValueChange,
   collapsible,
   disabled = false,
+  compact,
+  variant,
   ...props
 }: AccordionProps) {
   const accordionState = useAccordion({
@@ -231,7 +267,11 @@ export function Accordion({
     onValueChange,
     collapsible,
     disabled,
+    compact,
+    variant,
   });
+
+  const {root} = accordion();
 
   return (
     <AccordionContext.Provider value={accordionState}>
@@ -240,11 +280,16 @@ export function Accordion({
           React.Children.toArray(children)[0] as React.ReactElement<unknown>,
           {
             ...accordionState.componentProps,
+            className: root({variant}),
             ...props,
           },
         )
       ) : (
-        <View {...accordionState.componentProps} {...props}>
+        <View
+          {...accordionState.componentProps}
+          {...props}
+          className={root({variant})}
+        >
           {children}
         </View>
       )}
@@ -260,6 +305,7 @@ export type AccordionItemProps = {
   children: React.ReactNode;
   value: string;
   asChild?: boolean;
+  startContent?: React.ReactNode;
 } & Partial<AccordionItemState> &
   ComponentProps<typeof View>;
 
@@ -267,6 +313,26 @@ export const accordionItem = tv({
   slots: {
     root: "border-b last:border-b-0",
   },
+  variants: {
+    compact: {
+      true: {},
+    },
+    variant: {
+      shadcn: {},
+      shadow: {},
+      bordered: {},
+      splitted: {
+        root: "bg-slate-100 rounded border-none m-2 p-1",
+      },
+    },
+  },
+  compoundVariants: [
+    {
+      variant: "splitted",
+      compact: true,
+      className: "m-1",
+    },
+  ],
 });
 
 export function AccordionItem({
@@ -289,8 +355,8 @@ export function AccordionItem({
     ...accordionState,
     value,
     disabled,
-    state: state || accordionState.state,
-    props: itemProps || accordionState.props,
+    state: {...state, ...accordionState.state},
+    props: {...itemProps, ...accordionState.props},
   });
 
   return (
@@ -301,7 +367,10 @@ export function AccordionItem({
             return React.cloneElement(child as React.ReactElement<any>, {
               ...itemState.componentProps,
               ...props,
-              className: root({className: props.className}),
+              className: root({
+                variant: itemState.props.variant,
+                className: props.className,
+              }),
             });
           }
           return child;
@@ -310,7 +379,10 @@ export function AccordionItem({
         <View
           {...itemState.componentProps}
           {...props}
-          className={root({className: props.className})}
+          className={root({
+            variant: itemState.props.variant,
+            className: props.className,
+          })}
         >
           {children}
         </View>
@@ -322,11 +394,15 @@ export function AccordionItem({
 export type AccordionTriggerProps = {
   children: React.ReactNode;
   asChild?: boolean;
+  startContent?: React.ReactNode;
+  reanimatedProps?: AnimatedProps<typeof Reanimated.View>;
+  indicator?: (isExpanded: boolean) => React.ReactNode;
 } & React.ComponentProps<typeof Text>;
 
 export const accordionTrigger = tv({
   slots: {
-    root: "flex flex-row items-center flex flex-1 items-start justify-between gap-4 rounded-md py-4 text-left text-sm font-medium transition-all outline-none hover:underline",
+    root: "flex flex-row items-center justify-between rounded-md py-4 text-left text-sm font-medium transition-all outline-none hover:underline",
+    content: "flex flex-row items-center gap-4 flex-1",
     chevron: "text-muted-foreground pointer-events-none size-4 shrink-0",
   },
   variants: {
@@ -345,15 +421,23 @@ export const accordionTrigger = tv({
         root: "pointer-events-none",
       },
     },
+    compact: {
+      true: {
+        root: "py-2",
+      },
+    },
   },
 });
 
 export function AccordionTrigger({
   children,
   asChild = false,
+  startContent,
+  indicator,
+  reanimatedProps,
   ...props
 }: AccordionTriggerProps) {
-  const {root} = accordionTrigger();
+  const {root, content, chevron} = accordionTrigger();
   const itemState = useContext(AccordionItemContext);
   const rotation = useSharedValue(0);
 
@@ -375,18 +459,27 @@ export function AccordionTrigger({
         disabled: props.disabled || itemState?.state.isDisabled || false,
         focused: itemState?.state.isFocusVisible,
         controlled: itemState?.state.isControlled,
+        compact: itemState?.props.compact,
       })}
     >
-      {React.cloneElement(
-        React.Children.toArray(children)[0] as React.ReactElement<unknown>,
-        {
-          ...itemState?.triggerProps,
-          ...props,
-        },
-      )}
-      <Reanimated.View style={animatedChevronStyle}>
-        <ChevronDownIcon />
-      </Reanimated.View>
+      <View className={content()}>
+        {React.cloneElement(
+          React.Children.toArray(children)[0] as React.ReactElement<unknown>,
+          {
+            ...itemState?.triggerProps,
+            ...props,
+          },
+        )}
+      </View>
+      <View className={chevron()}>
+        {typeof indicator === "function" ? (
+          indicator(itemState?.state.isExpanded ?? false)
+        ) : (
+          <Reanimated.View style={animatedChevronStyle} {...reanimatedProps}>
+            <ChevronDownIcon />
+          </Reanimated.View>
+        )}
+      </View>
     </View>
   ) : (
     <Pressable
@@ -394,12 +487,23 @@ export function AccordionTrigger({
       className={root({
         disabled: props.disabled || itemState?.state.isDisabled || false,
         focused: itemState?.state.isFocusVisible,
+        controlled: itemState?.state.isControlled,
+        compact: itemState?.props.compact,
       })}
     >
-      <Text {...props}>{children}</Text>
-      <Reanimated.View style={animatedChevronStyle}>
-        <ChevronDownIcon />
-      </Reanimated.View>
+      <View className={content()}>
+        {startContent && <View>{startContent}</View>}
+        <Text {...props}>{children}</Text>
+      </View>
+      <View className={chevron()}>
+        {typeof indicator === "function" ? (
+          indicator(itemState?.state.isExpanded ?? false)
+        ) : (
+          <Reanimated.View style={animatedChevronStyle} {...reanimatedProps}>
+            <ChevronDownIcon />
+          </Reanimated.View>
+        )}
+      </View>
     </Pressable>
   );
 }
@@ -407,6 +511,7 @@ export function AccordionTrigger({
 export type AccordionContentProps = {
   children: React.ReactNode;
   asChild?: boolean;
+  reanimatedProps?: AnimatedProps<typeof Reanimated.View>;
 } & React.ComponentProps<typeof Text>;
 
 export const accordionContent = tv({
@@ -414,11 +519,19 @@ export const accordionContent = tv({
     root: "overflow-hidden",
     text: "text-sm",
   },
+  variants: {
+    compact: {
+      true: {
+        root: "py-1",
+      },
+    },
+  },
 });
 
 export function AccordionContent({
   children,
   asChild = false,
+  reanimatedProps,
   ...props
 }: AccordionContentProps) {
   const {root, text} = accordionContent();
@@ -459,6 +572,7 @@ export function AccordionContent({
       if (React.isValidElement(child)) {
         return React.cloneElement(child, {
           ...itemState?.contentProps,
+          className: root({compact: itemState?.props.compact}),
           ...props,
         });
       }
@@ -477,11 +591,11 @@ export function AccordionContent({
       <View
         style={{position: "absolute", opacity: 0, zIndex: -1}}
         onLayout={handleLayout}
-        className={root()}
+        className={root({compact: itemState?.props.compact})}
       >
         {contentComponent}
       </View>
-      <Reanimated.View style={animatedStyle}>
+      <Reanimated.View style={animatedStyle} {...reanimatedProps}>
         {contentComponent}
       </Reanimated.View>
     </>
