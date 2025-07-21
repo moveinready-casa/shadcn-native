@@ -35,39 +35,39 @@ export const themes = {
     "--sidebar-accent-foreground": "oklch(0.205 0 0)",
     "--sidebar-border": "oklch(0.922 0 0)",
     "--sidebar-ring": "oklch(0.708 0 0)",
-    "--background-dark": "oklch(0.145 0 0)",
-    "--foreground-dark": "oklch(0.985 0 0)",
   }),
   dark: vars({
-    "--card-dark": "oklch(0.205 0 0)",
-    "--card-foreground-dark": "oklch(0.985 0 0)",
-    "--popover-dark": "oklch(0.269 0 0)",
-    "--popover-foreground-dark": "oklch(0.985 0 0)",
-    "--primary-dark": "oklch(0.922 0 0)",
-    "--primary-foreground-dark": "oklch(0.205 0 0)",
-    "--secondary-dark": "oklch(0.269 0 0)",
-    "--secondary-foreground-dark": "oklch(0.985 0 0)",
-    "--muted-dark": "oklch(0.269 0 0)",
-    "--muted-foreground-dark": "oklch(0.708 0 0)",
-    "--accent-dark": "oklch(0.371 0 0)",
-    "--accent-foreground-dark": "oklch(0.985 0 0)",
-    "--destructive-dark": "oklch(0.704 0.191 22.216)",
-    "--border-dark": "oklch(1 0 0 / 10%)",
-    "--input-dark": "oklch(1 0 0 / 15%)",
-    "--ring-dark": "oklch(0.556 0 0)",
-    "--chart-1-dark": "oklch(0.488 0.243 264.376)",
-    "--chart-2-dark": "oklch(0.696 0.17 162.48)",
-    "--chart-3-dark": "oklch(0.769 0.188 70.08)",
-    "--chart-4-dark": "oklch(0.627 0.265 303.9)",
-    "--chart-5-dark": "oklch(0.645 0.246 16.439)",
+    "--background": "oklch(0.145 0 0)",
+    "--foreground": "oklch(0.985 0 0)",
+    "--card": "oklch(0.205 0 0)",
+    "--card-foreground": "oklch(0.985 0 0)",
+    "--popover": "oklch(0.269 0 0)",
+    "--popover-foreground": "oklch(0.985 0 0)",
+    "--primary": "oklch(0.922 0 0)",
+    "--primary-foreground": "oklch(0.205 0 0)",
+    "--secondary": "oklch(0.269 0 0)",
+    "--secondary-foreground": "oklch(0.985 0 0)",
+    "--muted": "oklch(0.269 0 0)",
+    "--muted-foreground": "oklch(0.708 0 0)",
+    "--accent": "oklch(0.371 0 0)",
+    "--accent-foreground": "oklch(0.985 0 0)",
+    "--destructive": "oklch(0.704 0.191 22.216)",
+    "--border": "oklch(1 0 0 / 10%)",
+    "--input": "oklch(1 0 0 / 15%)",
+    "--ring": "oklch(0.556 0 0)",
+    "--chart-1": "oklch(0.488 0.243 264.376)",
+    "--chart-2": "oklch(0.696 0.17 162.48)",
+    "--chart-3": "oklch(0.769 0.188 70.08)",
+    "--chart-4": "oklch(0.627 0.265 303.9)",
+    "--chart-5": "oklch(0.645 0.246 16.439)",
     "--sidebar": "oklch(0.205 0 0)",
-    "--sidebar-foreground-dark": "oklch(0.985 0 0)",
-    "--sidebar-primary-dark": "oklch(0.488 0.243 264.376)",
-    "--sidebar-primary-foreground-dark": "oklch(0.985 0 0)",
-    "--sidebar-accent-dark": "oklch(0.269 0 0)",
-    "--sidebar-accent-foreground-dark": "oklch(0.985 0 0)",
-    "--sidebar-border-dark": "oklch(1 0 0 / 10%)",
-    "--sidebar-ring-dark": "oklch(0.439 0 0)",
+    "--sidebar-foreground": "oklch(0.985 0 0)",
+    "--sidebar-primary": "oklch(0.488 0.243 264.376)",
+    "--sidebar-primary-foreground": "oklch(0.985 0 0)",
+    "--sidebar-accent": "oklch(0.269 0 0)",
+    "--sidebar-accent-foreground": "oklch(0.985 0 0)",
+    "--sidebar-border": "oklch(1 0 0 / 10%)",
+    "--sidebar-ring": "oklch(0.439 0 0)",
   }),
 };
 
@@ -91,24 +91,28 @@ export default function Theme({
   setColorScheme,
 }: ThemeProps) {
   const defaultColorScheme = useColorScheme();
-  const [colorSchemeState, setColorSchemeState] = useState(
-    colorScheme || defaultColorScheme || "light",
-  );
+  const [colorSchemeState, setColorSchemeState] = useState(defaultColorScheme);
+
+  useEffect(() => {
+    if (colorScheme) {
+      setColorSchemeState(colorScheme);
+    }
+  }, [colorScheme]);
 
   useEffect(() => {
     if (typeof setColorScheme === "function") {
-      setColorScheme(colorSchemeState);
+      setColorScheme(colorSchemeState || "light");
     }
   }, [colorSchemeState]);
 
   return (
     <ThemeContext.Provider
       value={{
-        colorScheme: colorSchemeState,
+        colorScheme: colorSchemeState || "light",
         setColorScheme: setColorSchemeState,
       }}
     >
-      <View style={themes[colorSchemeState]}>{children}</View>
+      <View style={themes[colorSchemeState || "light"]}>{children}</View>
     </ThemeContext.Provider>
   );
 }

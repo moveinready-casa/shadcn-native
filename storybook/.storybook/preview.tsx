@@ -5,6 +5,18 @@ import React from "react";
 
 const preview: Preview = {
   parameters: {
+    backgrounds: {
+      options: {
+        light: {
+          name: "Light",
+          value: "#ffffff",
+        },
+        dark: {
+          name: "Dark",
+          value: "#0a0a0a",
+        },
+      },
+    },
     controls: {
       matchers: {
         color: /(background|color)$/i,
@@ -12,9 +24,12 @@ const preview: Preview = {
       },
     },
   },
+  initialGlobals: {
+    backgrounds: {value: "dark"},
+  },
   decorators: [
-    (Story) => (
-      <Theme>
+    (Story, {context}) => (
+      <Theme colorScheme={context.globals.backgrounds.value}>
         <Story />
       </Theme>
     ),

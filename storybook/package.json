@@ -8,7 +8,7 @@
     "build-storybook": "storybook build"
   },
   "dependencies": {
-    "@storybook/builder-vite": "^9.0.16",
+    "@storybook/builder-vite": "^9.0.17",
     "nativewind": "^4.1.23",
     "react": "^19.1.0",
     "react-native": "^0.80.1",
@@ -20,14 +20,15 @@
   },
   "devDependencies": {
     "@chromatic-com/storybook": "^4.0.1",
-    "@storybook/addon-a11y": "^9.0.16",
-    "@storybook/addon-docs": "^9.0.16",
-    "@storybook/react-native-web-vite": "^9.0.16",
+    "@storybook/addon-a11y": "^9.0.17",
+    "@storybook/addon-docs": "^9.0.17",
+    "@storybook/react-native-web-vite": "^9.0.17",
     "glob": "^11.0.3",
     "react-native-web": "^0.20.0",
-    "storybook": "^9.0.16",
+    "storybook": "^9.0.17",
     "tailwindcss": "^3.4.17",
     "ts-node": "^10.9.2",
-    "vite": "^6.3.5"
+    "vite": "^6.3.5",
+    "eslint-plugin-storybook": "9.0.17"
   }
 }
