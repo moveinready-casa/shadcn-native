@@ -3,7 +3,7 @@ import {
   Accordion,
   AccordionContent,
   AccordionItem,
-  AccordionProps,
+  AccordionComponentProps,
   AccordionTrigger,
 } from "../accordion";
 import {Meta, StoryObj} from "@storybook/react-native";
@@ -13,21 +13,25 @@ function AccordionStory({
   type,
   collapsible,
   disabled,
+  loading,
   value,
   defaultValue,
+  borderRadius,
   compact,
   variant,
-}: AccordionProps) {
+}: AccordionComponentProps) {
   return (
     <Accordion
       asChild={asChild}
       type={type}
       collapsible={collapsible}
       disabled={disabled}
+      loading={loading}
       value={value}
       defaultValue={defaultValue}
       compact={compact}
       variant={variant}
+      borderRadius={borderRadius}
       className="w-full"
     >
       <AccordionItem value="item-1">
@@ -91,6 +95,9 @@ const meta: Meta<typeof AccordionStory> = {
     disabled: {
       control: "boolean",
     },
+    loading: {
+      control: "boolean",
+    },
     defaultValue: {
       control: "text",
     },
@@ -100,6 +107,10 @@ const meta: Meta<typeof AccordionStory> = {
     variant: {
       control: "select",
       options: ["shadcn", "shadow", "bordered", "splitted"],
+    },
+    borderRadius: {
+      control: "select",
+      options: ["sm", "md", "lg", "xl"],
     },
   },
 };

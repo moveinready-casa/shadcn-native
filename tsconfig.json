@@ -2,7 +2,7 @@
   "extends": "@react-native/typescript-config",
   "compilerOptions": {
     "paths": {
-      "@/*": ["./*"]
+      "@/components": ["./registry"]
     },
     "target": "esnext",
     "types": ["jest", "nativewind", "react-native", "react-native-web"],

@@ -1,6 +1,6 @@
 import type {Preview} from "@storybook/react-native-web-vite";
 import "../global.css";
-import Theme from "../../registry/Theme";
+import Theme from "../.stories/theme";
 import React from "react";
 
 const preview: Preview = {

@@ -13,7 +13,7 @@ export class ComponentStoryBuilder {
   private outputPath: string;
 
   constructor(options: BuildStoriesOptions = {}) {
-    this.registryPath = options.registryPath || "../registry/ui";
+    this.registryPath = options.registryPath || "../registry";
     this.outputPath = options.outputPath || ".stories";
   }
 
@@ -21,33 +21,6 @@ export class ComponentStoryBuilder {
     if (!fs.existsSync(dirPath)) {
       fs.mkdirSync(dirPath, {recursive: true});
     }
-  }
-
-  private getComponentName(filePath: string): string {
-    const basename = path.basename(filePath, ".tsx");
-    return basename.charAt(0).toUpperCase() + basename.slice(1);
-  }
-
-  private findStoryFile(componentName: string): string | null {
-    const storyFilename = `${componentName}.stories.tsx`;
-    const storyPath = path.join(this.registryPath, "stories", storyFilename);
-
-    if (fs.existsSync(storyPath)) {
-      return storyPath;
-    }
-
-    const lowercaseStoryFilename = `${componentName.toLowerCase()}.stories.tsx`;
-    const lowercaseStoryPath = path.join(
-      this.registryPath,
-      "stories",
-      lowercaseStoryFilename,
-    );
-
-    if (fs.existsSync(lowercaseStoryPath)) {
-      return lowercaseStoryPath;
-    }
-
-    return null;
   }
 
   private copyFile(src: string, dest: string): void {
@@ -62,35 +35,23 @@ export class ComponentStoryBuilder {
 
   public async build(): Promise<void> {
     console.log("🔨 Building stories...");
-
     this.ensureDirectoryExists(this.outputPath);
-    this.ensureDirectoryExists(path.join(this.outputPath, "stories"));
 
-    const componentPattern = path.join(this.registryPath, "*.tsx");
-    const componentFiles = glob.sync(componentPattern);
+    const allFilesPattern = path.join(this.registryPath, "**/*");
+    const ignorePattern = path.join(this.registryPath, "**/tests/**");
+    const filesToCopy = glob.sync(allFilesPattern, {
+      nodir: true,
+      ignore: [ignorePattern],
+    });
+    console.log(`Found ${filesToCopy.length} file(s) in registry`);
+    console.log(`Ignoring files that match: ${ignorePattern}`);
 
-    console.log(`Found ${componentFiles.length} component(s) in registry`);
+    for (const file of filesToCopy) {
+      const relativePath = path.relative(this.registryPath, file);
+      const destinationPath = path.join(this.outputPath, relativePath);
 
-    for (const componentFile of componentFiles) {
-      const componentName = this.getComponentName(componentFile);
-      const storyFile = this.findStoryFile(componentName);
-
-      const outputComponentPath = path.join(
-        this.outputPath,
-        path.basename(componentFile),
-      );
-      this.copyFile(componentFile, outputComponentPath);
-
-      if (storyFile) {
-        const outputStoryPath = path.join(
-          this.outputPath,
-          "stories",
-          path.basename(storyFile),
-        );
-        this.copyFile(storyFile, outputStoryPath);
-      } else {
-        console.log(`⚠ No story found for component: ${componentName}`);
-      }
+      this.ensureDirectoryExists(path.dirname(destinationPath));
+      this.copyFile(file, destinationPath);
     }
 
     console.log("✅ Build complete!");
@@ -115,23 +76,24 @@ export function createBuildStoriesPlugin(
     async configResolved(resolved: any) {
       rootDir = resolved.root;
       builder = new ComponentStoryBuilder({
-        registryPath: path.join(rootDir, "../registry/ui"),
+        registryPath: path.join(rootDir, "../registry"),
         outputPath: path.join(rootDir, ".stories"),
         ...options,
       });
       await builder.build();
     },
     buildStart() {
-      const registryDir = path.join(rootDir, "../registry/ui");
-      const componentFiles = glob.sync(
-        path.join(registryDir, "**/*.{tsx,ts,mdx}"),
-      );
+      const registryDir = path.join(rootDir, "../registry");
+      const ignorePattern = path.join(registryDir, "**/tests/**");
+      const componentFiles = glob.sync(path.join(registryDir, "**/*"), {
+        ignore: [ignorePattern],
+      });
       componentFiles.forEach((file) => {
         this.addWatchFile(file);
       });
     },
     configureServer(server: any) {
-      const registryDir = path.join(rootDir, "../registry/ui");
+      const registryDir = path.join(rootDir, "../registry");
       server.watcher.add(registryDir);
     },
     async handleHotUpdate(ctx: HmrContext) {

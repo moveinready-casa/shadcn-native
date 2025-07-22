@@ -1,15 +1,11 @@
 import {afterEach, describe, expect, it, jest} from "@jest/globals";
-import {
-  cleanup,
-  fireEvent,
-  render,
-} from "@testing-library/react-native";
+import {cleanup, fireEvent, render} from "@testing-library/react-native";
 import {
   Accordion,
   AccordionContent,
   AccordionContentProps,
   AccordionItem,
-  AccordionItemProps,
+  AccordionItemComponentProps,
   AccordionProps,
   AccordionTrigger,
   AccordionTriggerProps,
@@ -26,7 +22,7 @@ describe("Accordion", () => {
     contentProps,
   }: {
     rootProps?: Omit<Partial<AccordionProps>, "children">;
-    itemProps?: Omit<Partial<AccordionItemProps>, "children">;
+    itemProps?: Omit<Partial<AccordionItemComponentProps>, "children">;
     triggerProps?: Omit<Partial<AccordionTriggerProps>, "children">;
     contentProps?: Omit<Partial<AccordionContentProps>, "children">;
   }) => {
@@ -262,7 +258,7 @@ describe("Accordion", () => {
 
         expect(queryAllByTestId("child")[0]).toHaveProp(
           "className",
-          "border-b last:border-b-0 text-red-500",
+          "border-border border-b last:border-b-0 text-red-500",
         );
       });
 
@@ -301,7 +297,9 @@ describe("Accordion", () => {
       it("renders custom start content when specified", () => {
         const {queryAllByTestId} = render(
           <TestAccordion
-            triggerProps={{startContent: <Text testID="start-content">Start</Text>}}
+            triggerProps={{
+              startContent: <Text testID="start-content">Start</Text>,
+            }}
           />,
         );
 
