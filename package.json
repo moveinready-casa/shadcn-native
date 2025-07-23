@@ -36,7 +36,7 @@
     "react": "^19.1.0",
     "react-dom": "^19.1.0",
     "react-native": "^0.80.1",
-    "react-native-reanimated": "^4.0.0",
+    "react-native-reanimated": "^3.18.0",
     "react-native-render-html": "^6.3.4",
     "react-native-safe-area-context": "5.4.0",
     "react-native-web": "^0.20.0",
@@ -46,6 +46,7 @@
   },
   "devDependencies": {
     "@babel/core": "^7.28.0",
+    "@babel/plugin-proposal-export-namespace-from": "^7.18.9",
     "@babel/plugin-transform-flow-strip-types": "^7.27.1",
     "@babel/preset-env": "^7.28.0",
     "@babel/preset-typescript": "^7.27.1",

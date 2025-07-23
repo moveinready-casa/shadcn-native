@@ -5,5 +5,8 @@ export default {
     "@babel/preset-typescript",
     "module:@react-native/babel-preset",
   ],
-  plugins: ["react-native-worklets/plugin"],
+  plugins: [
+    "@babel/plugin-proposal-export-namespace-from",
+    "react-native-reanimated/plugin",
+  ],
 };

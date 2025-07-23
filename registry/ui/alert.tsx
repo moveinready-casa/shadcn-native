@@ -16,7 +16,6 @@ import {
   AlertCircleIcon,
 } from "lucide-react-native";
 import {tv} from "tailwind-variants";
-import {themes, ThemeContext} from "../theme";
 
 /**
  * Base props for the Alert component.
@@ -165,16 +164,27 @@ export const useAlert = ({
     }
   }, [isVisible, isControlled]);
 
-  const {buttonProps} = useButton(
-    {
-      onPress: handleClose,
-      isDisabled: !isClosable,
-      ...closeButtonProps,
-    },
-    React.useRef<View>(null),
-  );
+  // React Aria hooks for web accessibility
+  const closeButtonRef = React.useRef<View>(null);
+  let webButtonProps = {};
+  let webFocusProps = {};
+  let isFocusVisible = false;
 
-  const {isFocusVisible, focusProps} = useFocusRing();
+  if (Platform.OS === "web") {
+    const {buttonProps} = useButton(
+      {
+        onPress: handleClose,
+        isDisabled: !isClosable,
+        "aria-label": "Close alert",
+      },
+      closeButtonRef,
+    );
+    const {isFocusVisible: webIsFocusVisible, focusProps} = useFocusRing();
+
+    webButtonProps = buttonProps;
+    webFocusProps = focusProps;
+    isFocusVisible = webIsFocusVisible;
+  }
 
   return {
     state: {
@@ -184,15 +194,29 @@ export const useAlert = ({
       isFocusVisible,
     },
     componentProps: {
+      // Web accessibility
+      ...(Platform.OS === "web"
+        ? {
+            role: "alert",
+            "aria-live": "polite",
+            "aria-atomic": true,
+          }
+        : {}),
+      // React Native accessibility
       accessibilityRole: "alert" as const,
       accessibilityLiveRegion: "polite" as const,
+      accessible: true,
     },
     closeButtonProps: {
-      ...(Platform.OS === "web" ? {...buttonProps, ...focusProps} : {}),
+      // Platform-specific accessibility props
+      ...(Platform.OS === "web" ? {...webButtonProps, ...webFocusProps} : {}),
       onPress: handleClose,
       accessibilityRole: "button" as const,
-      accessibilityLabel: "Close",
-      accessibilityHint: "Close the alert",
+      accessibilityLabel: "Close alert",
+      accessibilityHint: "Dismiss this alert",
+      accessible: true,
+      ref: closeButtonRef,
+      ...closeButtonProps,
     },
   };
 };

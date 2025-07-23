@@ -26,7 +26,9 @@ const config: StorybookConfig = {
         jsxImportSource: "nativewind",
         babel: {
           presets: [["nativewind/babel", {mode: "transformOnly"}]],
-          plugins: ["react-native-worklets/plugin"],
+          plugins: [
+            "react-native-reanimated/plugin",
+          ],
         },
       },
     },
