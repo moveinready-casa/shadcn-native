@@ -3,6 +3,9 @@ import React, {createContext, useEffect, useState} from "react";
 import {vars} from "nativewind";
 
 export const themes = {
+  base: vars({
+    "--radius": "0.625rem",
+  }),
   light: vars({
     "--background": "oklch(1 0 0)",
     "--foreground": "oklch(0.145 0 0)",
@@ -112,7 +115,9 @@ export default function Theme({
         setColorScheme: setColorSchemeState,
       }}
     >
-      <View style={themes[colorSchemeState || "light"]}>{children}</View>
+      <View style={{...themes.base, ...themes[colorSchemeState || "light"]}}>
+        {children}
+      </View>
     </ThemeContext.Provider>
   );
 }
