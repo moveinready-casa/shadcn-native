@@ -28,6 +28,19 @@ import {ChevronDownIcon} from "lucide-react-native";
 import {tv} from "tailwind-variants";
 import {themes, ThemeContext} from "../theme";
 
+/**
+ * Base props for the root `Accordion` component, context, and hook.
+ * @param type - The type of accordion to render. Single only allows one item to be expanded at a time, multiple allows any number of items to be expanded at a time.
+ * @param value - Controlled value for the accordion (which items are expanded).
+ * @param defaultValue - Uncontrolled default value for the accordion (which items are expanded).
+ * @param onValueChange - Callback function called when the accordion value changes.
+ * @param collapsible - Whether an accordion item can be collapsed manually. Use on the top level `Accordion` component.
+ * @param disabled - Whether all accordion items are disabled. Available on the top level `Accordion` component and on the `AccordionItem` component.
+ * @param borderRadius - Sets the border radius of the accordion.
+ * @param loading - Whether all accordion items are loading. Available on the top level `Accordion` component and on the `AccordionItem` component.
+ * @param compact - Whether the accordion is in compact mode.
+ * @param variant - The variant of the accordion.
+ */
 export type AccordionProps = {
   type?: "single" | "multiple";
   value?: string | string[];
@@ -42,25 +55,30 @@ export type AccordionProps = {
   variant?: "shadcn" | "shadow" | "bordered" | "splitted";
 };
 
+/**
+ * Return type for the `useAccordion` hook.
+ * @param state - The state of the accordion.
+ * @param componentProps - Accessibility props to pass to the accordion component.
+ */
 export type AccordionReturn = {
   state: {
+    /**
+     * Expanded value of the accordion.
+     */
     expandedValue: string | string[] | null;
+    /**
+     * Function to set the expanded value of the accordion.
+     */
     setExpandedValue: (value: string | string[] | null) => void;
   };
   componentProps: React.ComponentProps<typeof View>;
 };
 
-export type AccordionContextValue = {
-  props: AccordionProps;
-} & AccordionReturn;
-
-export type AccordionItemProps = {
-  value: string;
-  loading?: boolean;
-  disabled?: boolean;
-  props: AccordionProps;
-} & AccordionReturn;
-
+/**
+ * Props for the `Accordion` component.
+ * @param asChild - If true clones the child and passes all accesibility and functionality props to it. Avalible on any exported component.
+ * @param baseClassName - Custom tailwind classes to apply to the base accordion component. Takes priority over the `className` prop.
+ */
 export type AccordionComponentProps = {
   children: React.ReactNode;
   asChild?: boolean;
@@ -68,18 +86,67 @@ export type AccordionComponentProps = {
 } & AccordionProps &
   ComponentProps<typeof View>;
 
+/**
+ * Context value for the `Accordion` component.
+ * @param props - Props from the top-level Accordion component.
+ */
+export type AccordionContextValue = {
+  props: AccordionProps;
+} & AccordionReturn;
+
+/**
+ * Base props for the `AccordionItem` component, context, and hook.
+ * @param value - The value of the accordion item (think of this as an id).
+ * @param loading - Whether the accordion item is loading. This can override the loading state of the top-level Accordion component.
+ * @param disabled - Whether the accordion item is disabled. This can override the disabled state of the top-level Accordion component.
+ * @param props - Props from the top-level Accordion component. **You probably don't need to pass this!**
+ * @see AccordionProps
+ */
+export type AccordionItemProps = {
+  value: string;
+  loading?: boolean;
+  disabled?: boolean;
+  props: AccordionProps;
+} & AccordionReturn;
+
+/**
+ * Return type for the `useAccordionItem` hook.
+ * @param componentProps - Accessibility props to pass to the accordion item component.
+ * @param state - The state of the accordion item.
+ * @param triggerProps - Props to pass to the accordion trigger component.
+ * @param contentProps - Props to pass to the accordion content component.
+ */
 export type AccordionItemReturn = {
   componentProps: React.ComponentProps<typeof View> | HTMLDivElement;
   state: {
+    /**
+     * Whether the accordion item is expanded.
+     */
     isExpanded: boolean;
+    /**
+     * Whether the accordion item is disabled.
+     */
     isDisabled: boolean;
+    /**
+     * Whether the accordion item is controlled.
+     */
     isControlled: boolean;
+    /**
+     * Whether the accordion item is focused.
+     */
     isFocusVisible: boolean;
   };
   triggerProps: React.ComponentProps<typeof Pressable> | HTMLButtonElement;
   contentProps: React.ComponentProps<typeof View> | HTMLDivElement;
 };
 
+/**
+ * Props for the `AccordionItem` component.
+ * @param asChild - If true clones the child and passes all accesibility and functionality props to it. Avalible on any exported component.
+ * @param startContent - Start content (ReactNode) to display in accordion triggers.
+ * @param baseClassName - Custom tailwind classes to apply to the base accordion item component. Takes priority over the `className` prop.
+ * @see AccordionItemProps
+ */
 export type AccordionItemComponentProps = {
   children: React.ReactNode;
   value: string;
@@ -89,10 +156,26 @@ export type AccordionItemComponentProps = {
 } & Partial<AccordionItemProps> &
   ComponentProps<typeof View>;
 
+/**
+ * Context value for the `AccordionItem` component.
+ * @param props - Props from the top-level Accordion component.
+ * @see AccordionItemReturn
+ * @see AccordionItemProps
+ */
 export type AccordionItemContextValue = AccordionItemReturn & {
   props: AccordionProps;
 };
 
+/**
+ * Props for the `AccordionTrigger` component.
+ * @param asChild - If true clones the child and passes all accesibility and functionality props to it. Avalible on any exported component.
+ * @param startContent - Start content (ReactNode) to display in accordion triggers.
+ * @param reanimatedProps - Props to pass to the reanimated view.
+ * @param indicator - Function that allows you to return a custom indicator ReactNode: (isExpanded: boolean) => React.ReactNode.
+ * @param baseClassName - Custom tailwind classes to apply to the base accordion trigger component. Takes priority over the `className` prop.
+ * @param indicatorIconClassName - Custom tailwind classes to apply to the indicator icon.
+ * @param contentClassName - Custom tailwind classes to apply to the accordion content.
+ */
 export type AccordionTriggerProps = {
   children: React.ReactNode;
   asChild?: boolean;
@@ -104,13 +187,26 @@ export type AccordionTriggerProps = {
   contentClassName?: string;
 } & React.ComponentProps<typeof Text>;
 
+/**
+ * Props for the `AccordionContent` component.
+ * @param asChild - If true clones the child and passes all accesibility and functionality props to it. Avalible on any exported component.
+ * @param reanimatedProps - Props to pass to the reanimated view.
+ * @param baseClassName - Custom tailwind classes to apply to the base accordion content component. Takes priority over the `className` prop.
+ * @param textClassName - Custom tailwind classes to apply to the content text.
+ */
 export type AccordionContentProps = {
   children: React.ReactNode;
   asChild?: boolean;
   reanimatedProps?: AnimatedProps<typeof Reanimated.View>;
   baseClassName?: string;
+  textClassName?: string;
 } & React.ComponentProps<typeof Text>;
 
+/**
+ * The use accordion hook is the backbone of the accordion component.
+ * @param param0 - Props to configure the behavior of the accordion. @see AccordionProps
+ * @returns Returns both the state and the accessibility props to pass to the accordion component. @see AccordionReturn
+ */
 export const useAccordion = ({
   type = "single",
   value,
@@ -155,6 +251,11 @@ export const useAccordion = ({
   };
 };
 
+/**
+ * The use accordion item hook is the backbone of the accordion item component.
+ * @param param0 - Props to configure the behavior of the accordion item. This should be passed down from context. @see AccordionItemProps
+ * @returns Returns state and accessibility props for both the trigger and content components. @see AccordionItemReturn
+ */
 export const useAccordionItem = ({
   value,
   disabled,
@@ -255,10 +356,18 @@ export const useAccordionItem = ({
   };
 };
 
+/**
+ * A context wrapper containing the global state of the accordion.
+ * @see AccordionContextValue
+ */
 export const AccordionContext = createContext<AccordionContextValue | null>(
   null,
 );
 
+/**
+ * Conditional classes for the root accordion component.
+ * @see AccordionComponentProps
+ */
 export const accordion = tv({
   slots: {
     base: "p-2",
@@ -294,6 +403,59 @@ export const accordion = tv({
   },
 });
 
+/**
+ * The root accordion component. This should be supplied once per accordion group. It is required for all accordions.
+ * @example
+ * ```tsx
+ * <Accordion>
+ *   <AccordionItem value="item-1">
+ *     <AccordionTrigger>Product Information</AccordionTrigger>
+ *     <AccordionContent className="flex flex-col gap-4 text-balance">
+ *       <Text>
+ *         Our flagship product combines cutting-edge technology with sleek
+ *         design. Built with premium materials, it offers unparalleled
+ *         performance and reliability.
+ *       </Text>
+ *       <Text>
+ *         Key features include advanced processing capabilities, and an
+ *         intuitive user interface designed for both beginners and experts.
+ *       </Text>
+ *     </AccordionContent>
+ *   </AccordionItem>
+ *   <AccordionItem value="item-2">
+ *     <AccordionTrigger>Shipping Details</AccordionTrigger>
+ *     <AccordionContent className="flex flex-col gap-4 text-balance">
+ *       <Text>
+ *         We offer worldwide shipping through trusted courier partners.
+ *         Standard delivery takes 3-5 business days, while express shipping
+ *         ensures delivery within 1-2 business days.
+ *       </Text>
+ *       <Text>
+ *         All orders are carefully packaged and fully insured. Track your
+ *         shipment in real-time through our dedicated tracking portal.
+ *       </Text>
+ *     </AccordionContent>
+ *   </AccordionItem>
+ *   <AccordionItem value="item-3">
+ *     <AccordionTrigger>Return Policy</AccordionTrigger>
+ *     <AccordionContent className="flex flex-col gap-4 text-balance">
+ *       <Text>
+ *         We stand behind our products with a comprehensive 30-day return
+ *         policy. If you're not completely satisfied, simply return the
+ *         item in its original condition.
+ *       </Text>
+ *       <Text>
+ *         Our hassle-free return process includes free return shipping and
+ *         full refunds processed within 48 hours of receiving the returned
+ *         item.
+ *       </Text>
+ *     </AccordionContent>
+ *   </AccordionItem>
+ * </Accordion>
+ * ```
+ * @param param0 - Props to configure the behavior of the accordion. @see AccordionComponentProps
+ * @returns Returns a context wrapper containing the global state of the accordion. @see AccordionContextValue
+ */
 export function Accordion({
   children,
   asChild = false,
@@ -362,9 +524,17 @@ export function Accordion({
   );
 }
 
+/**
+ * A context wrapper containing the global state of the accordion item.
+ * @see AccordionItemContextValue
+ */
 export const AccordionItemContext =
   createContext<AccordionItemContextValue | null>(null);
 
+/**
+ * Conditional classes for the accordion item component.
+ * @see AccordionItemComponentProps
+ */
 export const accordionItem = tv({
   slots: {
     base: "border-border border-b last:border-b-0",
@@ -435,6 +605,11 @@ export const accordionItem = tv({
   },
 });
 
+/**
+ * The accordion item component. This does not render anything, it is primarily used to provide context to the accordion item and set the layout.
+ * @param param0 - Props to configure the behavior of the accordion item. @see AccordionItemComponentProps
+ * @returns Returns a context wrapper containing the global state of the accordion item. @see AccordionItemContextValue
+ */
 export function AccordionItem({
   children,
   asChild = false,
@@ -502,6 +677,14 @@ export function AccordionItem({
   );
 }
 
+/**
+ * Conditional classes for the accordion trigger component.
+ * It includes the following slots:
+ * - base: The base styles for the accordion trigger.
+ * - content: The content styles for the accordion trigger.
+ * - indicatorIcon: The indicator icon styles for the accordion trigger.
+ * @see AccordionTriggerProps
+ */
 export const accordionTrigger = tv({
   slots: {
     base: "flex flex-row items-center justify-between rounded-md py-4 text-left text-sm font-medium transition-all outline-none hover:underline",
@@ -533,6 +716,11 @@ export const accordionTrigger = tv({
   },
 });
 
+/**
+ * The accordion trigger component. It also container an indicator with an option to render start content.
+ * @param param0 - Props to configure the behavior of the accordion trigger. @see AccordionTriggerProps
+ * @returns Returns a `Pressable` which is used to toggle the content. It also container an indicator with an option to render start content.
+ */
 export function AccordionTrigger({
   children,
   asChild = false,
@@ -606,7 +794,7 @@ export function AccordionTrigger({
     </View>
   ) : (
     <Pressable {...itemState?.triggerProps} {...baseProps}>
-      <Text className={content()}>
+      <Text className={content({className: contentClassName})}>
         {startContent && <View>{startContent}</View>}
         <Text {...props}>{children}</Text>
       </Text>
@@ -615,6 +803,10 @@ export function AccordionTrigger({
   );
 }
 
+/**
+ * Conditional classes for the accordion content component.
+ * @see AccordionContentProps
+ */
 export const accordionContent = tv({
   slots: {
     base: "overflow-hidden",
@@ -634,6 +826,7 @@ export function AccordionContent({
   asChild = false,
   reanimatedProps,
   baseClassName,
+  textClassName,
   ...props
 }: AccordionContentProps) {
   const {base, text} = accordionContent();
@@ -683,7 +876,7 @@ export function AccordionContent({
       })
     ) : (
       <View {...itemState?.contentProps}>
-        <Text {...props} className={text()}>
+        <Text {...props} className={text({className: textClassName})}>
           {children}
         </Text>
       </View>

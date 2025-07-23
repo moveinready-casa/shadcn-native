@@ -1,61 +1,298 @@
+import Preview from "@/components/Preview";
+import {Button} from "@/components/ui/button";
+import {GithubIcon, StorybookIcon, RadixIcon} from "@storybook/icons";
+
+<div style={{display: "flex", flexDirection: "row", gap: "2rem"}}>
+  <a
+    href={`${process.env.STORYBOOK_URL}/?path=/story/accordion--default&globals=backgrounds.value:light`}
+  >
+    <StorybookIcon color="#FE4785" width={25} height={25} />
+  </a>
+  <a href="https://github.com/moveinready-casa/shadcn-native/blob/3-create-components/registry/ui/accordion.tsx">
+    <GithubIcon width={25} height={25} />
+  </a>
+  <a href="https://ui.shadcn.com/docs/components/accordion">Shadcn Docs</a>
+  <a href="https://www.radix-ui.com/primitives/docs/components/accordion">
+    Radix Docs
+  </a>
+</div>
+
 # Accordion
 
-A vertically stacked set of interactive headings that each reveal an associated section of content.
+A vertically stacked set of interactive headings that each reveal a section of content.
 
-import {
-  Accordion,
-  AccordionItem,
-  AccordionTrigger,
-  AccordionContent,
-} from "@/registry/ui/accordion";
-
-## Example
-
-<Accordion type="single" collapsible className="w-full">
-  <AccordionItem value="item-1">
-    <AccordionTrigger>Is it accessible?</AccordionTrigger>
-    <AccordionContent>
-      Yes. It adheres to the WAI-ARIA design pattern.
-    </AccordionContent>
-  </AccordionItem>
-  <AccordionItem value="item-2">
-    <AccordionTrigger>Is it unstyled?</AccordionTrigger>
-    <AccordionContent>
-      Yes. It's unstyled by default, giving you freedom over the look and feel.
-    </AccordionContent>
-  </AccordionItem>
-</Accordion>
-
-## Installation
-
-```bash
-pnpm add @rn-primitives/accordion lucide-react-native
-```
+<Preview component="accordion" />
 
 ## Usage
 
 ```tsx
-import {
-  Accordion,
-  AccordionItem,
-  AccordionTrigger,
-  AccordionContent,
-} from "@/registry/ui/accordion";
+<Accordion>
+  <AccordionItem value="item-1">
+    <AccordionTrigger>Product Information</AccordionTrigger>
+    <AccordionContent className="flex flex-col gap-4 text-balance">
+      <Text>
+        Our flagship product combines cutting-edge technology with sleek design.
+        Built with premium materials, it offers unparalleled performance and
+        reliability.
+      </Text>
+      <Text>
+        Key features include advanced processing capabilities, and an intuitive
+        user interface designed for both beginners and experts.
+      </Text>
+    </AccordionContent>
+  </AccordionItem>
+  <AccordionItem value="item-2">
+    <AccordionTrigger>Shipping Details</AccordionTrigger>
+    <AccordionContent className="flex flex-col gap-4 text-balance">
+      <Text>
+        We offer worldwide shipping through trusted courier partners. Standard
+        delivery takes 3-5 business days, while express shipping ensures
+        delivery within 1-2 business days.
+      </Text>
+      <Text>
+        All orders are carefully packaged and fully insured. Track your shipment
+        in real-time through our dedicated tracking portal.
+      </Text>
+    </AccordionContent>
+  </AccordionItem>
+  <AccordionItem value="item-3">
+    <AccordionTrigger>Return Policy</AccordionTrigger>
+    <AccordionContent className="flex flex-col gap-4 text-balance">
+      <Text>
+        We stand behind our products with a comprehensive 30-day return policy.
+        If you&apos;re not completely satisfied, simply return the item in its
+        original condition.
+      </Text>
+      <Text>
+        Our hassle-free return process includes free return shipping and full
+        refunds processed within 48 hours of receiving the returned item.
+      </Text>
+    </AccordionContent>
+  </AccordionItem>
+</Accordion>
+```
 
-export default function Example() {
-  return (
-    <Accordion type="single" collapsible>
-      <AccordionItem value="item-1">
-        <AccordionTrigger>Is it accessible?</AccordionTrigger>
-        <AccordionContent>
-          Yes. It adheres to the WAI-ARIA design pattern.
-        </AccordionContent>
-      </AccordionItem>
-    </Accordion>
-  );
+## Components
+
+### Accordion
+
+| Prop            | Type                                               | Default    | Description                                                                                                                                          |
+| --------------- | -------------------------------------------------- | ---------- | ---------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `children`      | `React.ReactNode`                                  | -          | **Required.** The content of the accordion.                                                                                                          |
+| `type`          | `"single" \| "multiple"`                           | `"single"` | The type of accordion to render. Single only allows one item to be expanded at a time, multiple allows any number of items to be expanded at a time. |
+| `value`         | `string \| string[]`                               | -          | Controlled value for the accordion (which items are expanded).                                                                                       |
+| `defaultValue`  | `string \| string[]`                               | -          | Uncontrolled default value for the accordion (which items are expanded).                                                                             |
+| `onValueChange` | `(value: string \| string[] \| null) => void`      | -          | Callback function called when the accordion value changes.                                                                                           |
+| `collapsible`   | `boolean`                                          | `true`     | Whether an accordion item can be collapsed manually. Use on the top level `Accordion` component.                                                     |
+| `disabled`      | `boolean`                                          | `false`    | Whether all accordion items are disabled. Available on the top level `Accordion` component and on the `AccordionItem` component.                     |
+| `loading`       | `boolean`                                          | `false`    | Whether all accordion items are loading. Available on the top level `Accordion` component and on the `AccordionItem` component.                      |
+| `compact`       | `boolean`                                          | -          | Whether the accordion is in compact mode.                                                                                                            |
+| `variant`       | `"shadcn" \| "shadow" \| "bordered" \| "splitted"` | `"shadcn"` | The variant of the accordion.                                                                                                                        |
+| `borderRadius`  | `"sm" \| "md" \| "lg" \| "xl"`                     | `"md"`     | Sets the border radius of the accordion.                                                                                                             |
+| `asChild`       | `boolean`                                          | `false`    | If true clones the child and passes all accessibility and functionality props to it. Available on any exported component.                            |
+| `baseClassName` | `string`                                           | -          | Custom tailwind classes to apply to the base accordion component. Takes priority over the `className` prop.                                          |
+
+_Also extends all React Native `View` component props._
+
+### AccordionItem
+
+| Prop            | Type              | Default | Description                                                                                                               |
+| --------------- | ----------------- | ------- | ------------------------------------------------------------------------------------------------------------------------- |
+| `children`      | `React.ReactNode` | -       | **Required.** The content of the accordion item.                                                                          |
+| `value`         | `string`          | -       | **Required.** The value of the accordion item (think of this as an id).                                                   |
+| `disabled`      | `boolean`         | -       | Whether the accordion item is disabled. This can override the disabled state of the top-level Accordion component.        |
+| `loading`       | `boolean`         | -       | Whether the accordion item is loading. This can override the loading state of the top-level Accordion component.          |
+| `asChild`       | `boolean`         | `false` | If true clones the child and passes all accessibility and functionality props to it. Available on any exported component. |
+| `startContent`  | `React.ReactNode` | -       | Start content (ReactNode) to display in accordion triggers.                                                               |
+| `baseClassName` | `string`          | -       | Custom tailwind classes to apply to the base accordion item component. Takes priority over the `className` prop.          |
+
+_Also extends all React Native `View` component props._
+
+### AccordionTrigger
+
+| Prop                     | Type                                       | Default | Description                                                                                                               |
+| ------------------------ | ------------------------------------------ | ------- | ------------------------------------------------------------------------------------------------------------------------- |
+| `children`               | `React.ReactNode`                          | -       | **Required.** The content of the accordion trigger.                                                                       |
+| `asChild`                | `boolean`                                  | `false` | If true clones the child and passes all accessibility and functionality props to it. Available on any exported component. |
+| `startContent`           | `React.ReactNode`                          | -       | Start content (ReactNode) to display in accordion triggers.                                                               |
+| `reanimatedProps`        | `AnimatedProps<typeof Reanimated.View>`    | -       | Props to pass to the reanimated view.                                                                                     |
+| `indicator`              | `(isExpanded: boolean) => React.ReactNode` | -       | Function that allows you to return a custom indicator ReactNode.                                                          |
+| `baseClassName`          | `string`                                   | -       | Custom tailwind classes to apply to the base accordion trigger component. Takes priority over the `className` prop.       |
+| `indicatorIconClassName` | `string`                                   | -       | Custom tailwind classes to apply to the indicator icon.                                                                   |
+| `contentClassName`       | `string`                                   | -       | Custom tailwind classes to apply to the accordion content.                                                                |
+
+_Also extends all React Native `Text` component props._
+
+### AccordionContent
+
+| Prop              | Type                                    | Default | Description                                                                                                               |
+| ----------------- | --------------------------------------- | ------- | ------------------------------------------------------------------------------------------------------------------------- |
+| `children`        | `React.ReactNode`                       | -       | **Required.** The content of the accordion content.                                                                       |
+| `asChild`         | `boolean`                               | `false` | If true clones the child and passes all accessibility and functionality props to it. Available on any exported component. |
+| `reanimatedProps` | `AnimatedProps<typeof Reanimated.View>` | -       | Props to pass to the reanimated view.                                                                                     |
+| `baseClassName`   | `string`                                | -       | Custom tailwind classes to apply to the base accordion content component. Takes priority over the `className` prop.       |
+| `textClassName`   | `string`                                | -       | Custom tailwind classes to apply to the content text.                                                                     |
+
+_Also extends all React Native `Text` component props._
+
+## Hooks
+
+### useAccordion
+
+The backbone hook for the accordion component that manages state and provides accessibility props.
+
+**Parameters:**
+
+| Parameter       | Type                                          | Default    | Description                                                                                                                                          |
+| --------------- | --------------------------------------------- | ---------- | ---------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `type`          | `"single" \| "multiple"`                      | `"single"` | The type of accordion to render. Single only allows one item to be expanded at a time, multiple allows any number of items to be expanded at a time. |
+| `value`         | `string \| string[]`                          | -          | Controlled value for the accordion (which items are expanded).                                                                                       |
+| `defaultValue`  | `string \| string[]`                          | -          | Uncontrolled default value for the accordion (which items are expanded).                                                                             |
+| `onValueChange` | `(value: string \| string[] \| null) => void` | -          | Callback function called when the accordion value changes.                                                                                           |
+| `collapsible`   | `boolean`                                     | `true`     | Whether an accordion item can be collapsed manually.                                                                                                 |
+| `disabled`      | `boolean`                                     | -          | Whether all accordion items are disabled.                                                                                                            |
+
+**Returns:**
+
+```typescript
+{
+  state: {
+    expandedValue: string | string[] | null;
+    setExpandedValue: (value: string | string[] | null) => void;
+  };
+  componentProps: React.ComponentProps<typeof View>;
 }
 ```
 
----
+| Property                 | Type                                          | Description                                             |
+| ------------------------ | --------------------------------------------- | ------------------------------------------------------- |
+| `state.expandedValue`    | `string \| string[] \| null`                  | The current expanded value of the accordion.            |
+| `state.setExpandedValue` | `(value: string \| string[] \| null) => void` | Function to set the expanded value of the accordion.    |
+| `componentProps`         | `React.ComponentProps<typeof View>`           | Accessibility props to pass to the accordion component. |
 
-Inspired by the [shadcn/ui Accordion](https://ui.shadcn.com/docs/components/accordion) and powered by [`rn-primitives`](https://rnprimitives.com/).
+### useAccordionItem
+
+The backbone hook for individual accordion items that manages item-specific state and provides accessibility props.
+
+**Parameters:**
+
+| Parameter  | Type                       | Description                                                             |
+| ---------- | -------------------------- | ----------------------------------------------------------------------- |
+| `value`    | `string`                   | **Required.** The value of the accordion item (think of this as an id). |
+| `disabled` | `boolean`                  | Whether the accordion item is disabled.                                 |
+| `state`    | `AccordionReturn['state']` | The state object from the parent accordion hook.                        |
+| `props`    | `AccordionProps`           | Props from the top-level Accordion component.                           |
+
+**Returns:**
+
+```typescript
+{
+  componentProps: React.ComponentProps<typeof View>;
+  state: {
+    isExpanded: boolean;
+    isDisabled: boolean;
+    isControlled: boolean;
+    isFocusVisible: boolean;
+  }
+  triggerProps: React.ComponentProps<typeof Pressable>;
+  contentProps: React.ComponentProps<typeof View>;
+}
+```
+
+| Property               | Type                                     | Description                                                  |
+| ---------------------- | ---------------------------------------- | ------------------------------------------------------------ |
+| `componentProps`       | `React.ComponentProps<typeof View>`      | Accessibility props to pass to the accordion item component. |
+| `state.isExpanded`     | `boolean`                                | Whether the accordion item is expanded.                      |
+| `state.isDisabled`     | `boolean`                                | Whether the accordion item is disabled.                      |
+| `state.isControlled`   | `boolean`                                | Whether the accordion item is controlled.                    |
+| `state.isFocusVisible` | `boolean`                                | Whether the accordion item is focused.                       |
+| `triggerProps`         | `React.ComponentProps<typeof Pressable>` | Props to pass to the accordion trigger component.            |
+| `contentProps`         | `React.ComponentProps<typeof View>`      | Props to pass to the accordion content component.            |
+
+## Styling
+
+### accordion Classes
+
+**Slots:**
+
+- `base` - For the base `View` in the accordion component
+
+**Variants:**
+
+- `variant`:
+  - `shadcn` (default) - Default shadcn style
+  - `shadow` - Adds background and shadow: `bg-background shadow-sm`
+  - `bordered` - Adds border: `border border-border`
+  - `splitted` - No additional styles for base
+- `borderRadius`:
+  - `sm` - Small radius: `rounded-sm`
+  - `md` (default) - Medium radius: `rounded-md`
+  - `lg` - Large radius: `rounded-lg`
+  - `xl` - Extra large radius: `rounded-xl`
+
+**Base Classes:** `p-2`
+
+### accordionItem Classes
+
+**Slots:**
+
+- `base` - For the base `View` in the accordion item component
+
+**Variants:**
+
+- `variant` (should be the same value as the `variant` prop on the top-level `Accordion` component):
+  - `shadcn` (default) - Default shadcn style
+  - `shadow` - Adds background and shadow: `bg-background shadow-sm`
+  - `bordered` - Adds border: `border border-border`
+  - `splitted` - No additional styles for base
+- `compact`:
+  - `true` - Reduces margin for splitted variant: `m-1`
+- `loading`:
+  - `true` - Loading state: `animate-pulse opacity-50`
+- `borderRadius` (for splitted variant):
+  - `sm` - Small radius: `rounded-sm`
+  - `md` - Medium radius: `rounded-md`
+  - `lg` - Large radius: `rounded-lg`
+  - `xl` - Extra large radius: `rounded-xl`
+
+### accordionTrigger Classes
+
+**Slots:**
+
+- `base` - For the trigger `Pressable` container at the root of the accordion trigger component
+- `content` - For the trigger content wrapper
+- `indicatorIcon` - For the indicator icon
+
+**Variants:**
+
+- `focused`:
+  - `true` - Focus ring: `border border-ring`
+- `disabled`:
+  - `true` - Disabled state: `pointer-events-none opacity-50`
+- `controlled`:
+  - `true` - Controlled state: `pointer-events-none`
+- `compact`:
+  - `true` - Reduced padding: `py-2`
+
+**Base Classes:**
+
+- `base`: `flex flex-row items-center justify-between rounded-md py-4 text-left text-sm font-medium transition-all outline-none hover:underline`
+- `content`: `flex flex-row items-center gap-4 flex-1 text-foreground`
+- `indicatorIcon`: `text-muted-foreground pointer-events-none size-4 shrink-0 flex justify-center items-center`
+
+### accordionContent Classes
+
+**Slots:**
+
+- `base` - The content container
+- `text` - The content text
+
+**Variants:**
+
+- `compact`:
+  - `true` - Reduced padding: `py-1`
+
+**Base Classes:**
+
+- `base`: `overflow-hidden`
+- `text`: `text-sm text-foreground`
