@@ -29,7 +29,9 @@ const preview: Preview = {
   },
   decorators: [
     (Story, {context}) => (
-      <Theme colorScheme={context.globals.backgrounds.value}>
+      <Theme
+        colorScheme={context.globals.backgrounds.value as "dark" | "light"}
+      >
         <Story />
       </Theme>
     ),

@@ -18,41 +18,29 @@ import {
 import {tv} from "tailwind-variants";
 
 /**
- * Base props for the Alert component.
- * @param variant - The variant of the alert (shadcn inspired).
- * @param color - The color of the alert (HeroUI inspired).
+ * Base props for the Alert component, context, and hook.
+ * @param variant - The variant of the alert.
  * @param radius - The border radius of the alert.
  * @param isVisible - Whether the alert is visible.
  * @param isClosable - Whether the alert can be closed.
  * @param hideIcon - Whether to hide the icon.
- * @param hideIconWrapper - Whether to hide the icon wrapper.
  * @param icon - Custom icon to display.
- * @param startContent - Content to display at the start of the alert.
  * @param endContent - Content to display at the end of the alert.
  * @param onClose - Callback function called when the alert is closed.
  * @param onVisibleChange - Callback function called when the visibility changes.
  * @param closeButtonProps - Props to pass to the close button.
  */
 export type AlertProps = {
-  variant?: "default" | "destructive";
-  color?:
-    | "default"
-    | "primary"
-    | "secondary"
-    | "success"
-    | "warning"
-    | "danger";
-  radius?: "none" | "sm" | "md" | "lg" | "full";
+  variant?: "default" | "success" | "warning" | "destructive";
+  radius?: "none" | "sm" | "md" | "lg" | "xl";
   isVisible?: boolean;
+  isVisibleDefault?: boolean;
   isClosable?: boolean;
   hideIcon?: boolean;
-  hideIconWrapper?: boolean;
   icon?: React.ReactNode;
-  startContent?: React.ReactNode;
   endContent?: React.ReactNode;
   onClose?: () => void;
   onVisibleChange?: (isVisible: boolean) => void;
-  closeButtonProps?: ComponentProps<typeof Pressable>;
 };
 
 /**
@@ -81,7 +69,7 @@ export type AlertReturn = {
     isFocusVisible: boolean;
   };
   componentProps: React.ComponentProps<typeof View>;
-  closeButtonProps: React.ComponentProps<typeof Pressable>;
+  closeButtonProps: React.ComponentProps<typeof Pressable> | HTMLButtonElement;
 };
 
 /**
@@ -93,6 +81,7 @@ export type AlertComponentProps = {
   children: React.ReactNode;
   asChild?: boolean;
   baseClassName?: string;
+  closeButtonProps?: ComponentProps<typeof Pressable> | HTMLButtonElement;
 } & AlertProps &
   ComponentProps<typeof View>;
 
@@ -132,16 +121,16 @@ export type AlertDescriptionProps = {
  * @returns Returns both the state and the accessibility props to pass to the alert component. @see AlertReturn
  */
 export const useAlert = ({
-  isVisible = true,
+  isVisible,
+  isVisibleDefault = true,
   isClosable = false,
   onClose,
   onVisibleChange,
-  closeButtonProps,
 }: AlertProps): AlertReturn => {
-  const [internalIsVisible, setInternalIsVisible] = useState(isVisible);
-  const isControlled = isVisible !== undefined;
-
-  const currentIsVisible = isControlled ? isVisible : internalIsVisible;
+  const isControlled = isVisible != null;
+  const [internalIsVisible, setInternalIsVisible] = useState<boolean>(
+    isControlled ? isVisible : isVisibleDefault,
+  );
 
   const handleClose = () => {
     if (!isControlled) {
@@ -164,37 +153,25 @@ export const useAlert = ({
     }
   }, [isVisible, isControlled]);
 
-  // React Aria hooks for web accessibility
   const closeButtonRef = React.useRef<View>(null);
-  let webButtonProps = {};
-  let webFocusProps = {};
-  let isFocusVisible = false;
-
-  if (Platform.OS === "web") {
-    const {buttonProps} = useButton(
-      {
-        onPress: handleClose,
-        isDisabled: !isClosable,
-        "aria-label": "Close alert",
-      },
-      closeButtonRef,
-    );
-    const {isFocusVisible: webIsFocusVisible, focusProps} = useFocusRing();
-
-    webButtonProps = buttonProps;
-    webFocusProps = focusProps;
-    isFocusVisible = webIsFocusVisible;
-  }
+  const {buttonProps: ariaButtonProps} = useButton(
+    {
+      onPress: handleClose,
+      isDisabled: !isClosable,
+      "aria-label": "Close alert",
+    },
+    closeButtonRef,
+  );
+  const {isFocusVisible, focusProps} = useFocusRing();
 
   return {
     state: {
-      isVisible: currentIsVisible,
+      isVisible: isControlled ? isVisible : internalIsVisible,
       setIsVisible,
-      isClosable: isClosable || false,
+      isClosable,
       isFocusVisible,
     },
     componentProps: {
-      // Web accessibility
       ...(Platform.OS === "web"
         ? {
             role: "alert",
@@ -202,21 +179,18 @@ export const useAlert = ({
             "aria-atomic": true,
           }
         : {}),
-      // React Native accessibility
       accessibilityRole: "alert" as const,
       accessibilityLiveRegion: "polite" as const,
       accessible: true,
     },
     closeButtonProps: {
-      // Platform-specific accessibility props
-      ...(Platform.OS === "web" ? {...webButtonProps, ...webFocusProps} : {}),
-      onPress: handleClose,
+      ...(Platform.OS === "web" ? {...ariaButtonProps, ...focusProps} : {}),
+      onPress: () => handleClose(),
       accessibilityRole: "button" as const,
       accessibilityLabel: "Close alert",
       accessibilityHint: "Dismiss this alert",
       accessible: true,
       ref: closeButtonRef,
-      ...closeButtonProps,
     },
   };
 };
@@ -228,39 +202,15 @@ export const useAlert = ({
 export const AlertContext = createContext<AlertContextValue | null>(null);
 
 /**
- * Get the default icon based on the color variant.
- */
-const getDefaultIcon = (
-  color: AlertProps["color"],
-  variant: AlertProps["variant"],
-) => {
-  if (variant === "destructive" || color === "danger") {
-    return <AlertCircleIcon />;
-  }
-
-  switch (color) {
-    case "success":
-      return <CheckCircle2Icon />;
-    case "warning":
-      return <AlertTriangleIcon />;
-    case "primary":
-    case "secondary":
-    case "default":
-    default:
-      return <InfoIcon />;
-  }
-};
-
-/**
  * Conditional classes for the alert component.
  * @see AlertComponentProps
  */
 export const alert = tv({
   slots: {
-    base: "relative w-full rounded-lg border px-4 py-3 text-sm flex flex-row items-start gap-3",
-    iconWrapper: "flex-shrink-0",
-    icon: "size-4 mt-0.5",
-    content: "flex-1 flex flex-col gap-1",
+    base: "relative w-full rounded-lg border border-border px-4 py-3 text-sm flex flex-row items-start gap-3 bg-card",
+    iconWrapper: "flex-shrink-0 pt-0.5",
+    icon: "size-4 text-card-foreground",
+    content: "flex-1 flex flex-col gap-0.5",
     closeButton:
       "absolute top-2 right-2 p-1 rounded-sm opacity-70 hover:opacity-100 transition-opacity",
     closeIcon: "size-4",
@@ -268,30 +218,20 @@ export const alert = tv({
   variants: {
     variant: {
       default: {
-        base: "bg-background text-foreground border-border",
-      },
-      destructive: {
-        base: "border-destructive/50 text-destructive dark:border-destructive [&>svg]:text-destructive",
-      },
-    },
-    color: {
-      default: {
-        base: "bg-background text-foreground border-border",
-      },
-      primary: {
-        base: "bg-primary/10 text-primary border-primary/20 [&>svg]:text-primary",
-      },
-      secondary: {
-        base: "bg-secondary text-secondary-foreground border-secondary/20",
+        icon: "text-card-foreground",
+        closeIcon: "text-card-foreground",
       },
       success: {
-        base: "bg-green-50 text-green-900 border-green-200 dark:bg-green-950 dark:text-green-50 dark:border-green-800 [&>svg]:text-green-600 dark:[&>svg]:text-green-400",
+        icon: "text-success",
+        closeIcon: "text-success",
       },
       warning: {
-        base: "bg-yellow-50 text-yellow-900 border-yellow-200 dark:bg-yellow-950 dark:text-yellow-50 dark:border-yellow-800 [&>svg]:text-yellow-600 dark:[&>svg]:text-yellow-400",
+        icon: "text-warning",
+        closeIcon: "text-warning",
       },
-      danger: {
-        base: "bg-red-50 text-red-900 border-red-200 dark:bg-red-950 dark:text-red-50 dark:border-red-800 [&>svg]:text-red-600 dark:[&>svg]:text-red-400",
+      destructive: {
+        icon: "text-destructive",
+        closeIcon: "text-destructive",
       },
     },
     radius: {
@@ -307,8 +247,8 @@ export const alert = tv({
       lg: {
         base: "rounded-lg",
       },
-      full: {
-        base: "rounded-full",
+      xl: {
+        base: "rounded-xl",
       },
     },
     isClosable: {
@@ -321,19 +261,12 @@ export const alert = tv({
         iconWrapper: "hidden",
       },
     },
-    hideIconWrapper: {
-      true: {
-        iconWrapper: "contents",
-      },
-    },
   },
   defaultVariants: {
     variant: "default",
-    color: "default",
     radius: "lg",
     isClosable: false,
     hideIcon: false,
-    hideIconWrapper: false,
   },
 });
 
@@ -355,14 +288,12 @@ export function Alert({
   children,
   asChild = false,
   variant = "default",
-  color = "default",
   radius = "lg",
-  isVisible = true,
+  isVisible,
+  isVisibleDefault = true,
   isClosable = false,
   hideIcon = false,
-  hideIconWrapper = false,
   icon,
-  startContent,
   endContent,
   onClose,
   onVisibleChange,
@@ -372,36 +303,43 @@ export function Alert({
 }: AlertComponentProps) {
   const alertState = useAlert({
     isVisible,
+    isVisibleDefault,
     isClosable,
     onClose,
     onVisibleChange,
-    closeButtonProps,
   });
 
   const {
     base,
     iconWrapper,
-    icon: iconClass,
     content,
     closeButton,
     closeIcon,
+    icon: iconClass,
   } = alert();
 
-  // Don't render if not visible
-  if (!alertState.state.isVisible) {
-    return null;
-  }
+  const getDefaultIcon = (variant: AlertProps["variant"]) => {
+    switch (variant) {
+      case "destructive":
+        return <AlertCircleIcon className={iconClass()} />;
+      case "success":
+        return <CheckCircle2Icon className={iconClass()} />;
+      case "warning":
+        return <AlertTriangleIcon className={iconClass()} />;
+      case "default":
+      default:
+        return <InfoIcon className={iconClass()} />;
+    }
+  };
 
   const renderProps = {
     ...alertState.componentProps,
     ...props,
     className: base({
       variant,
-      color,
       radius,
       isClosable,
       hideIcon,
-      hideIconWrapper,
       className: baseClassName || props.className,
     }),
   };
@@ -410,48 +348,19 @@ export function Alert({
     ...alertState,
     props: {
       variant,
-      color,
       radius,
       isVisible,
+      isVisibleDefault,
       isClosable,
       hideIcon,
-      hideIconWrapper,
       icon,
-      startContent,
       endContent,
       onClose,
       onVisibleChange,
-      closeButtonProps,
     },
   };
 
-  const IconElement = () => {
-    if (hideIcon) return null;
-
-    return (
-      <View className={iconWrapper({hideIconWrapper})}>
-        <View className={iconClass()}>
-          {icon || getDefaultIcon(color, variant)}
-        </View>
-      </View>
-    );
-  };
-
-  const CloseButton = () => {
-    if (!isClosable) return null;
-
-    return (
-      <Pressable
-        {...alertState.closeButtonProps}
-        className={closeButton()}
-        {...closeButtonProps}
-      >
-        <XIcon className={closeIcon()} />
-      </Pressable>
-    );
-  };
-
-  return (
+  return alertState.state.isVisible ? (
     <AlertContext.Provider value={contextValue}>
       {asChild ? (
         React.cloneElement(
@@ -465,15 +374,26 @@ export function Alert({
         )
       ) : (
         <View {...renderProps}>
-          {startContent}
-          <IconElement />
+          {hideIcon ? null : (
+            <View className={iconWrapper()}>
+              <View>{icon || getDefaultIcon(variant)}</View>
+            </View>
+          )}
           <View className={content()}>{children}</View>
           {endContent}
-          <CloseButton />
+          {alertState.state.isClosable && (
+            <Pressable
+              {...alertState.closeButtonProps}
+              className={closeButton()}
+              {...closeButtonProps}
+            >
+              <XIcon className={closeIcon()} />
+            </Pressable>
+          )}
         </View>
       )}
     </AlertContext.Provider>
-  );
+  ) : null;
 }
 
 /**
@@ -481,7 +401,15 @@ export function Alert({
  * @see AlertTitleProps
  */
 export const alertTitle = tv({
-  base: "mb-1 font-medium leading-none tracking-tight",
+  base: "line-clamp-1 min-h-4 font-medium tracking-tight text-card-foreground",
+  variants: {
+    variant: {
+      default: "",
+      success: "text-success",
+      warning: "text-warning",
+      destructive: "text-destructive",
+    },
+  },
 });
 
 /**
@@ -501,24 +429,25 @@ export function AlertTitle({
     throw new Error("AlertTitle must be used within an Alert");
   }
 
-  const titleClass = alertTitle({
-    className: baseClassName || props.className,
-  });
+  const renderProps = {
+    ...props,
+    className: alertTitle({
+      variant: alertContext.props.variant,
+      className: baseClassName || props.className,
+    }),
+  };
 
   return asChild ? (
     React.Children.map(children, (child) => {
       if (React.isValidElement(child)) {
         return React.cloneElement(child as React.ReactElement<any>, {
-          ...props,
-          className: titleClass,
+          ...renderProps,
         });
       }
       return child;
     })
   ) : (
-    <Text {...props} className={titleClass}>
-      {children}
-    </Text>
+    <Text {...renderProps}>{children}</Text>
   );
 }
 
@@ -527,7 +456,15 @@ export function AlertTitle({
  * @see AlertDescriptionProps
  */
 export const alertDescription = tv({
-  base: "text-sm [&_p]:leading-relaxed",
+  base: "text-muted-foreground flex flex-col gap-1 text-sm [&_p]:leading-relaxed",
+  variants: {
+    variant: {
+      default: {},
+      success: "text-success",
+      warning: "text-warning",
+      destructive: "text-destructive",
+    },
+  },
 });
 
 /**
@@ -547,23 +484,24 @@ export function AlertDescription({
     throw new Error("AlertDescription must be used within an Alert");
   }
 
-  const descriptionClass = alertDescription({
-    className: baseClassName || props.className,
-  });
+  const renderProps = {
+    ...props,
+    className: alertDescription({
+      variant: alertContext.props.variant,
+      className: baseClassName || props.className,
+    }),
+  };
 
   return asChild ? (
     React.Children.map(children, (child) => {
       if (React.isValidElement(child)) {
         return React.cloneElement(child as React.ReactElement<any>, {
-          ...props,
-          className: descriptionClass,
+          ...renderProps,
         });
       }
       return child;
     })
   ) : (
-    <Text {...props} className={descriptionClass}>
-      {children}
-    </Text>
+    <Text {...renderProps}>{children}</Text>
   );
 }
