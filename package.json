@@ -27,6 +27,7 @@
     "@storybook/icons": "^1.4.0",
     "class-variance-authority": "^0.7.1",
     "clsx": "^2.1.1",
+    "expo-image": "^2.4.0",
     "lucide-react": "^0.525.0",
     "lucide-react-native": "^0.525.0",
     "nativewind": "^4.1.23",

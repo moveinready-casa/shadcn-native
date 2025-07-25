@@ -1,6 +1,6 @@
 import {afterEach, describe, expect, it} from "@jest/globals";
 import {cleanup, render, fireEvent} from "@testing-library/react-native";
-import {Avatar, AvatarImage, AvatarFallback} from "../avatar";
+import {Avatar, AvatarImage, AvatarFallback} from "../avatar.tsx";
 
 describe("Avatar", () => {
   afterEach(cleanup);
