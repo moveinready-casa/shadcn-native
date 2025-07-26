@@ -105,9 +105,9 @@ export function Badge({
     }
 
     if (status === "loading") {
-      return <ActivityIndicator />;
+      return <ActivityIndicator testID="badge-loading-icon" />;
     } else if (status === "error") {
-      return <AlertTriangleIcon />;
+      return <AlertTriangleIcon testID="badge-error-icon" />;
     } else if (status === "idle") {
       return null;
     }

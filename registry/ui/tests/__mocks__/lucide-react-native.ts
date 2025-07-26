@@ -18,8 +18,8 @@ export const CheckCircle2Icon = jest.fn(() =>
   React.createElement(View, {testID: "lucide-icon"}),
 );
 
-export const AlertTriangleIcon = jest.fn(() =>
-  React.createElement(View, {testID: "lucide-icon"}),
+export const AlertTriangleIcon = jest.fn((props: any) =>
+  React.createElement(View, {testID: props?.testID || "lucide-icon"}),
 );
 
 export const AlertCircleIcon = jest.fn(() =>
