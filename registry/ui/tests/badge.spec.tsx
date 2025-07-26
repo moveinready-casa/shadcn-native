@@ -97,15 +97,6 @@ describe("Badge", () => {
       );
       expect(getByTestId("badge").props.className).toContain("rounded-lg");
     });
-
-    it("applies full radius correctly", () => {
-      const {getByTestId} = render(
-        <Badge testID="badge" borderRadius="full">
-          Badge
-        </Badge>,
-      );
-      expect(getByTestId("badge").props.className).toContain("rounded-full");
-    });
   });
 
   describe("Disabled state", () => {

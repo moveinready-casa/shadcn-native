@@ -1,6 +1,12 @@
 import React, {ComponentProps, ReactNode} from "react";
-import {View, ViewProps, AccessibilityState} from "react-native";
+import {
+  View,
+  ViewProps,
+  AccessibilityState,
+  ActivityIndicator,
+} from "react-native";
 import {tv} from "tailwind-variants";
+import {AlertTriangleIcon} from "lucide-react-native";
 
 /**
  * Badge visual variants.
@@ -10,7 +16,7 @@ export type BadgeVariant = "default" | "secondary" | "destructive" | "outline";
 /**
  * Border radius (mirrors Avatar).
  */
-export type BadgeRadius = "none" | "sm" | "md" | "lg" | "full";
+export type BadgeRadius = "none" | "sm" | "md" | "lg" | "xl";
 
 /**
  * Loading / error / idle states for status indicator.
@@ -18,25 +24,54 @@ export type BadgeRadius = "none" | "sm" | "md" | "lg" | "full";
 export type BadgeStatus = "idle" | "loading" | "error";
 
 /**
+ * Props for the `Badge` component.
+ */
+/**
+ * Props for the `Badge` component.
+ * @param children The content to display inside the badge.
+ * @param variant Visual variant of the badge.
+ * @param borderRadius Border radius of the badge.
+ * @param disabled Disabled state of the badge.
+ * @param status Status for indicator (idle, loading, error).
+ * @param loading Convenience boolean prop to show loading state.
+ * @param indicator Custom indicator renderer function.
+ * @param baseClassName Provide custom base className (overrides className).
+ * @param asChild Clone props to child instead of rendering a View.
+ */
+export type BadgeProps = {
+  children: ReactNode;
+  variant?: BadgeVariant;
+  borderRadius?: BadgeRadius;
+  disabled?: boolean;
+  status?: BadgeStatus;
+  loading?: boolean;
+  indicator?: (state: BadgeStatus) => ReactNode;
+  baseClassName?: string;
+  asChild?: boolean;
+} & ViewProps;
+
+/**
  * Conditional classes for the `Badge` component.
  */
 export const badge = tv({
-  base: "inline-flex items-center border px-2.5 py-0.5 text-xs font-semibold transition-colors",
+  base: "inline-flex items-center justify-center rounded-md border px-2 py-0.5 text-xs font-medium w-fit whitespace-nowrap shrink-0 [&>svg]:size-3 gap-1 [&>svg]:pointer-events-none focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px] aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive transition-[color,box-shadow] overflow-hidden",
   variants: {
     variant: {
-      default: "border-transparent bg-primary text-primary-foreground shadow",
-      secondary: "border-transparent bg-secondary text-secondary-foreground",
+      default:
+        "border-transparent bg-primary text-primary-foreground [a&]:hover:bg-primary/90",
+      secondary:
+        "border-transparent bg-secondary text-secondary-foreground [a&]:hover:bg-secondary/90",
       destructive:
-        "border-transparent bg-destructive text-destructive-foreground",
+        "border-transparent bg-destructive text-white [a&]:hover:bg-destructive/90 focus-visible:ring-destructive/20 dark:focus-visible:ring-destructive/40 dark:bg-destructive/60",
       outline:
-        "border border-border bg-transparent text-foreground shadow-none",
+        "text-foreground [a&]:hover:bg-accent [a&]:hover:text-accent-foreground",
     },
     radius: {
       none: "rounded-none",
       sm: "rounded-sm",
       md: "rounded-md",
       lg: "rounded-lg",
-      full: "rounded-full",
+      xl: "rounded-xl",
     },
     disabled: {
       true: "opacity-50",
@@ -45,50 +80,10 @@ export const badge = tv({
   },
   defaultVariants: {
     variant: "default",
-    radius: "full",
+    radius: "lg",
     disabled: false,
   },
 });
-
-/**
- * Props for the `Badge` component.
- */
-export type BadgeProps = {
-  children: ReactNode;
-  /** Visual variant */
-  variant?: BadgeVariant;
-  /** Border radius */
-  borderRadius?: BadgeRadius;
-  /** Disabled state */
-  disabled?: boolean;
-  /** Status for indicator */
-  status?: BadgeStatus;
-  /** Convenience boolean prop to show loading state */
-  loading?: boolean;
-  /** Custom indicator renderer */
-  indicator?: (state: BadgeStatus) => ReactNode;
-  /** Provide custom base className (overrides className) */
-  baseClassName?: string;
-  /** Clone props to child instead of rendering a View */
-  asChild?: boolean;
-} & ViewProps;
-
-/**
- * Default indicator components (simple Views) so tests can assert presence via `testID`.
- */
-const DefaultLoadingIndicator = () => (
-  <View
-    testID="badge-loading-icon"
-    className="mr-1 h-3 w-3 animate-spin rounded-full bg-current opacity-80"
-  />
-);
-
-const DefaultErrorIndicator = () => (
-  <View
-    testID="badge-error-icon"
-    className="mr-1 h-3 w-3 rounded-full bg-current opacity-80"
-  />
-);
 
 /**
  * Root Badge component.
@@ -96,20 +91,17 @@ const DefaultErrorIndicator = () => (
 export function Badge({
   children,
   variant = "default",
-  borderRadius = "full",
+  borderRadius = "lg",
   disabled = false,
   status: incomingStatus = "idle",
   loading = false,
   indicator,
   baseClassName,
   asChild = false,
-  testID = "badge",
   ...props
 }: BadgeProps) {
-  // Infer final status
   const status: BadgeStatus = loading ? "loading" : incomingStatus;
 
-  // Resolve conditional classes
   const className = badge({
     variant,
     radius: borderRadius,
@@ -121,44 +113,31 @@ export function Badge({
     disabled: disabled,
   };
 
-  // Determine indicator node
-  let indicatorNode: ReactNode = null;
-  if (indicator) {
-    indicatorNode = indicator(status);
-  } else {
-    if (status === "loading") indicatorNode = <DefaultLoadingIndicator />;
-    else if (status === "error") indicatorNode = <DefaultErrorIndicator />;
+  function Indicator() {
+    if (indicator) {
+      return indicator(status);
+    }
+
+    if (status === "loading") {
+      return <ActivityIndicator />;
+    } else if (status === "error") {
+      return <AlertTriangleIcon />;
+    } else if (status === "idle") {
+      return null;
+    }
   }
 
-  // Props that are injected into rendered element
   const renderProps: ComponentProps<typeof View> = {
     ...props,
-    testID,
     accessibilityState,
     className,
-  } as ComponentProps<typeof View>;
+  };
 
-  if (asChild && React.isValidElement(children)) {
-    // Merge props + className into child element
-    const childElement = children as React.ReactElement<any>;
-    return React.cloneElement(childElement, {
-      ...renderProps,
-      ...childElement.props, // Preserve child's original props (including testID)
-      className: [childElement.props.className, renderProps.className]
-        .filter(Boolean)
-        .join(" "),
-      children: (
-        <>
-          {indicatorNode}
-          {childElement.props.children}
-        </>
-      ),
-    });
-  }
-
-  return (
+  return asChild ? (
+    React.cloneElement(children as React.ReactElement<any>, renderProps)
+  ) : (
     <View {...renderProps}>
-      {indicatorNode}
+      <Indicator />
       {children}
     </View>
   );
