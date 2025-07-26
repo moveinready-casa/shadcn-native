@@ -132,11 +132,6 @@ describe("Badge", () => {
       expect(getByTestId("badge-loading-icon")).toBeTruthy();
     });
 
-    it("shows default loading icon when loading prop is true", () => {
-      const {getByTestId} = render(<Badge loading>Badge</Badge>);
-      expect(getByTestId("badge-loading-icon")).toBeTruthy();
-    });
-
     it("shows default error icon when status is error and no indicator provided", () => {
       const {getByTestId} = render(<Badge status="error">Badge</Badge>);
       expect(getByTestId("badge-error-icon")).toBeTruthy();

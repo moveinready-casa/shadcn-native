@@ -7,6 +7,9 @@ import {Loader2} from "lucide-react-native";
 const meta: Meta<typeof Badge> = {
   title: "Badge",
   component: Badge,
+  parameters: {
+    layout: "centered",
+  },
   argTypes: {
     variant: {
       control: "select",
@@ -50,16 +53,6 @@ const meta: Meta<typeof Badge> = {
         },
       },
       options: ["idle", "loading", "error"],
-    },
-    loading: {
-      control: "boolean",
-      description:
-        "Convenience boolean prop to show loading state. Overrides status prop when true.",
-      table: {
-        defaultValue: {
-          summary: "false",
-        },
-      },
     },
     indicator: {
       control: false,

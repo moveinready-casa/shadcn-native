@@ -9,16 +9,6 @@ import {tv} from "tailwind-variants";
 import {AlertTriangleIcon} from "lucide-react-native";
 
 /**
- * Badge visual variants.
- */
-export type BadgeVariant = "default" | "secondary" | "destructive" | "outline";
-
-/**
- * Border radius (mirrors Avatar).
- */
-export type BadgeRadius = "none" | "sm" | "md" | "lg" | "xl";
-
-/**
  * Loading / error / idle states for status indicator.
  */
 export type BadgeStatus = "idle" | "loading" | "error";
@@ -40,11 +30,10 @@ export type BadgeStatus = "idle" | "loading" | "error";
  */
 export type BadgeProps = {
   children: ReactNode;
-  variant?: BadgeVariant;
-  borderRadius?: BadgeRadius;
+  variant?: "default" | "secondary" | "destructive" | "outline";
+  borderRadius?: "none" | "sm" | "md" | "lg" | "xl";
   disabled?: boolean;
   status?: BadgeStatus;
-  loading?: boolean;
   indicator?: (state: BadgeStatus) => ReactNode;
   baseClassName?: string;
   asChild?: boolean;
@@ -93,15 +82,12 @@ export function Badge({
   variant = "default",
   borderRadius = "lg",
   disabled = false,
-  status: incomingStatus = "idle",
-  loading = false,
+  status,
   indicator,
   baseClassName,
   asChild = false,
   ...props
 }: BadgeProps) {
-  const status: BadgeStatus = loading ? "loading" : incomingStatus;
-
   const className = badge({
     variant,
     radius: borderRadius,
@@ -115,7 +101,7 @@ export function Badge({
 
   function Indicator() {
     if (indicator) {
-      return indicator(status);
+      return indicator(status || "idle");
     }
 
     if (status === "loading") {
