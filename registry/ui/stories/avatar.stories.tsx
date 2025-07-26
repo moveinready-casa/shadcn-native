@@ -42,7 +42,7 @@ const meta: Meta<typeof AvatarStory> = {
     size: {
       control: "select",
       options: ["sm", "md", "lg"],
-      description: "Avatar size",
+      description: "Avatar size: presets for width/height and font-size.",
       table: {defaultValue: {summary: "md"}},
     },
     radius: {
@@ -53,7 +53,7 @@ const meta: Meta<typeof AvatarStory> = {
     },
     isBordered: {
       control: "boolean",
-      description: "Add ring border",
+      description: "Adds a theme-colored 2-pixel ring around the avatar.",
       table: {defaultValue: {summary: "false"}},
     },
     isDisabled: {
@@ -71,6 +71,9 @@ const meta: Meta<typeof AvatarStory> = {
       description: "Avatar variant",
       table: {defaultValue: {summary: "shadcn"}},
     },
+  },
+  parameters: {
+    layout: "centered",
   },
   tags: ["autodocs"],
 };
