@@ -133,7 +133,9 @@ export type BreadcrumbSeparatorComponentProps = {
  * @param props - Props from the top-level Breadcrumb component.
  * @see BreadcrumbReturn
  */
-export type BreadcrumbContextProps = BreadcrumbProps & BreadcrumbReturn;
+export type BreadcrumbContextProps = {
+  props: BreadcrumbProps;
+} & BreadcrumbReturn;
 
 /**
  * Context value for the `BreadcrumbItem` component.
@@ -280,10 +282,12 @@ export function Breadcrumb({
   const contextValue = {
     navProps,
     listProps,
-    size,
-    color,
-    variant,
-    borderRadius,
+    props: {
+      size,
+      color,
+      variant,
+      borderRadius,
+    },
   };
 
   return (
@@ -358,14 +362,14 @@ export function BreadcrumbList({
   if (!breadcrumbContext) {
     throw new Error("BreadcrumbList must be used within a Breadcrumb");
   }
-  const {listProps, variant, borderRadius} = breadcrumbContext;
+  const {listProps, props: breadcrumbProps} = breadcrumbContext;
 
   const renderProps = {
     ...listProps,
     ...props,
     className: breadcrumbList({
-      variant,
-      borderRadius,
+      variant: breadcrumbProps.variant,
+      borderRadius: breadcrumbProps.borderRadius,
       className: baseClassName || props.className,
     }),
   };
@@ -518,7 +522,7 @@ export function BreadcrumbLink({
     throw new Error("BreadcrumbLink must be used within a BreadcrumbItem");
   }
 
-  const {size, color} = breadcrumbContext;
+  const {size, color} = breadcrumbContext.props;
 
   const {base, text} = breadcrumbLink({size, color});
 
@@ -610,7 +614,7 @@ export function BreadcrumbPage({
     throw new Error("BreadcrumbPage must be used within a BreadcrumbItem");
   }
 
-  const {size, color} = breadcrumbContext;
+  const {size, color} = breadcrumbContext.props;
 
   const {pageProps} = breadcrumbItemContext;
 
@@ -678,7 +682,7 @@ export function BreadcrumbSeparator({
     throw new Error("BreadcrumbSeparator must be used within a BreadcrumbList");
   }
 
-  const {size} = breadcrumbContext;
+  const {size} = breadcrumbContext.props;
 
   const iconSize = size === "sm" ? 10 : size === "md" ? 14 : 16;
 
@@ -739,7 +743,7 @@ export function BreadcrumbEllipsis({
     throw new Error("BreadcrumbEllipsis must be used within a BreadcrumbList");
   }
 
-  const {size} = breadcrumbContext;
+  const {size} = breadcrumbContext.props;
 
   const iconSize = size === "sm" ? 10 : size === "md" ? 14 : 16;
 
