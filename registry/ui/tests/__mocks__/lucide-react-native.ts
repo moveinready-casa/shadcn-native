@@ -25,3 +25,11 @@ export const AlertTriangleIcon = jest.fn((props: any) =>
 export const AlertCircleIcon = jest.fn(() =>
   React.createElement(View, {testID: "lucide-icon"}),
 );
+
+export const MoreHorizontalIcon = jest.fn(() =>
+  React.createElement(View, {testID: "lucide-icon"}),
+);
+
+export const ChevronRightIcon = jest.fn(() =>
+  React.createElement(View, {testID: "lucide-icon"}),
+);
