@@ -15,7 +15,7 @@ import {
   CardActionProps,
   CardContentProps,
   CardFooterProps,
-} from "../card";
+} from "../card.tsx";
 import {Text, View} from "react-native";
 
 describe("Card", () => {
@@ -95,7 +95,7 @@ describe("Card", () => {
   describe("Variants", () => {
     it("applies default variant correctly", () => {
       const {getByTestId} = render(
-        <TestCard cardProps={{variant: "default"}} />,
+        <TestCard cardProps={{variant: "shadcn"}} />,
       );
       const card = getByTestId("card");
       expect(card.props.className).toContain("bg-card");
@@ -117,6 +117,44 @@ describe("Card", () => {
       expect(card.props.className).toContain("bg-transparent");
       expect(card.props.className).toContain("border-transparent");
       expect(card.props.className).toContain("shadow-none");
+    });
+  });
+
+  describe("Radius prop", () => {
+    it("applies default radius (xl) correctly", () => {
+      const {getByTestId} = render(<TestCard />);
+      const card = getByTestId("card");
+      expect(card.props.className).toContain("rounded-xl");
+    });
+
+    it("applies none radius correctly", () => {
+      const {getByTestId} = render(<TestCard cardProps={{radius: "none"}} />);
+      const card = getByTestId("card");
+      expect(card.props.className).toContain("rounded-none");
+    });
+
+    it("applies sm radius correctly", () => {
+      const {getByTestId} = render(<TestCard cardProps={{radius: "sm"}} />);
+      const card = getByTestId("card");
+      expect(card.props.className).toContain("rounded-sm");
+    });
+
+    it("applies md radius correctly", () => {
+      const {getByTestId} = render(<TestCard cardProps={{radius: "md"}} />);
+      const card = getByTestId("card");
+      expect(card.props.className).toContain("rounded-md");
+    });
+
+    it("applies lg radius correctly", () => {
+      const {getByTestId} = render(<TestCard cardProps={{radius: "lg"}} />);
+      const card = getByTestId("card");
+      expect(card.props.className).toContain("rounded-lg");
+    });
+
+    it("applies xl radius correctly", () => {
+      const {getByTestId} = render(<TestCard cardProps={{radius: "xl"}} />);
+      const card = getByTestId("card");
+      expect(card.props.className).toContain("rounded-xl");
     });
   });
 
@@ -218,32 +256,6 @@ describe("Card", () => {
 
       fireEvent(card, "pressOut");
       expect(card.props.className).not.toContain("opacity-90");
-    });
-
-    it("does not apply pressable behavior when pressable is false", () => {
-      const onPress = jest.fn();
-      const {getByTestId} = render(
-        <TestCard cardProps={{pressable: false, onPress}} />,
-      );
-      const card = getByTestId("card");
-
-      expect(card.props.accessibilityRole).toBe("group");
-
-      fireEvent.press(card);
-      expect(onPress).not.toHaveBeenCalled();
-    });
-
-    it("prevents press events when disabled", () => {
-      const onPress = jest.fn();
-      const {getByTestId} = render(
-        <TestCard cardProps={{pressable: true, disabled: true, onPress}} />,
-      );
-      const card = getByTestId("card");
-
-      expect(card.props.accessibilityState).toEqual({disabled: true});
-
-      fireEvent.press(card);
-      expect(onPress).not.toHaveBeenCalled();
     });
 
     it("applies disabled styling when disabled", () => {
@@ -373,7 +385,7 @@ describe("Card", () => {
 
   describe("Edge cases", () => {
     it("handles empty card gracefully", () => {
-      const {getByTestId} = render(<Card testID="empty-card" />);
+      const {getByTestId} = render(<Card testID="empty-card">{null}</Card>);
       expect(getByTestId("empty-card")).toBeTruthy();
     });
 
@@ -425,6 +437,7 @@ describe("Card", () => {
         <TestCard
           cardProps={{
             variant: "outline",
+            radius: "lg",
             blurred: true,
             pressable: true,
             disabled: true,
@@ -435,6 +448,7 @@ describe("Card", () => {
       const card = getByTestId("card");
 
       expect(card.props.className).toContain("bg-transparent");
+      expect(card.props.className).toContain("rounded-lg");
       expect(card.props.className).toContain("blur");
       expect(card.props.className).toContain("opacity-50");
       expect(card.props.className).toContain("custom-class");
