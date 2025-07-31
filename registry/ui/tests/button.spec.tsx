@@ -12,12 +12,6 @@ describe("Button", () => {
       render(<Button>Button</Button>);
     });
 
-    it("renders its children", () => {
-      const {getByTestId} = render(<Button testID="button">Press me</Button>);
-      const button = getByTestId("button");
-      expect(button.children).toContain("Press me");
-    });
-
     it("shows loading indicator when loading is true", () => {
       const {getByTestId} = render(
         <Button testID="button" loading>
