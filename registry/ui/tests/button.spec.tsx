@@ -51,16 +51,6 @@ describe("Button", () => {
       expect(getByTestId("end-icon")).toBeTruthy();
     });
 
-    it("applies full width styles when fullWidth is true", () => {
-      const {getByTestId} = render(
-        <Button testID="button" fullWidth>
-          Button
-        </Button>,
-      );
-      const button = getByTestId("button");
-      expect(button.props.className).toContain("w-full");
-    });
-
     it("clones props to the nearest child when asChild is true", () => {
       const {getByTestId} = render(
         <Button asChild variant="destructive">

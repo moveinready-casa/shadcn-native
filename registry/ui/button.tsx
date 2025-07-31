@@ -119,18 +119,19 @@ export const useButton = ({
  * Button component styles using tailwind-variants.
  */
 export const button = tv({
-  base: "inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-md text-sm font-medium transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none",
+  base: "flex flex-row items-center justify-center gap-2 whitespace-nowrap rounded-md text-sm font-medium transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none",
   variants: {
     variant: {
-      default: "bg-primary text-primary-foreground shadow hover:bg-primary/90",
+      default: "bg-primary text-primary-foreground shadow hover:opacity-90",
       destructive:
-        "bg-destructive text-destructive-foreground shadow-sm hover:bg-destructive/90",
+        "bg-destructive text-destructive-foreground shadow-sm hover:opacity-90",
       outline:
-        "border border-input bg-background shadow-sm hover:bg-accent hover:text-accent-foreground",
+        "border bg-background border-input text-foreground shadow-sm hover:bg-accent hover:text-accent-foreground hover:opacity-90",
       secondary:
-        "bg-secondary text-secondary-foreground shadow-sm hover:bg-secondary/80",
-      ghost: "hover:bg-accent hover:text-accent-foreground",
-      link: "text-primary underline-offset-4 hover:underline",
+        "bg-secondary text-secondary-foreground shadow-sm hover:opacity-90",
+      ghost:
+        "text-foreground hover:bg-accent hover:text-accent-foreground hover:opacity-90",
+      link: "text-primary underline-offset-4 hover:underline hover:opacity-90",
     },
     size: {
       default: "h-9 px-4 py-2",
@@ -204,7 +205,6 @@ export function Button({
     className,
   });
 
-
   return asChild ? (
     React.cloneElement(
       React.Children.toArray(children)[0] as React.ReactElement<any>,
@@ -222,21 +222,16 @@ export function Button({
       testID={testID}
     >
       {loading
-        ? (startContent ??
-          (spinner || (
+        ? spinner || (
             <ActivityIndicator
               testID={
                 testID ? `${testID}-loading-spinner` : "button-loading-spinner"
               }
               size="small"
-              color={
-                variant === "outline" || variant === "ghost"
-                  ? "currentColor"
-                  : "#ffffff"
-              }
+              color="currentColor"
             />
-          )))
-        : null}
+          )
+        : startContent}
       {children}
       {endContent}
     </Pressable>
