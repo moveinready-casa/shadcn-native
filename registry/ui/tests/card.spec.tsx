@@ -296,7 +296,7 @@ describe("Card", () => {
 
       const child = getByTestId("header-child");
       expect(child.props.className).toContain("custom-header");
-      expect(child.props.className).toContain("p-6");
+      expect(child.props.className).toContain("gap-1.5");
     });
 
     it("clones props to child when CardTitle asChild is true", () => {
@@ -329,7 +329,7 @@ describe("Card", () => {
 
       const child = getByTestId("content-child");
       expect(child.props.className).toContain("custom-content");
-      expect(child.props.className).toContain("p-6");
+      expect(child.props.className).toContain("text-muted-foreground");
     });
   });
 
@@ -349,7 +349,129 @@ describe("Card", () => {
       const card = getByTestId("card");
       expect(card.props.className).toContain("bg-red-500");
       expect(card.props.className).toContain("rounded-xl");
-      expect(card.props.className).toContain("shadow");
+      expect(card.props.className).toContain("shadow-sm");
+    });
+  });
+
+  describe("baseClassName prop", () => {
+    it("applies baseClassName to Card component", () => {
+      const {getByTestId} = render(
+        <TestCard cardProps={{baseClassName: "base-card-class"}} />,
+      );
+      const card = getByTestId("card");
+      expect(card.props.className).toContain("base-card-class");
+    });
+
+    it("baseClassName takes priority over className", () => {
+      const {getByTestId} = render(
+        <TestCard
+          cardProps={{
+            baseClassName: "base-priority-class",
+            className: "regular-class",
+          }}
+        />,
+      );
+      const card = getByTestId("card");
+      expect(card.props.className).toContain("base-priority-class");
+      expect(card.props.className).not.toContain("regular-class");
+    });
+
+    it("applies baseClassName to CardHeader component", () => {
+      const {getByTestId} = render(
+        <TestCard headerProps={{baseClassName: "base-header-class"}} />,
+      );
+      const header = getByTestId("card-header");
+      expect(header.props.className).toContain("base-header-class");
+    });
+
+    it("applies baseClassName to CardTitle component", () => {
+      const {getByTestId} = render(
+        <TestCard titleProps={{baseClassName: "base-title-class"}} />,
+      );
+      const title = getByTestId("card-title");
+      expect(title.props.className).toContain("base-title-class");
+    });
+
+    it("applies baseClassName to CardDescription component", () => {
+      const {getByTestId} = render(
+        <TestCard
+          descriptionProps={{baseClassName: "base-description-class"}}
+        />,
+      );
+      const description = getByTestId("card-description");
+      expect(description.props.className).toContain("base-description-class");
+    });
+
+    it("applies baseClassName to CardContent component", () => {
+      const {getByTestId} = render(
+        <TestCard contentProps={{baseClassName: "base-content-class"}} />,
+      );
+      const content = getByTestId("card-content");
+      expect(content.props.className).toContain("base-content-class");
+    });
+
+    it("applies baseClassName to CardAction component", () => {
+      const {getByTestId} = render(
+        <TestCard actionProps={{baseClassName: "base-action-class"}} />,
+      );
+      const action = getByTestId("card-action");
+      expect(action.props.className).toContain("base-action-class");
+    });
+
+    it("applies baseClassName to CardFooter component", () => {
+      const {getByTestId} = render(
+        <TestCard footerProps={{baseClassName: "base-footer-class"}} />,
+      );
+      const footer = getByTestId("card-footer");
+      expect(footer.props.className).toContain("base-footer-class");
+    });
+
+    it("baseClassName works with variants and other props", () => {
+      const {getByTestId} = render(
+        <TestCard
+          cardProps={{
+            baseClassName: "base-with-variant",
+            variant: "outline",
+            radius: "sm",
+            blurred: true,
+          }}
+        />,
+      );
+      const card = getByTestId("card");
+      expect(card.props.className).toContain("base-with-variant");
+      expect(card.props.className).toContain("bg-transparent");
+      expect(card.props.className).toContain("rounded-sm");
+      expect(card.props.className).toContain("blur");
+    });
+
+    it("all components can use baseClassName simultaneously", () => {
+      const {getByTestId} = render(
+        <TestCard
+          cardProps={{baseClassName: "base-card"}}
+          headerProps={{baseClassName: "base-header"}}
+          titleProps={{baseClassName: "base-title"}}
+          descriptionProps={{baseClassName: "base-description"}}
+          contentProps={{baseClassName: "base-content"}}
+          actionProps={{baseClassName: "base-action"}}
+          footerProps={{baseClassName: "base-footer"}}
+        />,
+      );
+
+      const card = getByTestId("card");
+      const header = getByTestId("card-header");
+      const title = getByTestId("card-title");
+      const description = getByTestId("card-description");
+      const content = getByTestId("card-content");
+      const action = getByTestId("card-action");
+      const footer = getByTestId("card-footer");
+
+      expect(card.props.className).toContain("base-card");
+      expect(header.props.className).toContain("base-header");
+      expect(title.props.className).toContain("base-title");
+      expect(description.props.className).toContain("base-description");
+      expect(content.props.className).toContain("base-content");
+      expect(action.props.className).toContain("base-action");
+      expect(footer.props.className).toContain("base-footer");
     });
   });
 

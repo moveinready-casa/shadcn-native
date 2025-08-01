@@ -1,5 +1,5 @@
 import React, {ComponentProps, ReactNode, useRef, useState} from "react";
-import {View, Pressable, Platform} from "react-native";
+import {View, Pressable, Platform, Text} from "react-native";
 import {tv} from "tailwind-variants";
 import {usePress} from "@react-aria/interactions";
 import {useFocusRing} from "@react-aria/focus";
@@ -18,6 +18,7 @@ export type CardProps = {
   onPress?: () => void;
   onPressStart?: () => void;
   onPressEnd?: () => void;
+  baseClassName?: string;
 } & ComponentProps<typeof View>;
 
 /**
@@ -28,6 +29,7 @@ export type CardHeaderProps = {
   asChild?: boolean;
   className?: string;
   blurred?: boolean;
+  baseClassName?: string;
 } & ComponentProps<typeof View>;
 
 /**
@@ -38,7 +40,8 @@ export type CardTitleProps = {
   asChild?: boolean;
   className?: string;
   blurred?: boolean;
-} & ComponentProps<typeof View>;
+  baseClassName?: string;
+} & ComponentProps<typeof Text>;
 
 /**
  * Props for CardDescription component.
@@ -48,7 +51,8 @@ export type CardDescriptionProps = {
   asChild?: boolean;
   className?: string;
   blurred?: boolean;
-} & ComponentProps<typeof View>;
+  baseClassName?: string;
+} & ComponentProps<typeof Text>;
 
 /**
  * Props for CardAction component.
@@ -58,6 +62,7 @@ export type CardActionProps = {
   asChild?: boolean;
   className?: string;
   blurred?: boolean;
+  baseClassName?: string;
 } & ComponentProps<typeof View>;
 
 /**
@@ -68,7 +73,8 @@ export type CardContentProps = {
   asChild?: boolean;
   className?: string;
   blurred?: boolean;
-} & ComponentProps<typeof View>;
+  baseClassName?: string;
+} & ComponentProps<typeof Text>;
 
 /**
  * Props for CardFooter component.
@@ -78,7 +84,8 @@ export type CardFooterProps = {
   asChild?: boolean;
   className?: string;
   blurred?: boolean;
-} & ComponentProps<typeof View>;
+  baseClassName?: string;
+} & ComponentProps<typeof Text>;
 
 /**
  * Return type for the useCard hook.
@@ -165,7 +172,7 @@ export const useCard = ({
  * Card component styles using tailwind-variants.
  */
 export const card = tv({
-  base: "text-card-foreground flex flex-col gap-6 border py-6 shadow-sm",
+  base: "text-card-foreground flex flex-col border shadow-sm p-6 gap-6",
   variants: {
     variant: {
       shadcn: "border-border bg-card",
@@ -202,11 +209,10 @@ export const card = tv({
  * Card header styles.
  */
 export const cardHeader = tv({
-  base: "flex flex-col space-y-1.5 p-6",
+  base: "flex flex-col gap-1.5",
   variants: {
     blurred: {
       true: "blur",
-      false: "",
     },
   },
   defaultVariants: {
@@ -218,11 +224,10 @@ export const cardHeader = tv({
  * Card title styles.
  */
 export const cardTitle = tv({
-  base: "font-semibold leading-none tracking-tight",
+  base: "text-foreground font-semibold leading-none tracking-tight",
   variants: {
     blurred: {
       true: "blur",
-      false: "",
     },
   },
   defaultVariants: {
@@ -238,7 +243,6 @@ export const cardDescription = tv({
   variants: {
     blurred: {
       true: "blur",
-      false: "",
     },
   },
   defaultVariants: {
@@ -250,11 +254,10 @@ export const cardDescription = tv({
  * Card action styles.
  */
 export const cardAction = tv({
-  base: "flex items-center justify-end p-6 pt-0",
+  base: "flex items-center justify-end",
   variants: {
     blurred: {
       true: "blur",
-      false: "",
     },
   },
   defaultVariants: {
@@ -266,11 +269,10 @@ export const cardAction = tv({
  * Card content styles.
  */
 export const cardContent = tv({
-  base: "p-6 pt-0",
+  base: "text-muted-foreground",
   variants: {
     blurred: {
       true: "blur",
-      false: "",
     },
   },
   defaultVariants: {
@@ -282,11 +284,10 @@ export const cardContent = tv({
  * Card footer styles.
  */
 export const cardFooter = tv({
-  base: "flex items-center p-6 pt-0",
+  base: "flex items-center",
   variants: {
     blurred: {
       true: "blur",
-      false: "",
     },
   },
   defaultVariants: {
@@ -309,6 +310,7 @@ export function Card({
   onPress,
   onPressStart,
   onPressEnd,
+  baseClassName,
   testID,
   style,
   onLayout,
@@ -327,10 +329,9 @@ export function Card({
     blurred,
     pressed: pressable && cardState.state.isPressed,
     disabled: disabled && pressable,
-    className,
+    className: baseClassName || className,
   });
 
-  // Safe props that work with both Pressable and View
   const safeProps = {
     className: cardClassName,
     ...(testID && {testID}),
@@ -348,7 +349,6 @@ export function Card({
     return <Pressable {...pressableProps}>{children}</Pressable>;
   }
 
-  // For non-pressable View, only include React Native compatible props
   const componentProps = cardState.componentProps as ComponentProps<
     typeof View
   >;
@@ -369,10 +369,14 @@ export function CardHeader({
   asChild = false,
   className,
   blurred = false,
+  baseClassName,
   testID,
   ...props
 }: CardHeaderProps) {
-  const headerClassName = cardHeader({blurred, className});
+  const headerClassName = cardHeader({
+    blurred,
+    className: baseClassName || className,
+  });
 
   const renderProps: ComponentProps<typeof View> = {
     ...props,
@@ -395,12 +399,16 @@ export function CardTitle({
   asChild = false,
   className,
   blurred = false,
+  baseClassName,
   testID,
   ...props
 }: CardTitleProps) {
-  const titleClassName = cardTitle({blurred, className});
+  const titleClassName = cardTitle({
+    blurred,
+    className: baseClassName || className,
+  });
 
-  const renderProps: ComponentProps<typeof View> = {
+  const renderProps: ComponentProps<typeof Text> = {
     ...props,
     className: titleClassName,
     accessibilityRole: "header",
@@ -410,7 +418,7 @@ export function CardTitle({
   return asChild ? (
     React.cloneElement(children as React.ReactElement<any>, renderProps)
   ) : (
-    <View {...renderProps}>{children}</View>
+    <Text {...renderProps}>{children}</Text>
   );
 }
 
@@ -422,12 +430,16 @@ export function CardDescription({
   asChild = false,
   className,
   blurred = false,
+  baseClassName,
   testID,
   ...props
 }: CardDescriptionProps) {
-  const descriptionClassName = cardDescription({blurred, className});
+  const descriptionClassName = cardDescription({
+    blurred,
+    className: baseClassName || className,
+  });
 
-  const renderProps: ComponentProps<typeof View> = {
+  const renderProps: ComponentProps<typeof Text> = {
     ...props,
     className: descriptionClassName,
     ...(testID && {testID}),
@@ -439,7 +451,7 @@ export function CardDescription({
       renderProps,
     )
   ) : (
-    <View {...renderProps}>{children}</View>
+    <Text {...renderProps}>{children}</Text>
   );
 }
 
@@ -451,10 +463,14 @@ export function CardAction({
   asChild = false,
   className,
   blurred = false,
+  baseClassName,
   testID,
   ...props
 }: CardActionProps) {
-  const actionClassName = cardAction({blurred, className});
+  const actionClassName = cardAction({
+    blurred,
+    className: baseClassName || className,
+  });
 
   const renderProps: ComponentProps<typeof View> = {
     ...props,
@@ -480,12 +496,16 @@ export function CardContent({
   asChild = false,
   className,
   blurred = false,
+  baseClassName,
   testID,
   ...props
 }: CardContentProps) {
-  const contentClassName = cardContent({blurred, className});
+  const contentClassName = cardContent({
+    blurred,
+    className: baseClassName || className,
+  });
 
-  const renderProps: ComponentProps<typeof View> = {
+  const renderProps: ComponentProps<typeof Text> = {
     ...props,
     className: contentClassName,
     ...(testID && {testID}),
@@ -494,7 +514,7 @@ export function CardContent({
   return asChild ? (
     React.cloneElement(children as React.ReactElement<any>, renderProps)
   ) : (
-    <View {...renderProps}>{children}</View>
+    <Text {...renderProps}>{children}</Text>
   );
 }
 
@@ -506,12 +526,16 @@ export function CardFooter({
   asChild = false,
   className,
   blurred = false,
+  baseClassName,
   testID,
   ...props
 }: CardFooterProps) {
-  const footerClassName = cardFooter({blurred, className});
+  const footerClassName = cardFooter({
+    blurred,
+    className: baseClassName || className,
+  });
 
-  const renderProps: ComponentProps<typeof View> = {
+  const renderProps: ComponentProps<typeof Text> = {
     ...props,
     className: footerClassName,
     ...(testID && {testID}),
@@ -523,6 +547,6 @@ export function CardFooter({
       renderProps,
     )
   ) : (
-    <View {...renderProps}>{children}</View>
+    <Text {...renderProps}>{children}</Text>
   );
 }

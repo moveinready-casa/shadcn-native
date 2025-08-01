@@ -1,5 +1,4 @@
 import React from "react";
-import {Text} from "react-native";
 import {
   Card,
   CardHeader,
@@ -117,8 +116,8 @@ export const Default: Story = {
         here such as text, images, or other components.
       </CardContent>
       <CardFooter>
-        <Button size="sm">
-          <Text>Action</Text>
+        <Button size="sm" className="ml-auto w-[50%]">
+          Action
         </Button>
       </CardFooter>
     </Card>
