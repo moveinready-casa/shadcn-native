@@ -117,11 +117,8 @@ export const Default: Story = {
 };
 
 export const ShadcnVariant: Story = {
-  args: {
-    variant: "shadcn",
-  },
   render: (args) => (
-    <Card {...args} className="max-w-sm">
+    <Card {...args} variant="shadcn" className="max-w-sm">
       <CardHeader>
         <CardTitle>Shadcn Card</CardTitle>
       </CardHeader>
@@ -133,11 +130,8 @@ export const ShadcnVariant: Story = {
 };
 
 export const OutlineVariant: Story = {
-  args: {
-    variant: "outline",
-  },
   render: (args) => (
-    <Card {...args} style={{maxWidth: 300}}>
+    <Card {...args} variant="outline" style={{maxWidth: 300}}>
       <CardHeader>
         <CardTitle>Outline Card</CardTitle>
       </CardHeader>
@@ -147,11 +141,8 @@ export const OutlineVariant: Story = {
 };
 
 export const GhostVariant: Story = {
-  args: {
-    variant: "ghost",
-  },
   render: (args) => (
-    <Card {...args} style={{maxWidth: 300}}>
+    <Card {...args} variant="ghost" style={{maxWidth: 300}}>
       <CardHeader>
         <CardTitle>Ghost Card</CardTitle>
       </CardHeader>

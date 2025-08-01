@@ -30,7 +30,7 @@ export type CardProps = {
   onPressStart?: () => void;
   onPressEnd?: () => void;
   baseClassName?: string;
-} & ComponentProps<typeof View>;
+} & (ComponentProps<typeof View> | ComponentProps<typeof Pressable>);
 
 /**
  * Props for CardHeader component.
@@ -134,7 +134,10 @@ export type CardFooterProps = {
  * @param state - Current state of the card including press, disabled, and focus states
  */
 export type CardReturn = {
-  componentProps: ComponentProps<typeof Pressable> | HTMLButtonElement;
+  componentProps:
+    | ComponentProps<typeof View>
+    | ComponentProps<typeof Pressable>
+    | Partial<HTMLButtonElement>;
   state: {
     isPressed: boolean;
     isDisabled: boolean;
@@ -203,7 +206,7 @@ export const useCard = ({
             onPressEnd?.();
           }
         : undefined,
-      accessibilityRole: pressable ? "button" : "group",
+      accessibilityRole: pressable ? "button" : undefined,
       accessibilityState:
         pressable && isDisabled ? {disabled: isDisabled} : undefined,
       accessible: true,
@@ -223,11 +226,11 @@ export const useCard = ({
  * Includes variants for different visual styles, border radius options, and states.
  */
 export const card = tv({
-  base: "text-card-foreground flex flex-col border shadow-sm p-6 gap-6",
+  base: "text-card-foreground flex flex-col border border-border  shadow-sm p-6 gap-6",
   variants: {
     variant: {
-      shadcn: "border-border bg-card",
-      outline: "border-border bg-transparent",
+      shadcn: "bg-card",
+      outline: "bg-transparent",
       ghost: "border-transparent bg-transparent shadow-none",
     },
     radius: {
@@ -388,9 +391,7 @@ export function Card({
   onPressStart,
   onPressEnd,
   baseClassName,
-  testID,
-  style,
-  onLayout,
+  ...props
 }: CardProps) {
   const cardState = useCard({
     pressable,
@@ -400,42 +401,38 @@ export function Card({
     onPressEnd,
   });
 
-  const cardClassName = card({
-    variant,
-    radius,
-    blurred,
-    pressed: pressable && cardState.state.isPressed,
-    disabled: disabled && pressable,
-    className: baseClassName || className,
-  });
+  const baseProps = {
+    className: card({
+      variant,
+      radius,
+      blurred,
+      pressed: pressable && cardState.state.isPressed,
+      disabled: disabled && pressable,
+      className: baseClassName || className,
+    }),
 
-  const safeProps = {
-    className: cardClassName,
-    ...(testID && {testID}),
-    style,
-    onLayout,
+    ...props,
   };
 
-  if (asChild) {
-    const renderProps = {...safeProps, ...cardState.componentProps};
-    return React.cloneElement(children as React.ReactElement<any>, renderProps);
-  }
-
-  if (pressable) {
-    const pressableProps = {...safeProps, ...cardState.componentProps};
-    return <Pressable {...pressableProps}>{children}</Pressable>;
-  }
-
   const componentProps = cardState.componentProps as ComponentProps<
-    typeof View
+    typeof Pressable
   >;
-  const viewProps = {
-    ...safeProps,
+
+  const viewProps = cardState.componentProps as ComponentProps<typeof View>;
+
+  const pressableProps = {
     accessibilityRole: componentProps.accessibilityRole,
     accessibilityState: componentProps.accessibilityState,
     accessible: componentProps.accessible,
   };
-  return <View {...viewProps}>{children}</View>;
+
+  return asChild ? (
+    React.cloneElement(children as React.ReactElement<CardProps>, baseProps)
+  ) : pressable ? (
+    <Pressable {...pressableProps}>{children}</Pressable>
+  ) : (
+    <View {...viewProps}>{children}</View>
+  );
 }
 
 /**
@@ -457,22 +454,21 @@ export function CardHeader({
   className,
   blurred = false,
   baseClassName,
-  testID,
   ...props
 }: CardHeaderProps) {
-  const headerClassName = cardHeader({
-    blurred,
-    className: baseClassName || className,
-  });
-
   const renderProps: ComponentProps<typeof View> = {
     ...props,
-    className: headerClassName,
-    ...(testID && {testID}),
+    className: cardHeader({
+      blurred,
+      className: baseClassName || className,
+    }),
   };
 
   return asChild ? (
-    React.cloneElement(children as React.ReactElement<any>, renderProps)
+    React.cloneElement(
+      children as React.ReactElement<CardHeaderProps>,
+      renderProps,
+    )
   ) : (
     <View {...renderProps}>{children}</View>
   );
@@ -494,23 +490,22 @@ export function CardTitle({
   className,
   blurred = false,
   baseClassName,
-  testID,
   ...props
 }: CardTitleProps) {
-  const titleClassName = cardTitle({
-    blurred,
-    className: baseClassName || className,
-  });
-
   const renderProps: ComponentProps<typeof Text> = {
     ...props,
-    className: titleClassName,
+    className: cardTitle({
+      blurred,
+      className: baseClassName || className,
+    }),
     accessibilityRole: "header",
-    ...(testID && {testID}),
   };
 
   return asChild ? (
-    React.cloneElement(children as React.ReactElement<any>, renderProps)
+    React.cloneElement(
+      children as React.ReactElement<CardTitleProps>,
+      renderProps,
+    )
   ) : (
     <Text {...renderProps}>{children}</Text>
   );
@@ -532,23 +527,19 @@ export function CardDescription({
   className,
   blurred = false,
   baseClassName,
-  testID,
   ...props
 }: CardDescriptionProps) {
-  const descriptionClassName = cardDescription({
-    blurred,
-    className: baseClassName || className,
-  });
-
   const renderProps: ComponentProps<typeof Text> = {
     ...props,
-    className: descriptionClassName,
-    ...(testID && {testID}),
+    className: cardDescription({
+      blurred,
+      className: baseClassName || className,
+    }),
   };
 
   return asChild ? (
     React.cloneElement(
-      children as React.ReactElement<{className: string}>,
+      children as React.ReactElement<CardDescriptionProps>,
       renderProps,
     )
   ) : (
@@ -575,23 +566,19 @@ export function CardAction({
   className,
   blurred = false,
   baseClassName,
-  testID,
   ...props
 }: CardActionProps) {
-  const actionClassName = cardAction({
-    blurred,
-    className: baseClassName || className,
-  });
-
   const renderProps: ComponentProps<typeof View> = {
     ...props,
-    className: actionClassName,
-    ...(testID && {testID}),
+    className: cardAction({
+      blurred,
+      className: baseClassName || className,
+    }),
   };
 
   return asChild ? (
     React.cloneElement(
-      children as React.ReactElement<{className: string}>,
+      children as React.ReactElement<CardActionProps>,
       renderProps,
     )
   ) : (
@@ -618,22 +605,21 @@ export function CardContent({
   className,
   blurred = false,
   baseClassName,
-  testID,
   ...props
 }: CardContentProps) {
-  const contentClassName = cardContent({
-    blurred,
-    className: baseClassName || className,
-  });
-
   const renderProps: ComponentProps<typeof Text> = {
     ...props,
-    className: contentClassName,
-    ...(testID && {testID}),
+    className: cardContent({
+      blurred,
+      className: baseClassName || className,
+    }),
   };
 
   return asChild ? (
-    React.cloneElement(children as React.ReactElement<any>, renderProps)
+    React.cloneElement(
+      children as React.ReactElement<CardContentProps>,
+      renderProps,
+    )
   ) : (
     <Text {...renderProps}>{children}</Text>
   );
@@ -650,14 +636,7 @@ export function CardContent({
  *   <Button size="sm">Learn More</Button>
  * </CardFooter>
  * ```
- *
- * @param children - React children to render in the footer
- * @param asChild - If true, merges props with first child instead of rendering wrapper
- * @param className - Additional CSS classes to apply
- * @param blurred - When true, applies blur effect to the footer
- * @param testID - Test identifier for testing
- * @param baseClassName - Custom tailwind classes that take priority over className
- * @returns A styled footer component with flex layout for content alignment
+ * @see CardFooterProps
  */
 export function CardFooter({
   children,
@@ -665,23 +644,19 @@ export function CardFooter({
   className,
   blurred = false,
   baseClassName,
-  testID,
   ...props
 }: CardFooterProps) {
-  const footerClassName = cardFooter({
-    blurred,
-    className: baseClassName || className,
-  });
-
   const renderProps: ComponentProps<typeof Text> = {
     ...props,
-    className: footerClassName,
-    ...(testID && {testID}),
+    className: cardFooter({
+      blurred,
+      className: baseClassName || className,
+    }),
   };
 
   return asChild ? (
     React.cloneElement(
-      children as React.ReactElement<{className: string}>,
+      children as React.ReactElement<CardFooterProps>,
       renderProps,
     )
   ) : (
