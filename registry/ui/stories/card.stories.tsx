@@ -16,12 +16,6 @@ const meta: Meta<typeof Card> = {
   component: Card,
   parameters: {
     layout: "centered",
-    docs: {
-      description: {
-        component:
-          "A flexible card component that displays content in a visually appealing container. Supports multiple variants, customizable border radius, blur effects, and optional press interactions. Built with accessibility in mind and fully compatible with both React Native and web platforms.",
-      },
-    },
   },
   argTypes: {
     variant: {
@@ -94,14 +88,12 @@ const meta: Meta<typeof Card> = {
     disabled: false,
     asChild: false,
   },
+  tags: ["autodocs"],
 };
 
 export default meta;
 type Story = StoryObj<typeof meta>;
 
-/**
- * The default card with standard content structure including header, title, description, content, and footer.
- */
 export const Default: Story = {
   render: (args) => (
     <Card {...args} style={{maxWidth: 350}}>
@@ -124,9 +116,6 @@ export const Default: Story = {
   ),
 };
 
-/**
- * Card with shadcn variant - the default styling with background and border.
- */
 export const ShadcnVariant: Story = {
   args: {
     variant: "shadcn",
@@ -143,9 +132,6 @@ export const ShadcnVariant: Story = {
   ),
 };
 
-/**
- * Card with outline variant - transparent background with visible border.
- */
 export const OutlineVariant: Story = {
   args: {
     variant: "outline",
@@ -160,9 +146,6 @@ export const OutlineVariant: Story = {
   ),
 };
 
-/**
- * Card with ghost variant - minimal styling with no background or border.
- */
 export const GhostVariant: Story = {
   args: {
     variant: "ghost",
@@ -177,9 +160,6 @@ export const GhostVariant: Story = {
   ),
 };
 
-/**
- * Minimal card with just content, no header or footer.
- */
 export const MinimalCard: Story = {
   render: (args) => (
     <Card {...args} style={{maxWidth: 250}}>
@@ -189,14 +169,6 @@ export const MinimalCard: Story = {
       </CardContent>
     </Card>
   ),
-  parameters: {
-    docs: {
-      description: {
-        story:
-          "A minimal card implementation with only content. Demonstrates the flexibility of the card component for simple use cases.",
-      },
-    },
-  },
 };
 
 export const withAction: Story = {
