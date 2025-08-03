@@ -33,3 +33,11 @@ export const MoreHorizontalIcon = jest.fn(() =>
 export const ChevronRightIcon = jest.fn(() =>
   React.createElement(View, {testID: "lucide-icon"}),
 );
+
+export const CheckIcon = jest.fn((props: any) =>
+  React.createElement(View, {...props, testID: props?.testID || "lucide-icon"}),
+);
+
+export const DotIcon = jest.fn((props: any) =>
+  React.createElement(View, {...props, testID: props?.testID || "lucide-icon"}),
+);

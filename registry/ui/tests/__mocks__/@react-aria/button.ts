@@ -7,3 +7,9 @@ export const useButton = jest.fn(() => ({
     "aria-pressed": false,
   } as Record<string, unknown>,
 }));
+
+export const useToggleButton = jest.fn(() => {
+  return {
+    onPress: jest.fn(),
+  } as Record<string, unknown>;
+});
