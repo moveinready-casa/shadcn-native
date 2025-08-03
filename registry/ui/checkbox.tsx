@@ -140,6 +140,7 @@ export type CheckboxComponentProps = {
   size?: "sm" | "md" | "lg";
   color?: "primary" | "secondary" | "success" | "warning" | "destructive";
   radius?: "none" | "sm" | "md" | "lg" | "full";
+  animation?: "shadcn" | "enhanced";
 } & CheckboxProps &
   ComponentProps<typeof Pressable>;
 
@@ -149,7 +150,8 @@ export type CheckboxComponentProps = {
  */
 export const checkbox = tv({
   slots: {
-    base: "flex flex-row items-center justify-center bg-transparent border focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2",
+    // Use absolute border color due to native wind bug
+    base: "flex flex-row items-center justify-center bg-transparent border border-neutral-700 focus-visible:outline-none focus-visible:border-2 focus-visible:border-ring focus-visible:border-offset-2",
     icon: "text-primary-foreground",
   },
   variants: {
@@ -180,6 +182,10 @@ export const checkbox = tv({
     },
     checked: {
       true: {base: "bg-primary"},
+    },
+    animation: {
+      enhanced: {icon: "transition-all duration-300"},
+      shadcn: {},
     },
   },
   compoundVariants: [
@@ -232,6 +238,7 @@ export function Checkbox({
   radius = "md",
   disabled = false,
   loading = false,
+  animation = "shadcn",
   baseClassName,
   iconClassName,
   ...props
@@ -254,6 +261,7 @@ export function Checkbox({
     disabled: disabled || loading,
     loading,
     checked: state.isChecked,
+    animation,
   });
 
   const renderProps = {

@@ -79,6 +79,11 @@ const meta: Meta<typeof Checkbox> = {
       control: "text",
       description: "Additional CSS classes to apply to the checkbox.",
     },
+    animation: {
+      control: "select",
+      options: ["shadcn", "enhanced"],
+      description: "Sets the animation of the checkbox.",
+    },
   },
   args: {
     size: "md",
