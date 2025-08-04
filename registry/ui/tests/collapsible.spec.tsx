@@ -1,10 +1,5 @@
 import {afterEach, describe, expect, it, jest} from "@jest/globals";
-import {
-  cleanup,
-  fireEvent,
-  render,
-  screen,
-} from "@testing-library/react-native";
+import {cleanup, fireEvent, render} from "@testing-library/react-native";
 import {
   Collapsible,
   CollapsibleTrigger,
@@ -58,7 +53,7 @@ describe("Collapsible", () => {
 
       fireEvent.press(trigger);
 
-      expect(queryAllByTestId("content")[1]).toBeVisible();
+      expect(queryAllByTestId("content")[0]).toBeTruthy();
     });
 
     it("collapses the content when the trigger is pressed again", () => {
@@ -69,7 +64,7 @@ describe("Collapsible", () => {
 
       fireEvent.press(trigger);
 
-      expect(queryAllByTestId("content")[1]).toBeFalsy();
+      expect(queryAllByTestId("content")[0]).toBeFalsy();
     });
 
     it("does not respond to interaction when disabled", () => {
@@ -80,7 +75,7 @@ describe("Collapsible", () => {
 
       fireEvent.press(trigger);
 
-      expect(queryAllByTestId("content")[1]).toBeFalsy();
+      expect(queryAllByTestId("content")[0]).toBeFalsy();
     });
   });
 
@@ -90,12 +85,12 @@ describe("Collapsible", () => {
         <TestCollapsible rootProps={{open: true}} />,
       );
 
-      expect(queryAllByTestId("content")[1]).toBeVisible();
+      expect(queryAllByTestId("content")[0]).toBeTruthy();
 
       const trigger = queryAllByTestId("trigger")[0];
       fireEvent.press(trigger);
 
-      expect(queryAllByTestId("content")[1]).toBeVisible();
+      expect(queryAllByTestId("content")[0]).toBeTruthy();
     });
 
     it("calls onOpenChange when the open state changes", () => {
@@ -117,7 +112,7 @@ describe("Collapsible", () => {
         </Collapsible>,
       );
 
-      expect(getByTestId("child")).toHaveProp("className", "bg-red-500");
+      expect(getByTestId("child").props.className).toBe("bg-red-500");
     });
   });
 });

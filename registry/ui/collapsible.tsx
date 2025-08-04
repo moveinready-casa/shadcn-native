@@ -6,6 +6,7 @@ import React, {
   useContext,
   useRef,
   useState,
+  useEffect,
 } from "react";
 import {Platform, Pressable, View} from "react-native";
 import {useButton} from "@react-aria/button";
@@ -89,6 +90,12 @@ export const useCollapsible = ({
   const isControlled = open !== undefined;
   const [internalOpen, setInternalOpen] = useState(defaultOpen);
 
+  useEffect(() => {
+    if (!isControlled) {
+      setInternalOpen(defaultOpen);
+    }
+  }, [defaultOpen]);
+
   const isOpen = isControlled ? open! : internalOpen;
 
   const setOpen = useCallback(
@@ -169,37 +176,44 @@ export const useCollapsibleTrigger = (): {
 export function Collapsible({
   children,
   asChild = false,
-  baseClassName, // eslint-disable-line @typescript-eslint/no-unused-vars
+  baseClassName,
   open,
   defaultOpen,
   onOpenChange,
   disabled,
   ...props
 }: PropsWithChildren<CollapsibleComponentProps>) {
-  const hookReturn = useCollapsible({
+  const collapsibleProps = useCollapsible({
     open,
     defaultOpen,
     onOpenChange,
     disabled,
+    ...props,
   });
 
-  const value: CollapsibleContextValue = {
-    ...hookReturn,
+  const contextProps: CollapsibleContextValue = {
+    ...collapsibleProps,
     props: {open, defaultOpen, onOpenChange, disabled},
   };
 
-  return asChild ? (
-    <CollapsibleContext.Provider value={value}>
-      {React.cloneElement(React.Children.only(children) as React.ReactElement, {
-        ...hookReturn.componentProps,
-        ...props,
-      })}
-    </CollapsibleContext.Provider>
-  ) : (
-    <CollapsibleContext.Provider value={value}>
-      <View {...hookReturn.componentProps} {...props}>
-        {children}
-      </View>
+  const renderProps = {
+    ...collapsibleProps.componentProps,
+    ...props,
+    className: baseClassName || props.className,
+  };
+
+  return (
+    <CollapsibleContext.Provider value={contextProps}>
+      {asChild ? (
+        React.cloneElement(
+          React.Children.only(children) as React.ReactElement,
+          {
+            ...renderProps,
+          },
+        )
+      ) : (
+        <View {...renderProps}>{children}</View>
+      )}
     </CollapsibleContext.Provider>
   );
 }
@@ -217,15 +231,12 @@ export function CollapsibleTrigger({
 }: PropsWithChildren<CollapsibleTriggerComponentProps>) {
   const {triggerProps} = useCollapsibleTrigger();
 
-  if (asChild) {
-    const child = React.Children.only(children) as React.ReactElement;
-    return React.cloneElement(
-      child,
-      Object.assign({}, triggerProps as any, props, child.props),
-    );
-  }
-
-  return (
+  return asChild ? (
+    React.cloneElement(React.Children.only(children) as React.ReactElement, {
+      ...triggerProps,
+      ...props,
+    })
+  ) : (
     <Pressable {...triggerProps} {...props}>
       {children}
     </Pressable>
@@ -252,43 +263,28 @@ export function CollapsibleContent({
     state: {isOpen},
   } = context;
 
-  if (asChild) {
-    const child = React.Children.only(children) as React.ReactElement;
-    return isOpen
-      ? React.cloneElement(child, Object.assign({}, props, child.props))
-      : null;
-  }
-
-  const HiddenWrapper = ({visible}: {visible: boolean}) => (
-    <View
-      style={{position: "absolute", opacity: visible ? 0 : 0, zIndex: -1}}
-      {...props}
-    >
-      {children}
-    </View>
-  );
-
-  const VisibleWrapper = () => (
-    <View {...props} accessible={true} accessibilityElementsHidden={!isOpen}>
-      {children}
-    </View>
-  );
-
-  // Always render one hidden copy for measurement (matches Accordion's pattern)
-  return (
+  return asChild ? (
+    isOpen ? (
+      React.cloneElement(
+        React.Children.only(children) as React.ReactElement,
+        Object.assign(
+          {},
+          props,
+          (React.Children.only(children) as React.ReactElement).props,
+        ),
+      )
+    ) : null
+  ) : (
     <>
-      <HiddenWrapper visible={true} />
-      {isOpen && <VisibleWrapper />}
+      {isOpen && (
+        <View
+          {...props}
+          accessible={true}
+          accessibilityElementsHidden={!isOpen}
+        >
+          {children}
+        </View>
+      )}
     </>
   );
 }
-
-/* ----------------------------------------------------------------------------
- * Default Exports
- * --------------------------------------------------------------------------*/
-
-export default {
-  Collapsible,
-  CollapsibleTrigger,
-  CollapsibleContent,
-};

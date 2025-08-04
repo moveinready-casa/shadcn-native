@@ -33,7 +33,7 @@ function CollapsibleStory({
       className="flex flex-col gap-2"
     >
       <View className="flex items-center justify-between gap-4 px-4">
-        <Text className="text-sm font-semibold">
+        <Text className="text-sm font-semibold text-foreground">
           @peduarte starred 3 repositories
         </Text>
         <CollapsibleTrigger asChild>
@@ -78,10 +78,6 @@ const meta: Meta<typeof CollapsibleStory> = {
   },
   parameters: {
     layout: "centered",
-  },
-  args: {
-    defaultOpen: false,
-    disabled: false,
   },
 };
 
