@@ -22,20 +22,27 @@ function DialogStory({
   disabled,
   forceMount,
   defaultOpen,
+  open,
+  onOpenChange,
 }: DialogComponentProps & {
   disabled: boolean;
   forceMount: boolean;
   defaultOpen: boolean;
+  open?: boolean;
+  onOpenChange?: (isOpen: boolean) => void;
   borderRadius: "none" | "sm" | "md" | "lg" | "xl";
 }) {
   return (
     <View className="bg-background flex-1 items-center justify-center p-6">
-      <Dialog modal={modal} defaultOpen={defaultOpen} forceMount={forceMount}>
-        <DialogTrigger
-          className="bg-primary rounded-md px-4 py-2"
-          disabled={disabled}
-        >
-          <Text className="text-white">Open dialog</Text>
+      <Dialog
+        modal={modal}
+        defaultOpen={defaultOpen}
+        open={open}
+        onOpenChange={onOpenChange}
+        forceMount={forceMount}
+      >
+        <DialogTrigger disabled={disabled} asChild>
+          <Button>Open dialog</Button>
         </DialogTrigger>
         <DialogPortal>
           <DialogOverlay />
@@ -53,7 +60,6 @@ function DialogStory({
               <DialogClose asChild>
                 <Button>Copy</Button>
               </DialogClose>
-              <Button variant="outline">Cancel</Button>
             </DialogFooter>
           </DialogContent>
         </DialogPortal>
@@ -65,6 +71,15 @@ function DialogStory({
 const meta: Meta<typeof DialogStory> = {
   title: "Dialog",
   component: DialogStory,
+  parameters: {
+    layout: "centered",
+    docs: {
+      description: {
+        component:
+          "A dialog component that provides a modal overlay with content. It includes accessibility features and can be controlled or uncontrolled.",
+      },
+    },
+  },
   argTypes: {
     modal: {
       control: "boolean",
@@ -88,7 +103,23 @@ const meta: Meta<typeof DialogStory> = {
       description: "Initial open state (uncontrolled)",
       table: {defaultValue: {summary: "false"}},
     },
+    open: {
+      control: "boolean",
+      description: "Controlled open state",
+      table: {defaultValue: {summary: "undefined"}},
+    },
+    onOpenChange: {
+      control: false,
+      description: "Callback when open state changes",
+      table: {defaultValue: {summary: "undefined"}},
+    },
+    forceMount: {
+      control: "boolean",
+      description: "Force mount dialog content even when closed",
+      table: {defaultValue: {summary: "false"}},
+    },
   },
+  tags: ["autodocs"],
 };
 export default meta;
 
@@ -100,5 +131,27 @@ export const Default: Story = {
     borderRadius: "lg",
     disabled: false,
     defaultOpen: false,
+    forceMount: false,
+  },
+};
+
+export const NonModal: Story = {
+  args: {
+    ...Default.args,
+    modal: false,
+  },
+};
+
+export const Disabled: Story = {
+  args: {
+    ...Default.args,
+    disabled: true,
+  },
+};
+
+export const ForceMount: Story = {
+  args: {
+    ...Default.args,
+    forceMount: true,
   },
 };
