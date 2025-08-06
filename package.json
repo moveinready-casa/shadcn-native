@@ -20,6 +20,7 @@
     "@radix-ui/react-slot": "^1.2.3",
     "@react-aria/breadcrumbs": "^3.5.27",
     "@react-aria/button": "^3.13.3",
+    "@react-aria/dialog": "^3.5.28",
     "@react-aria/disclosure": "^3.0.6",
     "@react-aria/focus": "^3.20.5",
     "@react-aria/interactions": "^3.25.4",
