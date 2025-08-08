@@ -19,7 +19,7 @@ import {
   DropdownMenuSubContent,
   DropdownMenuPortal,
   DropdownMenuArrow,
-} from "../dropdown-menu";
+} from "../dropdown-menu.tsx";
 
 function TestDropdown({
   rootProps = {},
@@ -340,7 +340,7 @@ describe("DropdownMenu", () => {
   });
 
   describe("Styling and state variants", () => {
-    it("accepts color variants on DropdownMenuItem", () => {
+    it("uses design token classes for color variants on DropdownMenuItem", () => {
       const colorVariants = [
         "default",
         "destructive",
@@ -349,6 +349,14 @@ describe("DropdownMenu", () => {
         "ghost",
         "link",
       ] as const;
+      const expectations: Record<(typeof colorVariants)[number], string[]> = {
+        default: ["text-foreground"],
+        destructive: ["text-destructive"],
+        outline: ["text-foreground"],
+        secondary: ["text-secondary-foreground"],
+        ghost: ["text-foreground"],
+        link: ["text-primary", "underline-offset-4"],
+      };
 
       colorVariants.forEach((color) => {
         const {getByTestId, unmount} = render(
@@ -364,7 +372,10 @@ describe("DropdownMenu", () => {
           </DropdownMenu>,
         );
 
-        expect(getByTestId(`item-${color}`)).toBeTruthy();
+        const node = getByTestId(`item-${color}`);
+        expectations[color].forEach((token) => {
+          expect(node.props.className).toContain(token);
+        });
         unmount();
       });
     });
