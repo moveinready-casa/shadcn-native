@@ -1,8 +1,5 @@
 import React from "react";
-import ActionSheet, {
-  ActionSheetRef,
-  SheetProvider,
-} from "react-native-actions-sheet";
+import ActionSheet, {ActionSheetRef} from "react-native-actions-sheet";
 import {AriaButtonProps, useButton} from "@react-aria/button";
 import {useFocusRing} from "@react-aria/focus";
 import {
@@ -10,84 +7,18 @@ import {
   createContext,
   ReactNode,
   useContext,
-  useEffect,
   useRef,
-  useState,
 } from "react";
-import {
-  GestureResponderEvent,
-  Platform,
-  Pressable,
-  TouchableWithoutFeedback,
-  View,
-  Text,
-  useColorScheme,
-} from "react-native";
+import {Platform, Pressable, View, Text} from "react-native";
 import {tv} from "tailwind-variants";
 import tw from "twrnc";
-import Reanimated, {FadeIn, FadeOut} from "react-native-reanimated";
 import Theme, {ThemeContext} from "../theme";
-// export type DrawerContentComponentProps = {
-//   children: ReactNode;
-//   className?: string;
-//   baseClassName?: string;
-//   handleClassName?: string;
-// } & ComponentProps<typeof ActionSheet>;
 
-// export type DrawerReturn = {
-//   state: {
-//     isOpen: boolean;
-//     setIsOpen: (open: boolean) => void;
-//   };
-// };
-
-// export type DrawerTriggerProps = {
-//   disabled?: boolean;
-//   state?: DrawerReturn["state"];
-// } & ComponentProps<typeof Pressable>;
-
-// export type DrawerTriggerReturn = {
-//   componentProps: ComponentProps<typeof Pressable>;
-// };
-
-// export type DrawerCloseProps = {
-//   children?: ReactNode;
-//   disabled?: boolean;
-// } & ComponentProps<typeof Pressable>;
-
-// export type DrawerCloseReturn = {
-//   componentProps: ComponentProps<typeof Pressable>;
-// };
-
-// export type DrawerPortalComponentProps = {
-//   baseClassName?: string;
-// } & ComponentProps<typeof View>;
-
-// export type DrawerOverlayProps = {
-//   forceMount?: boolean;
-//   baseClassName?: string;
-// } & Omit<ComponentProps<typeof TouchableWithoutFeedback>, "children">;
-
-// export type DrawerOverlayReturn = {
-//   componentProps: ComponentProps<typeof TouchableWithoutFeedback>;
-// };
-
-// export type DrawerHeaderComponentProps = {
-//   baseClassName?: string;
-// } & ComponentProps<typeof View>;
-
-// export type DrawerFooterComponentProps = {
-//   baseClassName?: string;
-// } & ComponentProps<typeof View>;
-
-// export type DrawerTitleComponentProps = {
-//   baseClassName?: string;
-// } & ComponentProps<typeof Text>;
-
-// export type DrawerDescriptionComponentProps = {
-//   baseClassName?: string;
-// } & ComponentProps<typeof Text>;
-
+/**
+ * Return type for the `useDrawer` hook.
+ * @param state - The state of the drawer.
+ * @param componentProps - Props to pass to the drawer component.
+ */
 export type DrawerReturn = {
   state: {
     expand: () => void;
@@ -95,6 +26,101 @@ export type DrawerReturn = {
   };
   componentProps: ComponentProps<typeof ActionSheet>;
 };
+
+/**
+ * Props for the root `Drawer` component.
+ * @param children - Content that will have access to the drawer context and controls.
+ */
+export type DrawerComponentProps = {
+  children: ReactNode;
+} & ComponentProps<typeof ActionSheet>;
+
+/**
+ * Props for the `useDrawerTrigger` hook and `DrawerTrigger` component.
+ * @param disabled - Whether the trigger is disabled.
+ * @param asChild - If true clones the child and passes all accessibility and functionality props to it.
+ * @param state - Optional drawer state; when using `DrawerTrigger` inside `Drawer`, this is injected from context.
+ */
+export type DrawerTriggerProps = {
+  disabled?: boolean;
+  asChild?: boolean;
+} & Omit<AriaButtonProps, "isDisabled"> &
+  Partial<{state: DrawerReturn["state"]}> &
+  ComponentProps<typeof View>;
+
+/**
+ * Return type for `useDrawerTrigger`.
+ * @property componentProps - Props to spread onto the trigger element (`Pressable` on native or `button` on web).
+ */
+export type DrawerTriggerReturn = {
+  componentProps: ComponentProps<typeof View> | HTMLButtonElement;
+};
+
+/**
+ * Props for the `DrawerTrigger` component.
+ */
+export type DrawerTriggerComponentProps = ComponentProps<typeof Pressable> &
+  DrawerTriggerProps;
+
+/**
+ * Props for the `DrawerContent` component.
+ * @param baseClassName - Custom tailwind classes to apply to the base container. Takes priority over `className`.
+ * @param handleClassName - Custom classes for the action sheet handle.
+ * @param onClose - Optional callback fired when `DrawerClose` is pressed.
+ * @param snapPoints - Snap points to configure the sheet's height.
+ * @param initialSnapIndex - The initial snap index for the sheet.
+ */
+export type DrawerContentComponentProps = {
+  children: ReactNode;
+  baseClassName?: string;
+  handleClassName?: string;
+  onClose?: () => void;
+  snapPoints?: number[];
+  initialSnapIndex?: number;
+} & ComponentProps<typeof View>;
+
+/**
+ * Props for the `DrawerClose` component.
+ * @param disabled - Whether the close action is disabled.
+ * @param asChild - If true clones the child and passes all accessibility and functionality props to it.
+ */
+export type DrawerCloseProps = {
+  children?: ReactNode;
+  disabled?: boolean;
+  asChild?: boolean;
+} & ComponentProps<typeof Pressable>;
+
+/**
+ * Props for the `DrawerHeader` component.
+ */
+export type DrawerHeaderComponentProps = {
+  children: ReactNode;
+  baseClassName?: string;
+} & ComponentProps<typeof View>;
+
+/**
+ * Props for the `DrawerFooter` component.
+ */
+export type DrawerFooterComponentProps = {
+  children: ReactNode;
+  baseClassName?: string;
+} & ComponentProps<typeof View>;
+
+/**
+ * Props for the `DrawerTitle` component.
+ */
+export type DrawerTitleComponentProps = {
+  children: ReactNode;
+  baseClassName?: string;
+} & ComponentProps<typeof Text>;
+
+/**
+ * Props for the `DrawerDescription` component.
+ */
+export type DrawerDescriptionComponentProps = {
+  children: ReactNode;
+  baseClassName?: string;
+} & ComponentProps<typeof Text>;
 
 /**
  * The core hook/state contract for the drawer component.
@@ -119,12 +145,39 @@ export const useDrawer = (): DrawerReturn => {
 };
 
 /**
- * Props for the root `Drawer` component.
- * @param children - Content that will have access to the drawer context and controls.
+ * Hook that returns proper accessibility and interaction props for a drawer trigger.
+ * @param param0 - Trigger configuration and optional drawer state.
+ * @returns Props to spread on a pressable/button element that opens the drawer.
  */
-export type DrawerComponentProps = {
-  children: ReactNode;
-} & ComponentProps<typeof ActionSheet>;
+export function useDrawerTrigger({
+  state,
+  disabled,
+  ...props
+}: DrawerTriggerProps): DrawerTriggerReturn {
+  if (!state) {
+    throw new Error("useDrawerTrigger must be used within a Drawer");
+  }
+
+  const ref = useRef<HTMLButtonElement>(null);
+  const {buttonProps} = useButton({...props, isDisabled: disabled}, ref);
+  const {focusProps} = useFocusRing(buttonProps);
+
+  return {
+    componentProps: {
+      ...(Platform.OS === "web"
+        ? {...buttonProps, ...focusProps}
+        : buttonProps),
+      accessibilityRole: "button",
+      accessibilityState: {disabled: !!disabled},
+      disabled,
+      onPress: () => {
+        if (disabled) return;
+        state.expand();
+      },
+      ...props,
+    },
+  };
+}
 
 /**
  * Conditional classes for the drawer content container (the sheet itself).
@@ -179,7 +232,12 @@ export const DrawerContext = createContext<DrawerReturn>({
     collapse: () => {},
   },
   componentProps: {},
-} as unknown as DrawerReturn);
+});
+
+/**
+ * Context for the content area of the drawer, providing optional `onClose` callback to nested components.
+ */
+export const DrawerContentContext = createContext<{onClose?: () => void}>({});
 
 /**
  * The root drawer component. Provides state and handlers to children via context.
@@ -215,65 +273,6 @@ export function Drawer({children}: DrawerComponentProps) {
 }
 
 /**
- * Props for the `useDrawerTrigger` hook and `DrawerTrigger` component.
- * @param disabled - Whether the trigger is disabled.
- * @param asChild - If true clones the child and passes all accessibility and functionality props to it.
- * @param state - Optional drawer state; when using `DrawerTrigger` inside `Drawer`, this is injected from context.
- */
-export type DrawerTriggerProps = {
-  disabled?: boolean;
-  asChild?: boolean;
-} & Omit<AriaButtonProps, "isDisabled"> &
-  Partial<{state: DrawerReturn["state"]}> &
-  ComponentProps<typeof View>;
-
-/**
- * Return type for `useDrawerTrigger`.
- * @property componentProps - Props to spread onto the trigger element (`Pressable` on native or `button` on web).
- */
-export type DrawerTriggerReturn = {
-  componentProps: ComponentProps<typeof View> | HTMLButtonElement;
-};
-
-/**
- * Hook that returns proper accessibility and interaction props for a drawer trigger.
- * @param param0 - Trigger configuration and optional drawer state.
- * @returns Props to spread on a pressable/button element that opens the drawer.
- */
-export function useDrawerTrigger({
-  state,
-  disabled,
-  ...props
-}: DrawerTriggerProps): DrawerTriggerReturn {
-  if (!state) {
-    throw new Error("useDrawerTrigger must be used within a Drawer");
-  }
-
-  const ref = useRef<HTMLButtonElement>(null);
-  const {buttonProps} = useButton({...props, isDisabled: disabled}, ref);
-
-  return {
-    componentProps: {
-      ...(Platform.OS === "web" ? buttonProps : {}),
-      accessibilityRole: "button",
-      accessibilityState: {disabled: !!disabled},
-      disabled,
-      onPress: () => {
-        if (disabled) return;
-        state.expand();
-      },
-      ...props,
-    },
-  };
-}
-
-/**
- * Props for the `DrawerTrigger` component.
- */
-export type DrawerTriggerComponentProps = ComponentProps<typeof Pressable> &
-  DrawerTriggerProps;
-
-/**
  * The trigger component that opens the drawer.
  * If `asChild` is true, clones the first child and injects trigger props.
  * @param param0 - Trigger children and configuration.
@@ -299,28 +298,6 @@ export function DrawerTrigger({
     </Pressable>
   );
 }
-
-/**
- * Props for the `DrawerContent` component.
- * @param baseClassName - Custom tailwind classes to apply to the base container. Takes priority over `className`.
- * @param handleClassName - Custom classes for the action sheet handle.
- * @param onClose - Optional callback fired when `DrawerClose` is pressed.
- * @param snapPoints - Snap points to configure the sheet's height.
- * @param initialSnapIndex - The initial snap index for the sheet.
- */
-export type DrawerContentComponentProps = {
-  children: ReactNode;
-  baseClassName?: string;
-  handleClassName?: string;
-  onClose?: () => void;
-  snapPoints?: number[];
-  initialSnapIndex?: number;
-} & ComponentProps<typeof View>;
-
-/**
- * Context for the content area of the drawer, providing optional `onClose` callback to nested components.
- */
-export const DrawerContentContext = createContext<{onClose?: () => void}>({});
 
 /**
  * The content container that renders the underlying `ActionSheet`.
@@ -358,17 +335,6 @@ export function DrawerContent({
     </DrawerContentContext.Provider>
   );
 }
-
-/**
- * Props for the `DrawerClose` component.
- * @param disabled - Whether the close action is disabled.
- * @param asChild - If true clones the child and passes all accessibility and functionality props to it.
- */
-export type DrawerCloseProps = {
-  children?: ReactNode;
-  disabled?: boolean;
-  asChild?: boolean;
-} & ComponentProps<typeof Pressable>;
 
 /**
  * A button that collapses the drawer. If `asChild` is true, clones the first child and injects close props.
@@ -409,14 +375,6 @@ export function DrawerClose({
 }
 
 /**
- * Props for the `DrawerHeader` component.
- */
-export type DrawerHeaderComponentProps = {
-  children: ReactNode;
-  baseClassName?: string;
-} & ComponentProps<typeof View>;
-
-/**
  * The header container for the drawer content.
  * @param param0 - Header children and optional class overrides.
  */
@@ -434,14 +392,6 @@ export function DrawerHeader({
     </View>
   );
 }
-
-/**
- * Props for the `DrawerFooter` component.
- */
-export type DrawerFooterComponentProps = {
-  children: ReactNode;
-  baseClassName?: string;
-} & ComponentProps<typeof View>;
 
 /**
  * The footer container for the drawer content.
@@ -463,14 +413,6 @@ export function DrawerFooter({
 }
 
 /**
- * Props for the `DrawerTitle` component.
- */
-export type DrawerTitleComponentProps = {
-  children: ReactNode;
-  baseClassName?: string;
-} & ComponentProps<typeof Text>;
-
-/**
  * The title text for the drawer content.
  * @param param0 - Title children and optional class overrides.
  */
@@ -488,14 +430,6 @@ export function DrawerTitle({
     </Text>
   );
 }
-
-/**
- * Props for the `DrawerDescription` component.
- */
-export type DrawerDescriptionComponentProps = {
-  children: ReactNode;
-  baseClassName?: string;
-} & ComponentProps<typeof Text>;
 
 /**
  * The description text for the drawer content.
