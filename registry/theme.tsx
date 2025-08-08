@@ -1,5 +1,6 @@
 import {useColorScheme, View} from "react-native";
 import React, {createContext, useEffect, useState} from "react";
+import {GestureHandlerRootView} from "react-native-gesture-handler";
 import {vars} from "nativewind";
 
 export const themes = {
@@ -119,9 +120,11 @@ export default function Theme({
         setColorScheme: setColorSchemeState,
       }}
     >
-      <View style={{...themes.base, ...themes[colorSchemeState || "light"]}}>
-        {children}
-      </View>
+      <GestureHandlerRootView>
+        <View style={{...themes.base, ...themes[colorSchemeState || "light"]}}>
+          {children}
+        </View>
+      </GestureHandlerRootView>
     </ThemeContext.Provider>
   );
 }
