@@ -14,6 +14,7 @@ const jestConfig = {
   moduleFileExtensions: ["ts", "tsx", "js", "flow"],
   preset: "react-native",
   testMatch: ["**/*.spec.tsx"],
+  setupFiles: ["./node_modules/react-native-gesture-handler/jestSetup.js"],
   setupFilesAfterEnv: ["./jest-setup.ts"],
 };
 
