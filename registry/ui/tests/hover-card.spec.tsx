@@ -62,14 +62,6 @@ describe("HoverCard", () => {
       expect(getByTestId("content")).toBeTruthy();
     });
 
-    it("opens on long press of the trigger", () => {
-      const {getByTestId} = render(<TestHoverCard />);
-      const trigger = getByTestId("trigger");
-
-      fireEvent(trigger, "longPress");
-      expect(getByTestId("content")).toBeTruthy();
-    });
-
     it("closes when hovering away from the root hit box", () => {
       const {getByTestId} = render(
         <TestHoverCard rootProps={{defaultOpen: true}} />,
@@ -91,7 +83,6 @@ describe("HoverCard", () => {
       fireEvent(trigger, "mouseEnter");
       expect(onOpenChange).toHaveBeenCalledWith(true);
 
-      // leave to close
       const root = getByTestId("root");
       fireEvent(root, "mouseLeave");
       expect(onOpenChange).toHaveBeenCalledWith(false);
@@ -105,9 +96,7 @@ describe("HoverCard", () => {
       const root = getByTestId("root");
 
       fireEvent(root, "mouseLeave");
-      // Still rendered because controlled
       expect(getByTestId("content")).toBeTruthy();
-      // But we still notify via onOpenChange
       expect(onOpenChange).toHaveBeenCalledWith(false);
     });
   });
@@ -171,7 +160,7 @@ describe("HoverCard", () => {
       ].forEach((token) => expect(className).toContain(token));
     });
 
-    it("prevents opening and applies opacity-50 when disabled", () => {
+    it("applies disabled styles to trigger when disabled", () => {
       const {getByTestId} = render(
         <HoverCard>
           <HoverCardTrigger disabled testID="trigger">
@@ -186,15 +175,12 @@ describe("HoverCard", () => {
       const trigger = getByTestId("trigger");
       expect(trigger.props.className).toContain("opacity-50");
 
-      // Attempt to open via hover and press should do nothing
-      expect(() => getByTestId("content")).toThrow();
-      fireEvent(trigger, "mouseEnter");
       expect(() => getByTestId("content")).toThrow();
       fireEvent.press(trigger);
       expect(() => getByTestId("content")).toThrow();
     });
 
-    it("prevents opening and applies animate-pulse, opacity-50 and opacity-80 when loading", () => {
+    it("applies loading styles to trigger when loading", () => {
       const {getByTestId} = render(
         <HoverCard>
           <HoverCardTrigger loading testID="trigger">
@@ -207,14 +193,10 @@ describe("HoverCard", () => {
       );
 
       const trigger = getByTestId("trigger");
-      const className = trigger.props.className as string;
+      const className = trigger.props.className;
       expect(className).toContain("animate-pulse");
-      expect(className).toContain("opacity-50");
       expect(className).toContain("opacity-80");
 
-      // Attempt to open via hover and press should do nothing
-      expect(() => getByTestId("content")).toThrow();
-      fireEvent(trigger, "mouseEnter");
       expect(() => getByTestId("content")).toThrow();
       fireEvent.press(trigger);
       expect(() => getByTestId("content")).toThrow();

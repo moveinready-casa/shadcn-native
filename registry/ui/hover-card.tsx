@@ -2,10 +2,10 @@ import React, {
   ComponentProps,
   createContext,
   useContext,
-  useMemo,
+  useEffect,
   useState,
 } from "react";
-import {Pressable, Text, View} from "react-native";
+import {Platform, Pressable, Text, View} from "react-native";
 import Reanimated, {
   Easing,
   useAnimatedStyle,
@@ -14,6 +14,8 @@ import Reanimated, {
   withTiming,
 } from "react-native-reanimated";
 import {tv} from "tailwind-variants";
+import {AriaButtonProps, useButton} from "@react-aria/button";
+import {useFocusRing} from "@react-aria/focus";
 
 /**
  * Base props for the root HoverCard component and hook.
@@ -40,7 +42,7 @@ export type HoverCardReturn = {
    * Event props to spread on the root hit box (the HoverCard container).
    * Used to close the card when hover leaves the entire area.
    */
-  rootProps: ComponentProps<typeof View> | HTMLDivElement;
+  componentProps: ComponentProps<typeof View> | HTMLDivElement;
 };
 
 /**
@@ -55,16 +57,18 @@ export type HoverCardComponentProps = HoverCardProps &
 /**
  * Props for the HoverCardTrigger component.
  */
-export type HoverCardTriggerComponentProps = ComponentProps<
-  typeof Pressable
-> & {
-  children: React.ReactNode;
-  asChild?: boolean;
-  baseClassName?: string;
-  textClassName?: string;
-  disabled?: boolean;
-  loading?: boolean;
-};
+export type HoverCardTriggerComponentProps = Omit<
+  AriaButtonProps,
+  "isDisabled"
+> &
+  ComponentProps<typeof Pressable> & {
+    children: React.ReactNode;
+    asChild?: boolean;
+    baseClassName?: string;
+    textClassName?: string;
+    disabled?: boolean;
+    loading?: boolean;
+  };
 
 /**
  * Props for the HoverCardContent component.
@@ -77,7 +81,39 @@ export type HoverCardContentComponentProps = ComponentProps<typeof View> & {
 };
 
 /**
+ * Props for the useHoverCardTrigger hook.
+ */
+export type HoverCardTriggerProps = Omit<AriaButtonProps, "isDisabled"> & {
+  disabled?: boolean;
+  loading?: boolean;
+  state: HoverCardReturn["state"];
+};
+
+/**
+ * Return type for the useHoverCardTrigger hook.
+ */
+export type HoverCardTriggerReturn = {
+  componentProps: ComponentProps<typeof Pressable> | HTMLButtonElement;
+};
+
+/**
+ * Props for the useHoverCardContent hook.
+ */
+export type HoverCardContentProps = {
+  state: HoverCardReturn["state"];
+};
+
+/**
+ * Return type for the useHoverCardContent hook.
+ */
+export type HoverCardContentReturn = {
+  componentProps: ComponentProps<typeof Reanimated.View>;
+};
+
+/**
  * The useHoverCard hook manages controlled/uncontrolled open state and root hover-out closing.
+ * @param param0 - Configuration for controlled/uncontrolled state management.
+ * @returns State management and component props for the root container.
  */
 export const useHoverCard = ({
   defaultOpen,
@@ -88,11 +124,9 @@ export const useHoverCard = ({
     throw new Error("Cannot set both open and defaultOpen");
   }
 
-  const isControlled = open !== undefined;
-  const [internalOpen, setInternalOpen] = useState<boolean>(
-    defaultOpen ?? false,
-  );
-  const isOpen = isControlled ? (open as boolean) : internalOpen;
+  const isControlled = open != null;
+  const [internalOpen, setInternalOpen] = useState(defaultOpen ?? false);
+  const isOpen = isControlled ? open : internalOpen;
 
   const setIsOpen = (next: boolean) => {
     if (!isControlled) {
@@ -101,22 +135,116 @@ export const useHoverCard = ({
     onOpenChange?.(next);
   };
 
-  const rootProps: HoverCardReturn["rootProps"] = useMemo(() => {
-    return {
+  return {
+    state: {isOpen, setIsOpen, isControlled},
+    componentProps: {
       onMouseLeave: () => {
         setIsOpen(false);
       },
-    } as unknown as ComponentProps<typeof View>;
-  }, [setIsOpen]);
-
-  return {
-    state: {isOpen, setIsOpen, isControlled},
-    rootProps,
+    },
   };
 };
 
 /**
+ * Hook that composes web a11y props for the trigger.
+ * @param param0 - Trigger configuration including disabled/loading states and hover card state.
+ * @returns Props to spread on the trigger element.
+ */
+export function useHoverCardTrigger({
+  disabled,
+  loading,
+  state,
+  ...props
+}: HoverCardTriggerProps): HoverCardTriggerReturn {
+  const ref = React.useRef<HTMLButtonElement | null>(null);
+  const ariaProps: AriaButtonProps = {
+    ...props,
+    isDisabled: disabled || loading,
+  };
+  const {buttonProps} = useButton(ariaProps, ref);
+  const {focusProps} = useFocusRing();
+
+  const componentProps = {
+    ...(Platform.OS === "web" ? {...buttonProps, ...focusProps} : {}),
+    onMouseEnter: () => {
+      console.log("enter");
+      state.setIsOpen(true);
+    },
+    accessibilityRole: "button",
+    accessibilityState: {disabled: disabled || loading},
+    focusable: true,
+    onFocus: () => {
+      state.setIsOpen(true);
+    },
+    onFocusCapture: () => {
+      state.setIsOpen(true);
+    },
+  };
+
+  return {componentProps};
+}
+
+/**
+ * Hook that composes animation and positioning logic for the content.
+ * @param param0 - Content configuration including hover card state.
+ * @returns Props to spread on the content element with animation styles.
+ */
+export function useHoverCardContent({
+  state,
+}: HoverCardContentProps): HoverCardContentReturn {
+  const progress = useSharedValue(0);
+
+  const sideOffset = 8;
+  const start = {x: 0, y: -sideOffset};
+
+  const animatedStyle = useAnimatedStyle(() => {
+    return {
+      opacity: progress.value,
+      transform: [
+        {scale: 0.95 + 0.05 * progress.value},
+        {translateX: start.x * (1 - progress.value)},
+        {translateY: start.y * (1 - progress.value)},
+      ],
+    };
+  });
+
+  const baseBelowOffset = 36;
+  const overlayPositionStyle = {
+    position: "absolute" as const,
+    left: 0,
+    right: 0,
+    top: baseBelowOffset + sideOffset,
+    zIndex: 50,
+  };
+
+  useEffect(() => {
+    if (state.isOpen) {
+      progress.value = 0;
+      progress.value = withDelay(
+        100,
+        withTiming(1, {
+          duration: 150,
+          easing: Easing.out(Easing.cubic),
+        }),
+      );
+    } else {
+      progress.value = withTiming(0, {
+        duration: 120,
+        easing: Easing.in(Easing.cubic),
+      });
+    }
+  }, [state.isOpen]);
+
+  return {
+    componentProps: {
+      style: [overlayPositionStyle, animatedStyle],
+    },
+  };
+}
+
+/**
  * Exported context for HoverCard. Consumers should use the provided components.
+ * Provides state management and component props to child components.
  */
 export const HoverCardContext = createContext<
   HoverCardReturn & {props: Partial<HoverCardComponentProps>}
@@ -126,20 +254,24 @@ export const HoverCardContext = createContext<
     setIsOpen: () => {},
     isControlled: false,
   },
-  rootProps: {},
+  componentProps: {},
   props: {},
 });
 
 /**
- * tv styles for root, trigger, and content
+ * Conditional classes for the root hover card container.
  */
 export const hoverCard = tv({
   base: "absolute",
 });
 
+/**
+ * Conditional classes for the hover card trigger element.
+ * It includes variant support for disabled and loading states.
+ */
 export const hoverCardTrigger = tv({
   slots: {
-    base: "outline-none items-center",
+    base: "outline-none items-center focus:ring-2 focus:ring-ring",
     text: "text-foreground",
   },
   variants: {
@@ -148,9 +280,18 @@ export const hoverCardTrigger = tv({
         base: "opacity-50 pointer-events-none",
       },
     },
+    loading: {
+      true: {
+        base: "opacity-80 animate-pulse pointer-events-none",
+      },
+    },
   },
 });
 
+/**
+ * Conditional classes for the hover card content container.
+ * Applies popover-like styling with proper z-index and positioning.
+ */
 export const hoverCardContent = tv({
   slots: {
     base: "z-50 min-w-80 self-center rounded-md border border-border bg-popover p-4 text-popover-foreground shadow-md",
@@ -160,6 +301,8 @@ export const hoverCardContent = tv({
 
 /**
  * Root HoverCard component. Wraps Trigger and Content and provides the hit box used for closing on hover-out.
+ * @param param0 - Root configuration and children components.
+ * @returns The hover card container with context provider.
  */
 export function HoverCard({
   children,
@@ -168,12 +311,11 @@ export function HoverCard({
 }: HoverCardComponentProps) {
   const hook = useHoverCard(props);
 
-  // Merge handlers: allow user-provided onMouseLeave to run as well
   const renderProps: ComponentProps<typeof View> = {
     ...(props as ComponentProps<typeof View>),
-    ...(hook.rootProps as ComponentProps<typeof View>),
+    ...(hook.componentProps as ComponentProps<typeof View>),
     className: hoverCard({
-      className: baseClassName || (props as {className?: string}).className,
+      className: baseClassName || props.className,
     }),
   };
 
@@ -186,6 +328,9 @@ export function HoverCard({
 
 /**
  * HoverCardTrigger opens the card on hover, focus, or long press. It respects disabled and loading states.
+ * If `asChild` is true, clones the first child and injects trigger props.
+ * @param param0 - Trigger children and configuration.
+ * @returns The trigger element with proper accessibility and interaction props.
  */
 export function HoverCardTrigger({
   children,
@@ -203,61 +348,25 @@ export function HoverCardTrigger({
     state.setIsOpen(true);
   };
 
-  // Build event props for both web and native test environments
-  const eventProps = {
-    onMouseEnter: open,
-    // Prefer focus on the Pressable so fireEvent(..., 'focus') works
-    onFocus: open,
-    onFocusIn: open as unknown as never,
-    onLongPress: open,
-    // Many tests simulate generic events; ensure pressable receives them
-    onResponderGrant: open as unknown as never,
-  } as unknown as ComponentProps<typeof Pressable>;
-
-  const {base, text} = hoverCardTrigger();
-  const baseClass = base({
-    className: baseClassName || (props as {className?: string}).className,
+  const {componentProps} = useHoverCardTrigger({
+    ...props,
+    disabled,
+    loading,
+    state,
   });
-  const computedClassName = [
-    baseClass,
-    disabled ? "opacity-50 pointer-events-none" : "",
-    loading ? "opacity-50 opacity-80 animate-pulse pointer-events-none" : "",
-  ]
-    .filter(Boolean)
-    .join(" ");
 
-  const baseProps = {
-    className: computedClassName,
-    accessibilityRole: "button" as const,
-    accessibilityState: {disabled: disabled || loading},
-    focusable: true,
-    // Ensure focus event opens even if some environments don't wire generic events fully
-    onFocus: open,
-    onFocusCapture: open as unknown as never,
-  };
+  const {base, text} = hoverCardTrigger({disabled, loading});
+  const baseClass = base({
+    className: baseClassName || props.className,
+  });
 
-  if (asChild) {
-    const restProps = {
-      ...(props as ComponentProps<typeof Pressable>),
-    } as Record<string, unknown>;
-    // Do not override child's own testID
-    delete (restProps as {testID?: string}).testID;
-    const onlyChild = React.Children.toArray(
-      children,
-    )[0] as React.ReactElement<{className?: string}>;
-    return React.cloneElement(onlyChild, {
-      ...(eventProps as ComponentProps<typeof Pressable>),
-      ...(restProps as ComponentProps<typeof Pressable>),
-      ...baseProps,
-    });
-  }
-
-  return (
-    <Pressable
-      {...(props as ComponentProps<typeof Pressable>)}
-      {...eventProps}
-      {...baseProps}
-    >
+  return asChild && React.isValidElement(children) ? (
+    React.cloneElement(children as React.ReactElement<{className?: string}>, {
+      ...componentProps,
+      className: baseClass,
+    })
+  ) : (
+    <Pressable {...props} {...componentProps} className={baseClass}>
       <Text onFocus={open} className={text({className: textClassName})}>
         {children}
       </Text>
@@ -267,6 +376,9 @@ export function HoverCardTrigger({
 
 /**
  * HoverCardContent renders when open and applies popover-like styles.
+ * If `asChild` is true, clones the first child and injects content props.
+ * @param param0 - Content children and configuration.
+ * @returns The animated content container with proper styling.
  */
 export function HoverCardContent({
   children,
@@ -276,91 +388,36 @@ export function HoverCardContent({
   ...props
 }: HoverCardContentComponentProps) {
   const {state} = useContext(HoverCardContext);
-  const progress = useSharedValue(0);
-
-  const sideOffset = 8;
-  const start = {x: 0, y: -sideOffset};
-
-  const animatedStyle = useAnimatedStyle(() => {
-    return {
-      opacity: progress.value,
-      transform: [
-        {scale: 0.95 + 0.05 * progress.value},
-        {translateX: start.x * (1 - progress.value)},
-        {translateY: start.y * (1 - progress.value)},
-      ],
-    };
+  const {componentProps} = useHoverCardContent({
+    state,
   });
+  const {text, base} = hoverCardContent();
 
-  const overlayPositionStyle = React.useMemo(() => {
-    // Absolute overlay, positioned below trigger using a reasonable default offset.
-    // This avoids layout shift without measuring the trigger.
-    const baseBelowOffset = 36; // approximate trigger height
-    return {
-      position: "absolute",
-      left: 0,
-      right: 0,
-      top: baseBelowOffset + sideOffset,
-      zIndex: 50,
-    } as const;
-  }, []);
+  const renderProps = {
+    ...componentProps,
+    className: base({
+      className: baseClassName || props.className,
+    }),
+    ...props,
+  };
 
-  React.useEffect(() => {
-    if (state.isOpen) {
-      progress.value = 0;
-      progress.value = withDelay(
-        100,
-        withTiming(1, {
-          duration: 150,
-          easing: Easing.out(Easing.cubic),
-        }),
+  if (!state.isOpen) return null;
+
+  return asChild ? (
+    (() => {
+      const onlyChild = React.Children.toArray(
+        children,
+      )[0] as React.ReactElement<{className?: string}>;
+      return (
+        <Reanimated.View {...componentProps}>
+          {React.cloneElement(onlyChild, renderProps)}
+        </Reanimated.View>
       );
-    } else {
-      // animate out
-      progress.value = withTiming(0, {
-        duration: 120,
-        easing: Easing.in(Easing.cubic),
-      });
-    }
-  }, [state.isOpen]);
-
-  // Keep element mounted briefly to ensure animation is visible when toggling open
-  if (!state.isOpen && progress.value === 0) return null;
-
-  if (asChild) {
-    const onlyChild = React.Children.toArray(
-      children,
-    )[0] as React.ReactElement<{className?: string}>;
-    return (
-      <Reanimated.View
-        style={[overlayPositionStyle, animatedStyle]}
-        testID={(props as {testID?: string}).testID}
-      >
-        {React.cloneElement(onlyChild, {
-          ...(props as ComponentProps<typeof View>),
-          className: hoverCardContent().base({
-            className:
-              baseClassName || (props as {className?: string}).className,
-          }),
-        })}
-      </Reanimated.View>
-    );
-  }
-
-  return (
-    <Reanimated.View
-      style={[overlayPositionStyle, animatedStyle]}
-      testID={(props as {testID?: string}).testID}
-    >
-      <View
-        {...(props as ComponentProps<typeof View>)}
-        className={hoverCardContent().base({
-          className: baseClassName || (props as {className?: string}).className,
-        })}
-      >
-        <Text className={hoverCardContent().text({className: textClassName})}>
-          {children}
-        </Text>
+    })()
+  ) : (
+    <Reanimated.View {...renderProps}>
+      <View className={renderProps.className}>
+        <Text className={text({className: textClassName})}>{children}</Text>
       </View>
     </Reanimated.View>
   );
