@@ -8,6 +8,13 @@ import {
   HoverCardContent,
   HoverCardComponentProps,
 } from "../hover-card";
+import {
+  Card,
+  CardDescription,
+  CardHeader,
+  CardContent,
+  CardTitle,
+} from "../card";
 
 type StoryProps = HoverCardComponentProps & {
   triggerAsChild?: boolean;
@@ -40,22 +47,22 @@ function HoverCardStory({
       >
         <HoverCardTrigger
           asChild={triggerAsChild}
-          baseClassName={
-            triggerBaseClassName || "underline underline-offset-4"
-          }
+          baseClassName={triggerBaseClassName || "underline underline-offset-4"}
           disabled={triggerDisabled}
           loading={triggerLoading}
         >
-          <Text>@shadcn</Text>
+          <Text>@moveinready</Text>
         </HoverCardTrigger>
         <HoverCardContent
           asChild={contentAsChild}
           baseClassName={contentBaseClassName}
         >
           <View className="flex gap-2">
-            <Text className="text-sm font-semibold">@shadcn</Text>
+            <Text className="text-sm font-semibold">@moveinready</Text>
             <Text className="text-sm">
-              For sighted users to preview content available behind a link.
+              We are Move In Ready we are building the next generation mid term
+              rental platform. We also building the best React Native UI library
+              while we are at it!
             </Text>
             <Text className="text-muted-foreground text-xs">
               Built with React Native.
@@ -148,4 +155,31 @@ export const WithCustomStyling: Story = {
     triggerBaseClassName: "text-primary underline underline-offset-4",
     contentBaseClassName: "bg-popover",
   },
+};
+
+export const Composite: Story = {
+  args: {
+    contentAsChild: true,
+  },
+  render: (args) => (
+    <View className="w-full items-start gap-4 p-4">
+      <HoverCard>
+        <HoverCardTrigger>Hover me</HoverCardTrigger>
+        <HoverCardContent asChild {...args}>
+          <Card className="bg-popover-foreground">
+            <CardHeader>
+              <CardTitle>Card Title</CardTitle>
+              <CardDescription>
+                A brief description of the card content goes here.
+              </CardDescription>
+            </CardHeader>
+            <CardContent>
+              This is the main content area of the card. You can place any
+              content here such as text, images, or other components.
+            </CardContent>
+          </Card>
+        </HoverCardContent>
+      </HoverCard>
+    </View>
+  ),
 };

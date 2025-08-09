@@ -18,10 +18,11 @@ import {AriaButtonProps, useButton} from "@react-aria/button";
 import {useFocusRing} from "@react-aria/focus";
 
 /**
- * Base props for the root HoverCard component and hook.
- * - defaultOpen: Uncontrolled initial open state
- * - open: Controlled open state
- * - onOpenChange: Callback invoked when open state is requested to change
+ * Base props for the root `HoverCard` component, context, and hook.
+ *
+ * @param defaultOpen - Uncontrolled initial open state for the hover card.
+ * @param open - Controlled open state for the hover card.
+ * @param onOpenChange - Callback invoked when the open state is requested to change.
  */
 export type HoverCardProps = {
   defaultOpen?: boolean;
@@ -30,7 +31,10 @@ export type HoverCardProps = {
 };
 
 /**
- * Return type for the useHoverCard hook.
+ * Return type for the `useHoverCard` hook.
+ *
+ * @param state - State bag containing the open state and helpers.
+ * @param componentProps - Props to spread on the root hit box (the HoverCard container).
  */
 export type HoverCardReturn = {
   state: {
@@ -46,7 +50,10 @@ export type HoverCardReturn = {
 };
 
 /**
- * Props for the HoverCard root component.
+ * Props for the `HoverCard` root component.
+ *
+ * @param children - Trigger and content elements. Typically composed of `HoverCardTrigger` and `HoverCardContent`.
+ * @param baseClassName - Custom Tailwind classes to apply to the root hover card container. Takes priority over `className`.
  */
 export type HoverCardComponentProps = HoverCardProps &
   ComponentProps<typeof View> & {
@@ -55,7 +62,14 @@ export type HoverCardComponentProps = HoverCardProps &
   };
 
 /**
- * Props for the HoverCardTrigger component.
+ * Props for the `HoverCardTrigger` component.
+ *
+ * @param children - Content rendered inside the trigger.
+ * @param asChild - If true, clones the only child and injects trigger props into it.
+ * @param baseClassName - Custom Tailwind classes to apply to the trigger root. Takes priority over `className`.
+ * @param textClassName - Custom Tailwind classes to apply to the trigger text.
+ * @param disabled - Disables the trigger interactions.
+ * @param loading - Marks the trigger as loading and disables interactions.
  */
 export type HoverCardTriggerComponentProps = Omit<
   AriaButtonProps,
@@ -71,7 +85,12 @@ export type HoverCardTriggerComponentProps = Omit<
   };
 
 /**
- * Props for the HoverCardContent component.
+ * Props for the `HoverCardContent` component.
+ *
+ * @param children - Content rendered inside the hover card popover.
+ * @param asChild - If true, clones the only child and injects content props into it.
+ * @param baseClassName - Custom Tailwind classes to apply to the content container. Takes priority over `className`.
+ * @param textClassName - Custom Tailwind classes to apply to the inner text.
  */
 export type HoverCardContentComponentProps = ComponentProps<typeof View> & {
   children: React.ReactNode;
@@ -81,7 +100,11 @@ export type HoverCardContentComponentProps = ComponentProps<typeof View> & {
 };
 
 /**
- * Props for the useHoverCardTrigger hook.
+ * Props for the `useHoverCardTrigger` hook.
+ *
+ * @param disabled - Disables the trigger interactions.
+ * @param loading - Marks the trigger as loading and disables interactions.
+ * @param state - The hover card state bag returned by `useHoverCard`.
  */
 export type HoverCardTriggerProps = Omit<AriaButtonProps, "isDisabled"> & {
   disabled?: boolean;
@@ -90,30 +113,38 @@ export type HoverCardTriggerProps = Omit<AriaButtonProps, "isDisabled"> & {
 };
 
 /**
- * Return type for the useHoverCardTrigger hook.
+ * Return type for the `useHoverCardTrigger` hook.
+ *
+ * @param componentProps - Props to spread on the trigger element.
  */
 export type HoverCardTriggerReturn = {
   componentProps: ComponentProps<typeof Pressable> | HTMLButtonElement;
 };
 
 /**
- * Props for the useHoverCardContent hook.
+ * Props for the `useHoverCardContent` hook.
+ *
+ * @param state - The hover card state bag returned by `useHoverCard`.
  */
 export type HoverCardContentProps = {
   state: HoverCardReturn["state"];
 };
 
 /**
- * Return type for the useHoverCardContent hook.
+ * Return type for the `useHoverCardContent` hook.
+ *
+ * @param componentProps - Animated props and styles to spread on the content container.
  */
 export type HoverCardContentReturn = {
   componentProps: ComponentProps<typeof Reanimated.View>;
 };
 
 /**
- * The useHoverCard hook manages controlled/uncontrolled open state and root hover-out closing.
+ * The `useHoverCard` hook manages controlled/uncontrolled open state and root hover-out closing.
+ *
  * @param param0 - Configuration for controlled/uncontrolled state management.
  * @returns State management and component props for the root container.
+ * @see HoverCardProps
  */
 export const useHoverCard = ({
   defaultOpen,
@@ -146,9 +177,11 @@ export const useHoverCard = ({
 };
 
 /**
- * Hook that composes web a11y props for the trigger.
+ * Hook that composes web a11y props for the `HoverCardTrigger`.
+ *
  * @param param0 - Trigger configuration including disabled/loading states and hover card state.
  * @returns Props to spread on the trigger element.
+ * @see HoverCardTriggerProps
  */
 export function useHoverCardTrigger({
   disabled,
@@ -185,9 +218,11 @@ export function useHoverCardTrigger({
 }
 
 /**
- * Hook that composes animation and positioning logic for the content.
+ * Hook that composes animation and positioning logic for the `HoverCardContent`.
+ *
  * @param param0 - Content configuration including hover card state.
  * @returns Props to spread on the content element with animation styles.
+ * @see HoverCardContentProps
  */
 export function useHoverCardContent({
   state,
@@ -243,8 +278,9 @@ export function useHoverCardContent({
 }
 
 /**
- * Exported context for HoverCard. Consumers should use the provided components.
+ * Exported context for `HoverCard`. Consumers should use the provided components.
  * Provides state management and component props to child components.
+ * @see HoverCardComponentProps
  */
 export const HoverCardContext = createContext<
   HoverCardReturn & {props: Partial<HoverCardComponentProps>}
@@ -267,7 +303,7 @@ export const hoverCard = tv({
 
 /**
  * Conditional classes for the hover card trigger element.
- * It includes variant support for disabled and loading states.
+ * Includes variant support for `disabled` and `loading` states.
  */
 export const hoverCardTrigger = tv({
   slots: {
@@ -294,15 +330,17 @@ export const hoverCardTrigger = tv({
  */
 export const hoverCardContent = tv({
   slots: {
-    base: "z-50 min-w-80 self-center rounded-md border border-border bg-popover p-4 text-popover-foreground shadow-md",
-    text: "",
+    base: "z-50 min-w-80 self-center rounded-md border border-border bg-popover p-4 shadow-md",
+    text: "text-popover-foreground ",
   },
 });
 
 /**
- * Root HoverCard component. Wraps Trigger and Content and provides the hit box used for closing on hover-out.
+ * Root `HoverCard` component. Wraps `HoverCardTrigger` and `HoverCardContent` and provides the hit box used for closing on hover-out.
+ *
  * @param param0 - Root configuration and children components.
  * @returns The hover card container with context provider.
+ * @see HoverCardComponentProps
  */
 export function HoverCard({
   children,
@@ -327,10 +365,12 @@ export function HoverCard({
 }
 
 /**
- * HoverCardTrigger opens the card on hover, focus, or long press. It respects disabled and loading states.
+ * `HoverCardTrigger` opens the card on hover, focus, or long press. It respects disabled and loading states.
  * If `asChild` is true, clones the first child and injects trigger props.
+ *
  * @param param0 - Trigger children and configuration.
  * @returns The trigger element with proper accessibility and interaction props.
+ * @see HoverCardTriggerComponentProps
  */
 export function HoverCardTrigger({
   children,
@@ -375,10 +415,12 @@ export function HoverCardTrigger({
 }
 
 /**
- * HoverCardContent renders when open and applies popover-like styles.
+ * `HoverCardContent` renders when open and applies popover-like styles.
  * If `asChild` is true, clones the first child and injects content props.
+ *
  * @param param0 - Content children and configuration.
  * @returns The animated content container with proper styling.
+ * @see HoverCardContentComponentProps
  */
 export function HoverCardContent({
   children,
@@ -410,7 +452,9 @@ export function HoverCardContent({
       )[0] as React.ReactElement<{className?: string}>;
       return (
         <Reanimated.View {...componentProps}>
-          {React.cloneElement(onlyChild, renderProps)}
+          <View className={renderProps.className}>
+            {React.cloneElement(onlyChild, renderProps)}
+          </View>
         </Reanimated.View>
       );
     })()
