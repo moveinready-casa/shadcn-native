@@ -13,6 +13,13 @@ import {Platform, Pressable, TextInput, View} from "react-native";
 import {tv} from "tailwind-variants";
 import {ThemeContext} from "../theme";
 
+/**
+ * Base props for the `Input` component and `useInput` hook.
+ * @param disabled - Whether the input is disabled. Disables editing and interaction.
+ * @param readOnly - Whether the input is read-only. Prevents edits but does not mark as disabled for accessibility.
+ * @param required - Whether the input is required. Adds visual affordances and accessibility hinting.
+ * @param clearable - Whether to show a clear button when the value is non-empty.
+ */
 export type InputProps = {
   disabled?: boolean;
   readOnly?: boolean;
@@ -20,17 +27,47 @@ export type InputProps = {
   clearable?: boolean;
 };
 
+/**
+ * Return type for the `useInput` hook.
+ * @param state - Object describing current component state.
+ * @param state.isFocused - Whether the input currently has focus.
+ * @param state.setIsFocused - Setter to update focused state (internal only).
+ * @param state.showClear - Whether the clear button should be visible.
+ * @param componentProps - Accessibility/host props for the wrapper `View`.
+ * @param inputProps - Props to spread onto the `TextInput` element.
+ * @param clearButtonProps - Props for the clear `Pressable` element.
+ * @see InputComponentProps
+ */
 export type InputReturn = {
   state: {
     isFocused: boolean;
     setIsFocused: (isFocused: boolean) => void;
     showClear: boolean;
   };
-  componentProps: ComponentProps<typeof View>;
-  inputProps: ComponentProps<typeof TextInput>;
-  clearButtonProps: ComponentProps<typeof Pressable>;
+  componentProps: ComponentProps<typeof View> | HTMLDivElement;
+  inputProps: ComponentProps<typeof TextInput> | HTMLInputElement;
+  clearButtonProps: ComponentProps<typeof Pressable> | HTMLButtonElement;
 };
 
+/**
+ * Props for the exported `Input` component.
+ * @param className - Tailwind classes merged into the wrapper; use `baseClassName` to fully override.
+ * @param baseClassName - Tailwind classes applied to the wrapper slot with priority over `className`.
+ * @param inputClassName - Tailwind classes applied to the inner `TextInput` slot.
+ * @param clearButtonClassName - Tailwind classes applied to the clear button slot.
+ * @param variant - Visual variant of the input: "shadcn" | "outlined" | "ghost".
+ * @param size - Size of the input: "sm" | "md" | "lg" | "xl".
+ * @param borderRadius - Corner radius: "none" | "sm" | "md" | "lg" | "xl".
+ * @param color - Color family applied primarily to borders: "primary" | "secondary" | "success" | "warning" | "destructive".
+ * @param startContent - Optional leading adornment content.
+ * @param endContent - Optional trailing adornment content.
+ * @param testID - Test identifier applied to the wrapper `View`.
+ * @param onChangeText - Callback when the text changes; required for controlled usage.
+ * @param value - Controlled value of the input.
+ * @param defaultValue - Uncontrolled initial value of the input.
+ * @param accessibilityHint - Additional accessibility hint text.
+ * @see InputProps
+ */
 export type InputComponentProps = {
   className?: string;
   variant?: "shadcn" | "outlined" | "ghost";
@@ -53,6 +90,14 @@ export type InputComponentProps = {
 > &
   InputProps;
 
+/**
+ * Tailwind Variants configuration for the `Input` component.
+ * Includes the following slots:
+ * - base: The wrapper styles for the input.
+ * - input: The inner `TextInput` element styles.
+ * - clearButton: The clear button styles.
+ * @see InputComponentProps
+ */
 export const inputStyles = tv({
   slots: {
     base: "flex flex-row items-center w-full border px-3 focus:ring-1",
@@ -159,6 +204,20 @@ export const inputStyles = tv({
   },
 });
 
+/**
+ * React hook that implements the core logic for the `Input` component, including
+ * controlled/uncontrolled value handling, clear button visibility, and accessibility props.
+ * @param onChangeText - Callback invoked when the text changes.
+ * @param disabled - Whether the input is disabled; disables editing and marks accessibility state.
+ * @param readOnly - Whether the input is read-only; prevents edits but not marked disabled.
+ * @param required - Whether the input is required; augments accessibility hint.
+ * @param clearable - Whether to render a clear button when the value is non-empty.
+ * @param value - Controlled value of the input.
+ * @param defaultValue - Uncontrolled initial value of the input.
+ * @param accessibilityHint - Extra accessibility hint text.
+ * @returns @see InputReturn
+ * @see InputComponentProps
+ */
 export const useInput = ({
   onChangeText,
   disabled,
@@ -205,23 +264,6 @@ export const useInput = ({
   const {buttonProps} = useButton({}, clearButtonRef);
   const {focusProps} = useFocusRing();
 
-  // Filter out web-specific props for React Native compatibility
-  const webButtonProps = Platform.OS === "web" ? buttonProps : {};
-  const webFocusProps = Platform.OS === "web" ? focusProps : {};
-
-  // Extract only React Native compatible props from web props
-  const getCompatibleWebProps = (webProps: any) => {
-    if (Platform.OS !== "web") return {};
-
-    // Only include props that are safe for React Native
-    const safeProps: any = {};
-    if (webProps.className) safeProps.className = webProps.className;
-    if (webProps.style) safeProps.style = webProps.style;
-    if (webProps.testID) safeProps.testID = webProps.testID;
-
-    return safeProps;
-  };
-
   return {
     state: {
       isFocused,
@@ -245,12 +287,35 @@ export const useInput = ({
     clearButtonProps: {
       accessibilityRole: "button",
       onPress: () => handleChangeText(""),
-      ...getCompatibleWebProps(webButtonProps),
-      ...getCompatibleWebProps(webFocusProps),
+      ...(Platform.OS === "web" ? focusProps : {}),
+      ...(Platform.OS === "web" ? buttonProps : {}),
     },
   };
 };
 
+/**
+ * React component that renders an accessible, themeable input field with optional
+ * leading/trailing content and a clear button.
+ *
+ * Example:
+ * ```tsx
+ * <Input placeholder="Email" clearable value={email} onChangeText={setEmail} />
+ * ```
+ * @param variant - Visual variant of the input.
+ * @param size - Size of the input.
+ * @param borderRadius - Corner radius of the input.
+ * @param color - Color family applied primarily to borders.
+ * @param disabled - Whether the input is disabled.
+ * @param startContent - Optional leading adornment.
+ * @param endContent - Optional trailing adornment.
+ * @param required - Whether the input is required.
+ * @param baseClassName - Tailwind classes applied to the wrapper slot.
+ * @param inputClassName - Tailwind classes applied to the `TextInput` slot.
+ * @param clearButtonClassName - Tailwind classes applied to the clear button slot.
+ * @param testID - Test identifier applied to the wrapper.
+ * @see InputComponentProps
+ * @see useInput
+ */
 export function Input({
   variant = "shadcn",
   size = "md",
