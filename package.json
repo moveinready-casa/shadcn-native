@@ -16,7 +16,6 @@
     "storybook": "pnpm --filter storybook storybook"
   },
   "dependencies": {
-    "react-native-actions-sheet": "^0.9.7",
     "@radix-ui/react-accordion": "^1.2.11",
     "@radix-ui/react-slot": "^1.2.3",
     "@react-aria/breadcrumbs": "^3.5.27",
@@ -41,7 +40,9 @@
     "react": "^19.1.0",
     "react-dom": "^19.1.0",
     "react-native": "^0.80.1",
+    "react-native-actions-sheet": "^0.9.7",
     "react-native-gesture-handler": "^2.28.0",
+    "react-native-input-code-otp": "^1.0.1",
     "react-native-reanimated": "^3.18.0",
     "react-native-render-html": "^6.3.4",
     "react-native-safe-area-context": "5.4.0",
