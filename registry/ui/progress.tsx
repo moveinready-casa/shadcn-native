@@ -8,13 +8,24 @@ import Reanimated, {
 import {tv} from "tailwind-variants";
 import {ThemeContext} from "../theme";
 
+/**
+ * Base props for the root `Progress` component and hook.
+ * @param value - Current progress value from 0–100. Use `null` to render an indeterminate progress.
+ * @param max - The maximum value representing 100%. If omitted, accessibility attributes still expose `min` and `now`.
+ * @param getValueLabel - Function that produces the accessible text for the progress value. Receives `(value, max)`.
+ */
 export type ProgressProps = {
   value?: number | null;
   max?: number;
   getValueLabel?: (value: number | null, max?: number) => string;
 };
 
-export type UseProgressReturn = {
+/**
+ * Return type for the `useProgress` hook.
+ * @param componentProps - Accessibility props to spread on the progress root.
+ * @param reanimatedProps - Animated props and styles for the progress fill element.
+ */
+export type ProgressReturn = {
   componentProps: ComponentProps<typeof View> | HTMLDivElement;
   reanimatedProps: Pick<
     React.ComponentProps<typeof Reanimated.View>,
@@ -22,6 +33,13 @@ export type UseProgressReturn = {
   >;
 };
 
+/**
+ * Props for the `Progress` component.
+ * @param baseClassName - Tailwind classes to apply to the track. Takes priority over `className`.
+ * @param size - Visual height of the track: `sm`, `md`, `lg`, or `xl`.
+ * @param color - Semantic color for the fill, mapped via theme to hex values.
+ * @see ProgressProps
+ */
 export type ProgressComponentProps = {
   baseClassName?: string;
   size?: "sm" | "md" | "lg" | "xl";
@@ -32,11 +50,16 @@ export type ProgressComponentProps = {
 const defaultMin = 0;
 const defaultMax = 100;
 
+/**
+ * The `useProgress` hook provides accessibility props and animated styles for the progress component.
+ * @param param0 - Hook configuration. @see ProgressProps
+ * @returns Returns both the accessibility props for the track and reanimated props for the fill. @see UseProgressReturn
+ */
 export const useProgress = ({
   value,
   max,
   getValueLabel,
-}: ProgressProps): UseProgressReturn => {
+}: ProgressProps): ProgressReturn => {
   const computeText = (): string | undefined => {
     if (typeof getValueLabel === "function") {
       return getValueLabel(value ?? null, max);
@@ -90,6 +113,10 @@ export const useProgress = ({
   };
 };
 
+/**
+ * Conditional classes for the progress track container.
+ * Includes size variants for `sm`, `md`, `lg`, and `xl`.
+ */
 export const progress = tv({
   slots: {
     track: "relative overflow-hidden rounded-xl bg-secondary",
@@ -116,6 +143,11 @@ export const progress = tv({
   },
 });
 
+/**
+ * The progress component with accessibility and animated fill support.
+ * @param param0 - Component configuration and view props. @see ProgressComponentProps
+ * @returns Returns a track `View` with an animated fill `Reanimated.View`.
+ */
 export function Progress({
   baseClassName,
   size = "md",
