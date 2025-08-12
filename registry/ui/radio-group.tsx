@@ -2,11 +2,11 @@ import React, {
   ComponentProps,
   createContext,
   useContext,
-  useRef,
   useState,
 } from "react";
 import {Platform, Pressable, Text, View} from "react-native";
 import {useFocusRing} from "@react-aria/focus";
+import {useRadioGroup as useAriaRadioGroup} from "@react-aria/radio";
 import {tv} from "tailwind-variants";
 
 /**
@@ -46,6 +46,51 @@ export type RadioGroupReturn = {
 };
 
 /**
+ * Props for individual RadioGroupItem.
+ */
+export type RadioGroupItemProps = {
+  value: string;
+  disabled?: boolean;
+};
+
+/**
+ * Return type for the useRadioItem hook.
+ */
+export type RadioItemReturn = {
+  state: {
+    isSelected: boolean;
+    isDisabled: boolean;
+    isFocusVisible: boolean;
+  };
+  componentProps: ComponentProps<typeof Pressable>;
+  labelProps: ComponentProps<typeof Text>;
+  inputProps: ComponentProps<typeof View>;
+};
+
+/**
+ * Public component props for RadioGroupItem.
+ */
+export type RadioGroupItemComponentProps = {
+  children?: React.ReactNode;
+  asChild?: boolean;
+  baseClassName?: string;
+  labelClassName?: string;
+  controlClassName?: string;
+  indicatorClassName?: string;
+} & RadioGroupItemProps &
+  ComponentProps<typeof Pressable>;
+
+/**
+ * Public component props for RadioGroup.
+ */
+export type RadioGroupComponentProps = {
+  children?: React.ReactNode;
+  asChild?: boolean;
+  baseClassName?: string;
+} & RadioGroupProps &
+  ComponentProps<typeof View>;  
+
+/**
  * Hook to manage RadioGroup behavior. Uses internal state when uncontrolled.
  * On web, merges accessibility props from React Aria if available.
  */
@@ -78,36 +123,25 @@ export const useRadioGroup = ({
     onValueChange?.(next);
   };
 
-  // Build web accessibility props via react-aria (optional runtime import).
-  // Must be called at the top level (not inside nested callbacks) to adhere to Rule of Hooks.
-  let ariaGroupProps = {} as Partial<ComponentProps<typeof View>>;
-  if (Platform.OS === "web") {
-    try {
-      const ariaRadio = require("@react-aria/radio");
-      const ariaUtils = require("@react-aria/utils");
-      const {useRadioGroup: useAriaRadioGroup} = ariaRadio as {
-        useRadioGroup: (
-          props: Record<string, unknown>,
-          state: {selectedValue: string | undefined},
-        ) => {radioGroupProps: Record<string, unknown>};
-      };
-      const {mergeProps} = ariaUtils as {
-        mergeProps: (
-          a: Record<string, unknown>,
-          b: Record<string, unknown>,
-        ) => Record<string, unknown>;
-      };
-      const {radioGroupProps} = useAriaRadioGroup(
-        {name, isRequired: required, orientation},
-        {selectedValue},
-      );
-      ariaGroupProps = mergeProps(radioGroupProps, {}) as Partial<
-        ComponentProps<typeof View>
-      >;
-    } catch {
-      ariaGroupProps = {} as Partial<ComponentProps<typeof View>>;
-    }
-  }
+  const groupState = {
+    selectedValue: selectedValue ?? null,
+    setSelectedValue: (next: string | null) => {
+      if (next == null) return;
+      setValue(String(next));
+    },
+    isSelected: (val: string) => (selectedValue ?? null) === val,
+    isDisabled: disabled ?? false,
+    isReadOnly: false,
+    isRequired: required ?? false,
+    validationState: "valid",
+    name: name || "",
+    displayValidation: {isInvalid: false},
+  };
+
+  const {radioGroupProps} = useAriaRadioGroup(
+    {name, isRequired: required, orientation},
+    groupState as any,
+  );
 
   return {
     state: {
@@ -116,39 +150,14 @@ export const useRadioGroup = ({
     },
     componentProps: {
       ...(Platform.OS === "web"
-        ? (ariaGroupProps as ComponentProps<typeof View>)
+        ? (radioGroupProps as ComponentProps<typeof View>)
         : {}),
       accessibilityRole: "radiogroup",
       accessibilityState: {disabled: disabled === true},
-      // Forward Radix-like attributes for testing and web. RN will ignore unknown props.
-      name,
-      required,
       dir,
       loop,
     },
   };
-};
-
-/**
- * Props for individual RadioGroupItem.
- */
-export type RadioGroupItemProps = {
-  value: string;
-  disabled?: boolean;
-};
-
-/**
- * Return type for the useRadioItem hook.
- */
-export type RadioItemReturn = {
-  state: {
-    isSelected: boolean;
-    isDisabled: boolean;
-    isFocusVisible: boolean;
-  };
-  componentProps: ComponentProps<typeof Pressable>;
-  labelProps: ComponentProps<typeof Text>;
-  inputProps: ComponentProps<typeof View>;
 };
 
 /**
@@ -166,35 +175,11 @@ export const useRadioItem = (
   const isDisabled =
     (groupProps?.disabled ?? false) || (item.disabled ?? false);
 
-  const ref = useRef(null);
-  const {isFocusVisible, focusProps} = useFocusRing();
-
-  // Build web accessibility props via react-aria (optional runtime import).
-  let ariaItemProps = {} as Partial<ComponentProps<typeof View>>;
-  if (Platform.OS === "web") {
-    try {
-      const ariaRadio = require("@react-aria/radio");
-      const {useRadio: useAriaRadio} = ariaRadio as {
-        useRadio: (
-          props: Record<string, unknown>,
-          state: {selectedValue: string | undefined},
-          refObj: React.RefObject<unknown>,
-        ) => {inputProps: Record<string, unknown>; isSelected: boolean};
-      };
-      const {inputProps} = useAriaRadio(
-        {value, isDisabled},
-        {selectedValue: group.state.value},
-        ref,
-      );
-      ariaItemProps = inputProps as Partial<ComponentProps<typeof View>>;
-    } catch {
-      ariaItemProps = {} as Partial<ComponentProps<typeof View>>;
-    }
-  }
+  const {isFocusVisible} = useFocusRing();
 
   const onPress = () => {
     if (isDisabled) return;
-    if (selected) return; // no-op when already selected
+    if (selected) return;
     group.state.setValue(value);
   };
 
@@ -205,21 +190,14 @@ export const useRadioItem = (
       isFocusVisible,
     },
     componentProps: {
-      ...(Platform.OS === "web"
-        ? (focusProps as ComponentProps<typeof Pressable>)
-        : {}),
       onPress,
       accessibilityRole: "radio",
       accessibilityState: {selected, disabled: isDisabled},
     },
     labelProps: {
-      // Basic label text props; consumers may extend
       accessible: false,
     },
     inputProps: {
-      ...(Platform.OS === "web"
-        ? (ariaItemProps as ComponentProps<typeof View>)
-        : {}),
       accessible: false,
     },
   };
@@ -278,16 +256,6 @@ export const radioGroupItem = tv({
   },
 });
 
-/**
- * Public component props for RadioGroup.
- */
-export type RadioGroupComponentProps = {
-  children?: React.ReactNode;
-  asChild?: boolean;
-  baseClassName?: string;
-} & RadioGroupProps &
-  ComponentProps<typeof View>;
-
 export function RadioGroup({
   children,
   asChild = false,
@@ -322,19 +290,6 @@ export function RadioGroup({
     </RadioGroupContext.Provider>
   );
 }
-
-/**
- * Public component props for RadioGroupItem.
- */
-export type RadioGroupItemComponentProps = {
-  children?: React.ReactNode;
-  asChild?: boolean;
-  baseClassName?: string;
-  labelClassName?: string;
-  controlClassName?: string;
-  indicatorClassName?: string;
-} & RadioGroupItemProps &
-  ComponentProps<typeof Pressable>;
 
 export function RadioGroupItem({
   children,

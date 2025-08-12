@@ -186,7 +186,7 @@ describe("RadioGroup", () => {
       );
       const group = getByTestId("group");
       expect(group.props.className).toContain("flex-row");
-    });
+    }); 
   });
 
   describe("asChild support", () => {
