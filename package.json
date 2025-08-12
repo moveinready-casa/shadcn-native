@@ -24,6 +24,7 @@
     "@react-aria/disclosure": "^3.0.6",
     "@react-aria/focus": "^3.20.5",
     "@react-aria/interactions": "^3.25.4",
+    "@react-aria/radio": "^3.12.0",
     "@react-aria/utils": "^3.29.1",
     "@react-native-aria/accordion": "^0.0.2",
     "@react-stately/disclosure": "^3.0.5",
