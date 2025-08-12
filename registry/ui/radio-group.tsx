@@ -10,16 +10,16 @@ import {useRadioGroup as useAriaRadioGroup} from "@react-aria/radio";
 import {tv} from "tailwind-variants";
 
 /**
- * Props accepted by the RadioGroup root, aligned with Radix UI props.
- * - value: Controlled value for the checked item
- * - defaultValue: Uncontrolled initial value
- * - onValueChange: Callback when selection changes
- * - disabled: Disables interaction for all items
- * - name: Group name (forwarded)
- * - required: Whether selection is required (forwarded)
- * - orientation: Layout direction ("horizontal" | "vertical")
- * - dir: Reading direction ("ltr" | "rtl") (forwarded)
- * - loop: Whether keyboard navigation should loop (forwarded)
+ * Base props for the `RadioGroup` component, context, and hook.
+ * @param value - Controlled value for the selected radio item.
+ * @param defaultValue - Uncontrolled default value for the selected radio item.
+ * @param onValueChange - Callback fired when the selected value changes.
+ * @param disabled - Whether all radio items are disabled.
+ * @param name - Group name. Forwarded to underlying accessibility props on web.
+ * @param required - Whether a selection is required. Forwarded to accessibility props on web.
+ * @param orientation - Layout direction of the group.
+ * @param dir - Reading direction. Forwarded to accessibility props on web.
+ * @param loop - Whether keyboard navigation loops. Forwarded to accessibility props on web.
  */
 export type RadioGroupProps = {
   value?: string;
@@ -34,7 +34,9 @@ export type RadioGroupProps = {
 };
 
 /**
- * Return type for the useRadioGroup hook.
+ * Return type for the `useRadioGroup` hook.
+ * @param state - The state of the radio group.
+ * @param componentProps - Accessibility props to pass to the radio group component.
  */
 export type RadioGroupReturn = {
   state: {
@@ -46,7 +48,9 @@ export type RadioGroupReturn = {
 };
 
 /**
- * Props for individual RadioGroupItem.
+ * Base props for the `RadioGroupItem` component, context, and hook.
+ * @param value - The value of the radio item.
+ * @param disabled - Whether this radio item is disabled. This can override the disabled state of the top-level `RadioGroup`.
  */
 export type RadioGroupItemProps = {
   value: string;
@@ -54,7 +58,11 @@ export type RadioGroupItemProps = {
 };
 
 /**
- * Return type for the useRadioItem hook.
+ * Return type for the `useRadioItem` hook.
+ * @param componentProps - Accessibility props to pass to the radio item root component.
+ * @param labelProps - Accessibility props to pass to the radio item label.
+ * @param inputProps - Accessibility props to pass to the radio control element.
+ * @param state - The state of the radio item.
  */
 export type RadioItemReturn = {
   state: {
@@ -68,7 +76,13 @@ export type RadioItemReturn = {
 };
 
 /**
- * Public component props for RadioGroupItem.
+ * Props for the `RadioGroupItem` component.
+ * @param asChild - If true clones the child and passes all accessibility and functionality props to it. Available on any exported component.
+ * @param baseClassName - Custom tailwind classes to apply to the base radio item component. Takes priority over the `className` prop.
+ * @param labelClassName - Custom tailwind classes to apply to the item's label.
+ * @param controlClassName - Custom tailwind classes to apply to the radio control.
+ * @param indicatorClassName - Custom tailwind classes to apply to the radio indicator.
+ * @see RadioGroupItemProps
  */
 export type RadioGroupItemComponentProps = {
   children?: React.ReactNode;
@@ -81,18 +95,21 @@ export type RadioGroupItemComponentProps = {
   ComponentProps<typeof Pressable>;
 
 /**
- * Public component props for RadioGroup.
+ * Props for the `RadioGroup` component.
+ * @param asChild - If true clones the child and passes all accessibility and functionality props to it. Available on any exported component.
+ * @param baseClassName - Custom tailwind classes to apply to the base radio group component. Takes priority over the `className` prop.
  */
 export type RadioGroupComponentProps = {
   children?: React.ReactNode;
   asChild?: boolean;
   baseClassName?: string;
 } & RadioGroupProps &
-  ComponentProps<typeof View>;  
+  ComponentProps<typeof View>;
 
 /**
- * Hook to manage RadioGroup behavior. Uses internal state when uncontrolled.
- * On web, merges accessibility props from React Aria if available.
+ * The `useRadioGroup` hook is the backbone of the radio group component.
+ * @param param0 - Props to configure the behavior of the radio group. @see RadioGroupProps
+ * @returns Returns both the state and the accessibility props to pass to the radio group component. @see RadioGroupReturn
  */
 export const useRadioGroup = ({
   value,
@@ -161,9 +178,12 @@ export const useRadioGroup = ({
 };
 
 /**
- * Hook to provide accessibility and behavior for a single radio item.
+ * The `useRadioItem` hook provides accessibility and behavior for a single radio item.
  * On web, merges accessibility props from React Aria if available.
- * State is sourced from useRadioGroup and is not managed by React Aria.
+ * @param item - Props to configure the behavior of the radio item. @see RadioGroupItemProps
+ * @param group - The radio group return value. @see RadioGroupReturn
+ * @param groupProps - The top-level radio group props. @see RadioGroupProps
+ * @returns Returns state and accessibility props for the radio item. @see RadioItemReturn
  */
 export const useRadioItem = (
   item: RadioGroupItemProps,
@@ -204,14 +224,18 @@ export const useRadioItem = (
 };
 
 /**
- * Context shared by RadioGroup and RadioGroupItem components.
+ * Context value for the `RadioGroup` component.
+ * @param props - Props from the top-level radio group component.
+ * @see RadioGroupReturn
+ * @see RadioGroupProps
  */
 export const RadioGroupContext = createContext<
   (RadioGroupReturn & {props: Partial<RadioGroupProps>}) | null
 >(null);
 
 /**
- * Tailwind Variants for RadioGroup root.
+ * Conditional classes for the root radio group component.
+ * @see RadioGroupComponentProps
  */
 export const radioGroup = tv({
   slots: {
@@ -229,7 +253,13 @@ export const radioGroup = tv({
 });
 
 /**
- * Tailwind Variants for RadioGroup item.
+ * Conditional classes for the radio group item component.
+ * It includes the following slots:
+ * - base: The base styles for the radio item.
+ * - control: The radio control element styles.
+ * - indicator: The inner selected indicator styles.
+ * - label: The label styles for the radio item.
+ * @see RadioGroupItemComponentProps
  */
 export const radioGroupItem = tv({
   slots: {
@@ -256,6 +286,19 @@ export const radioGroupItem = tv({
   },
 });
 
+/**
+ * The root radio group component. This should be supplied once per radio group. It is required for all radio groups.
+ * @example
+ * ```tsx
+ * <RadioGroup value={value} onValueChange={setValue} orientation="vertical">
+ *   <RadioGroupItem value="apple">Apple</RadioGroupItem>
+ *   <RadioGroupItem value="banana">Banana</RadioGroupItem>
+ *   <RadioGroupItem value="orange">Orange</RadioGroupItem>
+ * </RadioGroup>
+ * ```
+ * @param param0 - Props to configure the behavior of the radio group. @see RadioGroupComponentProps
+ * @returns Returns a context wrapper containing the global state of the radio group. @see RadioGroupReturn
+ */
 export function RadioGroup({
   children,
   asChild = false,
@@ -291,6 +334,11 @@ export function RadioGroup({
   );
 }
 
+/**
+ * The radio group item component. Renders a single radio option. Can clone a child when `asChild` is true.
+ * @param param0 - Props to configure the behavior and styles of the radio item. @see RadioGroupItemComponentProps
+ * @returns Returns a pressable radio item integrated with the radio group context.
+ */
 export function RadioGroupItem({
   children,
   value,
