@@ -4,8 +4,11 @@ import {tv} from "tailwind-variants";
 import {useSeparator as useSeparatorAria} from "@react-aria/separator";
 
 /**
- * Base props for the Separator hook and component.
- * Matches Radix UI's API: orientation and decorative.
+ * Base props for the `Separator` hook and component.
+ * Matches Radix UI's API.
+ *
+ * @param orientation The separator orientation. Defaults to `"horizontal"`.
+ * @param decorative If true, hides the separator from assistive technologies. Defaults to `true`.
  */
 export type SeparatorProps = {
   orientation?: "horizontal" | "vertical";
@@ -13,14 +16,20 @@ export type SeparatorProps = {
 };
 
 /**
- * Return type for the useSeparator hook.
+ * Return type for the `useSeparator` hook.
+ *
+ * @param componentProps React Native props to spread on the separator root.
  */
 export type SeparatorReturn = {
   componentProps: ComponentProps<typeof View> | HTMLDivElement;
 };
 
 /**
- * Component props for Separator.
+ * Component props for `Separator`.
+ *
+ * @param asChild Clone the first child and apply all props to it.
+ * @param baseClassName Custom tailwind classes applied to the base separator. Takes precedence over `className`.
+ * @see SeparatorProps
  */
 export type SeparatorComponentProps = SeparatorProps & {
   asChild?: boolean;
@@ -44,7 +53,12 @@ export const separator = tv({
 });
 
 /**
- * Hook: returns RN props for an accessible separator. Uses React Aria on web.
+ * The `useSeparator` hook returns platform-appropriate accessibility props for a separator.
+ * On web, it integrates with React Aria. On native platforms, it returns RN accessibility props.
+ *
+ * @param orientation The separator orientation. Defaults to `"horizontal"`.
+ * @param decorative If true, hides the separator from assistive technologies. Defaults to `true`.
+ * @returns Returns an object with `componentProps` that should be spread on the separator element.
  */
 export const useSeparator = ({
   orientation = "horizontal",
@@ -65,12 +79,12 @@ export const useSeparator = ({
 };
 
 /**
- * Component: visually separates content.
+ * Visually or semantically separates content.
+ * @see SeparatorComponentProps
  */
 export function Separator({
   asChild = false,
   baseClassName,
-  className,
   orientation = "horizontal",
   decorative = true,
   children,
@@ -78,9 +92,12 @@ export function Separator({
 }: SeparatorComponentProps) {
   const {componentProps} = useSeparator({orientation, decorative});
   const renderProps = {
-    className: separator({orientation, className: baseClassName || className}),
     ...componentProps,
     ...props,
+    className: separator({
+      orientation,
+      className: baseClassName || props.className,
+    }),
   };
 
   return asChild ? (
