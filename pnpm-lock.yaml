@@ -41,6 +41,9 @@ importers:
       '@react-native-aria/accordion':
         specifier: ^0.0.2
         version: 0.0.2(react-native@0.80.1(@babel/core@7.28.0)(@types/react@19.1.8)(react@19.1.0))(react@19.1.0)
+      '@react-native-menu/menu':
+        specifier: ^1.2.4
+        version: 1.2.4(react-native@0.80.1(@babel/core@7.28.0)(@types/react@19.1.8)(react@19.1.0))(react@19.1.0)
       '@react-stately/disclosure':
         specifier: ^3.0.5
         version: 3.0.5(react@19.1.0)
@@ -2579,6 +2582,12 @@ packages:
 
   '@react-native-aria/accordion@0.0.2':
     resolution: {integrity: sha512-2Wa/YDBc2aCunTLpqwxTfCwn1t63KSAIoXd0hqrUGJJF+N2bEs2Hqs9ZgyKJ/hzFxCknVPMqo0fEVE1H23Z5+g==}
+    peerDependencies:
+      react: '*'
+      react-native: '*'
+
+  '@react-native-menu/menu@1.2.4':
+    resolution: {integrity: sha512-63NU9NHd/KcBa7lhhV69xQmY3ORUxjMRmlzTY/qrY56GHnuKX+16dvUpKAuRSPK5kebBuRw5X4MFe2L9JHUlWA==}
     peerDependencies:
       react: '*'
       react-native: '*'
@@ -12029,6 +12038,11 @@ snapshots:
       react-dom: 19.1.0(react@19.1.0)
 
   '@react-native-aria/accordion@0.0.2(react-native@0.80.1(@babel/core@7.28.0)(@types/react@19.1.8)(react@19.1.0))(react@19.1.0)':
+    dependencies:
+      react: 19.1.0
+      react-native: 0.80.1(@babel/core@7.28.0)(@types/react@19.1.8)(react@19.1.0)
+
+  '@react-native-menu/menu@1.2.4(react-native@0.80.1(@babel/core@7.28.0)(@types/react@19.1.8)(react@19.1.0))(react@19.1.0)':
     dependencies:
       react: 19.1.0
       react-native: 0.80.1(@babel/core@7.28.0)(@types/react@19.1.8)(react@19.1.0)
