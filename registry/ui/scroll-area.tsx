@@ -2,6 +2,17 @@ import React, {ComponentProps} from "react";
 import {ScrollView} from "react-native";
 import {tv} from "tailwind-variants";
 
+/**
+ * Props for the `ScrollArea` component.
+ *
+ * @param asChild - When true, merges props into the first child element instead of rendering a `ScrollView`.
+ * @param disabled - When true, applies disabled styling and prevents scrolling and interaction.
+ * @param loading - When true, applies loading styling and prevents scrolling and interaction.
+ * @param borderRadius - Controls the roundness of the container corners.
+ * @param baseClassName - Custom tailwind classes applied to the base container. Takes priority over the `className` prop.
+ *
+ * Also extends all React Native `ScrollView` props.
+ */
 export type ScrollAreaComponentProps = {
   asChild?: boolean;
   disabled?: boolean;
@@ -10,6 +21,9 @@ export type ScrollAreaComponentProps = {
   baseClassName?: string;
 } & ComponentProps<typeof ScrollView>;
 
+/**
+ * Conditional classes for the `ScrollArea` component.
+ */
 export const scrollArea = tv({
   base: "outline-none border border-border focus-visible:ring-ring focus-visible:ring-[3px] focus-visible:outline-1",
   variants: {
@@ -34,6 +48,12 @@ export const scrollArea = tv({
   },
 });
 
+/**
+ * The `ScrollArea` component provides a styled, optionally-disabled scroll container.
+ *
+ * @param param0 - Props to configure the scroll area. See `ScrollAreaComponentProps`.
+ * @returns A React element representing the scrollable area or its cloned child.
+ */
 export function ScrollArea({
   children,
   asChild,
