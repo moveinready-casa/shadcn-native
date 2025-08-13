@@ -1,0 +1,190 @@
+import Preview from "@/components/Preview";
+import {GithubIcon, StorybookIcon} from "@storybook/icons";
+
+<div style={{display: "flex", flexDirection: "row", gap: "2rem"}}>
+  <a
+    href={`${process.env.STORYBOOK_URL}/?path=/story/sheet--default&globals=backgrounds.value:light`}
+  >
+    <StorybookIcon color="#FE4785" width={25} height={25} />
+  </a>
+  <a href="https://github.com/moveinready-casa/shadcn-native/blob/3-create-components/registry/ui/sheet.tsx">
+    <GithubIcon width={25} height={25} />
+  </a>
+  <a href="https://ui.shadcn.com/docs/components/sheet">Shadcn Docs</a>
+</div>
+
+# Sheet
+
+Extends the Dialog component to display content that complements the main content of the screen.
+
+<Preview component="sheet" />
+
+## Usage
+
+```tsx
+import {
+  Sheet,
+  SheetTrigger,
+  SheetContent,
+  SheetOverlay,
+  SheetPortal,
+  SheetHeader,
+  SheetFooter,
+  SheetTitle,
+  SheetDescription,
+  SheetClose,
+} from "@/components/ui/sheet";
+
+<Sheet>
+  <SheetTrigger asChild>
+    <Button>Open sheet</Button>
+  </SheetTrigger>
+  <SheetPortal>
+    <SheetOverlay />
+    <SheetContent side="right">
+      <SheetHeader>
+        <SheetTitle>Share link</SheetTitle>
+        <SheetDescription>
+          Copy the link below to share this document.
+        </SheetDescription>
+      </SheetHeader>
+      <View className="bg-muted my-4 rounded p-3">
+        <Text selectable className="text-muted-foreground text-sm">
+          https://example.com/very/long/link
+        </Text>
+      </View>
+      <SheetFooter>
+        <SheetClose asChild>
+          <Button>Copy</Button>
+        </SheetClose>
+      </SheetFooter>
+    </SheetContent>
+  </SheetPortal>
+</Sheet>;
+```
+
+## Components
+
+### Sheet
+
+Wrapper that provides state and context to nested components.
+
+### SheetTrigger
+
+| Prop       | Type      | Default | Description                                                                                                               |
+| ---------- | --------- | ------- | ------------------------------------------------------------------------------------------------------------------------- |
+| `disabled` | `boolean` | `false` | Whether the sheet trigger is disabled.                                                                                    |
+| `asChild`  | `boolean` | `false` | If true clones the child and passes all accessibility and functionality props to it. Available on any exported component. |
+
+_Also extends all React Native `Pressable` component props._
+
+### SheetContent
+
+| Prop            | Type                                       | Default   | Description                                                                                      |     |
+| --------------- | ------------------------------------------ | --------- | ------------------------------------------------------------------------------------------------ | --- |
+| `side`          | `'top'   \| 'bottom' \| 'left' \| 'right'` | `'right'` | Which side the sheet should slide from.                                                          |
+| `baseClassName` | `string`                                   | -         | Custom tailwind classes to apply to the base content container. Takes priority over `className`. |     |
+
+_Also extends all React Native `View` component props._
+
+### SheetOverlay
+
+| Prop            | Type      | Default | Description                                                                                               |
+| --------------- | --------- | ------- | --------------------------------------------------------------------------------------------------------- |
+| `baseClassName` | `string`  | -       | Custom tailwind classes to apply to the base overlay component. Takes priority over the `className` prop. |
+| `asChild`       | `boolean` | `false` | If true, clones the child and merges overlay props and classes.                                           |
+
+### SheetHeader
+
+| Prop            | Type     | Default | Description                                                                                               |
+| --------------- | -------- | ------- | --------------------------------------------------------------------------------------------------------- |
+| `baseClassName` | `string` | -       | Custom tailwind classes to apply to the base sheet header component. Takes priority over the `className`. |
+
+_Also extends all React Native `View` component props._
+
+### SheetFooter
+
+| Prop            | Type     | Default | Description                                                                                               |
+| --------------- | -------- | ------- | --------------------------------------------------------------------------------------------------------- |
+| `baseClassName` | `string` | -       | Custom tailwind classes to apply to the base sheet footer component. Takes priority over the `className`. |
+
+_Also extends all React Native `View` component props._
+
+### SheetTitle
+
+| Prop            | Type     | Default | Description                                                                                              |
+| --------------- | -------- | ------- | -------------------------------------------------------------------------------------------------------- |
+| `baseClassName` | `string` | -       | Custom tailwind classes to apply to the base sheet title component. Takes priority over the `className`. |
+
+_Also extends all React Native `Text` component props._
+
+### SheetDescription
+
+| Prop            | Type     | Default | Description                                                                                                    |
+| --------------- | -------- | ------- | -------------------------------------------------------------------------------------------------------------- |
+| `baseClassName` | `string` | -       | Custom tailwind classes to apply to the base sheet description component. Takes priority over the `className`. |
+
+_Also extends all React Native `Text` component props._
+
+### SheetClose
+
+| Prop      | Type      | Default | Description                                                                                                               |
+| --------- | --------- | ------- | ------------------------------------------------------------------------------------------------------------------------- |
+| `asChild` | `boolean` | `false` | If true clones the child and passes all accessibility and functionality props to it. Available on any exported component. |
+
+_Also extends all React Native `Pressable` component props._
+
+## Hooks
+
+### useSheet
+
+Backbone hook for the root Sheet. Manages open state and overlay interactions.
+
+**Parameters:**
+
+| Parameter      | Type        | Default | Description                                   |
+| -------------- | ----------- | ------- | --------------------------------------------- |
+| `defaultOpen`  | `boolean`   | `false` | Uncontrolled initial open state.              |
+| `open`         | `boolean`   | -       | Controlled open state.                        |
+| `onOpenChange` | `(boolean)` | -       | Callback invoked when open state changes.     |
+| `forceMount`   | `boolean`   | `false` | Forces content to remain mounted when closed. |
+
+### useSheetTrigger
+
+Provides accessibility and interaction props for a sheet trigger.
+
+**Returns:** `{ componentProps }` suitable for `Pressable`/`button`.
+
+### useSheetContent
+
+Provides accessibility props for the sheet content, title, and close button.
+
+**Returns:** `{ componentProps, titleProps, closeButtonProps }`.
+
+## Accessibility
+
+- Uses `@react-aria/useButton` for proper button semantics on the trigger/close buttons (web)
+- Applies appropriate accessibility roles and states to interactive elements
+- Modal overlay available when `modal` is not set to `false`
+
+## Styling
+
+### Sheet Classes
+
+**Slots:**
+
+- `content` - For the sheet container
+- `overlay` - For the backdrop overlay
+- `header` - For the header container
+- `footer` - For the footer container
+- `title` - For the title text
+- `description` - For the description text
+
+**Base Classes:**
+
+- `content`: `fixed z-50 w-full gap-4 border border-border bg-background p-6 shadow-lg`
+- `overlay`: `fixed inset-0 z-50 bg-background/80`
+- `header`: `flex flex-col space-y-2 text-center sm:text-left w-full`
+- `footer`: `flex flex-col-reverse sm:flex-row sm:justify-end sm:space-x-2`
+- `title`: `text-lg font-semibold text-foreground`
+- `description`: `text-sm text-muted-foreground`
