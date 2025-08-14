@@ -36,8 +36,8 @@ const preview: Preview = {
       >
         <NavigationContainer>
           <Story />
-          <Toaster />
         </NavigationContainer>
+        <Toaster />
       </Theme>
     ),
   ],

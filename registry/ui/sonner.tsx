@@ -1,8 +1,9 @@
-import {ComponentProps} from "react";
+import {ComponentProps, useContext} from "react";
 import {Toaster as SonnerNative, toast as toastNative} from "sonner-native";
 import {Toaster as SonnerWeb, toast as toastWeb} from "sonner";
 import tw from "twrnc";
 import {Platform, StyleProp} from "react-native";
+import {ThemeContext} from "../theme";
 
 function ToasterNative({...props}: ComponentProps<typeof SonnerNative>) {
   return (
@@ -28,11 +29,19 @@ function ToasterWeb({...props}: ComponentProps<typeof SonnerWeb>) {
   );
 }
 
+/**
+ * Toaster component that uses the appropriate platform-specific implementation.
+ * @param props - The props for the Toaster component.
+ */
 export function Toaster({...props}: ComponentProps<typeof SonnerWeb>) {
+  const {colorScheme} = useContext(ThemeContext);
   return Platform.OS === "web" ? (
-    <ToasterWeb {...props} />
+    <ToasterWeb {...props} theme={colorScheme} />
   ) : (
-    <ToasterNative {...(props as ComponentProps<typeof SonnerNative>)} />
+    <ToasterNative
+      {...(props as ComponentProps<typeof SonnerNative>)}
+      theme={colorScheme}
+    />
   );
 }
 
@@ -51,16 +60,22 @@ const methods = [
 type ToastMethodName = (typeof methods)[number];
 
 type Toast = {
-  (message: string, ...rest: any[]): any;
+  (message: string, ...props: any[]): any;
 } & {
   [K in ToastMethodName]: (...args: any[]) => any;
 };
 
-export const toast: Toast = ((message: string, ...rest: any[]) => {
+/**
+ * Toast function that uses the appropriate platform-specific implementation to show a toast.
+ * @param message - The message to toast.
+ * @param props - The props of the arguments to pass to the toast function.
+ * @returns The toast function.
+ */
+export const toast: Toast = ((message: string, ...props: any[]) => {
   if (Platform.OS === "web") {
-    return (toastWeb as any)(message, ...rest);
+    return (toastWeb as any)(message, ...props);
   }
-  return (toastNative as any)(message, ...rest);
+  return (toastNative as any)(message, ...props);
 }) as Toast;
 
 methods.forEach((method) => {
