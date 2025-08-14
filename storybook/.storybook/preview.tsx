@@ -2,6 +2,8 @@ import type {Preview} from "@storybook/react-native-web-vite";
 import "../global.css";
 import Theme from "../.stories/theme";
 import React from "react";
+import {NavigationContainer} from "@react-navigation/native";
+import {Toaster} from "../.stories/ui/sonner";
 
 const preview: Preview = {
   parameters: {
@@ -32,7 +34,10 @@ const preview: Preview = {
       <Theme
         colorScheme={context.globals.backgrounds.value as "dark" | "light"}
       >
-        <Story />
+        <NavigationContainer>
+          <Story />
+          <Toaster />
+        </NavigationContainer>
       </Theme>
     ),
   ],
