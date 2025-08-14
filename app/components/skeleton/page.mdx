@@ -1,0 +1,56 @@
+import Preview from "@/components/Preview";
+import {GithubIcon, StorybookIcon} from "@storybook/icons";
+
+<div style={{display: "flex", flexDirection: "row", gap: "2rem"}}>
+  <a
+    href={`${process.env.STORYBOOK_URL}/?path=/story/skeleton--default&globals=backgrounds.value:light`}
+  >
+    <StorybookIcon color="#FE4785" width={25} height={25} />
+  </a>
+  <a href="https://github.com/moveinready-casa/shadcn-native/blob/3-create-components/registry/ui/skeleton.tsx">
+    <GithubIcon width={25} height={25} />
+  </a>
+  <a href="https://ui.shadcn.com/docs/components/skeleton">Shadcn Docs</a>
+</div>
+
+# Skeleton
+
+Use to show a placeholder while content is loading.
+
+<Preview component="skeleton" />
+
+## Usage
+
+```tsx
+import {Skeleton} from "@/components/ui/skeleton";
+
+// Simple line
+<Skeleton className="h-4 w-[120px]" />
+
+// Circle (e.g., avatar)
+<Skeleton className="h-12 w-12 rounded-full" />
+```
+
+## Components
+
+### Skeleton
+
+| Prop            | Type                                               | Default | Description                                                            |
+| --------------- | -------------------------------------------------- | ------- | ---------------------------------------------------------------------- |
+| `borderRadius`  | `"none" \| "sm" \| "md" \| "lg" \| "xl" \| "full"` | `"md"`  | Sets the border radius of the skeleton.                                |
+| `baseClassName` | `string`                                           | -       | Tailwind classes to apply to the inner element. Overrides `className`. |
+| `className`     | `string`                                           | -       | Additional Tailwind classes (merged unless `baseClassName` provided).  |
+
+Accepts all other `View` props (e.g., `testID`, `accessibilityLabel`).
+
+## Styling
+
+### Base classes
+
+**Slots:**
+
+- `base` - For the skeleton
+
+**Base Classes:**
+
+- `base` - `bg-accent animate-pulse rounded-md`
