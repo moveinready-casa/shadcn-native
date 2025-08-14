@@ -44,6 +44,9 @@ importers:
       '@react-native-aria/accordion':
         specifier: ^0.0.2
         version: 0.0.2(react-native@0.80.1(@babel/core@7.28.0)(@types/react@19.1.8)(react@19.1.0))(react@19.1.0)
+      '@react-native-community/slider':
+        specifier: ^4.5.7
+        version: 4.5.7
       '@react-native-menu/menu':
         specifier: ^1.2.4
         version: 1.2.4(react-native@0.80.1(@babel/core@7.28.0)(@types/react@19.1.8)(react@19.1.0))(react@19.1.0)
@@ -2588,6 +2591,9 @@ packages:
     peerDependencies:
       react: '*'
       react-native: '*'
+
+  '@react-native-community/slider@4.5.7':
+    resolution: {integrity: sha512-WMDDZjNF2Bd8M8TrSqKf5xhM9ikdfCHtSPur64Ow3bB/OVrKufUQZ59NmYdNZNeGPvcHHTsafuYTY8zfZfbchQ==}
 
   '@react-native-menu/menu@1.2.4':
     resolution: {integrity: sha512-63NU9NHd/KcBa7lhhV69xQmY3ORUxjMRmlzTY/qrY56GHnuKX+16dvUpKAuRSPK5kebBuRw5X4MFe2L9JHUlWA==}
@@ -12044,6 +12050,8 @@ snapshots:
     dependencies:
       react: 19.1.0
       react-native: 0.80.1(@babel/core@7.28.0)(@types/react@19.1.8)(react@19.1.0)
+
+  '@react-native-community/slider@4.5.7': {}
 
   '@react-native-menu/menu@1.2.4(react-native@0.80.1(@babel/core@7.28.0)(@types/react@19.1.8)(react@19.1.0))(react@19.1.0)':
     dependencies:

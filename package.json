@@ -28,6 +28,7 @@
     "@react-aria/separator": "^3.4.11",
     "@react-aria/utils": "^3.29.1",
     "@react-native-aria/accordion": "^0.0.2",
+    "@react-native-community/slider": "^4.5.7",
     "@react-native-menu/menu": "^1.2.4",
     "@react-stately/disclosure": "^3.0.5",
     "@storybook/icons": "^1.4.0",
