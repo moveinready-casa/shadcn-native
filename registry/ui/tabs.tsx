@@ -36,8 +36,12 @@ export type TabsReturn = {
     setSelectedValue: (value: string) => void;
     isControlled: boolean;
   };
-  props: Pick<TabsProps, "orientation" | "size" | "variant" | "borderRadius">;
 };
+
+export type TabsStyleProps = Pick<
+  TabsProps,
+  "orientation" | "size" | "variant" | "borderRadius"
+>;
 
 /**
  * TabsList props and context
@@ -45,8 +49,7 @@ export type TabsReturn = {
 export type TabsListProps = {
   /** disables interaction with all triggers */
   disabled?: boolean;
-} & ComponentProps<typeof View> &
-  Partial<TabsReturn>;
+} & ComponentProps<typeof View>;
 
 export type TabsListComponentProps = {
   children: React.ReactNode;
@@ -63,11 +66,9 @@ export type TabsListReturn = {
  * Trigger props
  */
 export type TabsTriggerHookProps = {
-  value: string;
+  value?: string;
   disabled?: boolean;
-} & ComponentProps<typeof View> &
-  Partial<TabsReturn> &
-  Partial<TabsListReturn>;
+} & ComponentProps<typeof View>;
 
 export type TabsTriggerReturn = {
   componentProps: ComponentProps<typeof Pressable> | HTMLButtonElement;
@@ -84,15 +85,16 @@ export type TabsTriggerComponentProps = {
   /** color variants similar to Badge */
   color?: "default" | "secondary" | "destructive" | "outline";
   baseClassName?: string;
-} & TabsTriggerHookProps;
+  value: string;
+  disabled?: boolean;
+} & Omit<TabsTriggerHookProps, "value" | "disabled">;
 
 /**
  * Content props
  */
 export type TabsContentHookProps = {
-  value: string;
-} & ComponentProps<typeof View> &
-  Partial<TabsReturn>;
+  value?: string;
+} & ComponentProps<typeof View>;
 
 export type TabsContentReturn = {
   componentProps: ComponentProps<typeof View> | HTMLDivElement;
@@ -103,7 +105,8 @@ export type TabsContentComponentProps = {
   children: React.ReactNode;
   asChild?: boolean;
   baseClassName?: string;
-} & TabsContentHookProps;
+  value: string;
+} & Omit<TabsContentHookProps, "value">;
 
 /**
  * useTabs: manage controlled/uncontrolled state
@@ -112,10 +115,6 @@ export const useTabs = ({
   value,
   defaultValue,
   onValueChange,
-  orientation = "horizontal",
-  size = "md",
-  variant = "shadcn",
-  borderRadius = "md",
 }: TabsProps): TabsReturn => {
   if (value != null && defaultValue != null) {
     throw new Error("Cannot set both value and defaultValue");
@@ -137,7 +136,6 @@ export const useTabs = ({
 
   return {
     state: {selectedValue, setSelectedValue, isControlled},
-    props: {orientation, size, variant, borderRadius},
   };
 };
 
@@ -146,13 +144,13 @@ export const useTabs = ({
  */
 export const useTabsList = ({
   disabled,
-  ...rest
+  ...props
 }: TabsListProps): TabsListReturn => {
   return {
     componentProps: {
       ...(Platform.OS === "web" ? {role: "tablist"} : {}),
       accessibilityRole: "tablist",
-      ...rest,
+      ...props,
     },
     disabledAll: !!disabled,
   };
@@ -162,35 +160,15 @@ export const useTabsList = ({
  * useTabsTrigger: a11y + onPress behavior
  */
 export const useTabsTrigger = ({
-  value,
-  disabled,
-  state,
-  disabledAll,
-  ...rest
+  ...props
 }: TabsTriggerHookProps): TabsTriggerReturn => {
-  if (!state) {
-    throw new Error("useTabsTrigger must be used within Tabs");
-  }
-
-  const isActive = state.selectedValue === value;
-  const isDisabled = !!disabled || !!disabledAll;
-
-  const onPress = () => {
-    if (isDisabled || isActive) return;
-    state.setSelectedValue(value);
-  };
-
   return {
     componentProps: {
-      ...(Platform.OS === "web"
-        ? {role: "tab", "aria-selected": isActive}
-        : {}),
+      ...(Platform.OS === "web" ? {role: "tab"} : {}),
       accessibilityRole: "tab",
-      accessibilityState: {selected: isActive, disabled: isDisabled},
-      onPress,
-      ...rest,
+      ...props,
     },
-    isActive,
+    isActive: false,
   };
 };
 
@@ -198,29 +176,19 @@ export const useTabsTrigger = ({
  * useTabsContent: a11y + visibility state
  */
 export const useTabsContent = ({
-  value,
-  state,
-  ...rest
+  ...props
 }: TabsContentHookProps): TabsContentReturn => {
-  if (!state) {
-    throw new Error("useTabsContent must be used within Tabs");
-  }
-  const isSelected = state.selectedValue === value;
-
   return {
     componentProps: {
-      ...(Platform.OS === "web" ? {role: "tabpanel", hidden: !isSelected} : {}),
-      accessibilityState: {selected: isSelected},
-      ...rest,
+      ...(Platform.OS === "web" ? {role: "tabpanel"} : {}),
+      ...props,
     },
-    isSelected,
+    isSelected: false,
   };
 };
 
-/**
- * Contexts
- */
 export const TabsContext = createContext<TabsReturn | null>(null);
+export const TabsStyleContext = createContext<TabsStyleProps | null>(null);
 export const TabsListContext = createContext<TabsListReturn | null>(null);
 
 /**
@@ -316,6 +284,12 @@ export const tabsContent = tv({
  */
 export function Tabs({children, baseClassName, ...props}: TabsComponentProps) {
   const hook = useTabs(props);
+  const styleProps: TabsStyleProps = {
+    orientation: props.orientation ?? "horizontal",
+    size: props.size ?? "md",
+    variant: props.variant ?? "shadcn",
+    borderRadius: props.borderRadius ?? "md",
+  };
 
   const renderProps = {
     ...props,
@@ -324,7 +298,9 @@ export function Tabs({children, baseClassName, ...props}: TabsComponentProps) {
 
   return (
     <TabsContext.Provider value={hook}>
-      <View {...renderProps}>{children}</View>
+      <TabsStyleContext.Provider value={styleProps}>
+        <View {...renderProps}>{children}</View>
+      </TabsStyleContext.Provider>
     </TabsContext.Provider>
   );
 }
@@ -337,17 +313,18 @@ export function TabsList({
   ...props
 }: TabsListComponentProps) {
   const context = useContext(TabsContext);
-  if (!context) {
+  const styleContext = useContext(TabsStyleContext);
+  if (!context || !styleContext) {
     throw new Error("TabsList must be used within Tabs");
   }
 
-  const listHook = useTabsList({...props, ...context, disabled});
+  const listHook = useTabsList({...props, disabled});
 
   const className = tabsList({
-    orientation: context.props.orientation,
-    size: context.props.size,
-    radius: context.props.borderRadius,
-    variant: context.props.variant,
+    orientation: styleContext.orientation,
+    size: styleContext.size,
+    radius: styleContext.borderRadius,
+    variant: styleContext.variant,
     className: baseClassName || props.className,
   });
 
@@ -390,29 +367,39 @@ export function TabsTrigger({
   ...props
 }: TabsTriggerComponentProps) {
   const tabs = useContext(TabsContext);
+  const styleContext = useContext(TabsStyleContext);
   const list = useContext(TabsListContext);
-  if (!tabs || !list) {
+  if (!tabs || !styleContext || !list) {
     throw new Error("TabsTrigger must be used within Tabs and TabsList");
   }
 
   const triggerHook = useTabsTrigger({
     ...props,
-    ...tabs,
-    ...list,
     value,
     disabled,
   });
 
+  const isActive = tabs.state.selectedValue === value;
+  const isDisabled = !!disabled || !!list.disabledAll;
+
+  const onPress = () => {
+    if (isDisabled || isActive) return;
+    tabs.state.setSelectedValue(value);
+  };
+
   const className = tabsTrigger({
-    active: triggerHook.isActive,
-    variant: tabs.props.variant,
-    borderRadius: tabs.props.borderRadius,
+    active: isActive,
+    variant: styleContext.variant,
+    borderRadius: styleContext.borderRadius,
     color,
     className: baseClassName || props.className,
   });
 
   const renderProps = {
     ...(triggerHook.componentProps as ComponentProps<typeof Pressable>),
+    ...(Platform.OS === "web" ? {"aria-selected": isActive} : {}),
+    accessibilityState: {selected: isActive, disabled: isDisabled},
+    onPress,
     className,
   };
 
@@ -451,9 +438,12 @@ export function TabsContent({
   if (!context) {
     throw new Error("TabsContent must be used within Tabs");
   }
-  const contentHook = useTabsContent({...props, ...context, value});
 
-  if (!contentHook.isSelected) {
+  const contentHook = useTabsContent({...props, value});
+
+  const isSelected = context.state.selectedValue === value;
+
+  if (!isSelected) {
     return null;
   }
 
@@ -463,6 +453,8 @@ export function TabsContent({
 
   const renderProps = {
     ...(contentHook.componentProps as ComponentProps<typeof View>),
+    ...(Platform.OS === "web" ? {hidden: !isSelected} : {}),
+    accessibilityState: {selected: isSelected},
     className,
   };
 
