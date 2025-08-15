@@ -12,29 +12,29 @@ import {tv} from "tailwind-variants";
 /**
  * Base props for the Toggle component and the useToggle hook.
  * Aligns with Radix Toggle API: pressed, defaultPressed, onPressedChange, disabled, asChild.
+ * @param pressed Controlled pressed state.
+ * @param defaultPressed Uncontrolled initial pressed state.
+ * @param onPressedChange Callback fired when the pressed state should change.
+ * @param disabled Disables the toggle.
+ * @param asChild Render prop to clone styles/props into child.
+ * @param variant Visual variant.
+ * @param size Size variant.
+ * @param className Tailwind className.
+ * @param children Children content.
+ * @param aria-label Web aria-label mapping support.
+ * @param testID RN test identifier
  */
 export type ToggleProps = {
-  /** Controlled pressed state. */
   pressed?: boolean;
-  /** Uncontrolled initial pressed state. */
   defaultPressed?: boolean;
-  /** Callback fired when the pressed state should change. */
   onPressedChange?: (pressed: boolean) => void;
-  /** Disables the toggle. */
   disabled?: boolean;
-  /** Render prop to clone styles/props into child. */
   asChild?: boolean;
-  /** Visual variant. */
   variant?: "default" | "outline";
-  /** Size variant. */
   size?: "default" | "sm" | "lg";
-  /** Tailwind className. */
   className?: string;
-  /** Children content. */
   children?: ReactNode;
-  /** Web aria-label mapping support. */
   "aria-label"?: string;
-  /** RN test identifier */
   testID?: string;
 } & Omit<
   AriaToggleButtonProps,
@@ -43,9 +43,7 @@ export type ToggleProps = {
   ComponentProps<typeof Pressable>;
 
 export type ToggleReturn = {
-  /** Props to spread onto the root Pressable element. */
   props: ComponentProps<typeof Pressable>;
-  /** Current pressed state. */
   state: {
     isPressed: boolean;
   };
@@ -55,6 +53,12 @@ export type ToggleReturn = {
  * Hook that manages pressed state and accessibility for a Toggle.
  * - Web: integrates React Aria useToggleButton for a11y.
  * - Native: provides accessibilityRole/state and onPress behavior.
+ * @param pressed Controlled pressed state.
+ * @param defaultPressed Uncontrolled initial pressed state.
+ * @param onPressedChange Callback fired when the pressed state should change.
+ * @param disabled Disables the toggle.
+ * @param onPress Custom onPress handler.
+ * @param props Additional props to pass through.
  */
 export const useToggle = ({
   pressed,
@@ -162,7 +166,8 @@ export type ToggleComponentProps = ToggleProps &
   ComponentProps<typeof Pressable>;
 
 /**
- * Toggle component using Pressable and tailwind-variants.
+ * A two-state button that can be either on or off.
+ * @param props - Props for the `Toggle` @see {@link ToggleProps}
  */
 export function Toggle({
   pressed,

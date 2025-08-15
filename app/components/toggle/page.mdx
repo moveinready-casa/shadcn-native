@@ -1,0 +1,120 @@
+import Preview from "@/components/Preview";
+import {GithubIcon, StorybookIcon} from "@storybook/icons";
+
+<div style={{display: "flex", flexDirection: "row", gap: "2rem"}}>
+  <a
+    href={`${process.env.STORYBOOK_URL}/?path=/story/toggle--default&globals=backgrounds.value:light`}
+  >
+    <StorybookIcon color="#FE4785" width={25} height={25} />
+  </a>
+  <a href="https://github.com/moveinready-casa/shadcn-native/blob/3-create-components/registry/ui/toggle.tsx">
+    <GithubIcon width={25} height={25} />
+  </a>
+  <a href="https://ui.shadcn.com/docs/components/toggle">Shadcn Docs</a>
+  <a href="https://www.radix-ui.com/primitives/docs/components/toggle">
+    Radix Docs
+  </a>
+</div>
+
+# Toggle
+
+A two-state button that can be either on or off.
+
+<Preview component="toggle" />
+
+## Usage
+
+```tsx
+import {Toggle} from "@/components/ui/toggle";
+
+<Toggle>Toggle</Toggle>;
+```
+
+## Components
+
+### Toggle
+
+| Prop              | Type                         | Default     | Description                                                                                              |
+| ----------------- | ---------------------------- | ----------- | -------------------------------------------------------------------------------------------------------- |
+| `pressed`         | `boolean`                    | -           | Controlled pressed state. When provided, the component becomes controlled.                               |
+| `defaultPressed`  | `boolean`                    | `false`     | Uncontrolled initial pressed state. Used when `pressed` is not provided.                                 |
+| `onPressedChange` | `(pressed: boolean) => void` | -           | Callback fired when the pressed state should change.                                                     |
+| `disabled`        | `boolean`                    | `false`     | Disables the toggle. Prevents interaction and reduces opacity.                                           |
+| `asChild`         | `boolean`                    | `false`     | If true, clones props to the nearest child instead of rendering a Pressable. Useful for custom elements. |
+| `variant`         | `"default" \| "outline"`     | `"default"` | The visual variant of the toggle. Controls the styling approach.                                         |
+| `size`            | `"default" \| "sm" \| "lg"`  | `"default"` | Sets the size of the toggle. Controls height, padding, and text size.                                    |
+| `className`       | `string`                     | -           | Custom Tailwind CSS classes to apply to the toggle.                                                      |
+| `children`        | `ReactNode`                  | -           | Content to display inside the toggle.                                                                    |
+| `aria-label`      | `string`                     | -           | Web accessibility label for screen readers.                                                              |
+| `testID`          | `string`                     | -           | React Native test identifier for testing frameworks.                                                     |
+
+## Hooks
+
+### useToggle
+
+The backbone hook for the toggle component that provides accessibility props and state management.
+
+**Parameters:**
+
+| Parameter         | Type          | Default | Description                                          |
+| ----------------- | ------------- | ------- | ---------------------------------------------------- |
+| `pressed`         | `boolean`     | -       | Controlled pressed state.                            |
+| `defaultPressed`  | `boolean`     | `false` | Uncontrolled initial pressed state.                  |
+| `onPressedChange` | `function`    | -       | Callback fired when the pressed state should change. |
+| `disabled`        | `boolean`     | `false` | Disables the toggle.                                 |
+| `onPress`         | `function`    | -       | Custom onPress handler.                              |
+| `props`           | `ToggleProps` | -       | Additional props to pass through.                    |
+
+**Returns:**
+
+```typescript
+{
+  props: React.ComponentProps<typeof Pressable>;
+  state: {
+    isPressed: boolean;
+  }
+}
+```
+
+| Property | Type                                     | Description                                          |
+| -------- | ---------------------------------------- | ---------------------------------------------------- |
+| `props`  | `React.ComponentProps<typeof Pressable>` | Accessibility props to pass to the toggle component. |
+| `state`  | `{isPressed: boolean}`                   | The current pressed state of the toggle.             |
+
+## Accessibility
+
+The Toggle component is built with accessibility in mind and includes:
+
+### Web Accessibility
+
+- Uses [`useToggleButton`](https://react-spectrum.adobe.com/react-aria/useToggleButton.html) hook for proper button semantics
+- Supports ARIA attributes: `role="button"`, `aria-pressed`, `aria-disabled`
+- Keyboard navigation support (Enter and Space keys)
+- Proper focus management
+
+### React Native Accessibility
+
+- `accessibilityRole="button"` for proper screen reader announcement
+- `accessibilityState={{selected: boolean, disabled: boolean}}` to communicate toggle state
+- Proper touch target size (minimum 44x44 points)
+- Screen reader optimized content
+
+## Styling
+
+### Toggle Classes
+
+**Variants:**
+
+- `default` (default) - Transparent background with hover effects
+- `outline` - Outlined toggle with border and shadow
+
+**Sizes:**
+
+- `default` (default) - Standard toggle size: `h-9 px-2 min-w-9`
+- `sm` - Small toggle size: `h-8 px-1.5 min-w-8`
+- `lg` - Large toggle size: `h-10 px-2.5 min-w-10`
+
+**States:**
+
+- `selected` - Applied when the toggle is pressed/active
+- `disabled` - Applied when the toggle is disabled
