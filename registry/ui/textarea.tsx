@@ -2,6 +2,15 @@ import {ComponentProps} from "react";
 import {TextInput} from "react-native";
 import {tv} from "tailwind-variants";
 
+/**
+ * Props for the `Textarea` component.
+ * @param disabled Whether the textarea is disabled.
+ * @param loading Whether the textarea is in a loading state.
+ * @param color Visual color variant of the textarea.
+ * @param borderRadius Border radius of the textarea.
+ * @param variant Visual variant style of the textarea.
+ * @param baseClassName Provide custom base className (overrides className).
+ */
 export type TextareaProps = {
   disabled?: boolean;
   loading?: boolean;
@@ -11,6 +20,9 @@ export type TextareaProps = {
   baseClassName?: string;
 } & ComponentProps<typeof TextInput>;
 
+/**
+ * Conditional classes for the `Textarea` component.
+ */
 export const textArea = tv({
   base: "flex w-full min-h-[60px] px-3 py-2 shadow-sm text-muted-foreground focus-visible:outline-none focus-visible:ring-1 placeholder:text-muted-foreground md:text-sm",
   variants: {
@@ -46,6 +58,11 @@ export const textArea = tv({
   },
 });
 
+/**
+ * Root Textarea component.
+ * Displays a form textarea or a component that looks like a textarea.
+ * @param props - Props for the `Textarea` @see {@link TextareaProps}
+ */
 export function Textarea({
   disabled = false,
   loading = false,
