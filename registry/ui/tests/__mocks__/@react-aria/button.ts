@@ -13,3 +13,18 @@ export const useToggleButton = jest.fn(() => {
     onPress: jest.fn(),
   } as Record<string, unknown>;
 });
+
+export const useToggleButtonGroup = jest.fn(() => ({
+  groupProps: {
+    role: "group",
+    "aria-orientation": "horizontal",
+  } as Record<string, unknown>,
+}));
+
+export const useToggleButtonGroupItem = jest.fn(() => ({
+  buttonProps: {
+    onPress: jest.fn(),
+    role: "button",
+    "aria-pressed": false,
+  } as Record<string, unknown>,
+}));
