@@ -18,6 +18,7 @@
   "dependencies": {
     "@radix-ui/react-accordion": "^1.2.11",
     "@radix-ui/react-slot": "^1.2.3",
+    "@radix-ui/react-tooltip": "^1.2.8",
     "@react-aria/breadcrumbs": "^3.5.27",
     "@react-aria/button": "^3.13.3",
     "@react-aria/dialog": "^3.5.28",
