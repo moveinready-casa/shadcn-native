@@ -72,7 +72,7 @@ export const Default: Story = {
 
 export const Vertical: Story = {
   render: () => (
-    <View className="flex-row items-center gap-4 h-[300px]">
+    <View className="h-[300px] flex-row items-center gap-4">
       <Text>One</Text>
       <Separator orientation="vertical" />
       <Text>Two</Text>
@@ -87,7 +87,6 @@ export const DecorativeFalse: Story = {
     decorative: false,
   },
 };
-
 
 export const CustomClasses: Story = {
   args: {

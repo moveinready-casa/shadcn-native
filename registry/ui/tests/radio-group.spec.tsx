@@ -2,10 +2,7 @@ import React from "react";
 import {afterEach, describe, expect, it, jest} from "@jest/globals";
 import {cleanup, fireEvent, render} from "@testing-library/react-native";
 import {Text, View} from "react-native";
-import {
-  RadioGroup,
-  RadioGroupItem,
-} from "../radio-group.tsx";
+import {RadioGroup, RadioGroupItem} from "../radio-group.tsx";
 
 function TestRadioGroup({
   rootProps = {},
@@ -186,7 +183,7 @@ describe("RadioGroup", () => {
       );
       const group = getByTestId("group");
       expect(group.props.className).toContain("flex-row");
-    }); 
+    });
   });
 
   describe("asChild support", () => {

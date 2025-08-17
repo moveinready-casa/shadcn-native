@@ -265,7 +265,7 @@ describe("Avatar", () => {
 
       const image = getByTestId("avatar-image");
       fireEvent(image, "onLoad");
- 
+
       expect(queryByTestId("avatar-fallback")).toBeFalsy();
     });
   });

@@ -33,7 +33,7 @@ function CollapsibleStory({
       className="flex flex-col gap-2"
     >
       <View className="flex items-center justify-between gap-4 px-4">
-        <Text className="text-sm font-semibold text-foreground">
+        <Text className="text-foreground text-sm font-semibold">
           @peduarte starred 3 repositories
         </Text>
         <CollapsibleTrigger asChild>

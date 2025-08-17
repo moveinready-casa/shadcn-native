@@ -1,5 +1,5 @@
 // TODO: refactor
-let test: any= "";
+let test: any = "";
 
 import React, {ComponentProps, useMemo, useState} from "react";
 import {Platform} from "react-native";

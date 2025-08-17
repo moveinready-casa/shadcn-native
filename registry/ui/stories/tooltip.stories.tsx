@@ -70,9 +70,7 @@ export const Default: Story = {
       <TooltipTrigger>
         <Text className="text-foreground">Hover me</Text>
       </TooltipTrigger>
-      <TooltipContent>
-        This is a tooltip
-      </TooltipContent>
+      <TooltipContent>This is a tooltip</TooltipContent>
     </Tooltip>
   ),
 };

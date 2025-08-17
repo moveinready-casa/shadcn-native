@@ -54,7 +54,7 @@ function SheetStory({
               </SheetDescription>
             </SheetHeader>
             <View className="bg-muted my-4 rounded p-3">
-              <Text selectable className="text-sm text-muted-foreground">
+              <Text selectable className="text-muted-foreground text-sm">
                 https://example.com/very/long/link
               </Text>
             </View>
