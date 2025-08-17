@@ -206,7 +206,7 @@ export const useCard = ({
             onPressEnd?.();
           }
         : undefined,
-      accessibilityRole: pressable ? "button" : undefined,
+      accessibilityRole: pressable ? "button" : "group",
       accessibilityState:
         pressable && isDisabled ? {disabled: isDisabled} : undefined,
       accessible: true,
@@ -241,7 +241,7 @@ export const card = tv({
       xl: "rounded-xl",
     },
     blurred: {
-      true: "opacity-90 backdrop-blur-md",
+      true: "opacity-90 blur",
     },
     pressed: {
       true: "opacity-90",
@@ -267,7 +267,7 @@ export const cardHeader = tv({
   base: "flex flex-col gap-1.5",
   variants: {
     blurred: {
-      true: "opacity-90 backdrop-blur-md",
+      true: "opacity-90 blur",
     },
   },
   defaultVariants: {
@@ -283,7 +283,7 @@ export const cardTitle = tv({
   base: "text-foreground font-semibold leading-none tracking-tight",
   variants: {
     blurred: {
-      true: "opacity-90 backdrop-blur-md",
+      true: "opacity-90 blur",
     },
   },
   defaultVariants: {
@@ -299,7 +299,7 @@ export const cardDescription = tv({
   base: "text-sm text-muted-foreground",
   variants: {
     blurred: {
-      true: "opacity-90 backdrop-blur-md",
+      true: "opacity-90 blur",
     },
   },
   defaultVariants: {
@@ -315,7 +315,7 @@ export const cardAction = tv({
   base: "flex items-center justify-end",
   variants: {
     blurred: {
-      true: "opacity-90 backdrop-blur-md",
+      true: "opacity-90 blur",
     },
   },
   defaultVariants: {
@@ -331,7 +331,7 @@ export const cardContent = tv({
   base: "text-muted-foreground",
   variants: {
     blurred: {
-      true: "opacity-90 backdrop-blur-md",
+      true: "opacity-90 blur",
     },
   },
   defaultVariants: {
@@ -347,7 +347,7 @@ export const cardFooter = tv({
   base: "flex items-center",
   variants: {
     blurred: {
-      true: "opacity-90 backdrop-blur-md",
+      true: "opacity-90 blur",
     },
   },
   defaultVariants: {
@@ -414,24 +414,21 @@ export function Card({
     ...props,
   };
 
-  const componentProps = cardState.componentProps as ComponentProps<
-    typeof Pressable
-  >;
-
-  const viewProps = cardState.componentProps as ComponentProps<typeof View>;
-
-  const pressableProps = {
-    accessibilityRole: componentProps.accessibilityRole,
-    accessibilityState: componentProps.accessibilityState,
-    accessible: componentProps.accessible,
-  };
+  const mergedProps = {
+    ...cardState.componentProps,
+    ...baseProps,
+  } as Partial<CardProps> &
+    ComponentProps<typeof View> &
+    ComponentProps<typeof Pressable>;
 
   return asChild ? (
-    React.cloneElement(children as React.ReactElement<CardProps>, baseProps)
+    React.cloneElement(children as React.ReactElement, mergedProps)
   ) : pressable ? (
-    <Pressable {...pressableProps}>{children}</Pressable>
+    <Pressable {...(mergedProps as ComponentProps<typeof Pressable>)}>
+      {children}
+    </Pressable>
   ) : (
-    <View {...viewProps}>{children}</View>
+    <View {...(mergedProps as ComponentProps<typeof View>)}>{children}</View>
   );
 }
 
