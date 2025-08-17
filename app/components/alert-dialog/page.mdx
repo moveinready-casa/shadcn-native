@@ -1,0 +1,379 @@
+import Preview from "@/components/Preview";
+import {GithubIcon, StorybookIcon, RadixIcon} from "@storybook/icons";
+
+<div style={{display: "flex", flexDirection: "row", gap: "2rem"}}>
+  <a
+    href={`${process.env.STORYBOOK_URL}/?path=/story/alertdialog--default&globals=backgrounds.value:light`}
+  >
+    <StorybookIcon color="#FE4785" width={25} height={25} />
+  </a>
+  <a href="https://github.com/moveinready-casa/shadcn-native/blob/3-create-components/registry/ui/alert-dialog.tsx">
+    <GithubIcon width={25} height={25} />
+  </a>
+  <a href="https://ui.shadcn.com/docs/components/alert-dialog">Shadcn Docs</a>
+  <a href="https://www.radix-ui.com/docs/primitives/components/alert-dialog">
+    Radix Docs
+  </a>
+</div>
+
+# Alert Dialog
+
+A modal dialog that interrupts the user workflow to request confirmation or present critical information.
+
+<Preview component="alertdialog" />
+
+## Usage
+
+```tsx
+import {
+  AlertDialog,
+  AlertDialogAction,
+  AlertDialogCancel,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogTitle,
+  AlertDialogTrigger,
+} from "@/components/ui/alert-dialog";
+
+<AlertDialog>
+  <AlertDialogTrigger asChild>
+    <Button variant="outline">Delete Account</Button>
+  </AlertDialogTrigger>
+  <AlertDialogContent>
+    <AlertDialogHeader>
+      <AlertDialogTitle>Are you absolutely sure?</AlertDialogTitle>
+      <AlertDialogDescription>
+        This action cannot be undone. This will permanently delete your account
+        and remove your data from our servers.
+      </AlertDialogDescription>
+    </AlertDialogHeader>
+    <AlertDialogFooter>
+      <AlertDialogCancel>Cancel</AlertDialogCancel>
+      <AlertDialogAction>Delete Account</AlertDialogAction>
+    </AlertDialogFooter>
+  </AlertDialogContent>
+</AlertDialog>;
+```
+
+**Tip:** On native platforms, this component may look out of place as users are used to seeing their platforms' native alerts. If your use case is a simple yes/no response, consider only rendering this component on web and using [Alert](https://reactnative.dev/docs/alert) on native.
+
+## Components
+
+### AlertDialog
+
+| Prop            | Type                        | Default | Description                                                                                                    |
+| --------------- | --------------------------- | ------- | -------------------------------------------------------------------------------------------------------------- |
+| `modal`         | `boolean`                   | `true`  | Whether the alert dialog is modal (prevents interaction with elements outside the dialog).                     |
+| `defaultOpen`   | `boolean`                   | `false` | Uncontrolled default open state of the alert dialog.                                                           |
+| `open`          | `boolean`                   | -       | Controlled open state of the alert dialog.                                                                     |
+| `onOpenChange`  | `(isOpen: boolean) => void` | -       | Callback function called when the alert dialog open state changes.                                             |
+| `forceMount`    | `boolean`                   | `false` | Whether to force mount the alert dialog content even when closed.                                              |
+| `asChild`       | `boolean`                   | `false` | If true clones the child and passes all accessibility and functionality props to it.                           |
+| `baseClassName` | `string`                    | -       | Custom tailwind classes to apply to the base alert dialog component. Takes priority over the `className` prop. |
+
+_Also extends all React Native `View` component props._
+
+### AlertDialogTrigger
+
+| Prop            | Type      | Default | Description                                                                                                               |
+| --------------- | --------- | ------- | ------------------------------------------------------------------------------------------------------------------------- |
+| `disabled`      | `boolean` | `false` | Whether the alert dialog trigger is disabled.                                                                             |
+| `asChild`       | `boolean` | `false` | If true clones the child and passes all accessibility and functionality props to it. Available on any exported component. |
+| `baseClassName` | `string`  | -       | Custom tailwind classes to apply to the base alert dialog trigger component. Takes priority over the `className` prop.    |
+
+_Also extends all React Native `Pressable` component props._
+
+### AlertDialogContent
+
+| Prop                   | Type                                                     | Default | Description                                                                                                            |
+| ---------------------- | -------------------------------------------------------- | ------- | ---------------------------------------------------------------------------------------------------------------------- |
+| `modal`                | `boolean`                                                | `true`  | Whether the alert dialog is modal (prevents interaction with elements outside the dialog).                             |
+| `borderRadius`         | `"none" \| "sm" \| "md" \| "lg" \| "xl"`                 | `"lg"`  | Sets the border radius of the alert dialog content.                                                                    |
+| `forceMount`           | `boolean`                                                | `false` | Whether to force mount the alert dialog content even when closed.                                                      |
+| `onOpenAutoFocus`      | `(e: React.FocusEvent) => void`                          | -       | Callback function called when the alert dialog opens and auto-focus is triggered.                                      |
+| `onCloseAutoFocus`     | `(e: React.FocusEvent) => void`                          | -       | Callback function called when the alert dialog closes and auto-focus is triggered.                                     |
+| `onEscapeKeyDown`      | `(e: React.KeyboardEvent) => void`                       | -       | Callback function called when the Escape key is pressed.                                                               |
+| `onPointerDownOutside` | `(e: GestureResponderEvent \| React.FocusEvent) => void` | -       | Callback function called when a pointer event occurs outside the dialog.                                               |
+| `onInteractOutside`    | `(e: GestureResponderEvent \| React.FocusEvent) => void` | -       | Callback function called when an interaction occurs outside the dialog.                                                |
+| `asChild`              | `boolean`                                                | `false` | If true clones the child and passes all accessibility and functionality props to it.                                   |
+| `className`            | `string`                                                 | -       | Custom tailwind classes to apply to the alert dialog content component.                                                |
+| `baseClassName`        | `string`                                                 | -       | Custom tailwind classes to apply to the base alert dialog content component. Takes priority over the `className` prop. |
+
+_Also extends all React Native `View` component props._
+
+### AlertDialogHeader
+
+| Prop            | Type     | Default | Description                                                                                                           |
+| --------------- | -------- | ------- | --------------------------------------------------------------------------------------------------------------------- |
+| `baseClassName` | `string` | -       | Custom tailwind classes to apply to the base alert dialog header component. Takes priority over the `className` prop. |
+
+_Also extends all React Native `View` component props._
+
+### AlertDialogFooter
+
+| Prop            | Type     | Default | Description                                                                                                           |
+| --------------- | -------- | ------- | --------------------------------------------------------------------------------------------------------------------- |
+| `baseClassName` | `string` | -       | Custom tailwind classes to apply to the base alert dialog footer component. Takes priority over the `className` prop. |
+
+_Also extends all React Native `View` component props._
+
+### AlertDialogTitle
+
+| Prop            | Type      | Default | Description                                                                                                               |
+| --------------- | --------- | ------- | ------------------------------------------------------------------------------------------------------------------------- |
+| `asChild`       | `boolean` | `false` | If true clones the child and passes all accessibility and functionality props to it. Available on any exported component. |
+| `baseClassName` | `string`  | -       | Custom tailwind classes to apply to the base alert dialog title component. Takes priority over the `className` prop.      |
+
+_Also extends all React Native `Text` component props._
+
+### AlertDialogDescription
+
+| Prop            | Type      | Default | Description                                                                                                                |
+| --------------- | --------- | ------- | -------------------------------------------------------------------------------------------------------------------------- |
+| `asChild`       | `boolean` | `false` | If true clones the child and passes all accessibility and functionality props to it. Available on any exported component.  |
+| `baseClassName` | `string`  | -       | Custom tailwind classes to apply to the base alert dialog description component. Takes priority over the `className` prop. |
+
+_Also extends all React Native `Text` component props._
+
+### AlertDialogAction
+
+| Prop            | Type                                                                          | Default         | Description                                                                                                               |
+| --------------- | ----------------------------------------------------------------------------- | --------------- | ------------------------------------------------------------------------------------------------------------------------- |
+| `variant`       | `"default" \| "destructive" \| "outline" \| "secondary" \| "ghost" \| "link"` | `"destructive"` | The variant of the button.                                                                                                |
+| `size`          | `"default" \| "sm" \| "lg" \| "icon"`                                         | `"default"`     | The size of the button.                                                                                                   |
+| `borderRadius`  | `"none" \| "sm" \| "md" \| "lg" \| "xl"`                                      | `"md"`          | Sets the border radius of the button.                                                                                     |
+| `asChild`       | `boolean`                                                                     | `false`         | If true clones the child and passes all accessibility and functionality props to it. Available on any exported component. |
+| `baseClassName` | `string`                                                                      | -               | Custom tailwind classes to apply to the base alert dialog action component. Takes priority over the `className` prop.     |
+
+_Also extends all React Native `Pressable` component props._
+
+### AlertDialogCancel
+
+| Prop            | Type                                                                          | Default     | Description                                                                                                               |
+| --------------- | ----------------------------------------------------------------------------- | ----------- | ------------------------------------------------------------------------------------------------------------------------- |
+| `variant`       | `"default" \| "destructive" \| "outline" \| "secondary" \| "ghost" \| "link"` | `"outline"` | The variant of the button.                                                                                                |
+| `size`          | `"default" \| "sm" \| "lg" \| "icon"`                                         | `"default"` | The size of the button.                                                                                                   |
+| `borderRadius`  | `"none" \| "sm" \| "md" \| "lg" \| "xl"`                                      | `"md"`      | Sets the border radius of the button.                                                                                     |
+| `asChild`       | `boolean`                                                                     | `false`     | If true clones the child and passes all accessibility and functionality props to it. Available on any exported component. |
+| `baseClassName` | `string`                                                                      | -           | Custom tailwind classes to apply to the base alert dialog cancel component. Takes priority over the `className` prop.     |
+
+_Also extends all React Native `Pressable` component props._
+
+### AlertDialogPortal
+
+**Note:** The AlertDialogPortal is not used in this library as there is no body element in React Native, it is only here for compatibility with the Radix UI and Shadcn UI and can be removed if not used.
+
+_Extends all React Native `View` component props._
+
+### AlertDialogOverlay
+
+| Prop            | Type      | Default | Description                                                                                                               |
+| --------------- | --------- | ------- | ------------------------------------------------------------------------------------------------------------------------- |
+| `asChild`       | `boolean` | `false` | If true clones the child and passes all accessibility and functionality props to it. Available on any exported component. |
+| `baseClassName` | `string`  | -       | Custom tailwind classes to apply to the base alert dialog overlay component. Takes priority over the `className` prop.    |
+
+_Also extends all React Native `View` component props._
+
+## Hooks
+
+### useAlertDialog
+
+The backbone hook for the alert dialog component that manages state.
+
+**Parameters:**
+
+| Parameter      | Type                        | Default | Description                                                        |
+| -------------- | --------------------------- | ------- | ------------------------------------------------------------------ |
+| `defaultOpen`  | `boolean`                   | `false` | Uncontrolled default open state of the alert dialog.               |
+| `open`         | `boolean`                   | -       | Controlled open state of the alert dialog.                         |
+| `onOpenChange` | `(isOpen: boolean) => void` | -       | Callback function called when the alert dialog open state changes. |
+| `forceMount`   | `boolean`                   | `false` | Whether to force mount the alert dialog content even when closed.  |
+
+**Returns:**
+
+```typescript
+{
+  state: {
+    isOpen: boolean;
+    setIsOpen: (open: boolean) => void;
+  };
+}
+```
+
+| Property          | Type                      | Description                                         |
+| ----------------- | ------------------------- | --------------------------------------------------- |
+| `state.isOpen`    | `boolean`                 | Whether the alert dialog is open.                   |
+| `state.setIsOpen` | `(open: boolean) => void` | Function to set the open state of the alert dialog. |
+
+### useAlertDialogTrigger
+
+The hook for the alert dialog trigger component that provides accessibility props.
+
+**Parameters:**
+
+| Parameter  | Type                | Default | Description                                               |
+| ---------- | ------------------- | ------- | --------------------------------------------------------- |
+| `state`    | `AlertDialogReturn` | -       | **Required.** The alert dialog state from useAlertDialog. |
+| `disabled` | `boolean`           | `false` | Whether the alert dialog trigger is disabled.             |
+
+**Returns:**
+
+```typescript
+{
+  componentProps: ComponentProps<typeof View> | HTMLButtonElement;
+}
+```
+
+| Property         | Type                                               | Description                                                        |
+| ---------------- | -------------------------------------------------- | ------------------------------------------------------------------ |
+| `componentProps` | `ComponentProps<typeof View> \| HTMLButtonElement` | Accessibility props to pass to the alert dialog trigger component. |
+
+### useAlertDialogOverlay
+
+The hook for the alert dialog overlay component that provides overlay props.
+
+**Parameters:**
+
+| Parameter    | Type                | Default | Description                                               |
+| ------------ | ------------------- | ------- | --------------------------------------------------------- |
+| `state`      | `AlertDialogReturn` | -       | **Required.** The alert dialog state from useAlertDialog. |
+| `forceMount` | `boolean`           | `false` | Whether to force mount the alert dialog content.          |
+
+**Returns:**
+
+```typescript
+{
+  overlayProps: ComponentProps<typeof TouchableWithoutFeedback>;
+}
+```
+
+| Property       | Type                                              | Description                                          |
+| -------------- | ------------------------------------------------- | ---------------------------------------------------- |
+| `overlayProps` | `ComponentProps<typeof TouchableWithoutFeedback>` | Props to pass to the alert dialog overlay component. |
+
+### useAlertDialogContent
+
+The hook for the alert dialog content component that provides accessibility props.
+
+**Parameters:**
+
+| Parameter              | Type                                                     | Default | Description                                                    |
+| ---------------------- | -------------------------------------------------------- | ------- | -------------------------------------------------------------- |
+| `modal`                | `boolean`                                                | `true`  | Whether the alert dialog is modal.                             |
+| `state`                | `AlertDialogReturn`                                      | -       | **Required.** The alert dialog state from useAlertDialog.      |
+| `forceMount`           | `boolean`                                                | `false` | Whether to force mount the alert dialog content.               |
+| `onOpenAutoFocus`      | `(e: React.FocusEvent) => void`                          | -       | Callback when alert dialog opens and auto-focus is triggered.  |
+| `onCloseAutoFocus`     | `(e: React.FocusEvent) => void`                          | -       | Callback when alert dialog closes and auto-focus is triggered. |
+| `onEscapeKeyDown`      | `(e: React.KeyboardEvent) => void`                       | -       | Callback when Escape key is pressed.                           |
+| `onPointerDownOutside` | `(e: GestureResponderEvent \| React.FocusEvent) => void` | -       | Callback when pointer event occurs outside dialog.             |
+| `onInteractOutside`    | `(e: GestureResponderEvent \| React.FocusEvent) => void` | -       | Callback when interaction occurs outside dialog.               |
+
+**Returns:**
+
+```typescript
+{
+  componentProps: ComponentProps<typeof View> | HTMLDivElement;
+  titleProps: ComponentProps<typeof View> | HTMLDivElement;
+}
+```
+
+| Property         | Type                                            | Description                                                        |
+| ---------------- | ----------------------------------------------- | ------------------------------------------------------------------ |
+| `componentProps` | `ComponentProps<typeof View> \| HTMLDivElement` | Accessibility props to pass to the alert dialog content component. |
+| `titleProps`     | `ComponentProps<typeof View> \| HTMLDivElement` | Accessibility props to pass to the alert dialog title component.   |
+
+### useDialogAction
+
+The hook for the alert dialog action and cancel components that provides accessibility props.
+
+**Parameters:**
+
+| Parameter  | Type                | Default | Description                                               |
+| ---------- | ------------------- | ------- | --------------------------------------------------------- |
+| `state`    | `AlertDialogReturn` | -       | **Required.** The alert dialog state from useAlertDialog. |
+| `disabled` | `boolean`           | `false` | Whether the button is disabled.                           |
+| `onPress`  | `(e: any) => void`  | -       | Callback function when the button is pressed.             |
+
+**Returns:**
+
+```typescript
+{
+  componentProps: ComponentProps<typeof Pressable> | HTMLButtonElement;
+}
+```
+
+| Property         | Type                                                    | Description                                          |
+| ---------------- | ------------------------------------------------------- | ---------------------------------------------------- |
+| `componentProps` | `ComponentProps<typeof Pressable> \| HTMLButtonElement` | Accessibility props to pass to the button component. |
+
+## Accessibility
+
+The AlertDialog component is built with accessibility in mind and includes:
+
+### Web Accessibility
+
+- Uses [`useDialog`](https://react-spectrum.adobe.com/react-aria/useDialog.html) hook for proper dialog semantics
+- Uses [`useButton`](https://react-spectrum.adobe.com/react-aria/useButton.html) hook for proper button semantics on trigger and action buttons
+- Uses [`useFocusRing`](https://react-spectrum.adobe.com/react-aria/useFocusRing.html) for focus management
+- Supports ARIA attributes: `role="dialog"`, `aria-modal="true"`, `aria-labelledby`, `aria-describedby`
+- Keyboard navigation support (Escape to close, Tab for focus management)
+- Focus trap within dialog content
+
+### React Native Accessibility
+
+- `accessibilityRole="dialog"` for proper screen reader announcement
+- `accessibilityLiveRegion="polite"` for dynamic content updates
+- `accessibilityViewIsModal` for modal behavior
+- `accessibilityLabel` and `accessibilityHint` on trigger and action buttons
+- Proper focus management for screen readers
+
+## Styling
+
+### AlertDialog Classes
+
+**Slots:**
+
+- `base` - For the base `View` in the alert dialog component
+- `overlay` - For the overlay container
+- `content` - For the main content container
+
+**Variants:**
+
+- `borderRadius`:
+  - `none` - No radius: `rounded-none`
+  - `sm` - Small radius: `rounded-sm`
+  - `md` - Medium radius: `rounded-md`
+  - `lg` (default) - Large radius: `rounded-lg`
+  - `xl` - Extra large radius: `rounded-xl`
+
+**Base Classes:**
+
+- `overlay`: `fixed inset-0 z-50 bg-black opacity-80`
+- `content`: `fixed left-[50%] top-[50%] z-50 w-full max-w-lg translate-x-[-50%] translate-y-[-50%] gap-4 border border-border bg-background p-6 shadow-lg rounded-lg`
+
+### AlertDialogHeader Classes
+
+**Base Classes:** `flex justify-center sm:justify-start w-full`
+
+### AlertDialogFooter Classes
+
+**Base Classes:** `flex flex-col-reverse gap-2 sm:flex-row sm:justify-end`
+
+### AlertDialogTitle Classes
+
+**Base Classes:** `text-lg font-semibold leading-none tracking-tight text-foreground`
+
+### AlertDialogDescription Classes
+
+**Base Classes:** `text-sm text-muted-foreground`
+
+### AlertDialogAction & AlertDialogCancel Classes
+
+Both components use the Button component's styling system with the following defaults:
+
+- **AlertDialogAction**: `variant="destructive"`, `size="default"`, `borderRadius="md"`
+- **AlertDialogCancel**: `variant="outline"`, `size="default"`, `borderRadius="md"`
+
+All button variants, sizes, and border radius options are available and can be customized through props.
