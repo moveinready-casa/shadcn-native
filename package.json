@@ -8,7 +8,7 @@
     "build": "next build",
     "start": "next start",
     "lint": "pnpx eslint .",
-    "format": "pnpx prettier .",
+    "format": "pnpx prettier --check .",
     "format:write": "pnpx prettier --write .",
     "test": "node --experimental-vm-modules node_modules/jest/bin/jest.js",
     "prepare": "husky",
