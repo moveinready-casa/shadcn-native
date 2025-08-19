@@ -1,10 +1,14 @@
 # Shadcn Native
 
-<img src="https://img.shields.io/badge/Expo-1B1F23" />
-<img src="https://img.shields.io/badge/React_Native-20232A" />
-<img src="https://img.shields.io/badge/iOS-000000" />
-<img src="https://img.shields.io/badge/Android-3DDC84" />
-<img src="https://img.shields.io/badge/MIT-green" />
+<div style="display: flex; flex-direction: row;">
+  <img src="https://img.shields.io/badge/Expo-1B1F23" />
+  <img src="https://img.shields.io/badge/React_Native-20232A" />
+  <img src="https://img.shields.io/badge/iOS-000000" />
+  <img src="https://img.shields.io/badge/Android-3DDC84" />
+  <img src="https://img.shields.io/badge/MIT-green" />
+</div>
+
+<br />
 
 Shadcn native is a port of [shadcn/ui](https://github.com/shadcn-ui/ui) for React Native and React Native Web.
 
