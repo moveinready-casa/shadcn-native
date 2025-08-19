@@ -1,51 +1,18 @@
-import React, {useMemo, useState} from "react";
-import {Text, View} from "react-native";
 import {Meta, StoryObj} from "@storybook/react-native";
-import {Slider, SliderProps} from "../slider";
+import {RangeSlider, Slider} from "../slider";
+import {View} from "react-native";
 
-type SliderStoryProps = Omit<
-  SliderProps,
-  "value" | "defaultValue" | "onValueChange" | "onValueCommit"
-> & {
-  initialValue: number;
-  controlled?: boolean;
-};
-
-function SliderStory({
-  initialValue,
-  controlled = false,
-  ...props
-}: SliderStoryProps) {
-  const [val, setVal] = useState<number>(initialValue);
-
-  const sliderBindings = useMemo(() => {
-    if (controlled) {
-      return {
-        value: [val] as number[],
-        onValueChange: (next: number[]) => setVal(next[0] ?? 0),
-      } as Pick<SliderProps, "value" | "onValueChange">;
-    }
-    return {
-      defaultValue: [initialValue] as number[],
-      onValueChange: (next: number[]) => setVal(next[0] ?? 0),
-    } as Pick<SliderProps, "defaultValue" | "onValueChange">;
-  }, [controlled, val, initialValue]);
-
+function SliderStory({...props}) {
   return (
-    <View className="bg-background flex-1 items-center justify-center p-6">
-      <View className="w-72">
-        <Slider {...(props as SliderProps)} {...sliderBindings} />
-        <Text className="text-muted-foreground mt-2 text-sm">Value: {val}</Text>
-      </View>
+    <View className="m-auto h-full w-72">
+      <Slider {...props} />
     </View>
   );
 }
-
-const meta: Meta<typeof SliderStory> = {
+const meta: Meta<typeof Slider> = {
   title: "Slider",
   component: SliderStory,
   parameters: {
-    layout: "centered",
     docs: {
       description: {
         component:
@@ -54,20 +21,28 @@ const meta: Meta<typeof SliderStory> = {
     },
   },
   argTypes: {
-    initialValue: {
-      control: "number",
-      description: "Initial value for the slider",
-      table: {defaultValue: {summary: "50"}},
+    size: {
+      control: "select",
+      options: ["sm", "md", "lg"],
+      description: "The size variant of the slider",
+      table: {defaultValue: {summary: "md"}},
     },
-    controlled: {
-      control: "boolean",
-      description: "Use controlled mode (value managed by the story)",
-      table: {defaultValue: {summary: "false"}},
+    borderRadius: {
+      control: "select",
+      options: ["none", "sm", "md", "lg", "full"],
+      description: "The border radius of the thumb",
+      table: {defaultValue: {summary: "full"}},
     },
     disabled: {
       control: "boolean",
       description: "Disables user interaction",
       table: {defaultValue: {summary: "false"}},
+    },
+    color: {
+      control: "select",
+      options: ["default", "secondary", "destructive", "warning", "success"],
+      description: "The color variant of the slider",
+      table: {defaultValue: {summary: "default"}},
     },
     orientation: {
       control: "select",
@@ -94,11 +69,6 @@ const meta: Meta<typeof SliderStory> = {
       control: "number",
       description: "The stepping interval",
       table: {defaultValue: {summary: "1"}},
-    },
-    asChild: {
-      control: "boolean",
-      description: "Clone props into a child component",
-      table: {defaultValue: {summary: "false"}},
     },
     dir: {
       control: "select",
@@ -128,14 +98,8 @@ type Story = StoryObj<typeof meta>;
 
 export const Default: Story = {
   args: {
-    initialValue: 50,
-    controlled: false,
     disabled: false,
     orientation: "horizontal",
-    inverted: false,
-    min: 0,
-    max: 100,
-    step: 1,
   },
 };
 
@@ -149,6 +113,99 @@ export const Vertical: Story = {
 export const Controlled: Story = {
   args: {
     ...Default.args,
-    controlled: true,
+    value: [50],
+  },
+};
+
+export const Range: Story = {
+  render: () => (
+    <View className="m-auto h-full w-72">
+      <RangeSlider />
+    </View>
+  ),
+  args: {},
+};
+
+export const Secondary: Story = {
+  args: {
+    ...Default.args,
+    color: "secondary",
+  },
+};
+
+export const Destructive: Story = {
+  args: {
+    ...Default.args,
+    color: "destructive",
+  },
+};
+
+export const Warning: Story = {
+  args: {
+    ...Default.args,
+    color: "warning",
+  },
+};
+
+export const Success: Story = {
+  args: {
+    ...Default.args,
+    color: "success",
+  },
+};
+
+export const Small: Story = {
+  args: {
+    ...Default.args,
+    size: "sm",
+  },
+};
+
+export const Medium: Story = {
+  args: {
+    ...Default.args,
+    size: "md",
+  },
+};
+
+export const Large: Story = {
+  args: {
+    ...Default.args,
+    size: "lg",
+  },
+};
+
+export const RoundedNone: Story = {
+  args: {
+    ...Default.args,
+    borderRadius: "none",
+  },
+};
+
+export const RoundedSmall: Story = {
+  args: {
+    ...Default.args,
+    borderRadius: "sm",
+  },
+};
+
+export const RoundedMedium: Story = {
+  args: {
+    ...Default.args,
+    borderRadius: "md",
+  },
+};
+
+export const RoundedLarge: Story = {
+  args: {
+    ...Default.args,
+    borderRadius: "lg",
+  },
+};
+
+export const RoundedFull: Story = {
+  args: {
+    ...Default.args,
+    borderRadius: "full",
   },
 };
