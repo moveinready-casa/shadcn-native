@@ -4,7 +4,7 @@ import {View} from "react-native";
 
 function SliderStory({...props}) {
   return (
-    <View className="m-auto h-full w-72">
+    <View className="w-72">
       <Slider {...props} />
     </View>
   );
@@ -13,6 +13,7 @@ const meta: Meta<typeof Slider> = {
   title: "Slider",
   component: SliderStory,
   parameters: {
+    layout: "centered",
     docs: {
       description: {
         component:

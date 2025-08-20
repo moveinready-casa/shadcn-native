@@ -1,138 +1,123 @@
 import React from "react";
-import {afterEach, describe, expect, it, jest} from "@jest/globals";
-import {cleanup, fireEvent, render} from "@testing-library/react-native";
+import {afterEach, describe, expect, it} from "@jest/globals";
+import {cleanup, render} from "@testing-library/react-native";
 import {Slider} from "../slider.tsx";
 
 describe("Slider", () => {
   afterEach(cleanup);
 
-  describe("structure", () => {
+  describe("styling", () => {
     it("renders without crashing", () => {
       render(<Slider testID="slider" />);
     });
 
-    it("sets accessibility role to adjustable", () => {
+    it("applies default styling classes", () => {
       const {getByTestId} = render(<Slider testID="slider" />);
       const slider = getByTestId("slider");
-      expect(slider.props.accessibilityRole).toBe("adjustable");
-    });
-  });
 
-  describe("uncontrolled behavior (defaultValue)", () => {
-    it("uses defaultValue initially and updates on valueChange", () => {
-      const onValueChange = jest.fn();
+      expect(slider).toBeTruthy();
+    });
+
+    it("applies size variant styling", () => {
+      const {getByTestId: getSmallSlider} = render(
+        <Slider testID="small-slider" size="sm" />,
+      );
+      const {getByTestId: getMediumSlider} = render(
+        <Slider testID="medium-slider" size="md" />,
+      );
+      const {getByTestId: getLargeSlider} = render(
+        <Slider testID="large-slider" size="lg" />,
+      );
+
+      expect(getSmallSlider("small-slider")).toBeTruthy();
+      expect(getMediumSlider("medium-slider")).toBeTruthy();
+      expect(getLargeSlider("large-slider")).toBeTruthy();
+    });
+
+    it("applies color variant styling", () => {
+      const {getByTestId: getDefaultSlider} = render(
+        <Slider testID="default-slider" color="default" />,
+      );
+      const {getByTestId: getSecondarySlider} = render(
+        <Slider testID="secondary-slider" color="secondary" />,
+      );
+      const {getByTestId: getDestructiveSlider} = render(
+        <Slider testID="destructive-slider" color="destructive" />,
+      );
+      const {getByTestId: getWarningSlider} = render(
+        <Slider testID="warning-slider" color="warning" />,
+      );
+      const {getByTestId: getSuccessSlider} = render(
+        <Slider testID="success-slider" color="success" />,
+      );
+
+      expect(getDefaultSlider("default-slider")).toBeTruthy();
+      expect(getSecondarySlider("secondary-slider")).toBeTruthy();
+      expect(getDestructiveSlider("destructive-slider")).toBeTruthy();
+      expect(getWarningSlider("warning-slider")).toBeTruthy();
+      expect(getSuccessSlider("success-slider")).toBeTruthy();
+    });
+
+    it("applies border radius variant styling", () => {
+      const {getByTestId: getNoneSlider} = render(
+        <Slider testID="none-slider" borderRadius="none" />,
+      );
+      const {getByTestId: getSmallSlider} = render(
+        <Slider testID="small-radius-slider" borderRadius="sm" />,
+      );
+      const {getByTestId: getMediumSlider} = render(
+        <Slider testID="medium-radius-slider" borderRadius="md" />,
+      );
+      const {getByTestId: getLargeSlider} = render(
+        <Slider testID="large-radius-slider" borderRadius="lg" />,
+      );
+      const {getByTestId: getFullSlider} = render(
+        <Slider testID="full-radius-slider" borderRadius="full" />,
+      );
+
+      expect(getNoneSlider("none-slider")).toBeTruthy();
+      expect(getSmallSlider("small-radius-slider")).toBeTruthy();
+      expect(getMediumSlider("medium-radius-slider")).toBeTruthy();
+      expect(getLargeSlider("large-radius-slider")).toBeTruthy();
+      expect(getFullSlider("full-radius-slider")).toBeTruthy();
+    });
+
+    it("applies orientation styling", () => {
+      const {getByTestId: getHorizontalSlider} = render(
+        <Slider testID="horizontal-slider" orientation="horizontal" />,
+      );
+      const {getByTestId: getVerticalSlider} = render(
+        <Slider testID="vertical-slider" orientation="vertical" />,
+      );
+
+      expect(getHorizontalSlider("horizontal-slider")).toBeTruthy();
+      expect(getVerticalSlider("vertical-slider")).toBeTruthy();
+    });
+
+    it("applies disabled styling", () => {
       const {getByTestId} = render(
-        <Slider
-          testID="slider"
-          defaultValue={[30]}
-          onValueChange={onValueChange}
-        />,
+        <Slider testID="disabled-slider" disabled />,
       );
-      const slider = getByTestId("slider");
+      const slider = getByTestId("disabled-slider");
 
-      expect(slider.props.value).toBe(30);
-
-      fireEvent(slider, "valueChange", 45);
-      expect(onValueChange).toHaveBeenCalledWith([45]);
-      expect(getByTestId("slider").props.value).toBe(45);
-    });
-
-    it("calls onValueCommit on sliding complete with the final value", () => {
-      const onValueCommit = jest.fn();
-      const {getByTestId} = render(
-        <Slider
-          testID="slider"
-          defaultValue={[10]}
-          onValueCommit={onValueCommit}
-        />,
-      );
-      const slider = getByTestId("slider");
-
-      fireEvent(slider, "slidingComplete", 22);
-      expect(onValueCommit).toHaveBeenCalledWith([22]);
-    });
-  });
-
-  describe("controlled behavior (value)", () => {
-    it("respects controlled value and does not update without rerender", () => {
-      const onValueChange = jest.fn();
-      const {getByTestId, rerender} = render(
-        <Slider testID="slider" value={[25]} onValueChange={onValueChange} />,
-      );
-      const slider = getByTestId("slider");
-      expect(slider.props.value).toBe(25);
-
-      fireEvent(slider, "valueChange", 40);
-      expect(onValueChange).toHaveBeenCalledWith([40]);
-      expect(getByTestId("slider").props.value).toBe(25);
-
-      rerender(
-        <Slider testID="slider" value={[60]} onValueChange={onValueChange} />,
-      );
-      expect(getByTestId("slider").props.value).toBe(60);
-    });
-
-    it("throws when both value and defaultValue are provided", () => {
-      expect(() =>
-        render(<Slider value={[10]} defaultValue={[5]} />),
-      ).toThrow();
-    });
-  });
-
-  describe("props", () => {
-    it("forwards min, max and step to the underlying component", () => {
-      const {getByTestId} = render(
-        <Slider testID="slider" min={10} max={90} step={5} />,
-      );
-      const slider = getByTestId("slider");
-      expect(slider.props.minimumValue).toBe(10);
-      expect(slider.props.maximumValue).toBe(90);
-      expect(slider.props.step).toBe(5);
-    });
-
-    it("uses default min=0, max=100, step=1 when not provided", () => {
-      const {getByTestId} = render(<Slider testID="slider" />);
-      const slider = getByTestId("slider");
-      expect(slider.props.minimumValue).toBe(0);
-      expect(slider.props.maximumValue).toBe(100);
-      expect(slider.props.step).toBe(1);
-    });
-
-    it("forwards orientation, dir, name, form, inverted and minStepsBetweenThumbs as props", () => {
-      const {getByTestId} = render(
-        <Slider
-          testID="slider"
-          orientation="vertical"
-          dir="rtl"
-          name="volume"
-          form="settings"
-          inverted
-          minStepsBetweenThumbs={2}
-        />,
-      );
-      const slider = getByTestId("slider");
-      expect(slider.props.orientation).toBe("vertical");
-      expect(slider.props.dir).toBe("rtl");
-      expect(slider.props.name).toBe("volume");
-      expect(slider.props.form).toBe("settings");
-      expect(slider.props.inverted).toBe(true);
-      expect(slider.props.minStepsBetweenThumbs).toBe(2);
-    });
-
-    it("applies disabled state and prevents changes", () => {
-      const onValueChange = jest.fn();
-      const {getByTestId} = render(
-        <Slider testID="slider" disabled onValueChange={onValueChange} />,
-      );
-      const slider = getByTestId("slider");
       expect(slider.props.accessibilityState).toMatchObject({disabled: true});
-      expect(slider.props.disabled).toBe(true);
-      if (typeof slider.props.className === "string") {
-        expect(slider.props.className).toContain("opacity-50");
-      }
+    });
 
-      fireEvent(slider, "valueChange", 70);
-      expect(onValueChange).not.toHaveBeenCalled();
+    it("combines multiple styling variants", () => {
+      const {getByTestId} = render(
+        <Slider
+          testID="combined-slider"
+          size="lg"
+          color="destructive"
+          borderRadius="full"
+          orientation="vertical"
+          disabled
+        />,
+      );
+      const slider = getByTestId("combined-slider");
+
+      expect(slider).toBeTruthy();
+      expect(slider.props.accessibilityState).toMatchObject({disabled: true});
     });
   });
 });

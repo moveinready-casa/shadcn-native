@@ -220,22 +220,22 @@ export function SliderTrack({
  * @returns Returns the props to pass to the slider component. @see SliderReturn
  */
 export const useSlider = ({
-  value,
   defaultValue,
-  min,
-  max,
-  disabled,
+  value,
   onValueChange,
   onValueCommit,
-  step,
-  inverted,
-  orientation,
+  disabled = false,
+  orientation = "horizontal",
+  dir,
+  inverted = false,
+  min = 0,
+  max = 100,
+  step = 1,
   accessibilityRole,
   accessibilityState,
   size,
   borderRadius,
   color,
-  dir,
 }: SliderProps): SliderReturn => {
   if (value !== undefined && defaultValue !== undefined) {
     throw new Error("Cannot set both value and defaultValue");
@@ -279,15 +279,20 @@ export const useSlider = ({
       accessibilityRole: accessibilityRole ?? "adjustable",
       accessibilityState: {...accessibilityState, disabled},
       dir,
-      CustomTrack: () => (
-        <SliderTrack size={size} disabled={disabled || false} color={color} />
+      CustomTrack: (props) => (
+        <SliderTrack
+          {...props}
+          size={size}
+          disabled={disabled || false}
+          color={color}
+        />
       ),
-      CustomThumb: (props: any) => (
+      CustomThumb: (props) => (
         <SliderThumb
+          {...props}
           size={size}
           borderRadius={borderRadius}
           color={color}
-          {...props}
         />
       ),
     },
@@ -301,6 +306,7 @@ export const useSlider = ({
  */
 export function Slider({testID, ...props}: SliderProps) {
   const {componentProps} = useSlider(props);
+  console.log(componentProps);
   return (
     <NativeSlider testID={testID} {...componentProps} {...(props as any)} />
   );
