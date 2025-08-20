@@ -5,12 +5,37 @@ import NativeSlider, {
 } from "@react-native-assets/slider";
 import {tv} from "tailwind-variants";
 
+/**
+ * Variant types for the slider component.
+ * @param size - The size of the slider track and thumb.
+ * @param color - The color theme of the slider.
+ * @param borderRadius - The border radius of the slider thumb.
+ */
 type SliderVariants = {
   size?: "sm" | "md" | "lg";
   color?: "default" | "secondary" | "destructive" | "warning" | "success";
   borderRadius?: "none" | "sm" | "md" | "lg" | "full";
 };
 
+/**
+ * Base props for the `Slider` component, hook, and related components.
+ * @param defaultValue - Uncontrolled default value of the slider.
+ * @param value - Controlled value of the slider.
+ * @param onValueChange - Callback function called when the slider value changes.
+ * @param onValueCommit - Callback function called when the slider value is committed.
+ * @param name - The name attribute of the slider.
+ * @param disabled - Whether the slider is disabled.
+ * @param orientation - The orientation of the slider.
+ * @param dir - The direction of the slider (left-to-right or right-to-left).
+ * @param inverted - Whether the slider is inverted.
+ * @param min - The minimum value of the slider.
+ * @param max - The maximum value of the slider.
+ * @param step - The step increment of the slider.
+ * @param minStepsBetweenThumbs - The minimum number of steps between thumbs for range sliders.
+ * @param form - The form attribute of the slider.
+ * @see SliderVariants
+ * @see ComponentProps
+ */
 export type SliderProps = {
   defaultValue?: number[];
   value?: number[];
@@ -40,17 +65,41 @@ export type SliderProps = {
 > &
   SliderVariants;
 
+/**
+ * Return type for the `useSlider` hook.
+ * @param componentProps - Props to pass to the slider component.
+ */
 export type SliderReturn = {
   componentProps: ComponentProps<typeof NativeSlider>;
 };
 
+/**
+ * Props for the `SliderThumb` component.
+ * @param value - The current value of the slider thumb.
+ * @see SliderVariants
+ * @see ComponentProps
+ * @see RefAttributes
+ */
 export type SliderThumbProps = ComponentProps<typeof TouchableOpacity> &
   RefAttributes<View> & {value: number} & SliderVariants;
 
+/**
+ * Props for the `SliderTrack` component.
+ * @param disabled - Whether the slider track is disabled.
+ * @see SliderVariants
+ * @see ComponentProps
+ */
 export type SliderTrackProps = ComponentProps<typeof View> & {
   disabled: boolean;
 } & SliderVariants;
 
+/**
+ * Conditional classes for the slider component.
+ * It includes the following slots:
+ * - track: The track styles for the slider.
+ * - thumb: The thumb styles for the slider.
+ * @see SliderVariants
+ */
 export const slider = tv({
   slots: {
     track: "rounded-xl",
@@ -133,6 +182,11 @@ export const slider = tv({
   },
 });
 
+/**
+ * The slider thumb component. This component is used to render the draggable thumb of the slider.
+ * @param param0 - Props to configure the behavior and appearance of the slider thumb. @see SliderThumbProps
+ * @returns Returns a `TouchableOpacity` which represents the slider thumb.
+ */
 export function SliderThumb({
   size,
   borderRadius,
@@ -144,6 +198,11 @@ export function SliderThumb({
   return <TouchableOpacity className={thumb()} {...props} />;
 }
 
+/**
+ * The slider track component. This component is used to render the track of the slider.
+ * @param param0 - Props to configure the behavior and appearance of the slider track. @see SliderTrackProps
+ * @returns Returns a `View` which represents the slider track.
+ */
 export function SliderTrack({
   size,
   disabled,
@@ -155,6 +214,11 @@ export function SliderTrack({
   return <View className={track({color})} {...props} />;
 }
 
+/**
+ * The use slider hook is the backbone of the slider component.
+ * @param param0 - Props to configure the behavior of the slider. @see SliderProps
+ * @returns Returns the props to pass to the slider component. @see SliderReturn
+ */
 export const useSlider = ({
   value,
   defaultValue,
@@ -230,6 +294,11 @@ export const useSlider = ({
   };
 };
 
+/**
+ * The slider component. This component is used to render a single-value slider.
+ * @param param0 - Props to configure the behavior and appearance of the slider. @see SliderProps
+ * @returns Returns a `NativeSlider` component with the configured props and custom track/thumb components.
+ */
 export function Slider({testID, ...props}: SliderProps) {
   const {componentProps} = useSlider(props);
   return (
@@ -237,6 +306,11 @@ export function Slider({testID, ...props}: SliderProps) {
   );
 }
 
+/**
+ * The range slider component. This component is used to render a range slider with two thumbs.
+ * @param param0 - Props to configure the behavior and appearance of the range slider. @see SliderProps
+ * @returns Returns a `NativeRangeSlider` component with the configured props and custom track/thumb components.
+ */
 export function RangeSlider({testID, ...props}: SliderProps) {
   const {componentProps} = useSlider(props);
   return (
