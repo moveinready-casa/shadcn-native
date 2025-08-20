@@ -208,6 +208,24 @@ The backbone hook for individual accordion items that manages item-specific stat
 | `triggerProps`         | `React.ComponentProps<typeof Pressable>` | Props to pass to the accordion trigger component.            |
 | `contentProps`         | `React.ComponentProps<typeof View>`      | Props to pass to the accordion content component.            |
 
+## Accessibility
+
+The Accordion component is built with accessibility in mind and includes:
+
+### Web Accessibility
+
+- Uses proper ARIA attributes: `aria-expanded`, `aria-controls`, `aria-labelledby`
+- Supports keyboard navigation (Tab, Enter/Space, Arrow keys, Home/End)
+- Proper focus management and screen reader announcements
+- Semantic HTML structure with appropriate roles
+
+### React Native Accessibility
+
+- `accessibilityRole="button"` for triggers
+- `accessibilityState` for expanded/collapsed states
+- `accessibilityLabel` and `accessibilityHint` support
+- Proper focus management for screen readers
+
 ## Styling
 
 ### accordion Classes

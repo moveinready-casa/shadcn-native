@@ -3,7 +3,7 @@ import {GithubIcon, StorybookIcon} from "@storybook/icons";
 
 <div style={{display: "flex", flexDirection: "row", gap: "2rem"}}>
   <a
-    href={`$${"{process.env.STORYBOOK_URL}"}/?path=/story/checkbox--default&globals=backgrounds.value:light`}
+    href={`${process.env.STORYBOOK_URL}/?path=/story/checkbox--default&globals=backgrounds.value:light`}
   >
     <StorybookIcon color="#FE4785" width={25} height={25} />
   </a>
