@@ -1,0 +1,293 @@
+import Preview from "@/components/Preview";
+import {GithubIcon, StorybookIcon, RadixIcon} from "@storybook/icons";
+
+<div style={{display: "flex", flexDirection: "row", gap: "2rem"}}>
+  <a
+    href={`${process.env.STORYBOOK_URL}/?path=/story/breadcrumb--default&globals=backgrounds.value:light`}
+  >
+    <StorybookIcon color="#FE4785" width={25} height={25} />
+  </a>
+  <a href="https://github.com/moveinready-casa/shadcn-native/blob/3-create-components/registry/ui/breadcrumb.tsx">
+    <GithubIcon width={25} height={25} />
+  </a>
+  <a href="https://ui.shadcn.com/docs/components/breadcrumb">Shadcn Docs</a>
+</div>
+
+# Breadcrumb
+
+Displays the path to the current resource using a hierarchy of links.
+
+<Preview component="breadcrumb" />
+
+## Usage
+
+```tsx
+import {
+  Breadcrumb,
+  BreadcrumbList,
+  BreadcrumbItem,
+  BreadcrumbLink,
+  BreadcrumbPage,
+  BreadcrumbSeparator,
+  BreadcrumbEllipsis,
+} from "@/components/ui/breadcrumb";
+
+<Breadcrumb>
+  <BreadcrumbList>
+    <BreadcrumbItem>
+      <BreadcrumbLink href="/">Home</BreadcrumbLink>
+    </BreadcrumbItem>
+    <BreadcrumbSeparator />
+    <BreadcrumbEllipsis />
+    <BreadcrumbSeparator />
+    <BreadcrumbItem>
+      <BreadcrumbLink href="/components">Components</BreadcrumbLink>
+    </BreadcrumbItem>
+    <BreadcrumbSeparator />
+    <BreadcrumbItem>
+      <BreadcrumbPage>Breadcrumb</BreadcrumbPage>
+    </BreadcrumbItem>
+  </BreadcrumbList>
+</Breadcrumb>;
+```
+
+## Components
+
+### Breadcrumb
+
+| Prop            | Type                                                   | Default     | Description                                                                                                               |
+| --------------- | ------------------------------------------------------ | ----------- | ------------------------------------------------------------------------------------------------------------------------- |
+| `size`          | `"sm" \| "md" \| "lg"`                                 | `"md"`      | The size of the breadcrumb. Controls the text size and spacing.                                                           |
+| `color`         | `"default" \| "warning" \| "destructive" \| "success"` | `"default"` | The color variant of the breadcrumb. Affects text and hover colors.                                                       |
+| `variant`       | `"shadcn" \| "bordered" \| "solid"`                    | `"shadcn"`  | The visual variant of the breadcrumb.                                                                                     |
+| `borderRadius`  | `"none" \| "sm" \| "md" \| "lg" \| "xl"`               | `"md"`      | Sets the border radius of the breadcrumb.                                                                                 |
+| `asChild`       | `boolean`                                              | `false`     | If true clones the child and passes all accessibility and functionality props to it. Available on any exported component. |
+| `baseClassName` | `string`                                               | -           | Custom tailwind classes to apply to the base breadcrumb component. Takes priority over the `className` prop.              |
+
+_Also extends all React Native `View` component props._
+
+### BreadcrumbList
+
+| Prop            | Type      | Default | Description                                                                                                               |
+| --------------- | --------- | ------- | ------------------------------------------------------------------------------------------------------------------------- |
+| `asChild`       | `boolean` | `false` | If true clones the child and passes all accessibility and functionality props to it. Available on any exported component. |
+| `baseClassName` | `string`  | -       | Custom tailwind classes to apply to the base breadcrumb list component. Takes priority over the `className` prop.         |
+
+_Also extends all React Native `View` component props._
+
+### BreadcrumbItem
+
+| Prop            | Type      | Default | Description                                                                                                               |
+| --------------- | --------- | ------- | ------------------------------------------------------------------------------------------------------------------------- |
+| `disabled`      | `boolean` | `false` | Whether the breadcrumb item is disabled.                                                                                  |
+| `asChild`       | `boolean` | `false` | If true clones the child and passes all accessibility and functionality props to it. Available on any exported component. |
+| `baseClassName` | `string`  | -       | Custom tailwind classes to apply to the base breadcrumb item component. Takes priority over the `className` prop.         |
+
+_Also extends all React Native `View` component props._
+
+### BreadcrumbLink
+
+| Prop            | Type              | Default | Description                                                                                                               |
+| --------------- | ----------------- | ------- | ------------------------------------------------------------------------------------------------------------------------- |
+| `href`          | `string`          | -       | The URL to navigate to when the link is pressed.                                                                          |
+| `startContent`  | `React.ReactNode` | -       | Start content (ReactNode) to display before the link text.                                                                |
+| `endContent`    | `React.ReactNode` | -       | End content (ReactNode) to display after the link text.                                                                   |
+| `asChild`       | `boolean`         | `false` | If true clones the child and passes all accessibility and functionality props to it. Available on any exported component. |
+| `baseClassName` | `string`          | -       | Custom tailwind classes to apply to the base breadcrumb link component. Takes priority over the `className` prop.         |
+
+_Also extends all React Native `Pressable` component props._
+
+### BreadcrumbPage
+
+| Prop            | Type      | Default | Description                                                                                                               |
+| --------------- | --------- | ------- | ------------------------------------------------------------------------------------------------------------------------- |
+| `asChild`       | `boolean` | `false` | If true clones the child and passes all accessibility and functionality props to it. Available on any exported component. |
+| `baseClassName` | `string`  | -       | Custom tailwind classes to apply to the base breadcrumb page component. Takes priority over the `className` prop.         |
+
+_Also extends all React Native `Text` component props._
+
+### BreadcrumbSeparator
+
+| Prop            | Type      | Default | Description                                                                                                               |
+| --------------- | --------- | ------- | ------------------------------------------------------------------------------------------------------------------------- |
+| `asChild`       | `boolean` | `false` | If true clones the child and passes all accessibility and functionality props to it. Available on any exported component. |
+| `baseClassName` | `string`  | -       | Custom tailwind classes to apply to the base breadcrumb separator component. Takes priority over the `className` prop.    |
+
+_Also extends all React Native `View` component props._
+
+### BreadcrumbEllipsis
+
+| Prop            | Type      | Default | Description                                                                                                               |
+| --------------- | --------- | ------- | ------------------------------------------------------------------------------------------------------------------------- |
+| `asChild`       | `boolean` | `false` | If true clones the child and passes all accessibility and functionality props to it. Available on any exported component. |
+| `baseClassName` | `string`  | -       | Custom tailwind classes to apply to the base breadcrumb ellipsis component. Takes priority over the `className` prop.     |
+
+_Also extends all React Native `View` component props._
+
+## Hooks
+
+### useBreadcrumb
+
+The backbone hook for the breadcrumb component that provides accessibility props.
+
+**Parameters:**
+
+| Parameter | Type              | Default | Description                                        |
+| --------- | ----------------- | ------- | -------------------------------------------------- |
+| `props`   | `BreadcrumbProps` | -       | Props to configure the behavior of the breadcrumb. |
+
+**Returns:**
+
+```typescript
+{
+  navProps: React.ComponentProps<typeof View> | HTMLDivElement;
+  listProps: React.ComponentProps<typeof View> | HTMLDivElement;
+}
+```
+
+| Property    | Type                                | Description                                              |
+| ----------- | ----------------------------------- | -------------------------------------------------------- |
+| `navProps`  | `React.ComponentProps<typeof View>` | Accessibility props to pass to the navigation component. |
+| `listProps` | `React.ComponentProps<typeof View>` | Accessibility props to pass to the list component.       |
+
+### useBreadcrumbItem
+
+The backbone hook for the breadcrumb item component that provides accessibility props.
+
+**Parameters:**
+
+| Parameter | Type                  | Default | Description                                             |
+| --------- | --------------------- | ------- | ------------------------------------------------------- |
+| `props`   | `BreadcrumbItemProps` | -       | Props to configure the behavior of the breadcrumb item. |
+
+**Returns:**
+
+```typescript
+{
+  componentProps: React.ComponentProps<typeof View> | HTMLDivElement;
+  linkProps: React.ComponentProps<typeof Pressable> | HTMLAnchorElement;
+  pageProps: React.ComponentProps<typeof Text> | HTMLSpanElement;
+}
+```
+
+| Property         | Type                                     | Description                                                   |
+| ---------------- | ---------------------------------------- | ------------------------------------------------------------- |
+| `componentProps` | `React.ComponentProps<typeof View>`      | Accessibility props to pass to the breadcrumb item component. |
+| `linkProps`      | `React.ComponentProps<typeof Pressable>` | Props to pass to the breadcrumb link component.               |
+| `pageProps`      | `React.ComponentProps<typeof Text>`      | Props to pass to the breadcrumb page component.               |
+
+## Accessibility
+
+The Breadcrumb component is built with accessibility in mind and includes:
+
+### Web Accessibility
+
+- Uses [`useBreadcrumbs`](https://react-spectrum.adobe.com/react-aria/useBreadcrumbs.html) hook for proper breadcrumb semantics
+- Uses [`useBreadcrumbItem`](https://react-spectrum.adobe.com/react-aria/useBreadcrumbItem.html) for individual breadcrumb item semantics
+- Supports ARIA attributes: `role="navigation"`, `role="list"`, `role="listitem"`
+- Keyboard navigation support
+- Proper focus management
+
+### React Native Accessibility
+
+- `accessibilityRole="navigation"` for proper screen reader announcement
+- `accessibilityRole="list"` and `accessibilityRole="listitem"` for list structure
+- `accessibilityRole="link"` for clickable breadcrumb items
+- Proper focus management for screen readers
+- `accessibilityState` for disabled states
+
+## Styling
+
+### Breadcrumb Classes
+
+**Variants:**
+
+- `variant`:
+  - `shadcn` (default) - Default styling
+  - `bordered` - Bordered styling: `border border-border`
+  - `solid` - Solid styling: `bg-background border border-border`
+- `borderRadius`:
+  - `none` - No radius: `rounded-none`
+  - `sm` - Small radius: `rounded-sm`
+  - `md` (default) - Medium radius: `rounded-md`
+  - `lg` - Large radius: `rounded-lg`
+  - `xl` - Extra large radius: `rounded-xl`
+
+**Base Classes:** `p-2`
+
+### BreadcrumbList Classes
+
+**Variants:**
+
+- `variant`:
+  - `shadcn` (default) - Default styling
+  - `bordered` - Bordered styling: `border border-border`
+  - `solid` - Solid styling: `bg-background border border-border`
+- `borderRadius`:
+  - `none` - No radius: `rounded-none`
+  - `sm` - Small radius: `rounded-sm`
+  - `md` (default) - Medium radius: `rounded-md`
+  - `lg` - Large radius: `rounded-lg`
+  - `xl` - Extra large radius: `rounded-xl`
+
+**Base Classes:** `flex flex-row flex-wrap items-center gap-1.5 break-words sm:gap-2.5 p-2 w-fit`
+
+### BreadcrumbLink Classes
+
+**Slots:**
+
+- `base` - For the base `Pressable` in the breadcrumb link component
+- `text` - For the text element in the breadcrumb link component
+
+**Variants:**
+
+- `size`:
+  - `sm` - Small text: `text-xs`
+  - `md` (default) - Medium text: `text-sm`
+  - `lg` - Large text: `text-base`
+- `color`:
+  - `default` (default) - Default text color: `hover:text-foreground`
+  - `warning` - Warning text color: `hover:text-warning`
+  - `destructive` - Destructive text color: `hover:text-destructive`
+  - `success` - Success text color: `hover:text-success`
+
+**Base Classes:**
+
+- `base`: `flex-row items-center gap-1`
+- `text`: `text-muted-foreground transition-colors`
+
+### BreadcrumbPage Classes
+
+**Variants:**
+
+- `size`:
+  - `sm` - Small text: `text-xs`
+  - `md` (default) - Medium text: `text-sm`
+  - `lg` - Large text: `text-base`
+- `color`:
+  - `default` (default) - Default text color: `text-foreground`
+  - `warning` - Warning text color: `text-warning`
+  - `destructive` - Destructive text color: `text-destructive`
+  - `success` - Success text color: `text-success`
+
+### BreadcrumbSeparator Classes
+
+**Variants:**
+
+- `size`:
+  - `sm` - Small size: `size-3`
+  - `md` (default) - Medium size: `size-3.5`
+  - `lg` - Large size: `size-4`
+
+**Base Classes:** `text-muted-foreground`
+
+### BreadcrumbEllipsis Classes
+
+**Variants:**
+
+- `size`:
+  - `sm` - Small size: `size-3`
+  - `md` (default) - Medium size: `size-3.5`
+  - `lg` - Large size: `size-4`
+
+**Base Classes:** `text-muted-foreground`

@@ -1,9 +1,6 @@
 {
   "extends": "@react-native/typescript-config",
   "compilerOptions": {
-    "paths": {
-      "@/*": ["./*"]
-    },
     "target": "esnext",
     "types": ["jest", "nativewind", "react-native", "react-native-web"],
     "jsxImportSource": "nativewind",
@@ -11,13 +8,21 @@
     "esModuleInterop": true,
     "allowSyntheticDefaultImports": true,
     "moduleResolution": "bundler",
-    "skipLibCheck": true
+    "skipLibCheck": true,
+    "baseUrl": ".",
+    "paths": {
+      "@/*": ["./*"]
+    }
   },
   "include": [
     "nativewind-env.d.ts",
     "storybook/**/*.ts",
     "storybook/**/*.tsx",
-    "registry/**/*.tsx"
+    "registry/**/*.tsx",
+    "components/**/*.ts",
+    "components/**/*.tsx",
+    "lib/**/*.ts",
+    "lib/**/*.tsx"
   ],
   "exclude": ["node_modules"]
 }

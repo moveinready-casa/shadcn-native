@@ -1,0 +1,69 @@
+import Preview from "@/components/Preview";
+import {GithubIcon, StorybookIcon} from "@storybook/icons";
+
+<div style={{display: "flex", flexDirection: "row", gap: "2rem"}}>
+  <a
+    href={`${process.env.STORYBOOK_URL}/?path=/story/sonner--default&globals=backgrounds.value:light`}
+  >
+    <StorybookIcon color="#FE4785" width={25} height={25} />
+  </a>
+  <a href="https://github.com/moveinready-casa/shadcn-native/blob/3-create-components/registry/ui/sonner.tsx">
+    <GithubIcon width={25} height={25} />
+  </a>
+  <a href="https://ui.shadcn.com/docs/components/sonner">Shadcn Docs</a>
+  <a href="https://sonner.emilkowal.ski/">Sonner Docs</a>
+  <a href="https://gunnartorfis.github.io/sonner-native/">Sonner Native Docs</a>
+</div>
+
+# Sonner
+
+An opinionated toast component for React Native.
+
+<Preview component="sonner" />
+
+The shadcn native Sonner component is a wrapper around the Sonner library for web and Sonner Native for React Native. It also provides themes for the toast component with a shadcn/ui style. Below is the complete guide to implementing the sonner.
+
+## Installation
+
+```bash
+pnpm add sonner sonner-native react-native-reanimated@3.18.0 react-safe-area-context react-native-svg
+```
+
+## Usage
+
+Add the `Toaster` component to the root of your application.
+
+```tsx
+import {Theme} from "@/components/theme";
+import {NavigationContainer} from "@react-navigation/native";
+import {Toaster} from "@/components/ui/sonner";
+
+<Theme>
+  <NavigationContainer>{/* Your app */}</NavigationContainer>
+  <Toaster />
+</Theme>;
+```
+
+Call the `toast` function to show a toast.
+
+```tsx
+import {toast} from "@/components/ui/sonner";
+
+toast("Hello, world!");
+```
+
+For more usage examples, see the [sonner-native docs](https://gunnartorfis.github.io/sonner-native/).
+
+### Expo Router
+
+With Expo Router, you can omit the `NavigationContainer` and just use the `Toaster` component.
+
+```tsx
+import {Theme} from "@/components/theme";
+import {Toaster} from "@/components/ui/sonner";
+
+<Theme>
+  {/* Your app */}
+  <Toaster />
+</Theme>;
+```

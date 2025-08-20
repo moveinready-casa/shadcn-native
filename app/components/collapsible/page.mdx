@@ -1,0 +1,150 @@
+import Preview from "@/components/Preview";
+import {GithubIcon, StorybookIcon} from "@storybook/icons";
+
+<div style={{display: "flex", flexDirection: "row", gap: "2rem"}}>
+  <a
+    href={`${process.env.STORYBOOK_URL}/?path=/story/collapsible--default&globals=backgrounds.value:light`}
+  >
+    <StorybookIcon color="#FE4785" width={25} height={25} />
+  </a>
+  <a href="https://github.com/moveinready-casa/shadcn-native/blob/3-create-components/registry/ui/collapsible.tsx">
+    <GithubIcon width={25} height={25} />
+  </a>
+  <a href="https://ui.shadcn.com/docs/components/collapsible">Shadcn Docs</a>
+  <a href="https://www.radix-ui.com/primitives/docs/components/collapsible">
+    Radix Docs
+  </a>
+</div>
+
+# Collapsible
+
+An interactive component which expands/collapses a panel.
+
+**Note: in most cases you will want to use the [Accordion](/components/accordion) component instead. If your use case requires a light weight, unstyled accordion component, this is the one to use.**
+
+<Preview component="collapsible" />
+
+## Usage
+
+```tsx
+import {
+  Collapsible,
+  CollapsibleContent,
+  CollapsibleTrigger,
+} from "@/components/ui/collapsible";
+
+<Collapsible>
+  <CollapsibleTrigger>
+    <Text>Can I use this in my project?</Text>
+  </CollapsibleTrigger>
+  <CollapsibleContent>
+    <Text>
+      Yes. Free to use for personal and commercial projects. No attribution
+      required.
+    </Text>
+  </CollapsibleContent>
+</Collapsible>;
+```
+
+## Components
+
+### Collapsible
+
+| Prop            | Type                        | Default | Description                                                                                                   |
+| --------------- | --------------------------- | ------- | ------------------------------------------------------------------------------------------------------------- |
+| `children`      | `React.ReactNode`           | -       | **Required.** The content of the collapsible.                                                                 |
+| `open`          | `boolean`                   | -       | Controlled open state. When provided, the component becomes controlled.                                       |
+| `defaultOpen`   | `boolean`                   | `false` | Uncontrolled default open state.                                                                              |
+| `onOpenChange`  | `(isOpen: boolean) => void` | -       | Called whenever the open state changes.                                                                       |
+| `disabled`      | `boolean`                   | `false` | Prevents user interaction.                                                                                    |
+| `asChild`       | `boolean`                   | `false` | If true, clones the child and passes all accessibility and functionality props to it.                         |
+| `baseClassName` | `string`                    | -       | Custom tailwind classes to apply to the base collapsible component. Takes priority over the `className` prop. |
+
+_Also extends all React Native `View` component props._
+
+### CollapsibleTrigger
+
+| Prop       | Type              | Default | Description                                                                           |
+| ---------- | ----------------- | ------- | ------------------------------------------------------------------------------------- |
+| `children` | `React.ReactNode` | -       | **Required.** The content of the collapsible trigger.                                 |
+| `asChild`  | `boolean`         | `false` | If true, clones the child and passes all accessibility and functionality props to it. |
+
+_Also extends all React Native `Pressable` component props._
+
+### CollapsibleContent
+
+| Prop       | Type              | Default | Description                                                                           |
+| ---------- | ----------------- | ------- | ------------------------------------------------------------------------------------- |
+| `children` | `React.ReactNode` | -       | **Required.** The content of the collapsible content.                                 |
+| `asChild`  | `boolean`         | `false` | If true, clones the child and passes all accessibility and functionality props to it. |
+
+_Also extends all React Native `View` component props._
+
+## Hooks
+
+### useCollapsible
+
+The backbone hook for the collapsible component that manages state and provides accessibility props.
+
+**Parameters:**
+
+| Parameter      | Type                        | Default | Description                                                             |
+| -------------- | --------------------------- | ------- | ----------------------------------------------------------------------- |
+| `open`         | `boolean`                   | -       | Controlled open state. When provided, the component becomes controlled. |
+| `defaultOpen`  | `boolean`                   | `false` | Uncontrolled default open state.                                        |
+| `onOpenChange` | `(isOpen: boolean) => void` | -       | Called whenever the open state changes.                                 |
+| `disabled`     | `boolean`                   | `false` | Prevents user interaction.                                              |
+
+**Returns:**
+
+```typescript
+{
+  state: {
+    isOpen: boolean;
+    setOpen: (open: boolean) => void;
+  };
+  componentProps: React.ComponentProps<typeof View>;
+}
+```
+
+| Property         | Type                                | Description                                               |
+| ---------------- | ----------------------------------- | --------------------------------------------------------- |
+| `state.isOpen`   | `boolean`                           | Whether the collapsible is currently open.                |
+| `state.setOpen`  | `(open: boolean) => void`           | Function to set the open state of the collapsible.        |
+| `componentProps` | `React.ComponentProps<typeof View>` | Accessibility props to pass to the collapsible component. |
+
+### useCollapsibleTrigger
+
+The backbone hook for the collapsible trigger that provides accessibility props.
+
+**Returns:**
+
+```typescript
+{
+  triggerProps: React.ComponentProps<typeof Pressable>;
+}
+```
+
+| Property       | Type                                     | Description                                                       |
+| -------------- | ---------------------------------------- | ----------------------------------------------------------------- |
+| `triggerProps` | `React.ComponentProps<typeof Pressable>` | Accessibility props to pass to the collapsible trigger component. |
+
+## Accessibility
+
+The Collapsible component is built with accessibility in mind and includes:
+
+### Web Accessibility
+
+- Uses [`useButton`](https://react-spectrum.adobe.com/react-aria/useButton.html) hook for proper button semantics
+- Uses [`useFocusRing`](https://react-spectrum.adobe.com/react-aria/useFocusRing.html) for focus management
+- Supports ARIA attributes: `role="button"`, `aria-expanded`
+- Keyboard navigation support (Enter and Space keys)
+- Proper focus management
+
+### React Native Accessibility
+
+- `accessibilityRole="button"` for proper screen reader announcement
+- `accessibilityState={{expanded: boolean}}` to communicate collapsible state
+- `accessibilityHint` provides context about the action
+- Proper touch target size (minimum 44x44 points)
+- Screen reader optimized content

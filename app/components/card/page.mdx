@@ -1,0 +1,218 @@
+import Preview from "@/components/Preview";
+import {GithubIcon, StorybookIcon} from "@storybook/icons";
+
+<div style={{display: "flex", flexDirection: "row", gap: "2rem"}}>
+  <a
+    href={`${process.env.STORYBOOK_URL}/?path=/story/card--default&globals=backgrounds.value:light`}
+  >
+    <StorybookIcon color="#FE4785" width={25} height={25} />
+  </a>
+  <a href="https://github.com/moveinready-casa/shadcn-native/blob/3-create-components/registry/ui/card.tsx">
+    <GithubIcon width={25} height={25} />
+  </a>
+  <a href="https://ui.shadcn.com/docs/components/card">Shadcn Docs</a>
+</div>
+
+# Card
+
+Displays a card with header, content, and footer.
+
+<Preview component="card" />
+
+## Usage
+
+```tsx
+import {
+  Card,
+  CardHeader,
+  CardTitle,
+  CardDescription,
+  CardContent,
+  CardFooter,
+  CardAction,
+} from "@/components/ui/card";
+
+<Card>
+  <CardHeader>
+    <CardTitle>Card Title</CardTitle>
+    <CardDescription>Card description goes here</CardDescription>
+  </CardHeader>
+  <CardContent>This is the main content area of the card.</CardContent>
+  <CardFooter>
+    <Button>Action</Button>
+  </CardFooter>
+</Card>;
+```
+
+## Components
+
+### Card
+
+The main container component that wraps all card content.
+
+| Prop            | Type                                     | Default    | Description                                                                                     |
+| --------------- | ---------------------------------------- | ---------- | ----------------------------------------------------------------------------------------------- |
+| `variant`       | `"shadcn" \| "outline" \| "ghost"`       | `"shadcn"` | The visual style variant of the card. Controls background, border, and shadow styling.          |
+| `radius`        | `"none" \| "sm" \| "md" \| "lg" \| "xl"` | `"xl"`     | Sets the border radius of the card. Controls the roundness of the card corners.                 |
+| `blurred`       | `boolean`                                | `false`    | When true, applies a blur effect to the card content. Useful for overlay or disabled states.    |
+| `pressable`     | `boolean`                                | `false`    | When true, makes the card interactive with press states and accessibility support.              |
+| `disabled`      | `boolean`                                | `false`    | When true and pressable is enabled, disables the card interaction and applies disabled styling. |
+| `asChild`       | `boolean`                                | `false`    | When true, merges props with the first child element instead of rendering a wrapper.            |
+| `onPress`       | `() => void`                             | -          | Callback function called when the card is pressed (requires pressable=true).                    |
+| `onPressStart`  | `() => void`                             | -          | Callback function called when press interaction starts.                                         |
+| `onPressEnd`    | `() => void`                             | -          | Callback function called when press interaction ends.                                           |
+| `baseClassName` | `string`                                 | -          | Custom tailwind classes that take priority over className.                                      |
+
+### CardHeader
+
+Container for card title and description, typically at the top of the card.
+
+| Prop            | Type      | Default | Description                                                                        |
+| --------------- | --------- | ------- | ---------------------------------------------------------------------------------- |
+| `asChild`       | `boolean` | `false` | When true, merges props with the first child element instead of rendering wrapper. |
+| `blurred`       | `boolean` | `false` | When true, applies blur effect to the header.                                      |
+| `baseClassName` | `string`  | -       | Custom tailwind classes that take priority over className.                         |
+
+### CardTitle
+
+Displays the main heading of the card with proper accessibility semantics.
+
+| Prop            | Type      | Default | Description                                                                        |
+| --------------- | --------- | ------- | ---------------------------------------------------------------------------------- |
+| `asChild`       | `boolean` | `false` | When true, merges props with the first child element instead of rendering wrapper. |
+| `blurred`       | `boolean` | `false` | When true, applies blur effect to the title.                                       |
+| `baseClassName` | `string`  | -       | Custom tailwind classes that take priority over className.                         |
+
+### CardDescription
+
+Displays supplementary text below the title, providing additional context.
+
+| Prop            | Type      | Default | Description                                                                        |
+| --------------- | --------- | ------- | ---------------------------------------------------------------------------------- |
+| `asChild`       | `boolean` | `false` | When true, merges props with the first child element instead of rendering wrapper. |
+| `blurred`       | `boolean` | `false` | When true, applies blur effect to the description.                                 |
+| `baseClassName` | `string`  | -       | Custom tailwind classes that take priority over className.                         |
+
+### CardContent
+
+The main content area of the card where primary information is displayed.
+
+| Prop            | Type      | Default | Description                                                                        |
+| --------------- | --------- | ------- | ---------------------------------------------------------------------------------- |
+| `asChild`       | `boolean` | `false` | When true, merges props with the first child element instead of rendering wrapper. |
+| `blurred`       | `boolean` | `false` | When true, applies blur effect to the content.                                     |
+| `baseClassName` | `string`  | -       | Custom tailwind classes that take priority over className.                         |
+
+### CardAction
+
+Container for action buttons or controls, typically aligned to the right.
+
+| Prop            | Type      | Default | Description                                                                        |
+| --------------- | --------- | ------- | ---------------------------------------------------------------------------------- |
+| `asChild`       | `boolean` | `false` | When true, merges props with the first child element instead of rendering wrapper. |
+| `blurred`       | `boolean` | `false` | When true, applies blur effect to the action area.                                 |
+| `baseClassName` | `string`  | -       | Custom tailwind classes that take priority over className.                         |
+
+### CardFooter
+
+Footer section for supplementary information or secondary actions.
+
+| Prop            | Type      | Default | Description                                                                        |
+| --------------- | --------- | ------- | ---------------------------------------------------------------------------------- |
+| `asChild`       | `boolean` | `false` | When true, merges props with the first child element instead of rendering wrapper. |
+| `blurred`       | `boolean` | `false` | When true, applies blur effect to the footer.                                      |
+| `baseClassName` | `string`  | -       | Custom tailwind classes that take priority over className.                         |
+
+## Hooks
+
+### useCard
+
+The backbone hook for the card component that provides accessibility props and state for pressable cards.
+
+**Parameters:**
+
+| Parameter      | Type         | Default | Description                                                         |
+| -------------- | ------------ | ------- | ------------------------------------------------------------------- |
+| `pressable`    | `boolean`    | `false` | Whether the card should be interactive and respond to press events  |
+| `disabled`     | `boolean`    | `false` | Whether the card should be disabled and not respond to interactions |
+| `onPress`      | `() => void` | -       | Callback function called when the card is pressed                   |
+| `onPressStart` | `() => void` | -       | Callback function called when press interaction starts              |
+| `onPressEnd`   | `() => void` | -       | Callback function called when press interaction ends                |
+
+**Returns:**
+
+```typescript
+{
+  componentProps: React.ComponentProps<typeof Pressable> | HTMLButtonElement;
+  state: {
+    isPressed: boolean;
+    isDisabled: boolean;
+    isFocusVisible: boolean;
+  }
+}
+```
+
+| Property         | Type                                                                 | Description                                                        |
+| ---------------- | -------------------------------------------------------------------- | ------------------------------------------------------------------ |
+| `componentProps` | `React.ComponentProps<typeof Pressable> \| HTMLButtonElement`        | Accessibility and interaction props to pass to the card component. |
+| `state`          | `{isPressed: boolean, isDisabled: boolean, isFocusVisible: boolean}` | The current state of the card.                                     |
+
+## Accessibility
+
+The Card component is built with accessibility in mind and includes:
+
+### Web Accessibility
+
+- Uses [`usePress`](https://react-spectrum.adobe.com/react-aria/usePress.html) hook for proper press semantics
+- Uses [`useFocusRing`](https://react-spectrum.adobe.com/react-aria/useFocusRing.html) for focus management
+- Supports ARIA attributes: `role="button"` (when pressable), `role="group"` (when not pressable)
+- Keyboard navigation support for pressable cards
+- Proper focus management and visual focus indicators
+
+### React Native Accessibility
+
+- `accessibilityRole="button"` for pressable cards, `accessibilityRole="group"` for static cards
+- `accessibilityState={{disabled: boolean}}` to communicate card state
+- `accessibilityHint` to provide context about card interactions
+- Screen reader optimized content structure
+- CardTitle includes `accessibilityRole="header"` for proper content hierarchy
+
+## Styling
+
+### Card Variants
+
+**Variants:**
+
+- `shadcn` (default) - Standard card with background and border
+- `outline` - Transparent background with visible border
+- `ghost` - Minimal styling with no background or border, no shadow
+
+**Border Radius:**
+
+- `none` - No border radius: `rounded-none`
+- `sm` - Small radius: `rounded-sm`
+- `md` - Medium radius: `rounded-md`
+- `lg` - Large radius: `rounded-lg`
+- `xl` (default) - Extra large radius: `rounded-xl`
+
+**States:**
+
+- `blurred` - Applies blur effect: `blur`
+- `pressed` - Pressed state (pressable cards): `opacity-90`
+- `disabled` - Disabled state (pressable cards): `opacity-50`
+
+### Component Classes
+
+**Card Base:** `text-card-foreground flex flex-col border shadow-sm p-6 gap-6`
+
+**CardHeader:** `flex flex-col gap-1.5`
+
+**CardTitle:** `text-foreground font-semibold leading-none tracking-tight`
+
+**CardDescription:** `text-sm text-muted-foreground`
+
+**CardContent:** `text-muted-foreground`
+
+**CardAction:** `flex items-center justify-end`
+
+**CardFooter:** `flex items-center p-6 pt-0`

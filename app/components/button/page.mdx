@@ -1,0 +1,123 @@
+import Preview from "@/components/Preview";
+import {GithubIcon, StorybookIcon} from "@storybook/icons";
+
+<div style={{display: "flex", flexDirection: "row", gap: "2rem"}}>
+  <a
+    href={`${process.env.STORYBOOK_URL}/?path=/story/button--default&globals=backgrounds.value:light`}
+  >
+    <StorybookIcon color="#FE4785" width={25} height={25} />
+  </a>
+  <a href="https://github.com/moveinready-casa/shadcn-native/blob/3-create-components/registry/ui/button.tsx">
+    <GithubIcon width={25} height={25} />
+  </a>
+  <a href="https://ui.shadcn.com/docs/components/button">Shadcn Docs</a>
+</div>
+
+# Button
+
+Displays a button or a component that looks like a button.
+
+<Preview component="button" />
+
+## Usage
+
+```tsx
+import {Button} from "@/components/ui/button";
+
+<Button>Button</Button>;
+```
+
+## Components
+
+### Button
+
+| Prop           | Type                                                                          | Default     | Description                                                                                              |
+| -------------- | ----------------------------------------------------------------------------- | ----------- | -------------------------------------------------------------------------------------------------------- |
+| `variant`      | `"default" \| "destructive" \| "outline" \| "secondary" \| "ghost" \| "link"` | `"default"` | The visual variant of the button. Controls the color scheme and styling approach.                        |
+| `size`         | `"default" \| "sm" \| "lg" \| "icon"`                                         | `"default"` | Sets the size of the button. Controls height, padding, and text size.                                    |
+| `borderRadius` | `"none" \| "sm" \| "md" \| "lg" \| "xl"`                                      | `"md"`      | Sets the border radius of the button. Controls the roundness of corners.                                 |
+| `fullWidth`    | `boolean`                                                                     | `false`     | Whether the button should take the full width of its container.                                          |
+| `asChild`      | `boolean`                                                                     | `false`     | If true, clones props to the nearest child instead of rendering a Pressable. Useful for custom elements. |
+| `loading`      | `boolean`                                                                     | `false`     | Whether the button is in a loading state. Shows spinner and disables interaction.                        |
+| `disabled`     | `boolean`                                                                     | `false`     | Whether the button is disabled. Reduces opacity and prevents interaction.                                |
+| `spinner`      | `React.ReactNode`                                                             | -           | Custom spinner element to display when loading. Overrides the default ActivityIndicator.                 |
+| `startContent` | `React.ReactNode`                                                             | -           | Content to display at the start of the button (before children).                                         |
+| `endContent`   | `React.ReactNode`                                                             | -           | Content to display at the end of the button (after children).                                            |
+
+## Hooks
+
+### useButton
+
+The backbone hook for the button component that provides accessibility props and state.
+
+**Parameters:**
+
+| Parameter | Type          | Default | Description                                              |
+| --------- | ------------- | ------- | -------------------------------------------------------- |
+| `props`   | `ButtonProps` | -       | Props to configure the behavior of the button component. |
+
+**Returns:**
+
+```typescript
+{
+  componentProps: React.ComponentProps<typeof Pressable> | HTMLButtonElement;
+  state: {
+    isPressed: boolean;
+    isDisabled: boolean;
+    isLoading: boolean;
+    isFocusVisible: boolean;
+  }
+}
+```
+
+| Property         | Type                                                                                     | Description                                          |
+| ---------------- | ---------------------------------------------------------------------------------------- | ---------------------------------------------------- |
+| `componentProps` | `React.ComponentProps<typeof Pressable> \| HTMLButtonElement`                            | Accessibility props to pass to the button component. |
+| `state`          | `{isPressed: boolean, isDisabled: boolean, isLoading: boolean, isFocusVisible: boolean}` | The current state of the button.                     |
+
+## Accessibility
+
+The Button component is built with accessibility in mind and includes:
+
+### Web Accessibility
+
+- Uses [`useButton`](https://react-spectrum.adobe.com/react-aria/useButton.html) hook for proper button semantics
+- Uses [`useFocusRing`](https://react-spectrum.adobe.com/react-aria/useFocusRing.html) for focus management
+- Supports ARIA attributes: `role="button"`, `aria-disabled`
+- Keyboard navigation support (Enter and Space keys)
+- Proper focus management
+
+### React Native Accessibility
+
+- `accessibilityRole="button"` for proper screen reader announcement
+- `accessibilityState={{disabled: boolean}}` to communicate button state
+- Proper touch target size (minimum 44x44 points)
+- Screen reader optimized content
+
+## Styling
+
+### Button Classes
+
+**Variants:**
+
+- `default` (default) - Primary button styling with solid background
+- `destructive` - Red/destructive styling for dangerous actions
+- `outline` - Outlined button with transparent background
+- `secondary` - Secondary button styling with muted colors
+- `ghost` - Minimal button styling that appears on hover
+- `link` - Text-like button styling with underline
+
+**Sizes:**
+
+- `default` (default) - Standard button size: `h-9 px-4 py-2`
+- `sm` - Small button size: `h-8 px-3 text-xs`
+- `lg` - Large button size: `h-10 px-6`
+- `icon` - Square icon button: `size-9`
+
+**Border Radius:**
+
+- `none` - No border radius: `rounded-none`
+- `sm` - Small radius: `rounded-sm`
+- `md` (default) - Medium radius: `rounded-md`
+- `lg` - Large radius: `rounded-lg`
+- `xl` - Extra large radius: `rounded-xl`
