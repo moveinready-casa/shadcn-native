@@ -65,7 +65,6 @@ export type DrawerTriggerComponentProps = ComponentProps<typeof Pressable> &
 /**
  * Props for the `DrawerContent` component.
  * @param baseClassName - Custom tailwind classes to apply to the base container. Takes priority over `className`.
- * @param handleClassName - Custom classes for the action sheet handle.
  * @param onClose - Optional callback fired when `DrawerClose` is pressed.
  * @param snapPoints - Snap points to configure the sheet's height.
  * @param initialSnapIndex - The initial snap index for the sheet.
@@ -73,7 +72,6 @@ export type DrawerTriggerComponentProps = ComponentProps<typeof Pressable> &
 export type DrawerContentComponentProps = {
   children: ReactNode;
   baseClassName?: string;
-  handleClassName?: string;
   onClose?: () => void;
   snapPoints?: number[];
   initialSnapIndex?: number;
@@ -307,7 +305,6 @@ export function DrawerTrigger({
 export function DrawerContent({
   children,
   baseClassName,
-  handleClassName,
   onClose,
   snapPoints,
   initialSnapIndex,
@@ -325,7 +322,10 @@ export function DrawerContent({
         gestureEnabled
         {...props}
         containerStyle={tw.style(
-          drawerContent({colorScheme: colorScheme || "light"}),
+          drawerContent({
+            colorScheme: colorScheme || "light",
+            className: baseClassName,
+          }),
         )}
       >
         <Theme colorScheme={colorScheme || "light"}>
