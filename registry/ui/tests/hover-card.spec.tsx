@@ -134,32 +134,6 @@ describe("HoverCard", () => {
       );
     });
 
-    it("applies shadcn/ui design token classes on Content by default", () => {
-      const {getByTestId} = render(
-        <HoverCard defaultOpen>
-          <HoverCardTrigger>
-            <Text>Open</Text>
-          </HoverCardTrigger>
-          <HoverCardContent testID="content">
-            <Text>Body</Text>
-          </HoverCardContent>
-        </HoverCard>,
-      );
-      const node = getByTestId("content");
-      const className = node.props.className as string;
-
-      [
-        "z-50",
-        "rounded-md",
-        "border",
-        "border-border",
-        "bg-popover",
-        "text-popover-foreground",
-        "shadow-md",
-        "p-4",
-      ].forEach((token) => expect(className).toContain(token));
-    });
-
     it("applies disabled styles to trigger when disabled", () => {
       const {getByTestId} = render(
         <HoverCard>

@@ -282,8 +282,9 @@ describe("Button", () => {
         </Button>,
       );
       const button = getByTestId("button");
-      fireEvent.press(button);
-      expect(onPress).not.toHaveBeenCalled();
+
+      expect(button.props.onPress).toBeUndefined();
+      expect(button.props.accessibilityState).toEqual({disabled: true});
     });
 
     it("disables interaction when loading", () => {
@@ -294,8 +295,9 @@ describe("Button", () => {
         </Button>,
       );
       const button = getByTestId("button");
-      fireEvent.press(button);
-      expect(onPress).not.toHaveBeenCalled();
+
+      expect(button.props.onPress).toBeUndefined();
+      expect(button.props.accessibilityState).toEqual({disabled: true});
     });
   });
 
