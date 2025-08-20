@@ -200,7 +200,6 @@ export function useHoverCardTrigger({
   const componentProps = {
     ...(Platform.OS === "web" ? {...buttonProps, ...focusProps} : {}),
     onMouseEnter: () => {
-      console.log("enter");
       state.setIsOpen(true);
     },
     accessibilityRole: "button",

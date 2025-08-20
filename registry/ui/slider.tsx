@@ -306,7 +306,6 @@ export const useSlider = ({
  */
 export function Slider({testID, ...props}: SliderProps) {
   const {componentProps} = useSlider(props);
-  console.log(componentProps);
   return (
     <NativeSlider testID={testID} {...componentProps} {...(props as any)} />
   );
