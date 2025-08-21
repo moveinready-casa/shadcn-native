@@ -374,7 +374,7 @@
           "type": "registry:ui"
         }
       ],
-      "dependencies": [],
+      "dependencies": ["@react-native-assets/slider"],
       "registryDependencies": []
     },
     {
