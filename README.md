@@ -1,36 +1,27 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Shadcn Native
 
-## Getting Started
+<div style="display: flex; flex-direction: row;">
+  <img src="https://img.shields.io/badge/Expo-1B1F23" />
+  <img src="https://img.shields.io/badge/React_Native-20232A" />
+  <img src="https://img.shields.io/badge/iOS-000000" />
+  <img src="https://img.shields.io/badge/Android-3DDC84" />
+  <img src="https://img.shields.io/badge/MIT-green" />
+</div>
 
-First, run the development server:
+<br />
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+Shadcn native is a port of [shadcn/ui](https://github.com/shadcn-ui/ui) for React Native and React Native Web.
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+> Built by [moveinready.casa](https://www.moveinready.casa/) the next generation solution for mid-term rentals
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## Documentation
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+Please visit the documentation website a [shadcn-native.movinready.casa](https://www.shadcn-native.moveinready.casa).
 
-## Learn More
+## Contributing
 
-To learn more about Next.js, take a look at the following resources:
+Contributions are welcome! Please see the [guide](/CONTRIBUTING.md) before contributing.
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+## Licensing
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+Like shadcn/ui this project is licensed under the [MIT licsense](/LICENSE)
