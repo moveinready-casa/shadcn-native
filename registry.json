@@ -1,7 +1,7 @@
 {
   "$schema": "https://ui.shadcn.com/schema/registry.json",
   "name": "shadcn-native",
-  "homepage": "https://localhost:3000",
+  "homepage": "https://shadcn-native.moveinready.casa",
   "items": [
     {
       "name": "accordion",
