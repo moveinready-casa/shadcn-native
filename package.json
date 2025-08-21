@@ -12,7 +12,7 @@
     "format:write": "pnpx prettier --write .",
     "test": "node --experimental-vm-modules node_modules/jest/bin/jest.js",
     "prepare": "husky",
-    "postbuild": "pagefind --site .next/server/app --output-path public/_pagefind",
+    "postbuild": "pagefind --site .next/server/app --output-path public/_pagefind && pnpm dlx shadcn@latest build",
     "storybook": "pnpm --filter storybook storybook"
   },
   "dependencies": {

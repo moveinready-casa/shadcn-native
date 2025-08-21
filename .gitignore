@@ -20,6 +20,7 @@ node_modules
 # production
 /build
 public/_pagefind
+public/r
 
 # misc
 .DS_Store
