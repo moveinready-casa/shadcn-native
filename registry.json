@@ -56,7 +56,9 @@
         "@react-aria/focus",
         "react-native-reanimated"
       ],
-      "registryDependencies": ["button"]
+      "registryDependencies": [
+        "https://shadcn-native.moveinready.casa/registry/button"
+      ]
     },
     {
       "name": "aspect-ratio",
