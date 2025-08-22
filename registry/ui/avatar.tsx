@@ -118,7 +118,7 @@ export type AvatarComponentProps = {
   baseClassName?: string;
   size?: "sm" | "md" | "lg";
   radius?: "none" | "sm" | "md" | "lg" | "full";
-  variant: "shadcn" | "warning" | "error" | "success";
+  variant?: "shadcn" | "warning" | "error" | "success";
   isBordered?: boolean;
   isDisabled?: boolean;
 } & ComponentProps<typeof View>;
