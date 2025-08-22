@@ -436,9 +436,6 @@ export function HoverCardContent({
 
   const renderProps = {
     ...componentProps,
-    className: base({
-      className: baseClassName || props.className,
-    }),
     ...props,
   };
 
@@ -451,15 +448,28 @@ export function HoverCardContent({
       )[0] as React.ReactElement<{className?: string}>;
       return (
         <Reanimated.View {...componentProps}>
-          <View className={renderProps.className}>
-            {React.cloneElement(onlyChild, renderProps)}
+          <View
+            className={base({
+              className: baseClassName || props.className,
+            })}
+          >
+            {React.cloneElement(onlyChild, {
+              ...renderProps,
+              className: base({
+                className: baseClassName || props.className,
+              }),
+            })}
           </View>
         </Reanimated.View>
       );
     })()
   ) : (
     <Reanimated.View {...renderProps}>
-      <View className={renderProps.className}>
+      <View
+        className={base({
+          className: baseClassName || props.className,
+        })}
+      >
         <Text className={text({className: textClassName})}>{children}</Text>
       </View>
     </Reanimated.View>
