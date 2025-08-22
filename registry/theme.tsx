@@ -134,3 +134,8 @@ export default function Theme({
     </ThemeContext.Provider>
   );
 }
+
+class SVGElement {}
+
+// @ts-expect-error - Prevent error for SVG Element on Native
+globalThis.SVGElement = SVGElement as any;
