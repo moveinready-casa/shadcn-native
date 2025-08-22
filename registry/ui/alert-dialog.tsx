@@ -1,3 +1,6 @@
+import {AriaButtonProps, useButton as useAriaButton} from "@react-aria/button";
+import {AriaDialogProps, useDialog as useDialogAria} from "@react-aria/dialog";
+import {useFocusRing} from "@react-aria/focus";
 import React, {
   ComponentProps,
   createContext,
@@ -6,9 +9,6 @@ import React, {
   useRef,
   useState,
 } from "react";
-import {AriaDialogProps, useDialog as useDialogAria} from "@react-aria/dialog";
-import {AriaButtonProps, useButton as useAriaButton} from "@react-aria/button";
-import {useFocusRing} from "@react-aria/focus";
 import {
   GestureResponderEvent,
   Platform,
@@ -820,11 +820,10 @@ export function AlertDialogAction({
 }: AlertDialogActionComponentProps) {
   const {state} = useContext(AlertDialogContext);
   const {componentProps} = useDialogAction({state});
-  const className = buttonTV({
+  const {base, text} = buttonTV({
     variant,
     size,
     borderRadius,
-    className: baseClassName || props.className,
   });
 
   return asChild ? (
@@ -833,16 +832,18 @@ export function AlertDialogAction({
       {
         ...(componentProps as ComponentProps<typeof Pressable>),
         ...props,
-        className,
+        className: base({className: baseClassName || props.className}),
       },
     )
   ) : (
     <Pressable
       {...(componentProps as ComponentProps<typeof Pressable>)}
       {...props}
-      className={className}
+      className={base({className: baseClassName || props.className})}
     >
-      <Text className="text-foreground">{children}</Text>
+      <Text className={text({className: baseClassName || props.className})}>
+        {children}
+      </Text>
     </Pressable>
   );
 }
@@ -863,11 +864,10 @@ export function AlertDialogCancel({
 }: AlertDialogCancelComponentProps) {
   const {state} = useContext(AlertDialogContext);
   const {componentProps} = useDialogAction({state});
-  const className = buttonTV({
+  const {base, text} = buttonTV({
     variant,
     size,
     borderRadius,
-    className: baseClassName || props.className,
   });
 
   return asChild ? (
@@ -876,16 +876,18 @@ export function AlertDialogCancel({
       {
         ...(componentProps as ComponentProps<typeof Pressable>),
         ...props,
-        className,
+        className: base({className: baseClassName || props.className}),
       },
     )
   ) : (
     <Pressable
       {...(componentProps as ComponentProps<typeof Pressable>)}
       {...props}
-      className={className}
+      className={base({className: baseClassName || props.className})}
     >
-      <Text className="text-foreground">{children}</Text>
+      <Text className={text({className: baseClassName || props.className})}>
+        {children}
+      </Text>
     </Pressable>
   );
 }

@@ -56,7 +56,7 @@
         "@react-aria/focus",
         "react-native-reanimated"
       ],
-      "registryDependencies": []
+      "registryDependencies": ["button"]
     },
     {
       "name": "aspect-ratio",
