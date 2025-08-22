@@ -390,7 +390,7 @@
           "type": "registry:ui"
         }
       ],
-      "dependencies": ["sonner-native", "twrnc"],
+      "dependencies": ["sonner-native", "sonner", "twrnc"],
       "registryDependencies": []
     },
     {
