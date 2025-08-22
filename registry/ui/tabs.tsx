@@ -4,7 +4,7 @@ import React, {
   useContext,
   useState,
 } from "react";
-import {Pressable, View, Platform} from "react-native";
+import {Pressable, View, Platform, Text} from "react-native";
 import {tv} from "tailwind-variants";
 
 /**
@@ -537,7 +537,9 @@ export function TabsTrigger({
   const Content = () => (
     <View className="flex flex-row items-center gap-2">
       {startContent ? <View>{startContent}</View> : null}
-      <View>{children}</View>
+      <View>
+        <Text>{children}</Text>
+      </View>
       {endContent ? <View>{endContent}</View> : null}
     </View>
   );
