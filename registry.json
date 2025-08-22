@@ -258,7 +258,7 @@
           "type": "registry:ui"
         }
       ],
-      "dependencies": [],
+      "dependencies": ["react-native-input-code-otp"],
       "registryDependencies": []
     },
     {
