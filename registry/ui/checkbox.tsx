@@ -1,8 +1,9 @@
+import {AriaToggleButtonProps, useToggleButton} from "@react-aria/button";
+import {CheckIcon, DotIcon} from "lucide-react-native";
 import React, {ComponentProps, useEffect, useRef, useState} from "react";
 import {Platform, Pressable} from "react-native";
-import {AriaToggleButtonProps, useToggleButton} from "@react-aria/button";
 import {tv} from "tailwind-variants";
-import {CheckIcon, DotIcon} from "lucide-react-native";
+import tw from "twrnc";
 
 /**
  * Base props for the `Checkbox` component and `useCheckbox` hook.
@@ -11,7 +12,7 @@ import {CheckIcon, DotIcon} from "lucide-react-native";
  * @param onCheckedChange - Callback that fires whenever the checked state changes.
  * @param disabled - Whether the checkbox is disabled and therefore non-interactive.
  * @param loading - Whether the checkbox is in a loading state (adds a pulse animation and disables interaction).
- * @param size - Size of the checkbox (`"sm" | "md" | "lg"`).
+ * @param size - Size of the checkbox (`"sm" | "md" | "lg" | "xl"`).
  * @param color - Color scheme applied when the checkbox is checked.
  * @param radius - Border radius of the checkbox container.
  */
@@ -90,6 +91,7 @@ export const useCheckbox = ({
           setIsChecked(isSelected);
         }
       },
+      defaultSelected: currentChecked === true,
       toggle: () => {
         if (!isControlled) {
           setIsChecked(!isChecked);
@@ -137,7 +139,7 @@ export const useCheckbox = ({
 export type CheckboxComponentProps = {
   baseClassName?: string;
   iconClassName?: string;
-  size?: "sm" | "md" | "lg";
+  size?: "sm" | "md" | "lg" | "xl";
   color?: "primary" | "secondary" | "success" | "warning" | "destructive";
   radius?: "none" | "sm" | "md" | "lg" | "full";
   animation?: "shadcn" | "enhanced";
@@ -150,7 +152,7 @@ export type CheckboxComponentProps = {
  */
 export const checkbox = tv({
   slots: {
-    // Use absolute border color due to native wind bug
+    // Use absolute border color due to nativewind bug
     base: "flex flex-row items-center justify-center bg-transparent border border-neutral-700 focus-visible:outline-none focus-visible:border-2 focus-visible:border-ring focus-visible:border-offset-2",
     icon: "text-primary-foreground",
   },
@@ -159,6 +161,7 @@ export const checkbox = tv({
       sm: {icon: "w-2 h-2"},
       md: {icon: "w-3.5 h-3.5 m-0.5"},
       lg: {icon: "w-5 h-5 m-1"},
+      xl: {icon: "w-6 h-6 m-1.5"},
     },
     color: {
       primary: {},
@@ -181,7 +184,10 @@ export const checkbox = tv({
       true: {base: "animate-pulse"},
     },
     checked: {
-      true: {base: "bg-primary"},
+      true: {
+        base: "bg-primary",
+      },
+      false: {base: "bg-transparent", icon: "opacity-0 text-white"},
     },
     animation: {
       enhanced: {icon: "transition-all duration-300"},
@@ -260,7 +266,7 @@ export function Checkbox({
     radius,
     disabled: disabled || loading,
     loading,
-    checked: state.isChecked,
+    checked: state.isChecked || false,
     animation,
   });
 
@@ -274,17 +280,17 @@ export function Checkbox({
     <Pressable {...renderProps}>
       {isIndeterminate ? (
         <DotIcon
-          className={icon({className: iconClassName})}
+          style={tw.style(icon({className: iconClassName}))}
           testID="checkbox-icon"
         />
       ) : state.isChecked ? (
         <CheckIcon
-          className={icon({className: iconClassName})}
+          style={tw.style(icon({className: iconClassName}))}
           testID="checkbox-icon"
         />
       ) : (
         <CheckIcon
-          className={icon({className: "opacity-0"})}
+          style={tw.style(icon({className: iconClassName}))}
           testID="checkbox-icon"
         />
       )}

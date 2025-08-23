@@ -4,9 +4,10 @@ import {
   useBreadcrumbs as useBreadcrumbAria,
   useBreadcrumbItem as useBreadcrumbItemAria,
 } from "@react-aria/breadcrumbs";
+import {useNavigation} from "@react-navigation/native";
 import {ChevronRightIcon, MoreHorizontalIcon} from "lucide-react-native";
 import React, {ComponentProps, createContext, useContext, useRef} from "react";
-import {Platform, Pressable, View, Linking, Text} from "react-native";
+import {Platform, Pressable, Text, View} from "react-native";
 import {tv} from "tailwind-variants";
 
 /**
@@ -129,6 +130,17 @@ export type BreadcrumbSeparatorComponentProps = {
 } & ComponentProps<typeof View>;
 
 /**
+ * Props for the `BreadcrumbEllipsis` component.
+ * @param asChild - If true clones the child and passes all accessibility and functionality props to it. Available on any exported component.
+ * @param baseClassName - Custom tailwind classes to apply to the base breadcrumb ellipsis component. Takes priority over the `className` prop.
+ */
+export type BreadcrumbEllipsisComponentProps = {
+  children?: React.ReactNode;
+  asChild?: boolean;
+  baseClassName?: string;
+} & Partial<ComponentProps<typeof View>>;
+
+/**
  * Context value for the `Breadcrumb` component.
  * @param props - Props from the top-level Breadcrumb component.
  * @see BreadcrumbReturn
@@ -145,6 +157,130 @@ export type BreadcrumbContextProps = {
 export type BreadcrumbContextItemProps = {
   disabled?: boolean;
 } & BreadcrumbItemReturn;
+
+/**
+ * Conditional classes for the breadcrumb list component.
+ * @see BreadcrumbListComponentProps
+ */
+export const breadcrumbList = tv({
+  base: "flex flex-row flex-wrap items-center gap-1.5 break-words sm:gap-2.5 p-2 w-fit",
+  variants: {
+    variant: {
+      shadcn: "",
+      bordered: "border border-border",
+      solid: "bg-background border border-border",
+    },
+    borderRadius: {
+      none: "",
+      sm: "rounded-sm",
+      md: "rounded-md",
+      lg: "rounded-lg",
+      xl: "rounded-xl",
+    },
+  },
+  defaultVariants: {
+    variant: "shadcn",
+    borderRadius: "md",
+  },
+});
+
+/**
+ * Conditional classes for the breadcrumb link component.
+ * It includes the following slots:
+ * - base: The base styles for the breadcrumb link.
+ * - text: The text styles for the breadcrumb link.
+ * @see BreadcrumbLinkComponentProps
+ */
+export const breadcrumbLink = tv({
+  slots: {
+    base: "flex-row items-center gap-1",
+    text: "text-muted-foreground transition-colors",
+  },
+  variants: {
+    size: {
+      sm: {
+        text: "text-xs",
+      },
+      md: {
+        text: "text-sm",
+      },
+      lg: {
+        text: "text-base",
+      },
+    },
+    color: {
+      default: {
+        text: "hover:text-foreground",
+      },
+      warning: {
+        text: "hover:text-warning",
+      },
+      destructive: {
+        text: "hover:text-destructive",
+      },
+      success: {
+        text: "hover:text-success",
+      },
+    },
+  },
+  defaultVariants: {
+    size: "md",
+    color: "default",
+  },
+});
+
+/**
+ * Conditional classes for the breadcrumb page component.
+ * @see BreadcrumbPageComponentProps
+ */
+export const breadcrumbPage = tv({
+  base: "",
+  variants: {
+    size: {
+      sm: "text-xs",
+      md: "text-sm",
+      lg: "text-base",
+    },
+    color: {
+      default: "text-foreground",
+      warning: "text-warning",
+      destructive: "text-destructive",
+      success: "text-success",
+    },
+  },
+  defaultVariants: {
+    size: "md",
+    color: "default",
+  },
+});
+
+/**
+ * Conditional classes for the breadcrumb separator component.
+ * @see BreadcrumbSeparatorComponentProps
+ */
+export const breadcrumbSeparator = tv({
+  base: "text-muted-foreground",
+  variants: {
+    size: {
+      sm: "size-3",
+      md: "size-3.5",
+      lg: "size-4",
+    },
+  },
+  defaultVariants: {
+    size: "md",
+    color: "default",
+  },
+});
+
+/**
+ * Conditional classes for the breadcrumb ellipsis component.
+ * @see BreadcrumbEllipsisComponentProps
+ */
+export const breadcrumbEllipsis = tv({
+  extend: breadcrumbSeparator,
+  base: "justify-center",
+});
 
 /**
  * The use breadcrumb hook is the backbone of the breadcrumb component.
@@ -180,24 +316,22 @@ export const useBreadcrumbItem = ({
   disabled,
   ...props
 }: BreadcrumbItemProps): BreadcrumbItemReturn => {
-  let linkProps: BreadcrumbItemReturn["linkProps"];
+  const webLinkRef = useRef<HTMLAnchorElement>(null);
+  const {itemProps: webLinkProps} = useBreadcrumbItemAria(
+    {...props, isDisabled: disabled},
+    webLinkRef,
+  );
+
+  let linkProps: BreadcrumbItemReturn["linkProps"] = {};
 
   if (Platform.OS === "web") {
-    const webLinkRef = useRef<HTMLAnchorElement>(null);
-    const {itemProps: webLinkProps} = useBreadcrumbItemAria(
-      {...props, isDisabled: disabled},
-      webLinkRef,
-    );
-
     linkProps = webLinkProps;
   }
 
-  // @ts-expect-error - link props could be defined if the platform is web
-  const existingLinkProps = linkProps || {};
-
   linkProps = {
-    ...existingLinkProps,
+    ...linkProps,
     ...props,
+    hitSlop: 20,
     accessibilityRole: "link",
     accessibilityState: {
       disabled,
@@ -226,6 +360,13 @@ export const useBreadcrumbItem = ({
 export const BreadcrumbContext = createContext<BreadcrumbContextProps | null>(
   null,
 );
+
+/**
+ * A context wrapper containing the global state of the breadcrumb item.
+ * @see BreadcrumbContextItemProps
+ */
+export const BreadcrumbItemContext =
+  createContext<BreadcrumbContextItemProps | null>(null);
 
 /**
  * The root breadcrumb component. This should be supplied once per breadcrumb group. It is required for all breadcrumbs.
@@ -310,32 +451,6 @@ export function Breadcrumb({
 }
 
 /**
- * Conditional classes for the breadcrumb list component.
- * @see BreadcrumbListComponentProps
- */
-export const breadcrumbList = tv({
-  base: "flex flex-row flex-wrap items-center gap-1.5 break-words sm:gap-2.5 p-2 w-fit",
-  variants: {
-    variant: {
-      shadcn: "",
-      bordered: "border border-border",
-      solid: "bg-background border border-border",
-    },
-    borderRadius: {
-      none: "",
-      sm: "rounded-sm",
-      md: "rounded-md",
-      lg: "rounded-lg",
-      xl: "rounded-xl",
-    },
-  },
-  defaultVariants: {
-    variant: "shadcn",
-    borderRadius: "md",
-  },
-});
-
-/**
  * The breadcrumb list component. This component wraps all breadcrumb items and provides the list structure.
  * @example
  * ```tsx
@@ -390,13 +505,6 @@ export function BreadcrumbList({
 }
 
 /**
- * A context wrapper containing the global state of the breadcrumb item.
- * @see BreadcrumbContextItemProps
- */
-export const BreadcrumbItemContext =
-  createContext<BreadcrumbContextItemProps | null>(null);
-
-/**
  * The breadcrumb item component. This component wraps individual breadcrumb links and pages.
  * @example
  * ```tsx
@@ -424,8 +532,7 @@ export function BreadcrumbItem({
     children,
   });
 
-  const renderProps = {
-    ...componentProps,
+  const renderProps: React.ComponentProps<typeof View> = {
     ...props,
     className: baseClassName || props.className || "",
   };
@@ -435,66 +542,21 @@ export function BreadcrumbItem({
       value={{componentProps, linkProps, pageProps, disabled}}
     >
       {asChild ? (
-        React.Children.map(children, (child) => {
-          if (React.isValidElement(child)) {
-            return React.cloneElement(child as React.ReactElement<any>, {
-              ...renderProps,
-              className: renderProps.className,
-            });
-          }
-          return child;
-        })
+        React.cloneElement(
+          React.Children.toArray(children)[0] as React.ReactElement<{
+            className: string;
+          }>,
+          {
+            ...renderProps,
+            className: renderProps.className,
+          },
+        )
       ) : (
         <View {...renderProps}>{children}</View>
       )}
     </BreadcrumbItemContext.Provider>
   );
 }
-
-/**
- * Conditional classes for the breadcrumb link component.
- * It includes the following slots:
- * - base: The base styles for the breadcrumb link.
- * - text: The text styles for the breadcrumb link.
- * @see BreadcrumbLinkComponentProps
- */
-export const breadcrumbLink = tv({
-  slots: {
-    base: "flex-row items-center gap-1",
-    text: "text-muted-foreground transition-colors",
-  },
-  variants: {
-    size: {
-      sm: {
-        text: "text-xs",
-      },
-      md: {
-        text: "text-sm",
-      },
-      lg: {
-        text: "text-base",
-      },
-    },
-    color: {
-      default: {
-        text: "hover:text-foreground",
-      },
-      warning: {
-        text: "hover:text-warning",
-      },
-      destructive: {
-        text: "hover:text-destructive",
-      },
-      success: {
-        text: "hover:text-success",
-      },
-    },
-  },
-  defaultVariants: {
-    size: "md",
-    color: "default",
-  },
-});
 
 /**
  * The breadcrumb link component. This component renders a clickable link that navigates to a URL.
@@ -522,6 +584,8 @@ export function BreadcrumbLink({
     throw new Error("BreadcrumbLink must be used within a BreadcrumbItem");
   }
 
+  const navigation = useNavigation();
+
   const {size, color} = breadcrumbContext.props;
 
   const {base, text} = breadcrumbLink({size, color});
@@ -531,13 +595,7 @@ export function BreadcrumbLink({
   const handlePress = (e: typeof Pressable.prototype.onPress) => {
     props.onPress?.(e);
 
-    if (!Linking.canOpenURL(href || "/")) {
-      throw new Error(
-        `Invalid URL: ${href} \n Be sure all passed URLs are supported by the linking module https://reactnative.dev/docs/linking or use the asChild prop with your routers component ie: expo-link.`,
-      );
-    }
-
-    Linking.openURL(href || "/");
+    navigation.navigate(href as never);
   };
 
   const renderProps = {
@@ -567,31 +625,6 @@ export function BreadcrumbLink({
     </Pressable>
   );
 }
-
-/**
- * Conditional classes for the breadcrumb page component.
- * @see BreadcrumbPageComponentProps
- */
-export const breadcrumbPage = tv({
-  base: "",
-  variants: {
-    size: {
-      sm: "text-xs",
-      md: "text-sm",
-      lg: "text-base",
-    },
-    color: {
-      default: "text-foreground",
-      warning: "text-warning",
-      destructive: "text-destructive",
-      success: "text-success",
-    },
-  },
-  defaultVariants: {
-    size: "md",
-    color: "default",
-  },
-});
 
 /**
  * The breadcrumb page component. This component renders the current page text (non-clickable).
@@ -642,25 +675,6 @@ export function BreadcrumbPage({
     <Text {...renderProps}>{children}</Text>
   );
 }
-
-/**
- * Conditional classes for the breadcrumb separator component.
- * @see BreadcrumbSeparatorComponentProps
- */
-export const breadcrumbSeparator = tv({
-  base: "text-muted-foreground",
-  variants: {
-    size: {
-      sm: "size-3",
-      md: "size-3.5",
-      lg: "size-4",
-    },
-  },
-  defaultVariants: {
-    size: "md",
-    color: "default",
-  },
-});
 
 /**
  * The breadcrumb separator component. This component renders a separator between breadcrumb items.
@@ -714,17 +728,6 @@ export function BreadcrumbSeparator({
 }
 
 /**
- * Props for the `BreadcrumbEllipsis` component.
- * @param asChild - If true clones the child and passes all accessibility and functionality props to it. Available on any exported component.
- * @param baseClassName - Custom tailwind classes to apply to the base breadcrumb ellipsis component. Takes priority over the `className` prop.
- */
-export type BreadcrumbEllipsisComponentProps = {
-  children?: React.ReactNode;
-  asChild?: boolean;
-  baseClassName?: string;
-} & Partial<ComponentProps<typeof View>>;
-
-/**
  * The breadcrumb ellipsis component. This component renders an ellipsis to indicate hidden breadcrumb items.
  * @example
  * ```tsx
@@ -750,7 +753,7 @@ export function BreadcrumbEllipsis({
   const renderProps = {
     ...props,
     size: iconSize,
-    className: breadcrumbSeparator({
+    className: breadcrumbEllipsis({
       size,
       className: baseClassName || props.className,
     }),
