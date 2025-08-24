@@ -233,7 +233,7 @@ export type AlertDialogActionComponentProps = {
     | "secondary"
     | "ghost"
     | "link";
-  size?: "default" | "sm" | "lg" | "icon";
+  size?: "md" | "sm" | "lg" | "icon";
   borderRadius?: "none" | "sm" | "md" | "lg" | "xl";
 } & ComponentProps<typeof Pressable>;
 
@@ -814,7 +814,7 @@ export function AlertDialogAction({
   asChild = false,
   baseClassName,
   variant = "destructive",
-  size = "default",
+  size = "md",
   borderRadius = "md",
   ...props
 }: AlertDialogActionComponentProps) {
@@ -858,7 +858,7 @@ export function AlertDialogCancel({
   asChild = false,
   baseClassName,
   variant = "outline",
-  size = "default",
+  size = "md",
   borderRadius = "md",
   ...props
 }: AlertDialogCancelComponentProps) {

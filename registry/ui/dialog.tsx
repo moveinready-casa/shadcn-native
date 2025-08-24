@@ -1,3 +1,7 @@
+import {AriaButtonProps, useButton} from "@react-aria/button";
+import {AriaDialogProps, useDialog as useDialogAria} from "@react-aria/dialog";
+import {useFocusRing} from "@react-aria/focus";
+import {XIcon} from "lucide-react-native";
 import React, {
   ComponentProps,
   createContext,
@@ -6,20 +10,18 @@ import React, {
   useRef,
   useState,
 } from "react";
-import {AriaDialogProps, useDialog as useDialogAria} from "@react-aria/dialog";
 import {
-  View,
+  Dimensions,
+  GestureResponderEvent,
   Platform,
   Pressable,
   Text,
   TouchableWithoutFeedback,
-  GestureResponderEvent,
+  View,
 } from "react-native";
-import {AriaButtonProps, useButton} from "@react-aria/button";
-import {useFocusRing} from "@react-aria/focus";
-import {XIcon} from "lucide-react-native";
-import {tv} from "tailwind-variants";
 import Reanimated, {FadeIn, FadeOut} from "react-native-reanimated";
+import {tv} from "tailwind-variants";
+import {ThemeContext, themes} from "../theme";
 
 /**
  * Base props for the root `Dialog` component, context, and hook.
@@ -44,6 +46,7 @@ export type DialogReturn = {
   state: {
     isOpen: boolean;
     setIsOpen: (isOpen: boolean) => void;
+    controlledOpen: boolean;
   };
   overlayProps: ComponentProps<typeof TouchableWithoutFeedback>;
 };
@@ -248,12 +251,14 @@ export const useDialog = ({
     state: {
       isOpen,
       setIsOpen,
+      controlledOpen: forceMount || open === true,
     },
     overlayProps: {
       onPress: () => {
-        if (!forceMount) {
-          setIsOpen(false);
+        if (forceMount || open) {
+          return;
         }
+        setIsOpen(false);
       },
     },
   };
@@ -281,6 +286,10 @@ export const useDialogTrigger = ({
       ...(Platform.OS === "web" ? buttonProps : {}),
       accessibilityRole: "button",
       onPress: () => {
+        if (state.controlledOpen === false) {
+          return;
+        }
+
         state.setIsOpen(true);
       },
       ...props,
@@ -296,7 +305,6 @@ export const useDialogTrigger = ({
 export const useDialogContent = ({
   modal,
   state,
-  forceMount,
   onOpenAutoFocus,
   onCloseAutoFocus,
   onEscapeKeyDown,
@@ -305,7 +313,11 @@ export const useDialogContent = ({
   ...props
 }: DialogContentProps): DialogContentReturn => {
   const dialogRef = useRef<View | HTMLDivElement>(null);
-  const dialogAria = useDialogAria({...props}, dialogRef);
+
+  const dialogAria = useDialogAria(
+    {...(Platform.OS === "web" ? props : {})},
+    Platform.OS === "web" ? dialogRef : {current: null},
+  );
 
   const buttonRef = useRef<HTMLButtonElement>(null);
   const {buttonProps} = useButton(props, buttonRef);
@@ -314,6 +326,13 @@ export const useDialogContent = ({
   if (!state) {
     throw new Error("useDialogContent must be used within a Dialog");
   }
+
+  const handleClose = () => {
+    if (state.controlledOpen) {
+      return;
+    }
+    state.setIsOpen(false);
+  };
 
   return {
     componentProps: {
@@ -332,12 +351,8 @@ export const useDialogContent = ({
       accessibilityLiveRegion: "polite",
       accessibilityViewIsModal: modal,
       onKeyDown: (e) => {
-        if (forceMount) {
-          return;
-        }
-
         if (e.key === "Escape") {
-          state.setIsOpen(false);
+          handleClose();
           onEscapeKeyDown?.(e);
         }
       },
@@ -355,11 +370,7 @@ export const useDialogContent = ({
       ...(Platform.OS === "web" ? buttonProps : {}),
       ...(Platform.OS === "web" ? focusProps : {}),
       accessibilityRole: "button",
-      onPress: () => {
-        if (!forceMount) {
-          state.setIsOpen(false);
-        }
-      },
+      onPress: () => handleClose(),
     },
   };
 };
@@ -375,6 +386,7 @@ export const DialogContext = createContext<
   state: {
     isOpen: false,
     setIsOpen: () => {},
+    controlledOpen: false,
   },
   overlayProps: {},
   props: {},
@@ -534,9 +546,9 @@ export function DialogOverlay({
  */
 export const dialogContent = tv({
   slots: {
-    base: "fixed left-[50%] top-[50%] z-50  w-full max-w-lg translate-x-[-50%] translate-y-[-50%] gap-4 border border-border bg-background p-6 shadow-lg rounded-lg",
+    base: "fixed left-[50%] top-[50%] z-50 w-full max-w-lg translate-x-[-50%] translate-y-[-50%] gap-4 border border-border bg-background p-6 shadow-lg rounded-lg",
     closeButton:
-      "absolute right-4 top-4 rounded-sm opacity-70 ring-offset-background transition-opacity text-muted-foreground hover:opacity-100 focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2 disabled:pointer-events-none",
+      "absolute right-4 top-4 rounded-sm opacity-70 ring-offset-background transition-opacity hover:opacity-100 focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2 disabled:pointer-events-none",
   },
   variants: {
     borderRadius: {
@@ -564,8 +576,21 @@ export function DialogContent({
 }: DialogContentComponentProps) {
   const {state} = useContext(DialogContext);
   const contextProps = useDialogContent({...props, state, forceMount});
+  const {colorScheme} = useContext(ThemeContext);
 
   const {base, closeButton} = dialogContent({borderRadius});
+
+  const renderProps = {
+    ...contextProps.componentProps,
+    ...props,
+    style:
+      Platform.OS !== "web"
+        ? {
+            top: Dimensions.get("window").height / 4,
+          }
+        : {},
+    className: base({className: baseClassName || props.className}),
+  };
 
   return (
     <DialogContentContext.Provider value={contextProps}>
@@ -575,20 +600,16 @@ export function DialogContent({
             React.Children.toArray(children)[0] as React.ReactElement<{
               className: string;
             }>,
-            {
-              ...contextProps.componentProps,
-              className: base({className: baseClassName || props.className}),
-            },
+            renderProps,
           )
         ) : (
           <View
-            {...props}
-            {...contextProps.componentProps}
+            {...renderProps}
             className={base({className: baseClassName || props.className})}
           >
             <View>{children}</View>
             <DialogClose className={closeButton()}>
-              <XIcon />
+              <XIcon color={themes[colorScheme]["--foreground"]} />
               <Text className="sr-only">Close</Text>
             </DialogClose>
           </View>

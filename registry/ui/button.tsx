@@ -9,7 +9,7 @@ import {tv} from "tailwind-variants";
  */
 export type ButtonProps = {
   variant?:
-    | "md"
+    | "default"
     | "destructive"
     | "warning"
     | "outline"
@@ -126,7 +126,7 @@ export const button = tv({
   },
   variants: {
     variant: {
-      md: {
+      default: {
         base: "bg-primary text-primary-foreground shadow hover:opacity-90",
         text: "text-primary-foreground",
       },
@@ -177,7 +177,7 @@ export const button = tv({
     },
   },
   defaultVariants: {
-    variant: "md",
+    variant: "default",
     size: "md",
     borderRadius: "md",
     fullWidth: false,
@@ -190,7 +190,7 @@ export const button = tv({
  */
 export function Button({
   children,
-  variant = "md",
+  variant = "default",
   size = "md",
   borderRadius = "md",
   fullWidth = false,
