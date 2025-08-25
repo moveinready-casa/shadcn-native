@@ -16,7 +16,7 @@ Shadcn native is a port of [shadcn/ui](https://github.com/shadcn-ui/ui) for Reac
 
 > [!NOTE]
 >
-> Built by [moveinready.casa](https://www.moveinready.casa/) the next generation solution for mid-term rentals
+> Built by [moveinready.casa](https://www.moveinready.casa/) the next generation solution for mid-term rentals.
 
 > [!IMPORTANT]
 >
@@ -32,7 +32,7 @@ Please visit the documentation website a [shadcn-native.movinready.casa](https:/
 
 ## Storybook
 
-For quick previewing on the web checkout the [storybook](https://www.storybook.shadcn-native.moveinready.casa)
+For quick previewing on the web checkout the [storybook](https://www.storybook.shadcn-native.moveinready.casa).
 
 ## Contributing
 
