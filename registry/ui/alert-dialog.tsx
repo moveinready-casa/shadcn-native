@@ -374,21 +374,21 @@ export const useAlertDialogContent = ({
       ref: dialogRef,
       accessible: true,
       focusable: true,
-      onFocus: (e) => {
+      onFocus: (e: React.FocusEvent<Element, Element>) => {
         onOpenAutoFocus?.(e);
         onInteractOutside?.(e);
       },
-      onBlur: (e) => {
+      onBlur: (e: React.FocusEvent<Element, Element>) => {
         onCloseAutoFocus?.(e);
       },
       accessibilityRole: "dialog",
       accessibilityLiveRegion: "polite",
       accessibilityViewIsModal: modal,
-      onKeyDown: (e) => {
+      onKeyDown: (e: React.KeyboardEvent<Element>) => {
         if (forceMount) return;
-        if ((e as any).key === "Escape") {
+        if (e.key === "Escape") {
           state.setIsOpen(false);
-          onEscapeKeyDown?.(e as any);
+          onEscapeKeyDown?.(e);
         }
       },
       onPress: (e: GestureResponderEvent) => {

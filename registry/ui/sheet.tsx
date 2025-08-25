@@ -1,3 +1,10 @@
+import {AriaButtonProps, useButton} from "@react-aria/button";
+import {
+  AriaDialogProps as AriaSheetProps,
+  useDialog as useSheetAria,
+} from "@react-aria/dialog";
+import {useFocusRing} from "@react-aria/focus";
+import {XIcon} from "lucide-react-native";
 import React, {
   ComponentProps,
   createContext,
@@ -7,21 +14,14 @@ import React, {
   useState,
 } from "react";
 import {
-  AriaDialogProps as AriaSheetProps,
-  useDialog as useSheetAria,
-} from "@react-aria/dialog";
-import {
-  View,
+  Dimensions,
+  GestureResponderEvent,
   Platform,
   Pressable,
   Text,
   TouchableWithoutFeedback,
-  GestureResponderEvent,
+  View,
 } from "react-native";
-import {AriaButtonProps, useButton} from "@react-aria/button";
-import {useFocusRing} from "@react-aria/focus";
-import {XIcon} from "lucide-react-native";
-import {tv} from "tailwind-variants";
 import Reanimated, {
   FadeIn,
   FadeOut,
@@ -34,6 +34,8 @@ import Reanimated, {
   SlideOutRight,
   SlideOutUp,
 } from "react-native-reanimated";
+import {tv} from "tailwind-variants";
+import {ThemeContext, themes} from "../theme";
 
 /**
  * Base props for the root `Sheet` component, context, and hook.
@@ -58,6 +60,7 @@ export type SheetReturn = {
   state: {
     isOpen: boolean;
     setIsOpen: (isOpen: boolean) => void;
+    controlledOpen: boolean | "uncontrolled";
   };
   overlayProps: ComponentProps<typeof TouchableWithoutFeedback>;
 };
@@ -256,18 +259,25 @@ export const useSheet = ({
     if (isOpen) {
       onOpenChange?.(true);
     }
-  }, [isOpen]);
+  }, [isOpen, onOpenChange]);
 
   return {
     state: {
       isOpen,
       setIsOpen,
+      controlledOpen:
+        forceMount || open === true
+          ? true
+          : open == null
+            ? "uncontrolled"
+            : false,
     },
     overlayProps: {
       onPress: () => {
-        if (!forceMount) {
-          setIsOpen(false);
+        if (forceMount || open) {
+          return;
         }
+        setIsOpen(false);
       },
     },
   };
@@ -295,6 +305,10 @@ export const useSheetTrigger = ({
       ...(Platform.OS === "web" ? buttonProps : {}),
       accessibilityRole: "button",
       onPress: () => {
+        if (state.controlledOpen !== "uncontrolled") {
+          return;
+        }
+
         state.setIsOpen(true);
       },
       ...props,
@@ -310,7 +324,6 @@ export const useSheetTrigger = ({
 export const useSheetContent = ({
   modal,
   state,
-  forceMount,
   onOpenAutoFocus,
   onCloseAutoFocus,
   onEscapeKeyDown,
@@ -319,7 +332,11 @@ export const useSheetContent = ({
   ...props
 }: SheetContentProps): SheetContentReturn => {
   const sheetRef = useRef<View | HTMLDivElement>(null);
-  const sheetAria = useSheetAria({...props}, sheetRef);
+
+  const sheetAria = useSheetAria(
+    {...(Platform.OS === "web" ? props : {})},
+    Platform.OS === "web" ? sheetRef : {current: null},
+  );
 
   const buttonRef = useRef<HTMLButtonElement>(null);
   const {buttonProps} = useButton(props, buttonRef);
@@ -329,29 +346,32 @@ export const useSheetContent = ({
     throw new Error("useSheetContent must be used within a Sheet");
   }
 
+  const handleClose = () => {
+    if (state.controlledOpen === true) {
+      return;
+    }
+    state.setIsOpen(false);
+  };
+
   return {
     componentProps: {
       ...(Platform.OS === "web" ? sheetAria.dialogProps : {}),
       ref: sheetRef,
       accessibile: true,
       focusable: true,
-      onFocus: (e) => {
+      onFocus: (e: React.FocusEvent<Element, Element>) => {
         onOpenAutoFocus?.(e);
         onInteractOutside?.(e);
       },
-      onBlur: (e) => {
+      onBlur: (e: React.FocusEvent<Element, Element>) => {
         onCloseAutoFocus?.(e);
       },
-      accessibilityRole: "sheet",
+      accessibilityRole: "dialog",
       accessibilityLiveRegion: "polite",
       accessibilityViewIsModal: modal,
-      onKeyDown: (e) => {
-        if (forceMount) {
-          return;
-        }
-
+      onKeyDown: (e: React.KeyboardEvent<Element>) => {
         if (e.key === "Escape") {
-          state.setIsOpen(false);
+          handleClose();
           onEscapeKeyDown?.(e);
         }
       },
@@ -369,11 +389,7 @@ export const useSheetContent = ({
       ...(Platform.OS === "web" ? buttonProps : {}),
       ...(Platform.OS === "web" ? focusProps : {}),
       accessibilityRole: "button",
-      onPress: () => {
-        if (!forceMount) {
-          state.setIsOpen(false);
-        }
-      },
+      onPress: () => handleClose(),
     },
   };
 };
@@ -389,9 +405,86 @@ export const SheetContext = createContext<
   state: {
     isOpen: false,
     setIsOpen: () => {},
+    controlledOpen: false,
   },
   overlayProps: {},
   props: {},
+});
+
+/**
+ * A context wrapper containing the global state of the sheet content.
+ * @see SheetContentReturn
+ */
+export const SheetContentContext = createContext<SheetContentReturn>({
+  componentProps: {},
+  titleProps: {},
+  closeButtonProps: {},
+});
+
+/**
+ * Conditional classes for the sheet overlay component.
+ * @see SheetOverlayComponentProps
+ */
+export const sheetOverlay = tv({
+  base: "fixed inset-0 z-50 bg-black opacity-80",
+});
+
+/**
+ * Conditional classes for the sheet content component.
+ * It includes the following slots:
+ * - base: The base styles for the sheet content.
+ * - closeButton: The close button styles for the sheet content.
+ * @see SheetContentComponentProps
+ */
+export const sheetContent = tv({
+  slots: {
+    base: "absolute z-50 gap-4 border border-border bg-background p-6 shadow-lg",
+    closeButton:
+      "absolute right-4 top-4 rounded-sm opacity-70 ring-offset-background transition-opacity text-muted-foreground hover:opacity-100 focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2 disabled:pointer-events-none",
+  },
+  variants: {
+    side: {
+      top: {base: "inset-x-0 top-0 border border-b w-full max-h-lg"},
+      bottom: {base: "inset-x-0 bottom-0 border border-t w-full max-h-lg"},
+      left: {base: "inset-y-0 left-0 border border-r h-full max-w-lg"},
+      right: {base: "inset-y-0 right-0 border border-l h-full max-w-lg"},
+    },
+  },
+  defaultVariants: {
+    side: "right",
+  },
+});
+
+/**
+ * Conditional classes for the sheet header component.
+ * @see SheetHeaderComponentProps
+ */
+export const sheetHeader = tv({
+  base: "flex justify-center sm:justify-start w-full",
+});
+
+/**
+ * Conditional classes for the sheet title component.
+ * @see SheetTitleComponentProps
+ */
+export const sheetTitle = tv({
+  base: "text-lg font-semibold leading-none tracking-tight text-foreground",
+});
+
+/**
+ * Conditional classes for the sheet footer component.
+ * @see SheetFooterComponentProps
+ */
+export const sheetFooter = tv({
+  base: "flex flex-col-reverse gap-2 sm:flex-row sm:justify-end",
+});
+
+/**
+ * Conditional classes for the sheet description component.
+ * @see SheetDescriptionComponentProps
+ */
+export const sheetDescription = tv({
+  base: "text-sm text-muted-foreground",
 });
 
 /**
@@ -471,16 +564,6 @@ export function SheetTrigger({
 }
 
 /**
- * A context wrapper containing the global state of the sheet content.
- * @see SheetContentReturn
- */
-export const SheetContentContext = createContext<SheetContentReturn>({
-  componentProps: {},
-  titleProps: {},
-  closeButtonProps: {},
-});
-
-/**
  * The sheet portal component. The portal is not used in this library as there is no body element in React Native, it is only here for compatibility with the Radix UI and Shadcn UI and can be removed if not used.
  * @param param0 - Props to configure the behavior of the sheet portal. @see SheetPortalComponentProps
  * @returns Returns a `View` which wraps the sheet content.
@@ -488,14 +571,6 @@ export const SheetContentContext = createContext<SheetContentReturn>({
 export function SheetPortal({children, ...props}: SheetPortalComponentProps) {
   return <View {...props}>{children}</View>;
 }
-
-/**
- * Conditional classes for the sheet overlay component.
- * @see SheetOverlayComponentProps
- */
-export const sheetOverlay = tv({
-  base: "fixed inset-0 z-50 bg-black opacity-80",
-});
 
 /**
  * The sheet overlay component. This component is used to render the backdrop of the sheet.
@@ -540,32 +615,6 @@ export function SheetOverlay({
 }
 
 /**
- * Conditional classes for the sheet content component.
- * It includes the following slots:
- * - base: The base styles for the sheet content.
- * - closeButton: The close button styles for the sheet content.
- * @see SheetContentComponentProps
- */
-export const sheetContent = tv({
-  slots: {
-    base: "fixed z-50 w-full gap-4 border border-border bg-background p-6 shadow-lg",
-    closeButton:
-      "absolute right-4 top-4 rounded-sm opacity-70 ring-offset-background transition-opacity text-muted-foreground hover:opacity-100 focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2 disabled:pointer-events-none",
-  },
-  variants: {
-    side: {
-      top: {base: "inset-x-0 top-0 border border-b w-full max-h-lg"},
-      bottom: {base: "inset-x-0 bottom-0 border border-t w-full max-h-lg"},
-      left: {base: "inset-y-0 left-0 border border-r h-full max-w-lg"},
-      right: {base: "inset-y-0 right-0 border border-l h-full max-w-lg"},
-    },
-  },
-  defaultVariants: {
-    side: "right",
-  },
-});
-
-/**
  * The sheet content component. This component is used to render the main content of the sheet.
  * @param param0 - Props to configure the behavior of the sheet content. @see SheetContentComponentProps
  * @returns Returns a `View` which contains the sheet content and a close button.
@@ -580,6 +629,7 @@ export function SheetContent({
 }: SheetContentComponentProps) {
   const {state} = useContext(SheetContext);
   const contextProps = useSheetContent({...props, state, forceMount});
+  const {colorScheme} = useContext(ThemeContext);
 
   const {base, closeButton} = sheetContent({side});
 
@@ -629,7 +679,9 @@ export function SheetContent({
               }>,
               {
                 ...contextProps.componentProps,
-                className: base({className: baseClassName || props.className}),
+                className: base({
+                  className: baseClassName || props.className,
+                }),
               },
             )
           ) : (
@@ -637,10 +689,13 @@ export function SheetContent({
               {...props}
               {...contextProps.componentProps}
               className={base({className: baseClassName || props.className})}
+              style={{
+                height: Dimensions.get("screen").height,
+              }}
             >
               <View>{children}</View>
               <SheetClose className={closeButton()}>
-                <XIcon />
+                <XIcon color={themes[colorScheme]["--foreground"]} />
                 <Text className="sr-only">Close</Text>
               </SheetClose>
             </View>
@@ -686,14 +741,6 @@ export function SheetClose({
 }
 
 /**
- * Conditional classes for the sheet header component.
- * @see SheetHeaderComponentProps
- */
-export const sheetHeader = tv({
-  base: "flex justify-center sm:justify-start w-full",
-});
-
-/**
  * The sheet header component. This component is used to render the header section of the sheet.
  * @param param0 - Props to configure the behavior of the sheet header. @see SheetHeaderComponentProps
  * @returns Returns a `View` which contains the sheet header content.
@@ -712,14 +759,6 @@ export function SheetHeader({
     </View>
   );
 }
-
-/**
- * Conditional classes for the sheet title component.
- * @see SheetTitleComponentProps
- */
-export const sheetTitle = tv({
-  base: "text-lg font-semibold leading-none tracking-tight text-foreground",
-});
 
 /**
  * The sheet title component. This component is used to render the title of the sheet.
@@ -756,14 +795,6 @@ export function SheetTitle({
 }
 
 /**
- * Conditional classes for the sheet footer component.
- * @see SheetFooterComponentProps
- */
-export const sheetFooter = tv({
-  base: "flex flex-col-reverse gap-2 sm:flex-row sm:justify-end",
-});
-
-/**
  * The sheet footer component. This component is used to render the footer section of the sheet.
  * @param param0 - Props to configure the behavior of the sheet footer. @see SheetFooterComponentProps
  * @returns Returns a `View` which contains the sheet footer content.
@@ -782,14 +813,6 @@ export function SheetFooter({
     </View>
   );
 }
-
-/**
- * Conditional classes for the sheet description component.
- * @see SheetDescriptionComponentProps
- */
-export const sheetDescription = tv({
-  base: "text-sm text-muted-foreground",
-});
 
 /**
  * The sheet description component. This component is used to render the description of the sheet.

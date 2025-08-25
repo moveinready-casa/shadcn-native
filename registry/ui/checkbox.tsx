@@ -1,6 +1,6 @@
 import {AriaToggleButtonProps, useToggleButton} from "@react-aria/button";
 import {CheckIcon, DotIcon} from "lucide-react-native";
-import React, {ComponentProps, useEffect, useRef, useState} from "react";
+import {ComponentProps, useEffect, useRef, useState} from "react";
 import {Platform, Pressable} from "react-native";
 import {tv} from "tailwind-variants";
 import tw from "twrnc";
@@ -22,7 +22,7 @@ export type CheckboxProps = {
   onCheckedChange?: (checked: boolean) => void;
   disabled?: boolean;
   loading?: boolean;
-  size?: "sm" | "md" | "lg";
+  size?: "sm" | "md" | "lg" | "xl";
   color?: "primary" | "secondary" | "success" | "warning" | "destructive";
   radius?: "none" | "sm" | "md" | "lg" | "full";
 } & AriaToggleButtonProps;
@@ -42,6 +42,25 @@ export type CheckboxReturn = {
   /** Props to apply to the checkbox root element. */
   props: ComponentProps<typeof Pressable>;
 };
+
+/**
+ * Props for the exported `Checkbox` component.
+ * @param baseClassName - Tailwind classes applied to the root element (overrides `className`).
+ * @param iconClassName - Tailwind classes applied to the icon element.
+ * @param size - Size variant of the checkbox.
+ * @param color - Color variant of the checkbox.
+ * @param radius - Border radius variant of the checkbox.
+ * @see CheckboxProps
+ */
+export type CheckboxComponentProps = {
+  baseClassName?: string;
+  iconClassName?: string;
+  size?: "sm" | "md" | "lg" | "xl";
+  color?: "primary" | "secondary" | "success" | "warning" | "destructive";
+  radius?: "none" | "sm" | "md" | "lg" | "full";
+  animation?: "shadcn" | "enhanced";
+} & CheckboxProps &
+  ComponentProps<typeof Pressable>;
 
 /**
  * React hook that implements the core logic for the `Checkbox` component, including
@@ -126,25 +145,6 @@ export const useCheckbox = ({
     },
   };
 };
-
-/**
- * Props for the exported `Checkbox` component.
- * @param baseClassName - Tailwind classes applied to the root element (overrides `className`).
- * @param iconClassName - Tailwind classes applied to the icon element.
- * @param size - Size variant of the checkbox.
- * @param color - Color variant of the checkbox.
- * @param radius - Border radius variant of the checkbox.
- * @see CheckboxProps
- */
-export type CheckboxComponentProps = {
-  baseClassName?: string;
-  iconClassName?: string;
-  size?: "sm" | "md" | "lg" | "xl";
-  color?: "primary" | "secondary" | "success" | "warning" | "destructive";
-  radius?: "none" | "sm" | "md" | "lg" | "full";
-  animation?: "shadcn" | "enhanced";
-} & CheckboxProps &
-  ComponentProps<typeof Pressable>;
 
 /**
  * Tailwind variant for the `Checkbox` component.

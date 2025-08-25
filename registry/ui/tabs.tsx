@@ -343,7 +343,7 @@ export const tabsTrigger = tv({
   base: "inline-flex items-center justify-center whitespace-nowrap rounded-sm px-3 py-1 text-sm font-medium transition-all disabled:pointer-events-none disabled:opacity-50",
   variants: {
     active: {
-      true: "bg-background text-foreground shadow-sm",
+      true: "bg-background text-foreground web:shadow-sm border border-border",
       false: "",
     },
     variant: {

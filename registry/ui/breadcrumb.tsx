@@ -533,6 +533,7 @@ export function BreadcrumbItem({
   });
 
   const renderProps: React.ComponentProps<typeof View> = {
+    ...componentProps,
     ...props,
     className: baseClassName || props.className || "",
   };

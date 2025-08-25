@@ -75,23 +75,30 @@ describe("Checkbox", () => {
   describe("style", () => {
     it("applies default size correctly", () => {
       const {getByTestId} = render(<Checkbox testID="checkbox" />);
-      const checkbox = getByTestId("checkbox").children[0];
-      expect(checkbox.props.className).toContain("h-3.5");
-      expect(checkbox.props.className).toContain("w-3.5");
+      const icon = getByTestId("checkbox-icon");
+      expect(icon.props.style.height).toBe(14); // h-3.5 = 14px
+      expect(icon.props.style.width).toBe(14); // w-3.5 = 14px
     });
 
     it("applies small size correctly", () => {
       const {getByTestId} = render(<Checkbox testID="checkbox" size="sm" />);
-      const checkbox = getByTestId("checkbox").children[0];
-      expect(checkbox.props.className).toContain("h-2");
-      expect(checkbox.props.className).toContain("w-2");
+      const icon = getByTestId("checkbox-icon");
+      expect(icon.props.style.height).toBe(8); // h-2 = 8px
+      expect(icon.props.style.width).toBe(8); // w-2 = 8px
     });
 
     it("applies large size correctly", () => {
       const {getByTestId} = render(<Checkbox testID="checkbox" size="lg" />);
-      const checkbox = getByTestId("checkbox").children[0];
-      expect(checkbox.props.className).toContain("h-5");
-      expect(checkbox.props.className).toContain("w-5");
+      const icon = getByTestId("checkbox-icon");
+      expect(icon.props.style.height).toBe(20); // h-5 = 20px
+      expect(icon.props.style.width).toBe(20); // w-5 = 20px
+    });
+
+    it("applies xl size correctly", () => {
+      const {getByTestId} = render(<Checkbox testID="checkbox" size="xl" />);
+      const icon = getByTestId("checkbox-icon");
+      expect(icon.props.style.height).toBe(24); // h-6 = 24px
+      expect(icon.props.style.width).toBe(24); // w-6 = 24px
     });
 
     it("applies primary color correctly", () => {

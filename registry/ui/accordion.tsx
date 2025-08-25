@@ -1,3 +1,7 @@
+import {useButton} from "@react-aria/button";
+import {useDisclosure as useAccordionAria} from "@react-aria/disclosure";
+import {useFocusRing} from "@react-aria/focus";
+import {ChevronDownIcon} from "lucide-react-native";
 import React, {
   ComponentProps,
   createContext,
@@ -7,26 +11,22 @@ import React, {
   useState,
 } from "react";
 import {
-  Pressable,
-  View,
-  Platform,
-  Text,
-  LayoutChangeEvent,
   ActivityIndicator,
+  LayoutChangeEvent,
+  Platform,
+  Pressable,
+  Text,
+  View,
 } from "react-native";
-import {useDisclosure as useAccordionAria} from "@react-aria/disclosure";
-import {useButton} from "@react-aria/button";
-import {useFocusRing} from "@react-aria/focus";
 import Reanimated, {
-  useSharedValue,
-  useAnimatedStyle,
-  withTiming,
   AnimatedProps,
   ReduceMotion,
+  useAnimatedStyle,
+  useSharedValue,
+  withTiming,
 } from "react-native-reanimated";
-import {ChevronDownIcon} from "lucide-react-native";
 import {tv} from "tailwind-variants";
-import {themes, ThemeContext} from "../theme";
+import {ThemeContext, themes} from "../theme";
 
 /**
  * Base props for the root `Accordion` component, context, and hook.
@@ -365,6 +365,13 @@ export const AccordionContext = createContext<AccordionContextValue | null>(
 );
 
 /**
+ * A context wrapper containing the global state of the accordion item.
+ * @see AccordionItemContextValue
+ */
+export const AccordionItemContext =
+  createContext<AccordionItemContextValue | null>(null);
+
+/**
  * Conditional classes for the root accordion component.
  * @see AccordionComponentProps
  */
@@ -400,6 +407,137 @@ export const accordion = tv({
   },
   defaultVariants: {
     variant: "shadcn",
+  },
+});
+
+/**
+ * Conditional classes for the accordion item component.
+ * @see AccordionItemComponentProps
+ */
+export const accordionItem = tv({
+  slots: {
+    base: "border-border border-b last:border-b-0",
+  },
+  variants: {
+    compact: {
+      true: {},
+    },
+    variant: {
+      shadcn: {},
+      shadow: {},
+      bordered: {},
+      splitted: {
+        base: "bg-background rounded border-none m-2 p-1",
+      },
+    },
+    loading: {
+      true: {
+        base: "animate-pulse opacity-50",
+      },
+    },
+    borderRadius: {
+      sm: {},
+      md: {},
+      lg: {},
+      xl: {},
+    },
+  },
+  compoundVariants: [
+    {
+      variant: "splitted",
+      compact: true,
+      className: "m-1",
+    },
+    {
+      variant: "splitted",
+      borderRadius: "sm",
+      className: {
+        base: "rounded-sm",
+      },
+    },
+    {
+      variant: "splitted",
+      borderRadius: "md",
+      className: {
+        base: "rounded-md",
+      },
+    },
+    {
+      variant: "splitted",
+      borderRadius: "lg",
+      className: {
+        base: "rounded-lg",
+      },
+    },
+    {
+      variant: "splitted",
+      borderRadius: "xl",
+      className: {
+        base: "rounded-xl",
+      },
+    },
+  ],
+  defaultVariants: {
+    variant: "shadcn",
+    compact: false,
+    loading: false,
+  },
+});
+
+/**
+ * Conditional classes for the accordion trigger component.
+ * It includes the following slots:
+ * - base: The base styles for the accordion trigger.
+ * - content: The content styles for the accordion trigger.
+ * - indicatorIcon: The indicator icon styles for the accordion trigger.
+ * @see AccordionTriggerProps
+ */
+export const accordionTrigger = tv({
+  slots: {
+    base: "flex flex-row items-center justify-between rounded-md py-4 text-left text-sm font-medium transition-all outline-none hover:underline",
+    content: "flex flex-row items-center gap-4 flex-1 text-foreground",
+    indicatorIcon:
+      "text-muted-foreground pointer-events-none size-4 shrink-0 flex justify-center items-center",
+  },
+  variants: {
+    focused: {
+      true: {
+        base: "border border-ring",
+      },
+    },
+    disabled: {
+      true: {
+        base: "pointer-events-none opacity-50",
+      },
+    },
+    controlled: {
+      true: {
+        base: "pointer-events-none",
+      },
+    },
+    compact: {
+      true: {
+        base: "py-2",
+      },
+    },
+  },
+});
+
+/**
+ * Conditional classes for the accordion content component.
+ * @see AccordionContentProps
+ */
+export const accordionContent = tv({
+  slots: {
+    base: "overflow-hidden",
+    text: "text-sm text-foreground",
+  },
+  variants: {
+    compact: {
+      true: {
+        base: "py-1",
+      },
+    },
   },
 });
 
@@ -525,87 +663,6 @@ export function Accordion({
 }
 
 /**
- * A context wrapper containing the global state of the accordion item.
- * @see AccordionItemContextValue
- */
-export const AccordionItemContext =
-  createContext<AccordionItemContextValue | null>(null);
-
-/**
- * Conditional classes for the accordion item component.
- * @see AccordionItemComponentProps
- */
-export const accordionItem = tv({
-  slots: {
-    base: "border-border border-b last:border-b-0",
-  },
-  variants: {
-    compact: {
-      true: {},
-    },
-    variant: {
-      shadcn: {},
-      shadow: {},
-      bordered: {},
-      splitted: {
-        base: "bg-background rounded border-none m-2 p-1",
-      },
-    },
-    loading: {
-      true: {
-        base: "animate-pulse opacity-50",
-      },
-    },
-    borderRadius: {
-      sm: {},
-      md: {},
-      lg: {},
-      xl: {},
-    },
-  },
-  compoundVariants: [
-    {
-      variant: "splitted",
-      compact: true,
-      className: "m-1",
-    },
-    {
-      variant: "splitted",
-      borderRadius: "sm",
-      className: {
-        base: "rounded-sm",
-      },
-    },
-    {
-      variant: "splitted",
-      borderRadius: "md",
-      className: {
-        base: "rounded-md",
-      },
-    },
-    {
-      variant: "splitted",
-      borderRadius: "lg",
-      className: {
-        base: "rounded-lg",
-      },
-    },
-    {
-      variant: "splitted",
-      borderRadius: "xl",
-      className: {
-        base: "rounded-xl",
-      },
-    },
-  ],
-  defaultVariants: {
-    variant: "shadcn",
-    compact: false,
-    loading: false,
-  },
-});
-
-/**
  * The accordion item component. This does not render anything, it is primarily used to provide context to the accordion item and set the layout.
  * @param param0 - Props to configure the behavior of the accordion item. @see AccordionItemComponentProps
  * @returns Returns a context wrapper containing the global state of the accordion item. @see AccordionItemContextValue
@@ -678,45 +735,6 @@ export function AccordionItem({
 }
 
 /**
- * Conditional classes for the accordion trigger component.
- * It includes the following slots:
- * - base: The base styles for the accordion trigger.
- * - content: The content styles for the accordion trigger.
- * - indicatorIcon: The indicator icon styles for the accordion trigger.
- * @see AccordionTriggerProps
- */
-export const accordionTrigger = tv({
-  slots: {
-    base: "flex flex-row items-center justify-between rounded-md py-4 text-left text-sm font-medium transition-all outline-none hover:underline",
-    content: "flex flex-row items-center gap-4 flex-1 text-foreground",
-    indicatorIcon:
-      "text-muted-foreground pointer-events-none size-4 shrink-0 flex justify-center items-center",
-  },
-  variants: {
-    focused: {
-      true: {
-        base: "border border-ring",
-      },
-    },
-    disabled: {
-      true: {
-        base: "pointer-events-none opacity-50",
-      },
-    },
-    controlled: {
-      true: {
-        base: "pointer-events-none",
-      },
-    },
-    compact: {
-      true: {
-        base: "py-2",
-      },
-    },
-  },
-});
-
-/**
  * The accordion trigger component. It also container an indicator with an option to render start content.
  * @param param0 - Props to configure the behavior of the accordion trigger. @see AccordionTriggerProps
  * @returns Returns a `Pressable` which is used to toggle the content. It also container an indicator with an option to render start content.
@@ -755,7 +773,7 @@ export function AccordionTrigger({
       {typeof indicator === "function" ? (
         indicator(itemState?.state.isExpanded ?? false)
       ) : itemState?.props.loading ? (
-        <ActivityIndicator color={themes[colorScheme].foreground} />
+        <ActivityIndicator color={themes[colorScheme]["--foreground"]} />
       ) : (
         <Reanimated.View
           style={animatedIndicatorIconStyle}
@@ -802,24 +820,6 @@ export function AccordionTrigger({
     </Pressable>
   );
 }
-
-/**
- * Conditional classes for the accordion content component.
- * @see AccordionContentProps
- */
-export const accordionContent = tv({
-  slots: {
-    base: "overflow-hidden",
-    text: "text-sm text-foreground",
-  },
-  variants: {
-    compact: {
-      true: {
-        base: "py-1",
-      },
-    },
-  },
-});
 
 export function AccordionContent({
   children,

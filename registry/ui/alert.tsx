@@ -1,20 +1,20 @@
+import {useButton} from "@react-aria/button";
+import {useFocusRing} from "@react-aria/focus";
+import {
+  AlertCircleIcon,
+  AlertTriangleIcon,
+  CheckCircle2Icon,
+  InfoIcon,
+  XIcon,
+} from "lucide-react-native";
 import React, {
   ComponentProps,
   createContext,
   useContext,
-  useState,
   useEffect,
+  useState,
 } from "react";
-import {Pressable, View, Platform, Text} from "react-native";
-import {useButton} from "@react-aria/button";
-import {useFocusRing} from "@react-aria/focus";
-import {
-  XIcon,
-  InfoIcon,
-  CheckCircle2Icon,
-  AlertTriangleIcon,
-  AlertCircleIcon,
-} from "lucide-react-native";
+import {Platform, Pressable, Text, View} from "react-native";
 import {tv} from "tailwind-variants";
 
 /**

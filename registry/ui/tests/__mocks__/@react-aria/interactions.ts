@@ -94,3 +94,13 @@ export const useLandmark = jest.fn(() => ({
     "aria-labelledby": undefined,
   } as Record<string, unknown>,
 }));
+
+export const useFocusable = jest.fn(() => ({
+  focusableProps: {
+    tabIndex: 0,
+    onFocus: jest.fn(),
+    onBlur: jest.fn(),
+    onKeyDown: jest.fn(),
+    onKeyUp: jest.fn(),
+  } as Record<string, unknown>,
+}));

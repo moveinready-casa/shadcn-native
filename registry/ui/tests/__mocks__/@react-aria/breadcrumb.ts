@@ -11,6 +11,9 @@ export const useBreadcrumbItem = jest.fn(() => ({
   itemProps: {
     onPress: jest.fn(),
     onKeyDown: jest.fn(),
+    onClick: jest.fn(),
+    onFocus: jest.fn(),
+    onBlur: jest.fn(),
     role: "link",
     tabIndex: 0,
     "aria-current": undefined,

@@ -89,7 +89,7 @@ describe("Button", () => {
   describe("Classes", () => {
     it("applies default variant correctly", () => {
       const {getByTestId} = render(
-        <Button testID="button" variant="md">
+        <Button testID="button" variant="default">
           Button
         </Button>,
       );
@@ -279,7 +279,7 @@ describe("Button", () => {
 
     it("applies baseClassName with higher priority than variant", () => {
       const {getByTestId} = render(
-        <Button testID="button" variant="md" baseClassName="bg-blue-500">
+        <Button testID="button" variant="default" baseClassName="bg-blue-500">
           Button
         </Button>,
       );

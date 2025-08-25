@@ -1,3 +1,4 @@
+import {AriaToggleButtonProps, useToggleButton} from "@react-aria/button";
 import React, {
   ComponentProps,
   ReactNode,
@@ -6,7 +7,6 @@ import React, {
   useState,
 } from "react";
 import {Platform, Pressable} from "react-native";
-import {AriaToggleButtonProps, useToggleButton} from "@react-aria/button";
 import {tv} from "tailwind-variants";
 
 /**
@@ -90,6 +90,7 @@ export const useToggle = ({
     {...props},
     {
       isSelected: currentPressed,
+      defaultSelected: defaultPressed || false,
       setSelected: (next) => {
         if (!isControlled) {
           setInternalPressed(next);

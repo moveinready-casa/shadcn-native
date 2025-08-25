@@ -17,11 +17,11 @@ const meta: Meta<typeof Button> = {
         "The visual variant of the button. Controls the color scheme and styling approach.",
       table: {
         defaultValue: {
-          summary: "md",
+          summary: "default",
         },
       },
       options: [
-        "md",
+        "default",
         "destructive",
         "warning",
         "outline",

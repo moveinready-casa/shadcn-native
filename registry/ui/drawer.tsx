@@ -1,8 +1,7 @@
-import React from "react";
 import ActionSheet, {ActionSheetRef} from "react-native-actions-sheet";
 import {AriaButtonProps, useButton} from "@react-aria/button";
 import {useFocusRing} from "@react-aria/focus";
-import {
+import React, {
   ComponentProps,
   createContext,
   ReactNode,
