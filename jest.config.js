@@ -16,6 +16,9 @@ const jestConfig = {
   testMatch: ["**/*.spec.tsx"],
   setupFiles: ["./node_modules/react-native-gesture-handler/jestSetup.js"],
   setupFilesAfterEnv: ["./jest-setup.ts"],
+  moduleNameMapper: {
+    "^@/(.*)": "<rootDir>/registry/$1",
+  },
 };
 
 export default jestConfig;

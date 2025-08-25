@@ -1,4 +1,5 @@
-import React, {ComponentProps, useContext, useEffect} from "react";
+import {useTheme} from "@/lib/utils/theme";
+import React, {ComponentProps, useEffect} from "react";
 import {Platform, View} from "react-native";
 import Reanimated, {
   useAnimatedStyle,
@@ -6,7 +7,6 @@ import Reanimated, {
   withTiming,
 } from "react-native-reanimated";
 import {tv} from "tailwind-variants";
-import {ThemeContext} from "../theme";
 
 /**
  * Base props for the root `Progress` component and hook.
@@ -168,21 +168,13 @@ export function Progress({
   const {track} = progress();
 
   const trackClassName = track({size, className: baseClassName || className});
-  const {colorScheme} = useContext(ThemeContext);
+  const currentTheme = useTheme();
 
   const colors = {
-    light: {
-      primary: "#171717",
-      success: "#166634",
-      warning: "#ebb517",
-      destructive: "#e7000b",
-    },
-    dark: {
-      primary: "#e5e5e5",
-      success: "#20c45f",
-      warning: "#ffe141",
-      destructive: "#ff6467",
-    },
+    primary: currentTheme.primary,
+    success: currentTheme.success,
+    warning: currentTheme.warning,
+    destructive: currentTheme.destructive,
   };
 
   return (
@@ -196,8 +188,7 @@ export function Progress({
         style={[
           reanimatedProps.style,
           {
-            backgroundColor:
-              colorScheme === "dark" ? colors.dark[color] : colors.light[color],
+            backgroundColor: colors[color],
           },
         ]}
       />

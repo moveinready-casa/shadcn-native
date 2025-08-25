@@ -1,3 +1,4 @@
+import {useTheme} from "@/lib/utils/theme";
 import {AriaButtonProps, useButton} from "@react-aria/button";
 import {
   AriaDialogProps as AriaSheetProps,
@@ -35,7 +36,6 @@ import Reanimated, {
   SlideOutUp,
 } from "react-native-reanimated";
 import {tv} from "tailwind-variants";
-import {ThemeContext, themes} from "../theme";
 
 /**
  * Base props for the root `Sheet` component, context, and hook.
@@ -629,7 +629,7 @@ export function SheetContent({
 }: SheetContentComponentProps) {
   const {state} = useContext(SheetContext);
   const contextProps = useSheetContent({...props, state, forceMount});
-  const {colorScheme} = useContext(ThemeContext);
+  const currentTheme = useTheme();
 
   const {base, closeButton} = sheetContent({side});
 
@@ -695,7 +695,7 @@ export function SheetContent({
             >
               <View>{children}</View>
               <SheetClose className={closeButton()}>
-                <XIcon color={themes[colorScheme]["--foreground"]} />
+                <XIcon color={currentTheme.foreground} />
                 <Text className="sr-only">Close</Text>
               </SheetClose>
             </View>
