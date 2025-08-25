@@ -1,4 +1,3 @@
-import ActionSheet, {ActionSheetRef} from "react-native-actions-sheet";
 import {AriaButtonProps, useButton} from "@react-aria/button";
 import {useFocusRing} from "@react-aria/focus";
 import React, {
@@ -8,10 +7,10 @@ import React, {
   useContext,
   useRef,
 } from "react";
-import {Platform, Pressable, View, Text} from "react-native";
+import {Platform, Pressable, Text, useColorScheme, View} from "react-native";
+import ActionSheet, {ActionSheetRef} from "react-native-actions-sheet";
 import {tv} from "tailwind-variants";
 import tw from "twrnc";
-import Theme, {ThemeContext} from "../theme";
 
 /**
  * Return type for the `useDrawer` hook.
@@ -310,7 +309,7 @@ export function DrawerContent({
   ...props
 }: DrawerContentComponentProps) {
   const {componentProps} = useContext(DrawerContext);
-  const {colorScheme} = useContext(ThemeContext);
+  const colorScheme = useColorScheme();
 
   return (
     <DrawerContentContext.Provider value={{onClose}}>
@@ -327,9 +326,7 @@ export function DrawerContent({
           }),
         )}
       >
-        <Theme colorScheme={colorScheme || "light"}>
-          <View>{children}</View>
-        </Theme>
+        <View>{children}</View>
       </ActionSheet>
     </DrawerContentContext.Provider>
   );

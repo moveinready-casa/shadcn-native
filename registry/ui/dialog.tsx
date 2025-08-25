@@ -1,3 +1,4 @@
+import {useTheme} from "@/lib/utils/theme";
 import {AriaButtonProps, useButton} from "@react-aria/button";
 import {AriaDialogProps, useDialog as useDialogAria} from "@react-aria/dialog";
 import {useFocusRing} from "@react-aria/focus";
@@ -21,7 +22,6 @@ import {
 } from "react-native";
 import Reanimated, {FadeIn, FadeOut} from "react-native-reanimated";
 import {tv} from "tailwind-variants";
-import {ThemeContext, themes} from "../theme";
 
 /**
  * Base props for the root `Dialog` component, context, and hook.
@@ -613,7 +613,7 @@ export function DialogContent({
 }: DialogContentComponentProps) {
   const {state} = useContext(DialogContext);
   const contextProps = useDialogContent({...props, state, forceMount});
-  const {colorScheme} = useContext(ThemeContext);
+  const currentTheme = useTheme();
 
   const {base, closeButton} = dialogContent({borderRadius});
 
@@ -646,7 +646,7 @@ export function DialogContent({
           >
             <View>{children}</View>
             <DialogClose className={closeButton()}>
-              <XIcon color={themes[colorScheme]["--foreground"]} />
+              <XIcon color={currentTheme.foreground} />
               <Text className="sr-only">Close</Text>
             </DialogClose>
           </View>

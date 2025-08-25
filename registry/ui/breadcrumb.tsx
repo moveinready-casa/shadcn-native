@@ -9,6 +9,7 @@ import {ChevronRightIcon, MoreHorizontalIcon} from "lucide-react-native";
 import React, {ComponentProps, createContext, useContext, useRef} from "react";
 import {Platform, Pressable, Text, View} from "react-native";
 import {tv} from "tailwind-variants";
+import {useTheme} from "@/lib/utils/theme";
 
 /**
  * Base props for the root `Breadcrumb` component, context, and hook.
@@ -692,6 +693,7 @@ export function BreadcrumbSeparator({
   baseClassName,
   ...props
 }: BreadcrumbSeparatorComponentProps) {
+  const currentTheme = useTheme();
   const breadcrumbContext = useContext(BreadcrumbContext);
   if (!breadcrumbContext) {
     throw new Error("BreadcrumbSeparator must be used within a BreadcrumbList");
@@ -722,6 +724,7 @@ export function BreadcrumbSeparator({
         <ChevronRightIcon
           size={iconSize}
           className={breadcrumbSeparator({size})}
+          color={currentTheme.foreground}
         />
       )}
     </View>
@@ -742,6 +745,7 @@ export function BreadcrumbEllipsis({
   baseClassName,
   ...props
 }: BreadcrumbEllipsisComponentProps) {
+  const currentTheme = useTheme();
   const breadcrumbContext = useContext(BreadcrumbContext);
   if (!breadcrumbContext) {
     throw new Error("BreadcrumbEllipsis must be used within a BreadcrumbList");
@@ -772,7 +776,7 @@ export function BreadcrumbEllipsis({
     )
   ) : (
     <View {...renderProps}>
-      <MoreHorizontalIcon />
+      <MoreHorizontalIcon color={currentTheme.foreground} />
       <Text className="sr-only">More</Text>
     </View>
   );
