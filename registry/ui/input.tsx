@@ -4,14 +4,12 @@ import {XIcon} from "lucide-react-native";
 import React, {
   ComponentProps,
   ReactNode,
-  useContext,
   useEffect,
   useRef,
   useState,
 } from "react";
 import {Platform, Pressable, TextInput, View} from "react-native";
 import {tv} from "tailwind-variants";
-import {ThemeContext} from "../theme";
 
 /**
  * Base props for the `Input` component and `useInput` hook.
@@ -352,7 +350,6 @@ export function Input({
     showClear: state.showClear,
     required,
   });
-  const {colorScheme} = useContext(ThemeContext);
 
   return (
     <View
@@ -365,7 +362,6 @@ export function Input({
         {...inputProps}
         {...textInputProps}
         testID="input-field"
-        style={{color: colorScheme === "dark" ? "#fafafa" : "#0a0a0a"}}
         className={input({
           className: inputClassName || textInputProps.className,
         })}

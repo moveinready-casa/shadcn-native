@@ -1,3 +1,6 @@
+import {AriaButtonProps, useButton as useAriaButton} from "@react-aria/button";
+import {AriaDialogProps, useDialog as useDialogAria} from "@react-aria/dialog";
+import {useFocusRing} from "@react-aria/focus";
 import React, {
   ComponentProps,
   createContext,
@@ -6,9 +9,6 @@ import React, {
   useRef,
   useState,
 } from "react";
-import {AriaDialogProps, useDialog as useDialogAria} from "@react-aria/dialog";
-import {AriaButtonProps, useButton as useAriaButton} from "@react-aria/button";
-import {useFocusRing} from "@react-aria/focus";
 import {
   GestureResponderEvent,
   Platform,
@@ -233,7 +233,7 @@ export type AlertDialogActionComponentProps = {
     | "secondary"
     | "ghost"
     | "link";
-  size?: "default" | "sm" | "lg" | "icon";
+  size?: "md" | "sm" | "lg" | "icon";
   borderRadius?: "none" | "sm" | "md" | "lg" | "xl";
 } & ComponentProps<typeof Pressable>;
 
@@ -374,21 +374,21 @@ export const useAlertDialogContent = ({
       ref: dialogRef,
       accessible: true,
       focusable: true,
-      onFocus: (e) => {
+      onFocus: (e: React.FocusEvent<Element, Element>) => {
         onOpenAutoFocus?.(e);
         onInteractOutside?.(e);
       },
-      onBlur: (e) => {
+      onBlur: (e: React.FocusEvent<Element, Element>) => {
         onCloseAutoFocus?.(e);
       },
       accessibilityRole: "dialog",
       accessibilityLiveRegion: "polite",
       accessibilityViewIsModal: modal,
-      onKeyDown: (e) => {
+      onKeyDown: (e: React.KeyboardEvent<Element>) => {
         if (forceMount) return;
-        if ((e as any).key === "Escape") {
+        if (e.key === "Escape") {
           state.setIsOpen(false);
-          onEscapeKeyDown?.(e as any);
+          onEscapeKeyDown?.(e);
         }
       },
       onPress: (e: GestureResponderEvent) => {
@@ -814,17 +814,16 @@ export function AlertDialogAction({
   asChild = false,
   baseClassName,
   variant = "destructive",
-  size = "default",
+  size = "md",
   borderRadius = "md",
   ...props
 }: AlertDialogActionComponentProps) {
   const {state} = useContext(AlertDialogContext);
   const {componentProps} = useDialogAction({state});
-  const className = buttonTV({
+  const {base, text} = buttonTV({
     variant,
     size,
     borderRadius,
-    className: baseClassName || props.className,
   });
 
   return asChild ? (
@@ -833,16 +832,18 @@ export function AlertDialogAction({
       {
         ...(componentProps as ComponentProps<typeof Pressable>),
         ...props,
-        className,
+        className: base({className: baseClassName || props.className}),
       },
     )
   ) : (
     <Pressable
       {...(componentProps as ComponentProps<typeof Pressable>)}
       {...props}
-      className={className}
+      className={base({className: baseClassName || props.className})}
     >
-      <Text className="text-foreground">{children}</Text>
+      <Text className={text({className: baseClassName || props.className})}>
+        {children}
+      </Text>
     </Pressable>
   );
 }
@@ -857,17 +858,16 @@ export function AlertDialogCancel({
   asChild = false,
   baseClassName,
   variant = "outline",
-  size = "default",
+  size = "md",
   borderRadius = "md",
   ...props
 }: AlertDialogCancelComponentProps) {
   const {state} = useContext(AlertDialogContext);
   const {componentProps} = useDialogAction({state});
-  const className = buttonTV({
+  const {base, text} = buttonTV({
     variant,
     size,
     borderRadius,
-    className: baseClassName || props.className,
   });
 
   return asChild ? (
@@ -876,16 +876,18 @@ export function AlertDialogCancel({
       {
         ...(componentProps as ComponentProps<typeof Pressable>),
         ...props,
-        className,
+        className: base({className: baseClassName || props.className}),
       },
     )
   ) : (
     <Pressable
       {...(componentProps as ComponentProps<typeof Pressable>)}
       {...props}
-      className={className}
+      className={base({className: baseClassName || props.className})}
     >
-      <Text className="text-foreground">{children}</Text>
+      <Text className={text({className: baseClassName || props.className})}>
+        {children}
+      </Text>
     </Pressable>
   );
 }

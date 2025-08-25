@@ -1,11 +1,11 @@
-import React, {
+import {
   ComponentProps,
   createContext,
   useContext,
   useEffect,
   useState,
 } from "react";
-import {View, Image, ImageProps, ImageURISource} from "react-native";
+import {Image, ImageProps, ImageURISource, View} from "react-native";
 import {tv} from "tailwind-variants";
 
 /**
@@ -24,6 +24,39 @@ export type AvatarContextValue = {
   status: AvatarStatus;
   setStatus: (status: AvatarStatus) => void;
 };
+
+/**
+ * Props for the `Avatar` component.
+ * @param baseClassName - Custom tailwind classes applied to the root element. Takes precedence over the `className` prop.
+ * @param size - Avatar size
+ * @param radius - Border radius
+ * @param isBordered - Adds a ring border
+ * @param isDisabled - Disabled state
+ */
+export type AvatarComponentProps = {
+  baseClassName?: string;
+  size?: "sm" | "md" | "lg";
+  radius?: "none" | "sm" | "md" | "lg" | "full";
+  variant?: "shadcn" | "warning" | "error" | "success";
+  isBordered?: boolean;
+  isDisabled?: boolean;
+} & ComponentProps<typeof View>;
+
+/**
+ * Props for the `AvatarImage` component.
+ * @param baseClassName - Custom tailwind classes applied to the image element. Takes precedence over the `className` prop.
+ */
+export type AvatarImageComponentProps = {
+  baseClassName?: string;
+} & ImageProps;
+
+/**
+ * Props for the `AvatarFallback` component.
+ * @param baseClassName - Custom tailwind classes applied to the fallback element. Takes precedence over the `className` prop.
+ */
+export type AvatarFallbackComponentProps = {
+  baseClassName?: string;
+} & ComponentProps<typeof View>;
 
 export const AvatarContext = createContext<AvatarContextValue | null>(null);
 
@@ -107,23 +140,6 @@ export const avatarFallbackStyles = tv({
 });
 
 /**
- * Props for the `Avatar` component.
- * @param baseClassName - Custom tailwind classes applied to the root element. Takes precedence over the `className` prop.
- * @param size - Avatar size
- * @param radius - Border radius
- * @param isBordered - Adds a ring border
- * @param isDisabled - Disabled state
- */
-export type AvatarComponentProps = {
-  baseClassName?: string;
-  size?: "sm" | "md" | "lg";
-  radius?: "none" | "sm" | "md" | "lg" | "full";
-  variant: "shadcn" | "warning" | "error" | "success";
-  isBordered?: boolean;
-  isDisabled?: boolean;
-} & ComponentProps<typeof View>;
-
-/**
  * Root Avatar component. Handles image loading state and renders its children.
  */
 export function Avatar({
@@ -159,14 +175,6 @@ export function Avatar({
     </AvatarContext.Provider>
   );
 }
-
-/**
- * Props for the `AvatarImage` component.
- * @param baseClassName - Custom tailwind classes applied to the image element. Takes precedence over the `className` prop.
- */
-export type AvatarImageComponentProps = {
-  baseClassName?: string;
-} & ImageProps;
 
 /**
  * The image element for the Avatar. Automatically reports its load/error status to the parent.
@@ -219,14 +227,6 @@ export function AvatarImage({
     />
   );
 }
-
-/**
- * Props for the `AvatarFallback` component.
- * @param baseClassName - Custom tailwind classes applied to the fallback element. Takes precedence over the `className` prop.
- */
-export type AvatarFallbackComponentProps = {
-  baseClassName?: string;
-} & ComponentProps<typeof View>;
 
 /**
  * Fallback element rendered when the image is not available or fails to load.

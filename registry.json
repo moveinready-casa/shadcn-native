@@ -56,7 +56,9 @@
         "@react-aria/focus",
         "react-native-reanimated"
       ],
-      "registryDependencies": []
+      "registryDependencies": [
+        "https://shadcn-native.moveinready.casa/registry/button"
+      ]
     },
     {
       "name": "aspect-ratio",
@@ -256,7 +258,7 @@
           "type": "registry:ui"
         }
       ],
-      "dependencies": [],
+      "dependencies": ["react-native-input-code-otp"],
       "registryDependencies": []
     },
     {
@@ -388,7 +390,7 @@
           "type": "registry:ui"
         }
       ],
-      "dependencies": ["sonner-native", "twrnc"],
+      "dependencies": ["sonner-native", "sonner", "twrnc"],
       "registryDependencies": []
     },
     {
@@ -431,20 +433,6 @@
         }
       ],
       "dependencies": ["@react-aria/button"],
-      "registryDependencies": []
-    },
-    {
-      "name": "toggle-group",
-      "type": "registry:ui",
-      "title": "Toggle Group",
-      "description": "A toggle group component for React Native applications.",
-      "files": [
-        {
-          "path": "registry/ui/toggle-group.tsx",
-          "type": "registry:ui"
-        }
-      ],
-      "dependencies": [],
       "registryDependencies": []
     },
     {

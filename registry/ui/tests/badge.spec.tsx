@@ -13,9 +13,8 @@ describe("Badge", () => {
     });
 
     it("renders its children", () => {
-      const {getByTestId} = render(<Badge testID="badge">Content</Badge>);
-      const badge = getByTestId("badge");
-      expect(badge.children).toContain("Content");
+      const {getByText} = render(<Badge testID="badge">Content</Badge>);
+      expect(getByText("Content")).toBeTruthy();
     });
   });
 

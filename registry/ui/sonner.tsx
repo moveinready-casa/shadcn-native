@@ -1,31 +1,44 @@
-import {ComponentProps, useContext} from "react";
-import {Toaster as SonnerNative, toast as toastNative} from "sonner-native";
-import {Toaster as SonnerWeb, toast as toastWeb} from "sonner";
-import tw from "twrnc";
+import {ComponentProps, lazy, Suspense, useContext} from "react";
 import {Platform, StyleProp} from "react-native";
+import tw from "twrnc";
 import {ThemeContext} from "../theme";
 
-function ToasterNative({...props}: ComponentProps<typeof SonnerNative>) {
+const SonnerNative = lazy(() =>
+  import("sonner-native").then((module) => ({default: module.Toaster})),
+);
+const SonnerWeb = lazy(() =>
+  import("sonner").then((module) => ({default: module.Toaster})),
+);
+
+const getToastNative = () =>
+  import("sonner-native").then((module) => module.toast);
+const getToastWeb = () => import("sonner").then((module) => module.toast);
+
+function ToasterNative({...props}: ComponentProps<any>) {
   return (
-    <SonnerNative
-      {...props}
-      style={tw.style("bg-popover text-popover-foreground border-border")}
-    />
+    <Suspense fallback={null}>
+      <SonnerNative
+        {...props}
+        style={tw.style("bg-popover text-popover-foreground border-border")}
+      />
+    </Suspense>
   );
 }
 
-function ToasterWeb({...props}: ComponentProps<typeof SonnerWeb>) {
+function ToasterWeb({...props}: ComponentProps<any>) {
   return (
-    <SonnerWeb
-      {...props}
-      style={
-        {
-          "--normal-bg": "var(--popover)",
-          "--normal-text": "var(--popover-foreground)",
-          "--normal-border": "var(--border)",
-        } as StyleProp<any>
-      }
-    />
+    <Suspense fallback={null}>
+      <SonnerWeb
+        {...props}
+        style={
+          {
+            "--normal-bg": "var(--popover)",
+            "--normal-text": "var(--popover-foreground)",
+            "--normal-border": "var(--border)",
+          } as StyleProp<any>
+        }
+      />
+    </Suspense>
   );
 }
 
@@ -33,15 +46,12 @@ function ToasterWeb({...props}: ComponentProps<typeof SonnerWeb>) {
  * Toaster component that uses the appropriate platform-specific implementation.
  * @param props - The props for the Toaster component.
  */
-export function Toaster({...props}: ComponentProps<typeof SonnerWeb>) {
+export function Toaster({...props}: ComponentProps<any>) {
   const {colorScheme} = useContext(ThemeContext);
   return Platform.OS === "web" ? (
     <ToasterWeb {...props} theme={colorScheme} />
   ) : (
-    <ToasterNative
-      {...(props as ComponentProps<typeof SonnerNative>)}
-      theme={colorScheme}
-    />
+    <ToasterNative {...(props as ComponentProps<any>)} theme={colorScheme} />
   );
 }
 
@@ -73,16 +83,24 @@ type Toast = {
  */
 export const toast: Toast = ((message: string, ...props: any[]) => {
   if (Platform.OS === "web") {
-    return (toastWeb as any)(message, ...props);
+    return getToastWeb().then((toastWeb) =>
+      (toastWeb as any)(message, ...props),
+    );
   }
-  return (toastNative as any)(message, ...props);
+  return getToastNative().then((toastNative) =>
+    (toastNative as any)(message, ...props),
+  );
 }) as Toast;
 
 methods.forEach((method) => {
   (toast as any)[method] = (...args: any[]) => {
     if (Platform.OS === "web") {
-      return (toastWeb as any)[method]?.(...args);
+      return getToastWeb().then((toastWeb) =>
+        (toastWeb as any)[method]?.(...args),
+      );
     }
-    return (toastNative as any)[method]?.(...args);
+    return getToastNative().then((toastNative) =>
+      (toastNative as any)[method]?.(...args),
+    );
   };
 });

@@ -1,7 +1,7 @@
-import React, {ComponentProps, useState, useRef, ReactNode} from "react";
-import {Pressable, View, Platform, ActivityIndicator} from "react-native";
 import {useButton as useButtonAria} from "@react-aria/button";
 import {useFocusRing} from "@react-aria/focus";
+import React, {ComponentProps, ReactNode, useRef, useState} from "react";
+import {ActivityIndicator, Platform, Pressable, Text, View} from "react-native";
 import {tv} from "tailwind-variants";
 
 /**
@@ -11,11 +11,12 @@ export type ButtonProps = {
   variant?:
     | "default"
     | "destructive"
+    | "warning"
     | "outline"
     | "secondary"
     | "ghost"
     | "link";
-  size?: "default" | "sm" | "lg" | "icon";
+  size?: "md" | "sm" | "lg" | "xl" | "icon";
   borderRadius?: "none" | "sm" | "md" | "lg" | "xl";
   fullWidth?: boolean;
   asChild?: boolean;
@@ -25,7 +26,7 @@ export type ButtonProps = {
   endContent?: ReactNode;
   children?: ReactNode;
   disabled?: boolean;
-  className?: string;
+  baseClassName?: string;
   onPress?: () => void;
   onPressStart?: () => void;
   onPressEnd?: () => void;
@@ -119,24 +120,46 @@ export const useButton = ({
  * Button component styles using tailwind-variants.
  */
 export const button = tv({
-  base: "flex flex-row items-center justify-center gap-2 whitespace-nowrap rounded-md text-sm font-medium transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none",
+  slots: {
+    base: "flex flex-row items-center justify-center gap-2 whitespace-nowrap rounded-md text-sm font-medium transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none",
+    text: "",
+  },
   variants: {
     variant: {
-      default: "bg-primary text-primary-foreground shadow hover:opacity-90",
-      destructive:
-        "bg-destructive text-destructive-foreground shadow-sm hover:opacity-90",
-      outline:
-        "border bg-background border-input text-foreground shadow-sm hover:bg-accent hover:text-accent-foreground hover:opacity-90",
-      secondary:
-        "bg-secondary text-secondary-foreground shadow-sm hover:opacity-90",
-      ghost:
-        "text-foreground hover:bg-accent hover:text-accent-foreground hover:opacity-90",
-      link: "text-primary underline-offset-4 hover:underline hover:opacity-90",
+      default: {
+        base: "bg-primary text-primary-foreground shadow hover:opacity-90",
+        text: "text-primary-foreground",
+      },
+      destructive: {
+        base: "bg-destructive text-destructive-foreground shadow-sm hover:opacity-90",
+        text: "text-destructive-foreground",
+      },
+      warning: {
+        base: "bg-warning text-warning-foreground shadow-sm hover:opacity-90",
+        text: "text-warning-foreground",
+      },
+      outline: {
+        base: "border bg-background border-input text-foreground shadow-sm hover:bg-accent hover:text-accent-foreground hover:opacity-90",
+        text: "text-foreground hover:text-accent-foreground",
+      },
+      secondary: {
+        base: "bg-secondary text-secondary-foreground shadow-sm hover:opacity-90",
+        text: "text-secondary-foreground",
+      },
+      ghost: {
+        base: "text-foreground hover:bg-accent hover:text-accent-foreground hover:opacity-90",
+        text: "text-foreground hover:text-accent-foreground",
+      },
+      link: {
+        base: "text-primary underline-offset-4 hover:underline hover:opacity-90",
+        text: "text-primary underline-offset-4 hover:underline",
+      },
     },
     size: {
-      default: "h-9 px-4 py-2",
       sm: "h-8 rounded-md px-3 text-xs",
+      md: "h-9 px-4",
       lg: "h-10 rounded-md px-6",
+      xl: "h-11 rounded-md px-8",
       icon: "size-9",
     },
     borderRadius: {
@@ -155,7 +178,7 @@ export const button = tv({
   },
   defaultVariants: {
     variant: "default",
-    size: "default",
+    size: "md",
     borderRadius: "md",
     fullWidth: false,
     disabled: false,
@@ -168,7 +191,7 @@ export const button = tv({
 export function Button({
   children,
   variant = "default",
-  size = "default",
+  size = "md",
   borderRadius = "md",
   fullWidth = false,
   asChild = false,
@@ -177,7 +200,7 @@ export function Button({
   startContent,
   endContent,
   disabled = false,
-  className,
+  baseClassName,
   onPress,
   onPressStart,
   onPressEnd,
@@ -196,13 +219,12 @@ export function Button({
     onPressEnd,
   });
 
-  const buttonClassName = button({
+  const {base, text} = button({
     variant,
     size,
     borderRadius,
     fullWidth,
     disabled: disabled || loading,
-    className,
   });
 
   return asChild ? (
@@ -211,14 +233,14 @@ export function Button({
       {
         ...buttonState.componentProps,
         ...props,
-        className: buttonClassName,
+        className: base({className: baseClassName || props.className}),
       },
     )
   ) : (
     <Pressable
       {...buttonState.componentProps}
       {...props}
-      className={buttonClassName}
+      className={base({className: baseClassName || props.className})}
       testID={testID}
     >
       {loading
@@ -232,7 +254,9 @@ export function Button({
             />
           )
         : startContent}
-      {children}
+      <Text className={text({className: baseClassName || props.className})}>
+        {children}
+      </Text>
       {endContent}
     </Pressable>
   );

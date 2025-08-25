@@ -1,3 +1,7 @@
+import {AriaButtonProps, useButton} from "@react-aria/button";
+import {AriaDialogProps, useDialog as useDialogAria} from "@react-aria/dialog";
+import {useFocusRing} from "@react-aria/focus";
+import {XIcon} from "lucide-react-native";
 import React, {
   ComponentProps,
   createContext,
@@ -6,20 +10,18 @@ import React, {
   useRef,
   useState,
 } from "react";
-import {AriaDialogProps, useDialog as useDialogAria} from "@react-aria/dialog";
 import {
-  View,
+  Dimensions,
+  GestureResponderEvent,
   Platform,
   Pressable,
   Text,
   TouchableWithoutFeedback,
-  GestureResponderEvent,
+  View,
 } from "react-native";
-import {AriaButtonProps, useButton} from "@react-aria/button";
-import {useFocusRing} from "@react-aria/focus";
-import {XIcon} from "lucide-react-native";
-import {tv} from "tailwind-variants";
 import Reanimated, {FadeIn, FadeOut} from "react-native-reanimated";
+import {tv} from "tailwind-variants";
+import {ThemeContext, themes} from "../theme";
 
 /**
  * Base props for the root `Dialog` component, context, and hook.
@@ -44,6 +46,7 @@ export type DialogReturn = {
   state: {
     isOpen: boolean;
     setIsOpen: (isOpen: boolean) => void;
+    controlledOpen: boolean | "uncontrolled";
   };
   overlayProps: ComponentProps<typeof TouchableWithoutFeedback>;
 };
@@ -248,12 +251,19 @@ export const useDialog = ({
     state: {
       isOpen,
       setIsOpen,
+      controlledOpen:
+        forceMount || open === true
+          ? true
+          : open == null
+            ? "uncontrolled"
+            : false,
     },
     overlayProps: {
       onPress: () => {
-        if (!forceMount) {
-          setIsOpen(false);
+        if (forceMount || open) {
+          return;
         }
+        setIsOpen(false);
       },
     },
   };
@@ -281,6 +291,10 @@ export const useDialogTrigger = ({
       ...(Platform.OS === "web" ? buttonProps : {}),
       accessibilityRole: "button",
       onPress: () => {
+        if (state.controlledOpen !== "uncontrolled") {
+          return;
+        }
+
         state.setIsOpen(true);
       },
       ...props,
@@ -296,7 +310,6 @@ export const useDialogTrigger = ({
 export const useDialogContent = ({
   modal,
   state,
-  forceMount,
   onOpenAutoFocus,
   onCloseAutoFocus,
   onEscapeKeyDown,
@@ -305,7 +318,11 @@ export const useDialogContent = ({
   ...props
 }: DialogContentProps): DialogContentReturn => {
   const dialogRef = useRef<View | HTMLDivElement>(null);
-  const dialogAria = useDialogAria({...props}, dialogRef);
+
+  const dialogAria = useDialogAria(
+    {...(Platform.OS === "web" ? props : {})},
+    Platform.OS === "web" ? dialogRef : {current: null},
+  );
 
   const buttonRef = useRef<HTMLButtonElement>(null);
   const {buttonProps} = useButton(props, buttonRef);
@@ -315,29 +332,32 @@ export const useDialogContent = ({
     throw new Error("useDialogContent must be used within a Dialog");
   }
 
+  const handleClose = () => {
+    if (state.controlledOpen === true) {
+      return;
+    }
+    state.setIsOpen(false);
+  };
+
   return {
     componentProps: {
       ...(Platform.OS === "web" ? dialogAria.dialogProps : {}),
       ref: dialogRef,
       accessibile: true,
       focusable: true,
-      onFocus: (e) => {
+      onFocus: (e: React.FocusEvent<Element, Element>) => {
         onOpenAutoFocus?.(e);
         onInteractOutside?.(e);
       },
-      onBlur: (e) => {
+      onBlur: (e: React.FocusEvent<Element, Element>) => {
         onCloseAutoFocus?.(e);
       },
       accessibilityRole: "dialog",
       accessibilityLiveRegion: "polite",
       accessibilityViewIsModal: modal,
-      onKeyDown: (e) => {
-        if (forceMount) {
-          return;
-        }
-
+      onKeyDown: (e: React.KeyboardEvent<Element>) => {
         if (e.key === "Escape") {
-          state.setIsOpen(false);
+          handleClose();
           onEscapeKeyDown?.(e);
         }
       },
@@ -355,11 +375,7 @@ export const useDialogContent = ({
       ...(Platform.OS === "web" ? buttonProps : {}),
       ...(Platform.OS === "web" ? focusProps : {}),
       accessibilityRole: "button",
-      onPress: () => {
-        if (!forceMount) {
-          state.setIsOpen(false);
-        }
-      },
+      onPress: () => handleClose(),
     },
   };
 };
@@ -375,9 +391,84 @@ export const DialogContext = createContext<
   state: {
     isOpen: false,
     setIsOpen: () => {},
+    controlledOpen: false,
   },
   overlayProps: {},
   props: {},
+});
+
+/**
+ * A context wrapper containing the global state of the dialog content.
+ * @see DialogContentReturn
+ */
+export const DialogContentContext = createContext<DialogContentReturn>({
+  componentProps: {},
+  titleProps: {},
+  closeButtonProps: {},
+});
+
+/**
+ * Conditional classes for the dialog overlay component.
+ * @see DialogOverlayComponentProps
+ */
+export const dialogOverlay = tv({
+  base: "fixed inset-0 z-50 bg-black opacity-80",
+});
+
+/**
+ * Conditional classes for the dialog content component.
+ * It includes the following slots:
+ * - base: The base styles for the dialog content.
+ * - closeButton: The close button styles for the dialog content.
+ * @see DialogContentComponentProps
+ */
+export const dialogContent = tv({
+  slots: {
+    base: "fixed left-[50%] top-[50%] z-50 w-full max-w-lg translate-x-[-50%] translate-y-[-50%] gap-4 border border-border bg-background p-6 shadow-lg rounded-lg",
+    closeButton:
+      "absolute right-4 top-4 rounded-sm opacity-70 ring-offset-background transition-opacity hover:opacity-100 focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2 disabled:pointer-events-none",
+  },
+  variants: {
+    borderRadius: {
+      none: {base: "rounded-none"},
+      sm: {base: "rounded-sm"},
+      md: {base: "rounded-md"},
+      lg: {base: "rounded-lg"},
+      xl: {base: "rounded-xl"},
+    },
+  },
+});
+
+/**
+ * Conditional classes for the dialog header component.
+ * @see DialogHeaderComponentProps
+ */
+export const dialogHeader = tv({
+  base: "flex justify-center sm:justify-start w-full",
+});
+
+/**
+ * Conditional classes for the dialog title component.
+ * @see DialogTitleComponentProps
+ */
+export const dialogTitle = tv({
+  base: "text-lg font-semibold leading-none tracking-tight text-foreground",
+});
+
+/**
+ * Conditional classes for the dialog footer component.
+ * @see DialogFooterComponentProps
+ */
+export const dialogFooter = tv({
+  base: "flex flex-col-reverse gap-2 sm:flex-row sm:justify-end",
+});
+
+/**
+ * Conditional classes for the dialog description component.
+ * @see DialogDescriptionComponentProps
+ */
+export const dialogDescription = tv({
+  base: "text-sm text-muted-foreground",
 });
 
 /**
@@ -457,16 +548,6 @@ export function DialogTrigger({
 }
 
 /**
- * A context wrapper containing the global state of the dialog content.
- * @see DialogContentReturn
- */
-export const DialogContentContext = createContext<DialogContentReturn>({
-  componentProps: {},
-  titleProps: {},
-  closeButtonProps: {},
-});
-
-/**
  * The dialog portal component. The portal is not used in this library as there is no body element in React Native, it is only here for compatibility with the Radix UI and Shadcn UI and can be removed if not used.
  * @param param0 - Props to configure the behavior of the dialog portal. @see DialogPortalComponentProps
  * @returns Returns a `View` which wraps the dialog content.
@@ -474,14 +555,6 @@ export const DialogContentContext = createContext<DialogContentReturn>({
 export function DialogPortal({children, ...props}: DialogPortalComponentProps) {
   return <View {...props}>{children}</View>;
 }
-
-/**
- * Conditional classes for the dialog overlay component.
- * @see DialogOverlayComponentProps
- */
-export const dialogOverlay = tv({
-  base: "fixed inset-0 z-50 bg-black opacity-80",
-});
 
 /**
  * The dialog overlay component. This component is used to render the backdrop of the dialog.
@@ -526,30 +599,6 @@ export function DialogOverlay({
 }
 
 /**
- * Conditional classes for the dialog content component.
- * It includes the following slots:
- * - base: The base styles for the dialog content.
- * - closeButton: The close button styles for the dialog content.
- * @see DialogContentComponentProps
- */
-export const dialogContent = tv({
-  slots: {
-    base: "fixed left-[50%] top-[50%] z-50  w-full max-w-lg translate-x-[-50%] translate-y-[-50%] gap-4 border border-border bg-background p-6 shadow-lg rounded-lg",
-    closeButton:
-      "absolute right-4 top-4 rounded-sm opacity-70 ring-offset-background transition-opacity text-muted-foreground hover:opacity-100 focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2 disabled:pointer-events-none",
-  },
-  variants: {
-    borderRadius: {
-      none: {base: "rounded-none"},
-      sm: {base: "rounded-sm"},
-      md: {base: "rounded-md"},
-      lg: {base: "rounded-lg"},
-      xl: {base: "rounded-xl"},
-    },
-  },
-});
-
-/**
  * The dialog content component. This component is used to render the main content of the dialog.
  * @param param0 - Props to configure the behavior of the dialog content. @see DialogContentComponentProps
  * @returns Returns a `View` which contains the dialog content and a close button.
@@ -564,8 +613,21 @@ export function DialogContent({
 }: DialogContentComponentProps) {
   const {state} = useContext(DialogContext);
   const contextProps = useDialogContent({...props, state, forceMount});
+  const {colorScheme} = useContext(ThemeContext);
 
   const {base, closeButton} = dialogContent({borderRadius});
+
+  const renderProps = {
+    ...contextProps.componentProps,
+    ...props,
+    style:
+      Platform.OS !== "web"
+        ? {
+            top: Dimensions.get("window").height / 4,
+          }
+        : {},
+    className: base({className: baseClassName || props.className}),
+  };
 
   return (
     <DialogContentContext.Provider value={contextProps}>
@@ -575,20 +637,16 @@ export function DialogContent({
             React.Children.toArray(children)[0] as React.ReactElement<{
               className: string;
             }>,
-            {
-              ...contextProps.componentProps,
-              className: base({className: baseClassName || props.className}),
-            },
+            renderProps,
           )
         ) : (
           <View
-            {...props}
-            {...contextProps.componentProps}
+            {...renderProps}
             className={base({className: baseClassName || props.className})}
           >
             <View>{children}</View>
             <DialogClose className={closeButton()}>
-              <XIcon />
+              <XIcon color={themes[colorScheme]["--foreground"]} />
               <Text className="sr-only">Close</Text>
             </DialogClose>
           </View>
@@ -633,14 +691,6 @@ export function DialogClose({
 }
 
 /**
- * Conditional classes for the dialog header component.
- * @see DialogHeaderComponentProps
- */
-export const dialogHeader = tv({
-  base: "flex justify-center sm:justify-start w-full",
-});
-
-/**
  * The dialog header component. This component is used to render the header section of the dialog.
  * @param param0 - Props to configure the behavior of the dialog header. @see DialogHeaderComponentProps
  * @returns Returns a `View` which contains the dialog header content.
@@ -659,14 +709,6 @@ export function DialogHeader({
     </View>
   );
 }
-
-/**
- * Conditional classes for the dialog title component.
- * @see DialogTitleComponentProps
- */
-export const dialogTitle = tv({
-  base: "text-lg font-semibold leading-none tracking-tight text-foreground",
-});
 
 /**
  * The dialog title component. This component is used to render the title of the dialog.
@@ -703,14 +745,6 @@ export function DialogTitle({
 }
 
 /**
- * Conditional classes for the dialog footer component.
- * @see DialogFooterComponentProps
- */
-export const dialogFooter = tv({
-  base: "flex flex-col-reverse gap-2 sm:flex-row sm:justify-end",
-});
-
-/**
  * The dialog footer component. This component is used to render the footer section of the dialog.
  * @param param0 - Props to configure the behavior of the dialog footer. @see DialogFooterComponentProps
  * @returns Returns a `View` which contains the dialog footer content.
@@ -729,14 +763,6 @@ export function DialogFooter({
     </View>
   );
 }
-
-/**
- * Conditional classes for the dialog description component.
- * @see DialogDescriptionComponentProps
- */
-export const dialogDescription = tv({
-  base: "text-sm text-muted-foreground",
-});
 
 /**
  * The dialog description component. This component is used to render the description of the dialog.

@@ -20,7 +20,7 @@ export type AspectRatioProps = {
 /**
  * Tailwind classes for the `AspectRatio` component.
  */
-const aspectRatio = tv({
+export const aspectRatio = tv({
   base: "w-full",
 });
 

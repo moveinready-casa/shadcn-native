@@ -61,7 +61,7 @@
     "sonner": "^2.0.7",
     "sonner-native": "^0.21.0",
     "tailwind-merge": "^3.3.1",
-    "tailwind-variants": "^1.0.0",
+    "tailwind-variants": "^2.1.0",
     "twrnc": "^4.9.1"
   },
   "devDependencies": {
@@ -79,7 +79,7 @@
     "@react-native/babel-preset": "^0.80.1",
     "@react-native/eslint-config": "^0.80.1",
     "@react-native/eslint-plugin": "^0.80.1",
-    "@react-native/typescript-config": "^0.80.1",
+    "@react-native/typescript-config": "^0.81.0",
     "@storybook/react": "^9.0.17",
     "@storybook/react-native": "^9.0.18",
     "@tailwindcss/postcss": "^4.1.11",

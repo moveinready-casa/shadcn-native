@@ -4,7 +4,7 @@ import React, {
   useContext,
   useState,
 } from "react";
-import {Pressable, View, Platform} from "react-native";
+import {Pressable, View, Platform, Text} from "react-native";
 import {tv} from "tailwind-variants";
 
 /**
@@ -343,7 +343,7 @@ export const tabsTrigger = tv({
   base: "inline-flex items-center justify-center whitespace-nowrap rounded-sm px-3 py-1 text-sm font-medium transition-all disabled:pointer-events-none disabled:opacity-50",
   variants: {
     active: {
-      true: "bg-background text-foreground shadow-sm",
+      true: "bg-background text-foreground web:shadow-sm border border-border",
       false: "",
     },
     variant: {
@@ -537,7 +537,9 @@ export function TabsTrigger({
   const Content = () => (
     <View className="flex flex-row items-center gap-2">
       {startContent ? <View>{startContent}</View> : null}
-      <View>{children}</View>
+      <View>
+        <Text>{children}</Text>
+      </View>
       {endContent ? <View>{endContent}</View> : null}
     </View>
   );

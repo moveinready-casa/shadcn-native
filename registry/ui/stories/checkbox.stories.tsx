@@ -16,7 +16,7 @@ const meta: Meta<typeof Checkbox> = {
           summary: "md",
         },
       },
-      options: ["sm", "md", "lg"],
+      options: ["sm", "md", "lg", "xl"],
     },
     color: {
       control: "select",

@@ -1,7 +1,7 @@
 import React from "react";
 import {afterEach, describe, expect, it, jest} from "@jest/globals";
 import {cleanup, render, fireEvent} from "@testing-library/react-native";
-import {Text, View} from "react-native";
+import {Text, View, Platform} from "react-native";
 import {Button} from "../button";
 
 describe("Button", () => {
@@ -64,6 +64,26 @@ describe("Button", () => {
       expect(child).toBeTruthy();
       expect(child.props.className).toContain("bg-destructive");
     });
+
+    it("applies fullWidth class when fullWidth is true", () => {
+      const {getByTestId} = render(
+        <Button testID="button" fullWidth>
+          Button
+        </Button>,
+      );
+      const button = getByTestId("button");
+      expect(button.props.className).toContain("w-full");
+    });
+
+    it("applies baseClassName correctly", () => {
+      const {getByTestId} = render(
+        <Button testID="button" baseClassName="custom-base-class">
+          Button
+        </Button>,
+      );
+      const button = getByTestId("button");
+      expect(button.props.className).toContain("custom-base-class");
+    });
   });
 
   describe("Classes", () => {
@@ -85,6 +105,16 @@ describe("Button", () => {
       );
       const button = getByTestId("button");
       expect(button.props.className).toContain("bg-destructive");
+    });
+
+    it("applies warning variant correctly", () => {
+      const {getByTestId} = render(
+        <Button testID="button" variant="warning">
+          Button
+        </Button>,
+      );
+      const button = getByTestId("button");
+      expect(button.props.className).toContain("bg-warning");
     });
 
     it("applies outline variant correctly", () => {
@@ -130,7 +160,7 @@ describe("Button", () => {
 
     it("applies default size correctly", () => {
       const {getByTestId} = render(
-        <Button testID="button" size="default">
+        <Button testID="button" size="md">
           Button
         </Button>,
       );
@@ -159,6 +189,17 @@ describe("Button", () => {
       const button = getByTestId("button");
       expect(button.props.className).toContain("h-10");
       expect(button.props.className).toContain("px-6");
+    });
+
+    it("applies xl size correctly", () => {
+      const {getByTestId} = render(
+        <Button testID="button" size="xl">
+          Button
+        </Button>,
+      );
+      const button = getByTestId("button");
+      expect(button.props.className).toContain("h-11");
+      expect(button.props.className).toContain("px-8");
     });
 
     it("applies icon size correctly", () => {
@@ -235,6 +276,16 @@ describe("Button", () => {
       const button = getByTestId("button");
       expect(button.props.className).toContain("custom-class");
     });
+
+    it("applies baseClassName with higher priority than variant", () => {
+      const {getByTestId} = render(
+        <Button testID="button" variant="default" baseClassName="bg-blue-500">
+          Button
+        </Button>,
+      );
+      const button = getByTestId("button");
+      expect(button.props.className).toContain("bg-blue-500");
+    });
   });
 
   describe("Interaction", () => {
@@ -299,6 +350,19 @@ describe("Button", () => {
       expect(button.props.onPress).toBeUndefined();
       expect(button.props.accessibilityState).toEqual({disabled: true});
     });
+
+    it("prevents press events when both loading and disabled", () => {
+      const onPress = jest.fn();
+      const {getByTestId} = render(
+        <Button testID="button" loading disabled onPress={onPress}>
+          Button
+        </Button>,
+      );
+      const button = getByTestId("button");
+
+      expect(button.props.onPress).toBeUndefined();
+      expect(button.props.accessibilityState).toEqual({disabled: true});
+    });
   });
 
   describe("Accessibility", () => {
@@ -316,6 +380,56 @@ describe("Button", () => {
       );
       const button = getByTestId("button");
       expect(button.props.accessibilityState).toEqual({disabled: true});
+    });
+
+    it("sets accessibility state when loading", () => {
+      const {getByTestId} = render(
+        <Button testID="button" loading>
+          Button
+        </Button>,
+      );
+      const button = getByTestId("button");
+      expect(button.props.accessibilityState).toEqual({disabled: true});
+    });
+
+    it("sets accessible to true", () => {
+      const {getByTestId} = render(<Button testID="button">Button</Button>);
+      const button = getByTestId("button");
+      expect(button.props.accessible).toBe(true);
+    });
+  });
+
+  describe("State Management", () => {
+    it("tracks pressed state correctly", () => {
+      const onPressStart = jest.fn();
+      const onPressEnd = jest.fn();
+      const {getByTestId} = render(
+        <Button
+          testID="button"
+          onPressStart={onPressStart}
+          onPressEnd={onPressEnd}
+        >
+          Button
+        </Button>,
+      );
+      const button = getByTestId("button");
+
+      fireEvent(button, "pressIn");
+      expect(onPressStart).toHaveBeenCalledTimes(1);
+
+      fireEvent(button, "pressOut");
+      expect(onPressEnd).toHaveBeenCalledTimes(1);
+    });
+
+    it("handles focus ring state on web", () => {
+      const {getByTestId} = render(<Button testID="button">Button</Button>);
+      const button = getByTestId("button");
+
+      // Focus ring props should be applied on web
+      if (Platform.OS === "web") {
+        expect(button.props.onFocus).toBeDefined();
+        expect(button.props.onBlur).toBeDefined();
+      }
     });
   });
 });

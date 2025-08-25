@@ -41,3 +41,11 @@ export const CheckIcon = jest.fn((props: any) =>
 export const DotIcon = jest.fn((props: any) =>
   React.createElement(View, {...props, testID: props?.testID || "lucide-icon"}),
 );
+
+export const Loader2 = jest.fn((props: any) =>
+  React.createElement(View, {...props, testID: props?.testID || "lucide-icon"}),
+);
+
+export const AlertCircle = jest.fn((props: any) =>
+  React.createElement(View, {...props, testID: props?.testID || "lucide-icon"}),
+);

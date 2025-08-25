@@ -226,7 +226,6 @@ export const useSlider = ({
   onValueCommit,
   disabled = false,
   orientation = "horizontal",
-  dir,
   inverted = false,
   min = 0,
   max = 100,
@@ -278,7 +277,6 @@ export const useSlider = ({
       vertical: orientation === "vertical",
       accessibilityRole: accessibilityRole ?? "adjustable",
       accessibilityState: {...accessibilityState, disabled},
-      dir,
       CustomTrack: (props) => (
         <SliderTrack
           {...props}

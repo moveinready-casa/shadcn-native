@@ -22,7 +22,14 @@ A one-time password input component for authentication.
 ## Usage
 
 ```tsx
-<InputOTP maxLength={6} onFilled={(code) => console.log(code)}>
+import {
+  InputOTP,
+  InputOTPSeparator,
+  InputOTPGroup,
+  InputOTPSlot,
+} from "@/components/ui/input-otp";
+
+<InputOTP maxLength={6} onFilled={(code: number) => console.log(code)}>
   <InputOTPGroup>
     <InputOTPSlot index={0} />
     <InputOTPSlot index={1} />
@@ -34,7 +41,7 @@ A one-time password input component for authentication.
     <InputOTPSlot index={4} />
     <InputOTPSlot index={5} />
   </InputOTPGroup>
-</InputOTP>
+</InputOTP>;
 ```
 
 The input OTP is a wrapper around the [TextInputOTP](https://github.com/moveinready-casa/react-native-input-code-otp) component.

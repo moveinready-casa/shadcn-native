@@ -1,3 +1,5 @@
+import {AriaButtonProps, useButton} from "@react-aria/button";
+import {useFocusRing} from "@react-aria/focus";
 import React, {
   ComponentProps,
   createContext,
@@ -14,8 +16,6 @@ import Reanimated, {
   withTiming,
 } from "react-native-reanimated";
 import {tv} from "tailwind-variants";
-import {AriaButtonProps, useButton} from "@react-aria/button";
-import {useFocusRing} from "@react-aria/focus";
 
 /**
  * Base props for the root `HoverCard` component, context, and hook.
@@ -405,10 +405,13 @@ export function HoverCardTrigger({
       className: baseClass,
     })
   ) : (
-    <Pressable {...props} {...componentProps} className={baseClass}>
-      <Text onFocus={open} className={text({className: textClassName})}>
-        {children}
-      </Text>
+    <Pressable
+      {...props}
+      {...componentProps}
+      className={baseClass}
+      onFocus={open}
+    >
+      <Text className={text({className: textClassName})}>{children}</Text>
     </Pressable>
   );
 }
@@ -436,9 +439,6 @@ export function HoverCardContent({
 
   const renderProps = {
     ...componentProps,
-    className: base({
-      className: baseClassName || props.className,
-    }),
     ...props,
   };
 
@@ -451,15 +451,28 @@ export function HoverCardContent({
       )[0] as React.ReactElement<{className?: string}>;
       return (
         <Reanimated.View {...componentProps}>
-          <View className={renderProps.className}>
-            {React.cloneElement(onlyChild, renderProps)}
+          <View
+            className={base({
+              className: baseClassName || props.className,
+            })}
+          >
+            {React.cloneElement(onlyChild, {
+              ...renderProps,
+              className: base({
+                className: baseClassName || props.className,
+              }),
+            })}
           </View>
         </Reanimated.View>
       );
     })()
   ) : (
     <Reanimated.View {...renderProps}>
-      <View className={renderProps.className}>
+      <View
+        className={base({
+          className: baseClassName || props.className,
+        })}
+      >
         <Text className={text({className: textClassName})}>{children}</Text>
       </View>
     </Reanimated.View>
