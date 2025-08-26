@@ -89,7 +89,7 @@ This is where the themes are stored. Each theme should be stored in a [React Nat
 }
 ```
 
-You can use any of the shadcn/ui themes. See the [shadcn/themes](https://ui.shadcn.com/docs/theming#base-colors) for full list. You will need to convert them from oklch to a supported color format.
+You can use any of the shadcn/ui themes. See the [shadcn/themes](https://ui.shadcn.com/docs/theming#base-colors) for a full list. You will need to convert them from oklch to a supported color format.
 
 > [!NOTE]
 >
@@ -259,7 +259,7 @@ useEffect(() => {
 
 ## `theme.ts`
 
-This file does not affect your themeing with tailwind variables but rather when you need to access the theme variables with JavaScript. This file should be kept in the `lib/utils` directory. Keep it in sync with `globals.css`.
+This file does not affect your theming with tailwind variables but rather when you need to access the theme variables with JavaScript. This file should be kept in the `lib/utils` directory. Keep it in sync with `globals.css`.
 
 ```ts filename="lib/utils/theme.ts" copy
 import {useColorScheme} from "react-native";
@@ -353,11 +353,11 @@ globalThis.SVGElement = SVGElement;
 
 > [!NOTE]
 >
-> At the bottom of the file you will see a global SVGElement class. This is a workaround to fix an issue with react-aria running on native _it must be kept_.
+> At the bottom of the file you will see a global SVGElement class. This is a workaround to fix an issue with [react-aria](https://react-spectrum.adobe.com/react-aria) running on native and it must be kept.
 
 To update the file with your theme we recommend the following prompt for LLMs:
 
-> Please update the `lib/utils/theme.ts` file with the themes found in `app/globals.css`. Create 2 nested objects, dark and light. Define the radius varible in both light and dark mode. Do not include `--` in the variable names. Use camelCase for the variable names.
+> Please update the `lib/utils/theme.ts` file with the themes found in `app/globals.css`. Create 2 nested objects, dark and light. Define the radius variable in both light and dark mode. Do not include `--` in the variable names. Use camelCase for the variable names.
 
 ## Additional Resources
 
