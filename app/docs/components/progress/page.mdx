@@ -1,0 +1,63 @@
+import Preview from "../../../../components/Preview";
+import {GithubIcon, StorybookIcon, RadixIcon} from "@storybook/icons";
+
+<div style={{display: "flex", flexDirection: "row", gap: "2rem"}}>
+  <a
+    href={`${process.env.STORYBOOK_URL}/?path=/story/progress--default&globals=backgrounds.value:light`}
+  >
+    <StorybookIcon color="#FE4785" width={25} height={25} />
+  </a>
+  <a href="https://github.com/moveinready-casa/shadcn-native/blob/3-create-components/registry/ui/progress.tsx">
+    <GithubIcon width={25} height={25} />
+  </a>
+  <a href="https://ui.shadcn.com/docs/components/progress">Shadcn Docs</a>
+  <a href="https://www.radix-ui.com/primitives/docs/components/progress">
+    Radix Docs
+  </a>
+</div>
+
+# Progress
+
+Displays an indicator showing the completion progress of a task, typically displayed as a progress bar.
+
+<Preview component="progress" />
+
+## Usage
+
+```tsx
+import {Progress} from "@/components/ui/progress";
+
+<Progress value={62} />;
+```
+
+## Components
+
+### Progress
+
+| Prop            | Type                                                   | Default     | Description                                                                          |
+| --------------- | ------------------------------------------------------ | ----------- | ------------------------------------------------------------------------------------ |
+| `value`         | `number \| null`                                       | `undefined` | Current progress value from 0–100. Use `null` to render an indeterminate progress.   |
+| `max`           | `number`                                               | `undefined` | The maximum value representing 100%. If omitted, a11y exposes only `min` and `now`.  |
+| `getValueLabel` | `(value: number \| null, max?: number) => string`      | `undefined` | Function that returns accessible text for the progress value, e.g. `33 of 99 files`. |
+| `size`          | `'sm' \| 'md' \| 'lg' \| 'xl'`                         | `'md'`      | Visual height of the track.                                                          |
+| `color`         | `'primary' \| 'success' \| 'warning' \| 'destructive'` | `'primary'` | Semantic color for the fill, derived from theme (light/dark) to hex colors.          |
+| `baseClassName` | `string`                                               | `undefined` | Tailwind classes to apply to the track. Takes priority over `className`.             |
+
+_Also extends all React Native `View` props on the root container._
+
+## Accessibility
+
+- The root element sets `accessibilityRole="progressbar"` and maps `min`, `now`, and `max` (if provided) to `accessibilityValue`.
+- When `value` is `null`, the component exposes `accessibilityState={{busy: true}}` to indicate indeterminate progress.
+- On web, corresponding ARIA attributes are applied: `role`, `aria-valuemin`, `aria-valuemax`, `aria-valuenow`, and `aria-valuetext` when available.
+
+## Styling
+
+Progress uses Tailwind Variants for the track with the following base styles and size variants:
+
+```
+track: "relative overflow-hidden rounded-xl bg-secondary"
+sizes: sm → h-1.5, md → h-2, lg → h-3, xl → h-4
+```
+
+The fill is an animated `Reanimated.View` whose width is driven by the `value`. Its color is sourced from the current theme (`ThemeContext`) using semantic keys: `primary`, `success`, `warning`, and `destructive`.

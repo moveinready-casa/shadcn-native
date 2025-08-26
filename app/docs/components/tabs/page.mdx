@@ -1,0 +1,289 @@
+import Preview from "../../../../components/Preview";
+import {GithubIcon, StorybookIcon, RadixIcon} from "@storybook/icons";
+
+<div style={{display: "flex", flexDirection: "row", gap: "2rem"}}>
+  <a
+    href={`${process.env.STORYBOOK_URL}/?path=/story/tabs--default&globals=backgrounds.value:light`}
+  >
+    <StorybookIcon color="#FE4785" width={25} height={25} />
+  </a>
+  <a href="https://github.com/moveinready-casa/shadcn-native/blob/3-create-components/registry/ui/tabs.tsx">
+    <GithubIcon width={25} height={25} />
+  </a>
+  <a href="https://ui.shadcn.com/docs/components/tabs">Shadcn Docs</a>
+  <a href="https://www.radix-ui.com/docs/primitives/components/tabs">
+    Radix Docs
+  </a>
+</div>
+
+# Tabs
+
+A set of layered sections of content—known as tab panels—that are displayed one at a time, with a tab header controlling which panel is shown.
+
+<Preview component="tabs" />
+
+## Usage
+
+```tsx
+import {Tabs, TabsContent, TabsList, TabsTrigger} from "@/components/ui/tabs";
+
+<Tabs defaultValue="account" className="w-[400px]">
+  <TabsList>
+    <TabsTrigger value="account">Account</TabsTrigger>
+    <TabsTrigger value="password">Password</TabsTrigger>
+  </TabsList>
+  <TabsContent value="account">
+    <Text>Make changes to your account here.</Text>
+  </TabsContent>
+  <TabsContent value="password">
+    <Text>Change your password here.</Text>
+  </TabsContent>
+</Tabs>;
+```
+
+## Components
+
+### Tabs
+
+| Prop            | Type                                                | Default        | Description                                                                                            |
+| --------------- | --------------------------------------------------- | -------------- | ------------------------------------------------------------------------------------------------------ |
+| `value`         | `string`                                            | -              | Controlled value for the tabs (which tab is selected).                                                 |
+| `defaultValue`  | `string`                                            | -              | Uncontrolled default value for the tabs (which tab is selected).                                       |
+| `onValueChange` | `(value: string) => void`                           | -              | Callback function called when the tab value changes.                                                   |
+| `orientation`   | `"horizontal" \| "vertical"`                        | `"horizontal"` | The orientation of the tabs. Horizontal displays tabs in a row, vertical displays them in a column.    |
+| `size`          | `"sm" \| "md" \| "lg"`                              | `"md"`         | The size of the tabs. Controls the height and spacing of tab elements.                                 |
+| `variant`       | `"shadcn" \| "underlined" \| "outlined" \| "ghost"` | `"shadcn"`     | The visual style variant for the entire tabs group.                                                    |
+| `borderRadius`  | `"none" \| "sm" \| "md" \| "lg" \| "xl"`            | `"md"`         | The border radius applied to the list container.                                                       |
+| `asChild`       | `boolean`                                           | `false`        | If true clones the child and passes all functionality props to it.                                     |
+| `baseClassName` | `string`                                            | -              | Custom tailwind classes to apply to the base tabs component. Takes priority over the `className` prop. |
+
+_Also extends all React Native `View` component props._
+
+### TabsList
+
+| Prop            | Type      | Default | Description                                                                                                 |
+| --------------- | --------- | ------- | ----------------------------------------------------------------------------------------------------------- |
+| `disabled`      | `boolean` | `false` | Disables interaction with all tab triggers.                                                                 |
+| `asChild`       | `boolean` | `false` | If true clones the child and passes all functionality props to it.                                          |
+| `baseClassName` | `string`  | -       | Custom tailwind classes to apply to the base tabs list component. Takes priority over the `className` prop. |
+
+_Also extends all React Native `View` component props._
+
+### TabsTrigger
+
+| Prop            | Type                                                     | Default     | Description                                                                                                    |
+| --------------- | -------------------------------------------------------- | ----------- | -------------------------------------------------------------------------------------------------------------- |
+| `value`         | `string`                                                 | -           | **Required.** The value of the tab trigger (think of this as an id).                                           |
+| `disabled`      | `boolean`                                                | `false`     | Whether the tab trigger is disabled.                                                                           |
+| `startContent`  | `ReactNode`                                              | -           | Start content (ReactNode) to display before the main content.                                                  |
+| `endContent`    | `ReactNode`                                              | -           | End content (ReactNode) to display after the main content.                                                     |
+| `color`         | `"default" \| "secondary" \| "destructive" \| "outline"` | `"default"` | Color variants similar to Badge component.                                                                     |
+| `asChild`       | `boolean`                                                | `false`     | If true clones the child and passes all functionality props to it. Available on any exported component.        |
+| `baseClassName` | `string`                                                 | -           | Custom tailwind classes to apply to the base tabs trigger component. Takes priority over the `className` prop. |
+
+_Also extends all React Native `Pressable` component props._
+
+### TabsContent
+
+| Prop            | Type      | Default | Description                                                                                                    |
+| --------------- | --------- | ------- | -------------------------------------------------------------------------------------------------------------- |
+| `value`         | `string`  | -       | **Required.** The value of the tab content (think of this as an id).                                           |
+| `asChild`       | `boolean` | `false` | If true clones the child and passes all functionality props to it. Available on any exported component.        |
+| `baseClassName` | `string`  | -       | Custom tailwind classes to apply to the base tabs content component. Takes priority over the `className` prop. |
+
+_Also extends all React Native `View` component props._
+
+## Hooks
+
+### useTabs
+
+The backbone hook for the tabs component that manages controlled/uncontrolled state.
+
+**Parameters:**
+
+| Parameter       | Type                      | Default | Description                                          |
+| --------------- | ------------------------- | ------- | ---------------------------------------------------- |
+| `value`         | `string`                  | -       | Controlled value for the tabs.                       |
+| `defaultValue`  | `string`                  | -       | Uncontrolled default value for the tabs.             |
+| `onValueChange` | `(value: string) => void` | -       | Callback function called when the tab value changes. |
+
+**Returns:**
+
+```typescript
+{
+  state: {
+    selectedValue: string | null;
+    setSelectedValue: (value: string) => void;
+    isControlled: boolean;
+  };
+}
+```
+
+| Property                 | Type                      | Description                                 |
+| ------------------------ | ------------------------- | ------------------------------------------- |
+| `state.selectedValue`    | `string \| null`          | Currently selected tab value.               |
+| `state.setSelectedValue` | `(value: string) => void` | Function to set the selected tab value.     |
+| `state.isControlled`     | `boolean`                 | Whether the tabs are controlled externally. |
+
+### useTabsList
+
+The hook for the tabs list component that provides accessibility and merged props.
+
+**Parameters:**
+
+| Parameter  | Type      | Default | Description                            |
+| ---------- | --------- | ------- | -------------------------------------- |
+| `disabled` | `boolean` | `false` | Whether all tab triggers are disabled. |
+
+**Returns:**
+
+```typescript
+{
+  componentProps: ComponentProps<typeof View> | HTMLDivElement;
+  disabledAll: boolean;
+}
+```
+
+| Property         | Type                                            | Description                                             |
+| ---------------- | ----------------------------------------------- | ------------------------------------------------------- |
+| `componentProps` | `ComponentProps<typeof View> \| HTMLDivElement` | Accessibility props to pass to the tabs list component. |
+| `disabledAll`    | `boolean`                                       | Whether all tabs are disabled.                          |
+
+### useTabsTrigger
+
+The hook for the tabs trigger component that provides accessibility and onPress behavior.
+
+**Parameters:**
+
+| Parameter  | Type      | Default | Description                          |
+| ---------- | --------- | ------- | ------------------------------------ |
+| `value`    | `string`  | -       | The value of the tab trigger.        |
+| `disabled` | `boolean` | `false` | Whether the tab trigger is disabled. |
+
+**Returns:**
+
+```typescript
+{
+  componentProps: ComponentProps<typeof Pressable> | HTMLButtonElement;
+  isActive: boolean;
+}
+```
+
+| Property         | Type                                                    | Description                                               |
+| ---------------- | ------------------------------------------------------- | --------------------------------------------------------- |
+| `componentProps` | `ComponentProps<typeof Pressable> \| HTMLButtonElement` | Accessibility props to pass to the tab trigger component. |
+| `isActive`       | `boolean`                                               | Whether the tab trigger is currently active.              |
+
+### useTabsContent
+
+The hook for the tabs content component that provides accessibility and visibility state.
+
+**Parameters:**
+
+| Parameter | Type     | Default | Description                   |
+| --------- | -------- | ------- | ----------------------------- |
+| `value`   | `string` | -       | The value of the tab content. |
+
+**Returns:**
+
+```typescript
+{
+  componentProps: ComponentProps<typeof View> | HTMLDivElement;
+  isSelected: boolean;
+}
+```
+
+| Property         | Type                                            | Description                                               |
+| ---------------- | ----------------------------------------------- | --------------------------------------------------------- |
+| `componentProps` | `ComponentProps<typeof View> \| HTMLDivElement` | Accessibility props to pass to the tab content component. |
+| `isSelected`     | `boolean`                                       | Whether the tab content is currently selected.            |
+
+## Accessibility
+
+The Tabs component is built with accessibility in mind and includes:
+
+### Web Accessibility
+
+- Uses proper ARIA attributes: `role="tablist"`, `role="tab"`, `role="tabpanel"`
+- Supports keyboard navigation (Arrow keys for tab selection, Enter/Space for activation)
+- Focus management between tabs and content
+- Proper labeling with `aria-selected` and `aria-controls`
+
+### React Native Accessibility
+
+- `accessibilityRole="tablist"` for the tabs container
+- `accessibilityRole="tab"` for individual tab triggers
+- `accessibilityRole="tabpanel"` for tab content
+- `accessibilityState` with `selected` and `disabled` states
+- Proper focus management for screen readers
+
+## Styling
+
+### TabsList Classes
+
+**Base Classes:** `flex flex-row w-fit items-center justify-center rounded-md bg-muted p-1 text-muted-foreground`
+
+**Variants:**
+
+- `orientation`:
+  - `horizontal` - Default horizontal layout
+  - `vertical` - Vertical layout with `flex-col`
+
+- `size`:
+  - `sm` - Small height: `h-9`
+  - `md` (default) - Medium height: `h-10`
+  - `lg` - Large height: `h-11`
+
+- `radius`:
+  - `none` - No radius: `rounded-none`
+  - `sm` - Small radius: `rounded-sm`
+  - `md` (default) - Medium radius: `rounded-md`
+  - `lg` - Large radius: `rounded-lg`
+  - `xl` - Extra large radius: `rounded-xl`
+
+- `variant`:
+  - `shadcn` (default) - Standard styling
+  - `underlined` - Transparent background: `bg-transparent`
+  - `outlined` - Transparent background with border: `bg-transparent border border-border`
+  - `ghost` - Transparent background: `bg-transparent`
+
+**Compound Variants:**
+
+- Vertical orientation with different sizes adjusts width and height accordingly
+
+### TabsTrigger Classes
+
+**Base Classes:** `inline-flex items-center justify-center whitespace-nowrap rounded-sm px-3 py-1 text-sm font-medium transition-all disabled:pointer-events-none disabled:opacity-50`
+
+**Variants:**
+
+- `active`:
+  - `true` - Active state: `bg-background text-foreground shadow-sm`
+  - `false` - Inactive state (no additional classes)
+
+- `variant`:
+  - `shadcn` (default) - Standard styling
+  - `underlined` - Transparent background with no shadow: `bg-transparent rounded-none shadow-none`
+  - `outlined` - Standard styling
+  - `ghost` - Standard styling
+
+- `color`:
+  - `default` (default) - Standard color scheme
+  - `secondary` - Secondary color scheme
+  - `destructive` - Destructive color scheme
+  - `outline` - Outline color scheme
+
+- `borderRadius`:
+  - `none` - No radius: `rounded-none`
+  - `sm` - Extra small radius: `rounded-xs`
+  - `md` (default) - Small radius: `rounded-sm`
+  - `lg` - Medium radius: `rounded-md`
+  - `xl` - Large radius: `rounded-lg`
+
+**Compound Variants:**
+
+- `underlined` variant with `active: true` adds bottom border: `border-b-2 border-border`
+
+### TabsContent Classes
+
+**Base Classes:** `mt-2 ring-offset-background focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2`

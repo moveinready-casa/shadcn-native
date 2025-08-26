@@ -1,0 +1,70 @@
+import Preview from "../../../../components/Preview";
+import {GithubIcon, StorybookIcon} from "@storybook/icons";
+
+<div style={{display: "flex", flexDirection: "row", gap: "2rem"}}>
+  <a
+    href={`${process.env.STORYBOOK_URL}/?path=/story/badge--default&globals=backgrounds.value:light`}
+  >
+    <StorybookIcon color="#FE4785" width={25} height={25} />
+  </a>
+  <a href="https://github.com/moveinready-casa/shadcn-native/blob/3-create-components/registry/ui/badge.tsx">
+    <GithubIcon width={25} height={25} />
+  </a>
+  <a href="https://ui.shadcn.com/docs/components/badge">Shadcn Docs</a>
+</div>
+
+# Badge
+
+Displays a badge or a component that looks like a badge.
+
+<Preview component="badge" />
+
+## Usage
+
+```tsx
+import {Badge} from "@/components/ui/badge";
+
+<Badge>Badge</Badge>;
+```
+
+### Badge
+
+| Prop            | Type                                                     | Default     | Description                                                             |
+| --------------- | -------------------------------------------------------- | ----------- | ----------------------------------------------------------------------- |
+| `variant`       | `"default" \| "secondary" \| "destructive" \| "outline"` | `"default"` | The visual variant of the badge.                                        |
+| `borderRadius`  | `"none" \| "sm" \| "md" \| "lg" \| "full"`               | `"full"`    | Sets the border radius of the badge.                                    |
+| `disabled`      | `boolean`                                                | `false`     | Whether the badge is disabled.                                          |
+| `status`        | `"idle" \| "loading" \| "error"`                         | `"idle"`    | Sets the status indicator state.                                        |
+| `loading`       | `boolean`                                                | `false`     | Convenience prop to show loading state. Overrides status.               |
+| `indicator`     | `(state: BadgeStatus) => React.ReactNode`                | `undefined` | Custom indicator renderer function.                                     |
+| `baseClassName` | `string`                                                 | `undefined` | Custom Tailwind classes to apply to the badge.                          |
+| `asChild`       | `boolean`                                                | `false`     | If true, clones props to the nearest child instead of rendering a View. |
+| `children`      | `React.ReactNode`                                        | -           | The content to display inside the badge.                                |
+
+## Accessibility
+
+The Badge component includes:
+
+- Proper `accessibilityState` for disabled badges
+- Semantic structure for screen readers
+- Focus management when used as interactive elements
+
+## Styling
+
+The Badge component uses Tailwind variants for consistent styling. You can customize the appearance using:
+
+- `variant` prop for color schemes
+- `borderRadius` prop for corner styling
+- `baseClassName` prop for custom Tailwind classes
+- `disabled` prop for opacity changes
+
+## Status Indicators
+
+The Badge supports status indicators for loading and error states:
+
+- **Loading**: Shows a spinning indicator by default
+- **Error**: Shows an error indicator by default
+- **Idle**: No indicator shown
+- **Custom**: Use the `indicator` prop for custom indicators
+
+The `loading` boolean prop provides a convenient way to show loading state without managing the `status` prop directly.

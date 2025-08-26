@@ -1,0 +1,198 @@
+import Preview from "../../../../components/Preview";
+import {GithubIcon, StorybookIcon, RadixIcon} from "@storybook/icons";
+
+<div style={{display: "flex", flexDirection: "row", gap: "2rem"}}>
+  <a
+    href={`${process.env.STORYBOOK_URL}/?path=/story/alert--default&globals=backgrounds.value:light`}
+  >
+    <StorybookIcon color="#FE4785" width={25} height={25} />
+  </a>
+  <a href="https://github.com/moveinready-casa/shadcn-native/blob/3-create-components/registry/ui/alert.tsx">
+    <GithubIcon width={25} height={25} />
+  </a>
+  <a href="https://ui.shadcn.com/docs/components/alert">Shadcn Docs</a>
+</div>
+
+# Alert
+
+Displays a callout for user attention.
+
+<Preview component="alert" />
+
+## Usage
+
+```tsx
+import {Alert, AlertDescription, AlertTitle} from "@/components/ui/alert";
+
+<Alert>
+  <AlertTitle>Heads up!</AlertTitle>
+  <AlertDescription>
+    You can add components and dependencies to your app using the cli.
+  </AlertDescription>
+</Alert>;
+```
+
+## Components
+
+### Alert
+
+| Prop               | Type                                                   | Default     | Description                                                                                             |
+| ------------------ | ------------------------------------------------------ | ----------- | ------------------------------------------------------------------------------------------------------- |
+| `children`         | `React.ReactNode`                                      | -           | **Required.** The content of the alert.                                                                 |
+| `variant`          | `"default" \| "success" \| "warning" \| "destructive"` | `"default"` | The variant of the alert.                                                                               |
+| `radius`           | `"none" \| "sm" \| "md" \| "lg" \| "xl"`               | `"lg"`      | Sets the border radius of the alert.                                                                    |
+| `isVisible`        | `boolean`                                              | -           | Whether the alert is visible (controlled).                                                              |
+| `isVisibleDefault` | `boolean`                                              | `true`      | Default visibility state for uncontrolled usage.                                                        |
+| `isClosable`       | `boolean`                                              | `false`     | Whether the alert can be closed.                                                                        |
+| `hideIcon`         | `boolean`                                              | `false`     | Whether to hide the icon.                                                                               |
+| `icon`             | `React.ReactNode`                                      | -           | Custom icon to display.                                                                                 |
+| `endContent`       | `React.ReactNode`                                      | -           | Content to display at the end of the alert.                                                             |
+| `onClose`          | `() => void`                                           | -           | Callback function called when the alert is closed.                                                      |
+| `onVisibleChange`  | `(isVisible: boolean) => void`                         | -           | Callback function called when the visibility changes.                                                   |
+| `closeButtonProps` | `ComponentProps<typeof Pressable>`                     | -           | Props to pass to the close button.                                                                      |
+| `asChild`          | `boolean`                                              | `false`     | If true clones the child and passes all accessibility and functionality props to it.                    |
+| `baseClassName`    | `string`                                               | -           | Custom tailwind classes to apply to the base alert component. Takes priority over the `className` prop. |
+
+_Also extends all React Native `View` component props._
+
+### AlertTitle
+
+| Prop            | Type              | Default | Description                                                                                                               |
+| --------------- | ----------------- | ------- | ------------------------------------------------------------------------------------------------------------------------- |
+| `children`      | `React.ReactNode` | -       | **Required.** The content of the alert title.                                                                             |
+| `asChild`       | `boolean`         | `false` | If true clones the child and passes all accessibility and functionality props to it. Available on any exported component. |
+| `baseClassName` | `string`          | -       | Custom tailwind classes to apply to the base alert title component. Takes priority over the `className` prop.             |
+
+_Also extends all React Native `Text` component props._
+
+### AlertDescription
+
+| Prop            | Type              | Default | Description                                                                                                               |
+| --------------- | ----------------- | ------- | ------------------------------------------------------------------------------------------------------------------------- |
+| `children`      | `React.ReactNode` | -       | **Required.** The content of the alert description.                                                                       |
+| `asChild`       | `boolean`         | `false` | If true clones the child and passes all accessibility and functionality props to it. Available on any exported component. |
+| `baseClassName` | `string`          | -       | Custom tailwind classes to apply to the base alert description component. Takes priority over the `className` prop.       |
+
+_Also extends all React Native `Text` component props._
+
+## Hooks
+
+### useAlert
+
+The backbone hook for the alert component that manages state and provides accessibility props.
+
+**Parameters:**
+
+| Parameter          | Type                           | Default | Description                                           |
+| ------------------ | ------------------------------ | ------- | ----------------------------------------------------- |
+| `isVisible`        | `boolean`                      | -       | Whether the alert is visible (controlled).            |
+| `isVisibleDefault` | `boolean`                      | `true`  | Default visibility state for uncontrolled usage.      |
+| `isClosable`       | `boolean`                      | `false` | Whether the alert can be closed.                      |
+| `onClose`          | `() => void`                   | -       | Callback function called when the alert is closed.    |
+| `onVisibleChange`  | `(isVisible: boolean) => void` | -       | Callback function called when the visibility changes. |
+
+**Returns:**
+
+```typescript
+{
+  state: {
+    isVisible: boolean;
+    setIsVisible: (visible: boolean) => void;
+    isClosable: boolean;
+    isFocusVisible: boolean;
+  };
+  componentProps: React.ComponentProps<typeof View>;
+  closeButtonProps: React.ComponentProps<typeof Pressable> | HTMLButtonElement;
+}
+```
+
+| Property               | Type                                     | Description                                         |
+| ---------------------- | ---------------------------------------- | --------------------------------------------------- |
+| `state.isVisible`      | `boolean`                                | Whether the alert is visible.                       |
+| `state.setIsVisible`   | `(visible: boolean) => void`             | Function to set the visibility of the alert.        |
+| `state.isClosable`     | `boolean`                                | Whether the alert is closable.                      |
+| `state.isFocusVisible` | `boolean`                                | Whether the alert is focused (web only).            |
+| `componentProps`       | `React.ComponentProps<typeof View>`      | Accessibility props to pass to the alert component. |
+| `closeButtonProps`     | `React.ComponentProps<typeof Pressable>` | Props to pass to the close button.                  |
+
+## Accessibility
+
+The Alert component is built with accessibility in mind and includes:
+
+### Web Accessibility
+
+- Uses [`useButton`](https://react-spectrum.adobe.com/react-aria/useButton.html) hook for proper button semantics on close button
+- Uses [`useFocusRing`](https://react-spectrum.adobe.com/react-aria/useFocusRing.html) for focus management
+- Supports ARIA attributes: `role="alert"`, `aria-live="polite"`, `aria-atomic="true"`
+- Keyboard navigation support
+
+### React Native Accessibility
+
+- `accessibilityRole="alert"` for proper screen reader announcement
+- `accessibilityLiveRegion="polite"` for dynamic content updates
+- `accessibilityLabel` and `accessibilityHint` on close button
+- Proper focus management for screen readers
+
+## Styling
+
+### Alert Classes
+
+**Slots:**
+
+- `base` - For the base `View` in the alert component
+- `iconWrapper` - For the icon wrapper container
+- `icon` - For the icon element
+- `content` - For the main content container
+- `closeButton` - For the close button
+- `closeIcon` - For the close button icon
+
+**Variants:**
+
+- `variant`:
+  - `default` (default, shadcn) - Default styling: `text-card-foreground`
+  - `success` - Success styling: `text-success`
+  - `warning` - Warning styling: `text-warning`
+  - `destructive` - Destructive styling (shadcn): `text-destructive`
+- `radius`:
+  - `none` - No radius: `rounded-none`
+  - `sm` - Small radius: `rounded-sm`
+  - `md` - Medium radius: `rounded-md`
+  - `lg` (default) - Large radius: `rounded-lg`
+  - `xl` - Extra large radius: `rounded-xl`
+- `isClosable`:
+  - `true` - Adds padding for close button: `pr-12`
+- `hideIcon`:
+  - `true` - Hides icon wrapper: `hidden`
+
+**Base Classes:**
+
+- `base`: `relative w-full rounded-lg border border-border px-4 py-3 text-sm flex flex-row items-start gap-3 bg-card`
+- `iconWrapper`: `flex-shrink-0 pt-0.5`
+- `icon`: `size-4 text-card-foreground`
+- `content`: `flex-1 flex flex-col gap-0.5`
+- `closeButton`: `absolute top-2 right-2 p-1 rounded-sm opacity-70 hover:opacity-100 transition-opacity`
+- `closeIcon`: `size-4`
+
+### AlertTitle Classes
+
+**Variants:**
+
+- `variant`:
+  - `default` - Default text color
+  - `success` - Success text color: `text-success`
+  - `warning` - Warning text color: `text-warning`
+  - `destructive` - Destructive text color: `text-destructive`
+
+**Base Classes:** `line-clamp-1 min-h-4 font-medium tracking-tight text-card-foreground`
+
+### AlertDescription Classes
+
+**Variants:**
+
+- `variant`:
+  - `default` - Default text color
+  - `success` - Success text color: `text-success`
+  - `warning` - Warning text color: `text-warning`
+  - `destructive` - Destructive text color: `text-destructive`
+
+**Base Classes:** `text-muted-foreground flex flex-col gap-1 text-sm [&_p]:leading-relaxed`

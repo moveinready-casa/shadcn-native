@@ -1,0 +1,206 @@
+import Preview from "../../../../components/Preview";
+import {GithubIcon, StorybookIcon} from "@storybook/icons";
+
+<div style={{display: "flex", flexDirection: "row", gap: "2rem"}}>
+  <a
+    href={`${process.env.STORYBOOK_URL}/?path=/story/drawer--default&globals=backgrounds.value:light`}
+  >
+    <StorybookIcon color="#FE4785" width={25} height={25} />
+  </a>
+  <a href="https://github.com/moveinready-casa/shadcn-native/blob/3-create-components/registry/ui/drawer.tsx">
+    <GithubIcon width={25} height={25} />
+  </a>
+  <a href="https://ui.shadcn.com/docs/components/sheet">Shadcn Docs</a>
+  <a href="https://github.com/ammarahm-ed/react-native-actions-sheet">
+    Actions Sheet
+  </a>
+</div>
+
+# Drawer
+
+A drawer component for React Native.
+
+<Preview component="drawer" />
+
+## Usage
+
+```tsx
+import {
+  Drawer,
+  DrawerTrigger,
+  DrawerContent,
+  DrawerHeader,
+  DrawerFooter,
+  DrawerTitle,
+  DrawerDescription,
+  DrawerClose,
+} from "@/components/ui/drawer";
+
+<Drawer>
+  <DrawerTrigger asChild>
+    <Button>Open drawer</Button>
+  </DrawerTrigger>
+  <DrawerContent snapPoints={[200, 400]} initialSnapIndex={0}>
+    <DrawerHeader>
+      <DrawerTitle>Drawer Title</DrawerTitle>
+      <DrawerDescription>
+        This is a description of the drawer content. You can add any content
+        here.
+      </DrawerDescription>
+    </DrawerHeader>
+    <DrawerFooter>
+      <View className="ml-auto flex flex-row gap-2">
+        <DrawerClose asChild>
+          <Button variant="outline">Cancel</Button>
+        </DrawerClose>
+        <DrawerClose asChild>
+          <Button>Save</Button>
+        </DrawerClose>
+      </View>
+    </DrawerFooter>
+  </DrawerContent>
+</Drawer>;
+```
+
+## Components
+
+### Drawer
+
+Wrapper that provides context and control functions to nested components.
+
+### DrawerTrigger
+
+| Prop       | Type      | Default | Description                                                                                                               |
+| ---------- | --------- | ------- | ------------------------------------------------------------------------------------------------------------------------- |
+| `disabled` | `boolean` | `false` | Whether the drawer trigger is disabled.                                                                                   |
+| `asChild`  | `boolean` | `false` | If true clones the child and passes all accessibility and functionality props to it. Available on any exported component. |
+
+_Also extends all React Native `Pressable` component props._
+
+### DrawerContent
+
+| Prop               | Type         | Default | Description                                                                                      |
+| ------------------ | ------------ | ------- | ------------------------------------------------------------------------------------------------ |
+| `snapPoints`       | `number[]`   | -       | Snap points to configure the sheet's height.                                                     |
+| `initialSnapIndex` | `number`     | `0`     | The initial snap index for the sheet.                                                            |
+| `onClose`          | `() => void` | -       | Optional callback fired when a `DrawerClose` is pressed.                                         |
+| `baseClassName`    | `string`     | -       | Custom tailwind classes to apply to the base content container. Takes priority over `className`. |
+| `handleClassName`  | `string`     | -       | Custom classes for the sheet handle.                                                             |
+
+_Also extends all React Native `View` component props._
+
+### DrawerHeader
+
+| Prop            | Type     | Default | Description                                                                                                |
+| --------------- | -------- | ------- | ---------------------------------------------------------------------------------------------------------- |
+| `baseClassName` | `string` | -       | Custom tailwind classes to apply to the base drawer header component. Takes priority over the `className`. |
+
+_Also extends all React Native `View` component props._
+
+### DrawerFooter
+
+| Prop            | Type     | Default | Description                                                                                                |
+| --------------- | -------- | ------- | ---------------------------------------------------------------------------------------------------------- |
+| `baseClassName` | `string` | -       | Custom tailwind classes to apply to the base drawer footer component. Takes priority over the `className`. |
+
+_Also extends all React Native `View` component props._
+
+### DrawerTitle
+
+| Prop            | Type     | Default | Description                                                                                               |
+| --------------- | -------- | ------- | --------------------------------------------------------------------------------------------------------- |
+| `baseClassName` | `string` | -       | Custom tailwind classes to apply to the base drawer title component. Takes priority over the `className`. |
+
+_Also extends all React Native `Text` component props._
+
+### DrawerDescription
+
+| Prop            | Type     | Default | Description                                                                                                     |
+| --------------- | -------- | ------- | --------------------------------------------------------------------------------------------------------------- |
+| `baseClassName` | `string` | -       | Custom tailwind classes to apply to the base drawer description component. Takes priority over the `className`. |
+
+_Also extends all React Native `Text` component props._
+
+### DrawerClose
+
+| Prop       | Type      | Default | Description                                                                                                               |
+| ---------- | --------- | ------- | ------------------------------------------------------------------------------------------------------------------------- |
+| `disabled` | `boolean` | `false` | Whether the drawer close button is disabled.                                                                              |
+| `asChild`  | `boolean` | `false` | If true clones the child and passes all accessibility and functionality props to it. Available on any exported component. |
+
+_Also extends all React Native `Pressable` component props._
+
+## Hooks
+
+### useDrawer
+
+The backbone hook for the drawer component that exposes imperative controls and action sheet props.
+
+**Parameters:** None
+
+**Returns:**
+
+```typescript
+{
+  state: {
+    expand: () => void;
+    collapse: () => void;
+  };
+  componentProps: ComponentProps<typeof ActionSheet>;
+}
+```
+
+| Property         | Type                                 | Description                                            |
+| ---------------- | ------------------------------------ | ------------------------------------------------------ |
+| `state.expand`   | `() => void`                         | Expands/opens the drawer.                              |
+| `state.collapse` | `() => void`                         | Collapses/closes the drawer.                           |
+| `componentProps` | `ComponentProps<typeof ActionSheet>` | Props to pass to the underlying ActionSheet component. |
+
+### useDrawerTrigger
+
+Provides accessibility and interaction props for a drawer trigger.
+
+**Parameters:**
+
+| Parameter  | Type                    | Default | Description                             |
+| ---------- | ----------------------- | ------- | --------------------------------------- |
+| `state`    | `DrawerReturn["state"]` | -       | Drawer state from `useDrawer`.          |
+| `disabled` | `boolean`               | `false` | Whether the drawer trigger is disabled. |
+
+**Returns:**
+
+```typescript
+{
+  componentProps: ComponentProps<typeof View> | HTMLButtonElement;
+}
+```
+
+| Property         | Type                                               | Description                                  |
+| ---------------- | -------------------------------------------------- | -------------------------------------------- |
+| `componentProps` | `ComponentProps<typeof View> \| HTMLButtonElement` | Accessibility props for the trigger element. |
+
+## Accessibility
+
+- Uses `@react-aria/useButton` for proper button semantics on the trigger and close buttons (web)
+- Applies appropriate accessibility roles and states to interactive elements
+- Bottom sheet behavior and gestures provided by `react-native-actions-sheet`
+
+## Styling
+
+### Drawer Classes
+
+**Slots:**
+
+- `content` - For the ActionSheet container
+- `header` - For the header container
+- `footer` - For the footer container
+- `title` - For the title text
+- `description` - For the description text
+
+**Base Classes:**
+
+- `content`: `z-50 mt-24 flex h-auto flex-col rounded-t-[10px] border min-h-[200px]`
+- `header`: `p-4 justify-center`
+- `footer`: `mt-auto flex flex-col gap-2 p-4`
+- `title`: `text-lg text-foreground font-semibold leading-none tracking-tight`
+- `description`: `text-sm text-muted-foreground`

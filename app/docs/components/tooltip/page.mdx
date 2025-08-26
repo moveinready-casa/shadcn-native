@@ -1,0 +1,30 @@
+import Preview from "../../../../components/Preview";
+import {GithubIcon, StorybookIcon} from "@storybook/icons";
+
+<div style={{display: "flex", flexDirection: "row", gap: "2rem"}}>
+  <a
+    href={`${process.env.STORYBOOK_URL}/?path=/story/tooltip--default&globals=backgrounds.value:light`}
+  >
+    <StorybookIcon color="#FE4785" width={25} height={25} />
+  </a>
+  <a href="https://github.com/moveinready-casa/shadcn-native/blob/3-create-components/registry/ui/tooltip.web.tsx">
+    <GithubIcon width={25} height={25} />
+  </a>
+  <a href="https://ui.shadcn.com/docs/components/tooltip">Shadcn Docs</a>
+  <a href="https://radix-ui.com/primitives/docs/components/tooltip">
+    Radix Docs
+  </a>
+</div>
+
+# Tooltip
+
+A popup that displays information related to an element when the element receives keyboard focus or the mouse hovers over it.
+
+<Preview component="tooltip" />
+
+_Currently, this component is only available on web. This is because of the lack of a cursor on mobile devices. We are working on a native optimized tooltip component._
+
+See:
+
+- [Shadcn Docs](https://ui.shadcn.com/docs/components/tooltip)
+- [Radix Docs](https://radix-ui.com/primitives/docs/components/tooltip)

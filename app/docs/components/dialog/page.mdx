@@ -1,0 +1,319 @@
+import Preview from "../../../../components/Preview";
+import {GithubIcon, StorybookIcon, RadixIcon} from "@storybook/icons";
+
+<div style={{display: "flex", flexDirection: "row", gap: "2rem"}}>
+  <a
+    href={`${process.env.STORYBOOK_URL}/?path=/story/dialog--default&globals=backgrounds.value:light`}
+  >
+    <StorybookIcon color="#FE4785" width={25} height={25} />
+  </a>
+  <a href="https://github.com/moveinready-casa/shadcn-native/blob/3-create-components/registry/ui/dialog.tsx">
+    <GithubIcon width={25} height={25} />
+  </a>
+  <a href="https://ui.shadcn.com/docs/components/dialog">Shadcn Docs</a>
+  <a href="https://www.radix-ui.com/docs/primitives/components/dialog">
+    Radix Docs
+  </a>
+</div>
+
+# Dialog
+
+A window overlaid on either the primary window or another dialog window, rendering the content underneath inert.
+
+<Preview component="dialog" />
+
+## Usage
+
+```tsx
+import {
+  Dialog,
+  DialogClose,
+  DialogContent,
+  DialogDescription,
+  DialogFooter,
+  DialogHeader,
+  DialogOverlay,
+  DialogPortal,
+  DialogTitle,
+  DialogTrigger,
+} from "@/components/ui/dialog";
+<Dialog>
+  <DialogTrigger asChild>
+    <Button>Open dialog</Button>
+  </DialogTrigger>
+  <DialogPortal>
+    <DialogOverlay />
+    <DialogContent>
+      <DialogHeader>
+        <DialogTitle>Share link</DialogTitle>
+        <DialogDescription>
+          Copy the link below to share this document.
+        </DialogDescription>
+      </DialogHeader>
+      <View className="bg-muted my-4 rounded p-3">
+        <Text selectable>https://example.com/very/long/link</Text>
+      </View>
+      <DialogFooter>
+        <DialogClose asChild>
+          <Button>Copy</Button>
+        </DialogClose>
+      </DialogFooter>
+    </DialogContent>
+  </DialogPortal>
+</Dialog>;
+```
+
+## Components
+
+### Dialog
+
+| Prop            | Type                        | Default | Description                                                                                              |
+| --------------- | --------------------------- | ------- | -------------------------------------------------------------------------------------------------------- |
+| `modal`         | `boolean`                   | `true`  | Whether the dialog is modal (prevents interaction with elements outside the dialog).                     |
+| `defaultOpen`   | `boolean`                   | `false` | Uncontrolled default open state of the dialog.                                                           |
+| `open`          | `boolean`                   | -       | Controlled open state of the dialog.                                                                     |
+| `onOpenChange`  | `(isOpen: boolean) => void` | -       | Callback function called when the dialog open state changes.                                             |
+| `forceMount`    | `boolean`                   | `false` | Whether to force mount the dialog content even when closed.                                              |
+| `asChild`       | `boolean`                   | `false` | If true clones the child and passes all accessibility and functionality props to it.                     |
+| `baseClassName` | `string`                    | -       | Custom tailwind classes to apply to the base dialog component. Takes priority over the `className` prop. |
+
+_Also extends all React Native `View` component props._
+
+### DialogTrigger
+
+| Prop            | Type      | Default | Description                                                                                                               |
+| --------------- | --------- | ------- | ------------------------------------------------------------------------------------------------------------------------- |
+| `disabled`      | `boolean` | `false` | Whether the dialog trigger is disabled.                                                                                   |
+| `asChild`       | `boolean` | `false` | If true clones the child and passes all accessibility and functionality props to it. Available on any exported component. |
+| `baseClassName` | `string`  | -       | Custom tailwind classes to apply to the base dialog trigger component. Takes priority over the `className` prop.          |
+
+_Also extends all React Native `Pressable` component props._
+
+### DialogContent
+
+| Prop                   | Type                                                     | Default | Description                                                                                                      |
+| ---------------------- | -------------------------------------------------------- | ------- | ---------------------------------------------------------------------------------------------------------------- |
+| `modal`                | `boolean`                                                | `true`  | Whether the dialog is modal (prevents interaction with elements outside the dialog).                             |
+| `borderRadius`         | `"none" \| "sm" \| "md" \| "lg" \| "xl"`                 | `"lg"`  | Sets the border radius of the dialog content.                                                                    |
+| `forceMount`           | `boolean`                                                | `false` | Whether to force mount the dialog content even when closed.                                                      |
+| `onOpenAutoFocus`      | `(e: React.FocusEvent) => void`                          | -       | Callback function called when the dialog opens and auto-focus is triggered.                                      |
+| `onCloseAutoFocus`     | `(e: React.FocusEvent) => void`                          | -       | Callback function called when the dialog closes and auto-focus is triggered.                                     |
+| `onEscapeKeyDown`      | `(e: React.KeyboardEvent) => void`                       | -       | Callback function called when the Escape key is pressed.                                                         |
+| `onPointerDownOutside` | `(e: GestureResponderEvent \| React.FocusEvent) => void` | -       | Callback function called when a pointer event occurs outside the dialog.                                         |
+| `onInteractOutside`    | `(e: GestureResponderEvent \| React.FocusEvent) => void` | -       | Callback function called when an interaction occurs outside the dialog.                                          |
+| `asChild`              | `boolean`                                                | `false` | If true clones the child and passes all accessibility and functionality props to it.                             |
+| `className`            | `string`                                                 | -       | Custom tailwind classes to apply to the dialog content component.                                                |
+| `baseClassName`        | `string`                                                 | -       | Custom tailwind classes to apply to the base dialog content component. Takes priority over the `className` prop. |
+
+_Also extends all React Native `View` component props._
+
+### DialogHeader
+
+| Prop            | Type     | Default | Description                                                                                                     |
+| --------------- | -------- | ------- | --------------------------------------------------------------------------------------------------------------- |
+| `baseClassName` | `string` | -       | Custom tailwind classes to apply to the base dialog header component. Takes priority over the `className` prop. |
+
+_Also extends all React Native `View` component props._
+
+### DialogFooter
+
+| Prop            | Type     | Default | Description                                                                                                     |
+| --------------- | -------- | ------- | --------------------------------------------------------------------------------------------------------------- |
+| `baseClassName` | `string` | -       | Custom tailwind classes to apply to the base dialog footer component. Takes priority over the `className` prop. |
+
+_Also extends all React Native `View` component props._
+
+### DialogTitle
+
+| Prop            | Type      | Default | Description                                                                                                               |
+| --------------- | --------- | ------- | ------------------------------------------------------------------------------------------------------------------------- |
+| `asChild`       | `boolean` | `false` | If true clones the child and passes all accessibility and functionality props to it. Available on any exported component. |
+| `baseClassName` | `string`  | -       | Custom tailwind classes to apply to the base dialog title component. Takes priority over the `className` prop.            |
+
+_Also extends all React Native `Text` component props._
+
+### DialogDescription
+
+| Prop            | Type      | Default | Description                                                                                                               |
+| --------------- | --------- | ------- | ------------------------------------------------------------------------------------------------------------------------- |
+| `asChild`       | `boolean` | `false` | If true clones the child and passes all accessibility and functionality props to it. Available on any exported component. |
+| `baseClassName` | `string`  | -       | Custom tailwind classes to apply to the base dialog description component. Takes priority over the `className` prop.      |
+
+_Also extends all React Native `Text` component props._
+
+### DialogClose
+
+| Prop            | Type      | Default | Description                                                                                                               |
+| --------------- | --------- | ------- | ------------------------------------------------------------------------------------------------------------------------- |
+| `asChild`       | `boolean` | `false` | If true clones the child and passes all accessibility and functionality props to it. Available on any exported component. |
+| `baseClassName` | `string`  | -       | Custom tailwind classes to apply to the base dialog close component. Takes priority over the `className` prop.            |
+
+_Also extends all React Native `Pressable` component props._
+
+### DialogPortal
+
+**Note:** The DialogPortal is not used in this library as there is no body element in React Native, it is only here for compatibility with the Radix UI and Shadcn UI and can be removed if not used.
+
+_Extends all React Native `View` component props._
+
+### DialogOverlay
+
+| Prop            | Type      | Default | Description                                                                                                               |
+| --------------- | --------- | ------- | ------------------------------------------------------------------------------------------------------------------------- |
+| `asChild`       | `boolean` | `false` | If true clones the child and passes all accessibility and functionality props to it. Available on any exported component. |
+| `baseClassName` | `string`  | -       | Custom tailwind classes to apply to the base dialog overlay component. Takes priority over the `className` prop.          |
+
+_Also extends all React Native `View` component props._
+
+## Hooks
+
+### useDialog
+
+The backbone hook for the dialog component that manages state and provides accessibility props.
+
+**Parameters:**
+
+| Parameter      | Type                        | Default | Description                                                  |
+| -------------- | --------------------------- | ------- | ------------------------------------------------------------ |
+| `defaultOpen`  | `boolean`                   | `false` | Uncontrolled default open state of the dialog.               |
+| `open`         | `boolean`                   | -       | Controlled open state of the dialog.                         |
+| `onOpenChange` | `(isOpen: boolean) => void` | -       | Callback function called when the dialog open state changes. |
+| `forceMount`   | `boolean`                   | `false` | Whether to force mount the dialog content even when closed.  |
+
+**Returns:**
+
+```typescript
+{
+  state: {
+    isOpen: boolean;
+    setIsOpen: (isOpen: boolean) => void;
+  };
+  overlayProps: ComponentProps<typeof TouchableWithoutFeedback>;
+}
+```
+
+| Property          | Type                                              | Description                                    |
+| ----------------- | ------------------------------------------------- | ---------------------------------------------- |
+| `state.isOpen`    | `boolean`                                         | Whether the dialog is open.                    |
+| `state.setIsOpen` | `(isOpen: boolean) => void`                       | Function to set the open state of the dialog.  |
+| `overlayProps`    | `ComponentProps<typeof TouchableWithoutFeedback>` | Props to pass to the dialog overlay component. |
+
+### useDialogTrigger
+
+The hook for the dialog trigger component that provides accessibility props.
+
+**Parameters:**
+
+| Parameter  | Type           | Default | Description                                    |
+| ---------- | -------------- | ------- | ---------------------------------------------- |
+| `state`    | `DialogReturn` | -       | **Required.** The dialog state from useDialog. |
+| `disabled` | `boolean`      | `false` | Whether the dialog trigger is disabled.        |
+
+**Returns:**
+
+```typescript
+{
+  componentProps: ComponentProps<typeof View> | HTMLButtonElement;
+}
+```
+
+| Property         | Type                                               | Description                                                  |
+| ---------------- | -------------------------------------------------- | ------------------------------------------------------------ |
+| `componentProps` | `ComponentProps<typeof View> \| HTMLButtonElement` | Accessibility props to pass to the dialog trigger component. |
+
+### useDialogContent
+
+The hook for the dialog content component that provides accessibility props.
+
+**Parameters:**
+
+| Parameter              | Type                                                     | Default | Description                                              |
+| ---------------------- | -------------------------------------------------------- | ------- | -------------------------------------------------------- |
+| `modal`                | `boolean`                                                | `true`  | Whether the dialog is modal.                             |
+| `state`                | `DialogReturn`                                           | -       | **Required.** The dialog state from useDialog.           |
+| `forceMount`           | `boolean`                                                | `false` | Whether to force mount the dialog content.               |
+| `onOpenAutoFocus`      | `(e: React.FocusEvent) => void`                          | -       | Callback when dialog opens and auto-focus is triggered.  |
+| `onCloseAutoFocus`     | `(e: React.FocusEvent) => void`                          | -       | Callback when dialog closes and auto-focus is triggered. |
+| `onEscapeKeyDown`      | `(e: React.KeyboardEvent) => void`                       | -       | Callback when Escape key is pressed.                     |
+| `onPointerDownOutside` | `(e: GestureResponderEvent \| React.FocusEvent) => void` | -       | Callback when pointer event occurs outside dialog.       |
+| `onInteractOutside`    | `(e: GestureResponderEvent \| React.FocusEvent) => void` | -       | Callback when interaction occurs outside dialog.         |
+
+**Returns:**
+
+```typescript
+{
+  componentProps: ComponentProps<typeof View> | HTMLDivElement;
+  titleProps: ComponentProps<typeof View> | HTMLDivElement;
+  closeButtonProps: ComponentProps<typeof View> | HTMLDivElement;
+}
+```
+
+| Property           | Type                                            | Description                                                       |
+| ------------------ | ----------------------------------------------- | ----------------------------------------------------------------- |
+| `componentProps`   | `ComponentProps<typeof View> \| HTMLDivElement` | Accessibility props to pass to the dialog content component.      |
+| `titleProps`       | `ComponentProps<typeof View> \| HTMLDivElement` | Accessibility props to pass to the dialog title component.        |
+| `closeButtonProps` | `ComponentProps<typeof View> \| HTMLDivElement` | Accessibility props to pass to the dialog close button component. |
+
+## Accessibility
+
+The Dialog component is built with accessibility in mind and includes:
+
+### Web Accessibility
+
+- Uses [`useDialog`](https://react-spectrum.adobe.com/react-aria/useDialog.html) hook for proper dialog semantics
+- Uses [`useButton`](https://react-spectrum.adobe.com/react-aria/useButton.html) hook for proper button semantics on trigger and close buttons
+- Uses [`useFocusRing`](https://react-spectrum.adobe.com/react-aria/useFocusRing.html) for focus management
+- Supports ARIA attributes: `role="dialog"`, `aria-modal="true"`, `aria-labelledby`, `aria-describedby`
+- Keyboard navigation support (Escape to close, Tab for focus management)
+- Focus trap within dialog content
+
+### React Native Accessibility
+
+- `accessibilityRole="dialog"` for proper screen reader announcement
+- `accessibilityLiveRegion="polite"` for dynamic content updates
+- `accessibilityViewIsModal` for modal behavior
+- `accessibilityLabel` and `accessibilityHint` on trigger and close buttons
+- Proper focus management for screen readers
+
+## Styling
+
+### Dialog Classes
+
+**Slots:**
+
+- `base` - For the base `View` in the dialog component
+- `overlay` - For the overlay container
+- `content` - For the main content container
+- `closeButton` - For the close button
+- `closeIcon` - For the close button icon
+
+**Variants:**
+
+- `borderRadius`:
+  - `none` - No radius: `rounded-none`
+  - `sm` - Small radius: `rounded-sm`
+  - `md` - Medium radius: `rounded-md`
+  - `lg` (default) - Large radius: `rounded-lg`
+  - `xl` - Extra large radius: `rounded-xl`
+
+**Base Classes:**
+
+- `overlay`: `fixed inset-0 z-50 bg-black opacity-80`
+- `content`: `fixed left-[50%] top-[50%] z-50 w-full max-w-lg translate-x-[-50%] translate-y-[-50%] gap-4 border border-border bg-background p-6 shadow-lg rounded-lg`
+- `closeButton`: `absolute right-4 top-4 rounded-sm opacity-70 ring-offset-background transition-opacity text-muted-foreground hover:opacity-100 focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2 disabled:pointer-events-none`
+
+### DialogHeader Classes
+
+**Base Classes:** `flex justify-center sm:justify-start w-full`
+
+### DialogFooter Classes
+
+**Base Classes:** `flex flex-col-reverse gap-2 sm:flex-row sm:justify-end`
+
+### DialogTitle Classes
+
+**Base Classes:** `text-lg font-semibold leading-none tracking-tight text-foreground`
+
+### DialogDescription Classes
+
+**Base Classes:** `text-sm text-muted-foreground`

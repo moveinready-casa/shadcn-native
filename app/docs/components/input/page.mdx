@@ -1,0 +1,130 @@
+import Preview from "../../../../components/Preview";
+import {GithubIcon, StorybookIcon, RadixIcon} from "@storybook/icons";
+
+<div style={{display: "flex", flexDirection: "row", gap: "2rem"}}>
+  <a
+    href={`${process.env.STORYBOOK_URL}/?path=/story/input--default&globals=backgrounds.value:light`}
+  >
+    <StorybookIcon color="#FE4785" width={25} height={25} />
+  </a>
+  <a href="https://github.com/moveinready-casa/shadcn-native/blob/3-create-components/registry/ui/input.tsx">
+    <GithubIcon width={25} height={25} />
+  </a>
+  <a href="https://ui.shadcn.com/docs/components/input">Shadcn Docs</a>
+</div>
+
+# Input
+
+Displays a form input field or a component that looks like an input field.
+
+<Preview component="input" />
+
+## Usage
+
+```tsx
+import {Input} from "@/components/ui/input";
+
+<Input placeholder="Email" />;
+```
+
+## Props
+
+### Input
+
+| Prop                   | Type                                                                  | Default     | Description                                                                              |
+| ---------------------- | --------------------------------------------------------------------- | ----------- | ---------------------------------------------------------------------------------------- |
+| `variant`              | `"shadcn" \| "outlined" \| "ghost"`                                   | `"shadcn"`  | Visual variant of the input.                                                             |
+| `size`                 | `"sm" \| "md" \| "lg" \| "xl"`                                        | `"md"`      | Size of the input (controls height and some spacing).                                    |
+| `borderRadius`         | `"none" \| "sm" \| "md" \| "lg" \| "xl"`                              | `"md"`      | Corner radius of the input.                                                              |
+| `color`                | `"primary" \| "secondary" \| "success" \| "warning" \| "destructive"` | `"primary"` | Color family primarily applied to borders.                                               |
+| `disabled`             | `boolean`                                                             | `false`     | Whether the input is disabled (non-editable and marked disabled for accessibility).      |
+| `readOnly`             | `boolean`                                                             | `false`     | Whether the input is read-only (non-editable but not marked disabled for accessibility). |
+| `required`             | `boolean`                                                             | `false`     | Whether the input is required (adds visual affordance and accessibility hint text).      |
+| `clearable`            | `boolean`                                                             | `false`     | Shows a clear button when the field has a value.                                         |
+| `startContent`         | `React.ReactNode`                                                     | -           | Optional leading adornment.                                                              |
+| `endContent`           | `React.ReactNode`                                                     | -           | Optional trailing adornment.                                                             |
+| `baseClassName`        | `string`                                                              | -           | Tailwind classes applied to the wrapper slot (takes priority over `className`).          |
+| `inputClassName`       | `string`                                                              | -           | Tailwind classes applied to the inner `TextInput` slot.                                  |
+| `clearButtonClassName` | `string`                                                              | -           | Tailwind classes applied to the clear button slot.                                       |
+| `testID`               | `string`                                                              | -           | Test identifier applied to the wrapper.                                                  |
+
+_Also extends all React Native `TextInput` props._
+
+## Hooks
+
+### useInput
+
+The backbone hook for the input component that manages controlled/uncontrolled value, clear button visibility, and accessibility props.
+
+**Parameters:**
+
+| Parameter           | Type                     | Default | Description                                                 |
+| ------------------- | ------------------------ | ------- | ----------------------------------------------------------- |
+| `onChangeText`      | `(text: string) => void` | -       | Callback invoked when the text changes.                     |
+| `disabled`          | `boolean`                | `false` | Whether the input is disabled.                              |
+| `readOnly`          | `boolean`                | `false` | Whether the input is read-only.                             |
+| `required`          | `boolean`                | `false` | Whether the input is required; augments accessibility hint. |
+| `clearable`         | `boolean`                | `false` | Whether to render a clear button when value is non-empty.   |
+| `value`             | `string`                 | -       | Controlled value of the input.                              |
+| `defaultValue`      | `string`                 | -       | Uncontrolled initial value of the input.                    |
+| `accessibilityHint` | `string`                 | -       | Additional accessibility hint text.                         |
+
+**Returns:**
+
+```ts
+{
+  state: {
+    isFocused: boolean;
+    setIsFocused: (isFocused: boolean) => void;
+    showClear: boolean;
+  };
+  componentProps: ComponentProps<typeof View> | HTMLDivElement;
+  inputProps: ComponentProps<typeof TextInput> | HTMLInputElement;
+  clearButtonProps: ComponentProps<typeof Pressable> | HTMLButtonElement;
+}
+```
+
+| Property             | Type                                                    | Description                                  |
+| -------------------- | ------------------------------------------------------- | -------------------------------------------- |
+| `state.isFocused`    | `boolean`                                               | Whether the input currently has focus.       |
+| `state.setIsFocused` | `(isFocused: boolean) => void`                          | Setter to update focus state.                |
+| `state.showClear`    | `boolean`                                               | Whether the clear button should be visible.  |
+| `componentProps`     | `ComponentProps<typeof View> \| HTMLDivElement`         | Accessibility props for the wrapper element. |
+| `inputProps`         | `ComponentProps<typeof TextInput> \| HTMLInputElement`  | Props to apply to the `TextInput` element.   |
+| `clearButtonProps`   | `ComponentProps<typeof Pressable> \| HTMLButtonElement` | Props to apply to the clear button element.  |
+
+## Accessibility
+
+- Wrapper uses `accessibilityRole="text"` and sets `accessibilityState={{disabled}}` when disabled.
+- `required` adds hint text and a visual indicator.
+- Clear button is exposed as `accessibilityRole="button"`.
+
+## Styling
+
+### Input Classes
+
+**Slots:**
+
+- `base` - For the wrapper `View` in the input component
+- `input` - For the inner `TextInput` element
+- `clearButton` - For the clear `Pressable` element
+
+**Variants:**
+
+- `variant`:
+  - `shadcn` - Background + input border + light shadow
+  - `outlined` - Transparent background with input border
+  - `ghost` - Transparent background with no border shadow
+- `size`:
+  - `sm` - `h-8`
+  - `md` - `h-9`
+  - `lg` - `h-10`
+  - `xl` - `h-12`
+- `borderRadius`:
+  - `none` - `rounded-none`
+  - `sm` - `rounded-sm`
+  - `md` - `rounded-md`
+  - `lg` - `rounded-lg`
+  - `xl` - `rounded-xl`
+- `color`:
+  - `primary`, `secondary`, `success`, `warning`, `destructive` - border color

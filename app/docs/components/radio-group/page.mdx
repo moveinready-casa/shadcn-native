@@ -1,0 +1,131 @@
+import Preview from "../../../../components/Preview";
+import {GithubIcon, StorybookIcon, RadixIcon} from "@storybook/icons";
+
+<div style={{display: "flex", flexDirection: "row", gap: "2rem"}}>
+  <a
+    href={`${process.env.STORYBOOK_URL}/?path=/story/radiogroup--default&globals=backgrounds.value:light`}
+  >
+    <StorybookIcon color="#FE4785" width={25} height={25} />
+  </a>
+  <a href="https://github.com/moveinready-casa/shadcn-native/blob/3-create-components/registry/ui/radio-group.tsx">
+    <GithubIcon width={25} height={25} />
+  </a>
+  <a href="https://ui.shadcn.com/docs/components/radio-group">Shadcn Docs</a>
+  <a href="https://www.radix-ui.com/docs/primitives/components/radio-group">
+    Radix Docs
+  </a>
+</div>
+
+# Radio Group
+
+A set of checkable items—known as radio items—where no more than one of the items can be checked at a time.
+
+<Preview component="radiogroup" />
+
+## Usage
+
+```tsx
+import {Text} from "react-native";
+import {RadioGroup, RadioGroupItem} from "@/components/ui/radio-group";
+
+<RadioGroup value={value} onValueChange={setValue} orientation="vertical">
+  <RadioGroupItem value="apple">
+    <Text>Apple</Text>
+  </RadioGroupItem>
+  <RadioGroupItem value="banana">
+    <Text>Banana</Text>
+  </RadioGroupItem>
+  <RadioGroupItem value="cherry">
+    <Text>Cherry</Text>
+  </RadioGroupItem>
+</RadioGroup>;
+```
+
+## Components
+
+### RadioGroup
+
+| Prop            | Type                         | Default      | Description                                                                                             |
+| --------------- | ---------------------------- | ------------ | ------------------------------------------------------------------------------------------------------- |
+| `value`         | `string`                     | -            | Controlled value of the selected radio item. Use with `onValueChange`.                                  |
+| `defaultValue`  | `string`                     | -            | Uncontrolled initial value of the selected radio item.                                                  |
+| `onValueChange` | `(value: string) => void`    | -            | Callback when the selected value changes.                                                               |
+| `disabled`      | `boolean`                    | `false`      | Whether all radio items are disabled.                                                                   |
+| `name`          | `string`                     | -            | Group name (forwarded on web).                                                                          |
+| `required`      | `boolean`                    | `false`      | Whether selection is required (forwarded on web).                                                       |
+| `orientation`   | `"horizontal" \| "vertical"` | `"vertical"` | Lays out the group horizontally or vertically.                                                          |
+| `dir`           | `"ltr" \| "rtl"`             | -            | Reading direction (forwarded on web).                                                                   |
+| `loop`          | `boolean`                    | -            | Whether keyboard navigation loops (forwarded on web).                                                   |
+| `asChild`       | `boolean`                    | `false`      | If true, clones the child and passes all accessibility and functionality props to it.                   |
+| `baseClassName` | `string`                     | -            | Custom tailwind classes to apply to the base group container. Takes priority over the `className` prop. |
+
+_Also extends all React Native `View` component props._
+
+### RadioGroupItem
+
+| Prop                 | Type      | Default | Description                                                                                        |
+| -------------------- | --------- | ------- | -------------------------------------------------------------------------------------------------- |
+| `value`              | `string`  | -       | The value of the radio item.                                                                       |
+| `disabled`           | `boolean` | `false` | Whether this radio item is disabled. Overrides the top-level `RadioGroup` `disabled` when set.     |
+| `asChild`            | `boolean` | `false` | If true, clones the child and passes all accessibility and functionality props to it.              |
+| `baseClassName`      | `string`  | -       | Custom tailwind classes to apply to the base radio item. Takes priority over the `className` prop. |
+| `labelClassName`     | `string`  | -       | Custom tailwind classes to apply to the label.                                                     |
+| `controlClassName`   | `string`  | -       | Custom tailwind classes to apply to the radio control.                                             |
+| `indicatorClassName` | `string`  | -       | Custom tailwind classes to apply to the radio indicator.                                           |
+
+_Also extends all React Native `Pressable` component props._
+
+## Accessibility
+
+The Radio Group is built with accessibility in mind and includes:
+
+### Web Accessibility
+
+- Uses `role="radiogroup"` for the group, and `role="radio"` for items
+- Supports ARIA attributes: `aria-checked`, `aria-disabled`, and `aria-required`
+- Keyboard navigation support via arrow keys with optional looping
+- Integrates with React Aria `useRadioGroup` for proper semantics and labeling
+
+### React Native Accessibility
+
+- Uses `accessibilityRole="radiogroup"` for the group and `accessibilityRole="radio"` for each item
+- `accessibilityState` is set appropriately with `selected` and `disabled`
+- Labels can be provided via children or external `Text` components
+
+## Styling
+
+### RadioGroup Classes
+
+**Slots:**
+
+- `base` - For the base `View` in the radio group component
+
+**Variants:**
+
+- `orientation`:
+  - `vertical` (default) - `flex-col`
+  - `horizontal` - `flex-row`
+
+**Base Classes:** `flex gap-2`
+
+### RadioGroupItem Classes
+
+**Slots:**
+
+- `base` - For the item container
+- `control` - For the radio control element
+- `indicator` - For the inner selected indicator
+- `label` - For the text label
+
+**Variants:**
+
+- `selected` - When `true`, indicator uses `bg-secondary-foreground`
+- `disabled` - When `true`, item uses `opacity-50`
+- `focused` - When `true`, item uses `ring-2 ring-ring`
+
+**Base Classes:**
+
+- `base`: `flex flex-row items-center gap-2 px-3 py-2 rounded-md`
+- `control`: `w-4 h-4 rounded-full border border-border items-center justify-center`
+- `indicator`: `w-2 h-2 rounded-full`
+- `label`: `text-sm text-foreground`

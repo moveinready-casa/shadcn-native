@@ -1,0 +1,189 @@
+import Preview from "../../../../components/Preview";
+import {GithubIcon, StorybookIcon, RadixIcon} from "@storybook/icons";
+
+<div style={{display: "flex", flexDirection: "row", gap: "2rem"}}>
+  <a
+    href={`${process.env.STORYBOOK_URL}/?path=/story/hovercard--default&globals=backgrounds.value:light`}
+  >
+    <StorybookIcon color="#FE4785" width={25} height={25} />
+  </a>
+  <a href="https://github.com/moveinready-casa/shadcn-native/blob/3-create-components/registry/ui/hover-card.tsx">
+    <GithubIcon width={25} height={25} />
+  </a>
+  <a href="https://ui.shadcn.com/docs/components/hover-card">Shadcn Docs</a>
+  <a href="https://www.radix-ui.com/docs/primitives/components/hover-card">
+    Radix Docs
+  </a>
+</div>
+
+# Hover Card
+
+For sighted users to preview content available behind a link.
+
+<Preview component="hovercard" />
+
+## Usage
+
+```tsx
+import {
+  HoverCard,
+  HoverCardTrigger,
+  HoverCardContent,
+} from "@/components/ui/hover-card";
+
+<HoverCard>
+  <HoverCardTrigger asChild>
+    <Button>Hover me</Button>
+  </HoverCardTrigger>
+  <HoverCardContent>
+    <Text>Hover card content goes here.</Text>
+  </HoverCardContent>
+</HoverCard>;
+```
+
+## Composition
+
+You can compose this component with the [card](/components/card) component to create a more complex hover card.
+
+```tsx
+<View className="w-full items-start gap-4 p-4">
+  <HoverCard>
+    <HoverCardTrigger>Hover me</HoverCardTrigger>
+    <HoverCardContent asChild {...args}>
+      <Card className="bg-popover-foreground">
+        <CardHeader>
+          <CardTitle>Card Title</CardTitle>
+          <CardDescription>
+            A brief description of the card content goes here.
+          </CardDescription>
+        </CardHeader>
+        <CardContent>
+          This is the main content area of the card. You can place any content
+          here such as text, images, or other components.
+        </CardContent>
+      </Card>
+    </HoverCardContent>
+  </HoverCard>
+</View>
+```
+
+## Components
+
+### HoverCard
+
+| Prop            | Type                        | Default | Description                                                                                             |
+| --------------- | --------------------------- | ------- | ------------------------------------------------------------------------------------------------------- |
+| `defaultOpen`   | `boolean`                   | `false` | Uncontrolled initial open state of the hover card.                                                      |
+| `open`          | `boolean`                   | -       | Controlled open state of the hover card.                                                                |
+| `onOpenChange`  | `(isOpen: boolean) => void` | -       | Callback invoked when the hover card open state changes.                                                |
+| `baseClassName` | `string`                    | -       | Custom tailwind classes to apply to the base hover card container. Takes priority over the `className`. |
+
+_Also extends all React Native `View` component props._
+
+### HoverCardTrigger
+
+| Prop            | Type      | Default | Description                                                                                                               |
+| --------------- | --------- | ------- | ------------------------------------------------------------------------------------------------------------------------- |
+| `disabled`      | `boolean` | `false` | Whether the hover card trigger is disabled.                                                                               |
+| `loading`       | `boolean` | `false` | Whether the hover card trigger is loading (disables interactions).                                                        |
+| `asChild`       | `boolean` | `false` | If true clones the child and passes all accessibility and functionality props to it. Available on any exported component. |
+| `baseClassName` | `string`  | -       | Custom tailwind classes to apply to the base trigger component. Takes priority over the `className` prop.                 |
+| `textClassName` | `string`  | -       | Custom tailwind classes to apply to the trigger text.                                                                     |
+
+_Also extends all React Native `Pressable` component props._
+
+### HoverCardContent
+
+| Prop            | Type      | Default | Description                                                                                                               |
+| --------------- | --------- | ------- | ------------------------------------------------------------------------------------------------------------------------- |
+| `asChild`       | `boolean` | `false` | If true clones the child and passes all accessibility and functionality props to it. Available on any exported component. |
+| `baseClassName` | `string`  | -       | Custom tailwind classes to apply to the base content component. Takes priority over the `className` prop.                 |
+| `textClassName` | `string`  | -       | Custom tailwind classes to apply to the inner text.                                                                       |
+
+_Also extends all React Native `View` component props._
+
+## Hooks
+
+### useHoverCard
+
+The backbone hook for the hover card component that manages state and provides root hover-out behavior.
+
+**Parameters:**
+
+| Parameter      | Type                        | Default | Description                                        |
+| -------------- | --------------------------- | ------- | -------------------------------------------------- |
+| `defaultOpen`  | `boolean`                   | `false` | Uncontrolled initial open state of the hover card. |
+| `open`         | `boolean`                   | -       | Controlled open state of the hover card.           |
+| `onOpenChange` | `(isOpen: boolean) => void` | -       | Callback when the hover card open state changes.   |
+
+**Returns:**
+
+```typescript
+{
+  state: {
+    isOpen: boolean;
+    setIsOpen: (isOpen: boolean) => void;
+    isControlled: boolean;
+  };
+  componentProps: ComponentProps<typeof View> | HTMLDivElement;
+}
+```
+
+| Property             | Type                                            | Description                                                        |
+| -------------------- | ----------------------------------------------- | ------------------------------------------------------------------ |
+| `state.isOpen`       | `boolean`                                       | Whether the hover card is open.                                    |
+| `state.setIsOpen`    | `(isOpen: boolean) => void`                     | Function to set the open state of the hover card.                  |
+| `state.isControlled` | `boolean`                                       | Whether the open state is controlled.                              |
+| `componentProps`     | `ComponentProps<typeof View> \| HTMLDivElement` | Event props (e.g., `onMouseLeave`) for the root hit box container. |
+
+### useHoverCardTrigger
+
+Hook for the hover card trigger that provides accessibility and interaction props.
+
+**Parameters:**
+
+| Parameter  | Type                       | Default | Description                                         |
+| ---------- | -------------------------- | ------- | --------------------------------------------------- |
+| `state`    | `HoverCardReturn['state']` | -       | Required. The hover card state from `useHoverCard`. |
+| `disabled` | `boolean`                  | `false` | Whether the trigger is disabled.                    |
+| `loading`  | `boolean`                  | `false` | Whether the trigger is loading (disables input).    |
+
+**Returns:**
+
+```typescript
+{
+  componentProps: ComponentProps<typeof Pressable> | HTMLButtonElement;
+}
+```
+
+| Property         | Type                                                    | Description                                          |
+| ---------------- | ------------------------------------------------------- | ---------------------------------------------------- |
+| `componentProps` | `ComponentProps<typeof Pressable> \| HTMLButtonElement` | Accessibility and interaction props for the trigger. |
+
+### useHoverCardContent
+
+Hook for the hover card content that returns animated props and styles.
+
+**Parameters:**
+
+| Parameter | Type                       | Default | Description                     |
+| --------- | -------------------------- | ------- | ------------------------------- |
+| `state`   | `HoverCardReturn['state']` | -       | Required. The hover card state. |
+
+**Returns:**
+
+```typescript
+{
+  componentProps: ComponentProps<typeof Reanimated.View>;
+}
+```
+
+| Property         | Type                                     | Description                                          |
+| ---------------- | ---------------------------------------- | ---------------------------------------------------- |
+| `componentProps` | `ComponentProps<typeof Reanimated.View>` | Animated props and styles for the content container. |
+
+## Accessibility
+
+- Uses [`useButton`](https://react-spectrum.adobe.com/react-aria/useButton.html) and [`useFocusRing`](https://react-spectrum.adobe.com/react-aria/useFocusRing.html) for web a11y on the trigger.
+- Trigger supports keyboard focus to open content.
+- Content visibility is controlled and announced through standard ARIA state on the trigger.

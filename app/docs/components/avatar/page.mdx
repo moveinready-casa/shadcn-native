@@ -1,0 +1,81 @@
+import Preview from "../../../../components/Preview";
+import {GithubIcon, StorybookIcon} from "@storybook/icons";
+
+<div style={{display: "flex", flexDirection: "row", gap: "2rem"}}>
+  <a
+    href={`${process.env.STORYBOOK_URL}/?path=/story/avatar--default&globals=backgrounds.value:light`}
+  >
+    <StorybookIcon color="#FE4785" width={25} height={25} />
+  </a>
+  <a href="https://github.com/moveinready-casa/shadcn-native/blob/3-create-components/registry/ui/avatar.tsx">
+    <GithubIcon width={25} height={25} />
+  </a>
+  <a href="https://ui.shadcn.com/docs/components/avatar">Shadcn Docs</a>
+  <a href="https://www.radix-ui.com/primitives/docs/components/avatar">
+    Radix Docs
+  </a>
+</div>
+
+# Avatar
+
+An image element with a fallback for representing a user.
+
+<Preview component="avatar" />
+
+## Usage
+
+```tsx
+import {Avatar, AvatarFallback, AvatarImage} from "@/components/ui/avatar";
+
+<Avatar size="lg" isBordered>
+  <AvatarImage src="https://github.com/shadcn.png" alt="@shadcn" />
+  <AvatarFallback>CN</AvatarFallback>
+</Avatar>;
+```
+
+## Props
+
+| Prop            | Type                                    | Default  | Description                                          |
+| --------------- | --------------------------------------- | -------- | ---------------------------------------------------- |
+| `children`      | `React.ReactNode`                       | –        | **Required.** The image and fallback nodes.          |
+| `size`          | `sm \| md \| lg`                        | `md`     | Controls the width/height preset.                    |
+| `radius`        | `none \| sm \| md \| lg \| full`        | `full`   | Border-radius shortcut.                              |
+| `isBordered`    | `boolean`                               | `false`  | Adds a 2-pixel ring using theme border color.        |
+| `isDisabled`    | `boolean`                               | `false`  | Lowers opacity & sets `accessibilityState.disabled`. |
+| `variant`       | `shadcn \| warning \| error \| success` | `shadcn` | Pre-made background colour variants.                 |
+| `baseClassName` | `string`                                | –        | Extra Tailwind classes merged into the base wrapper. |
+
+### AvatarImage
+
+All props of React-Native `Image` plus:
+
+| Prop            | Type     | Description                                     |
+| --------------- | -------- | ----------------------------------------------- |
+| `baseClassName` | `string` | Tailwind classes merged into the image element. |
+
+### AvatarFallback
+
+| Prop            | Type              | Description                                   |
+| --------------- | ----------------- | --------------------------------------------- |
+| `children`      | `React.ReactNode` | Initials or icon displayed when image errors. |
+| `baseClassName` | `string`          | Tailwind classes for the fallback wrapper.    |
+
+## Component Structure
+
+```
+<Avatar>
+  <AvatarImage />   // optional, hidden until loaded
+  <AvatarFallback /> // initials / icon shown on error
+</Avatar>
+```
+
+- **Avatar** – the root wrapper (`View`) controlling size, radius, variant & accessibility state.
+- **AvatarImage** – React-Native `Image` that fades in on load. Automatically toggles `status`.
+- **AvatarFallback** – `View` overlay that appears only if the image errors. Put initials or an icon inside.
+
+## Accessibility
+
+- The root element exposes `accessibilityRole="image"` by default.
+- When `isDisabled` is set it adds `accessibilityState={{disabled:true}}`.
+- `AvatarFallback` content is read by screen-readers as normal text ensuring a meaningful alternative when the image cannot load.
+- Stick to short initials (2–3 letters) or concise icons for best screen-reader experience.
