@@ -11,7 +11,12 @@ export const metadata = {
   description: "shadcn-native",
 };
 
-const navbar = <Navbar logo={<b>shadcn-native</b>} />;
+const navbar = (
+  <Navbar
+    logo={<b>shadcn-native</b>}
+    projectLink="https://github.com/moveinready-casa/shadcn-native"
+  />
+);
 const footer = <Footer />;
 const banner = (
   <Banner>

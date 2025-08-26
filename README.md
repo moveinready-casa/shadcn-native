@@ -10,7 +10,7 @@
 
 <br />
 
-<img src="/assets/cover-image.png" alt="cover image">
+<img src="/assets/cover-image.png" alt="cover image" />
 
 Shadcn native is a port of [shadcn/ui](https://github.com/shadcn-ui/ui) for React Native and React Native Web.
 
@@ -28,7 +28,7 @@ Checkout the [expo-starter](https://github.com/moveinready-casa/expo-starter) fo
 
 ## Documentation
 
-Please visit the documentation website a [shadcn-native.movinready.casa](https://www.shadcn-native.moveinready.casa).
+Please visit the documentation website at [shadcn-native.movinready.casa](https://www.shadcn-native.moveinready.casa).
 
 ## Storybook
 

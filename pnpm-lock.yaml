@@ -325,8 +325,8 @@ importers:
         specifier: 5.4.0
         version: 5.4.0(react-native@0.80.1(@babel/core@7.28.3)(@types/react@19.1.10)(react@19.1.0))(react@19.1.0)
       tailwind-variants:
-        specifier: ^1.0.0
-        version: 1.0.0(tailwindcss@3.4.17(ts-node@10.9.2(@types/node@20.19.11)(typescript@5.9.2)))
+        specifier: ^3.1.0
+        version: 3.1.0(tailwind-merge@3.3.1)(tailwindcss@3.4.17(ts-node@10.9.2(@types/node@20.19.11)(typescript@5.9.2)))
     devDependencies:
       '@chromatic-com/storybook':
         specifier: ^4.0.1
@@ -8570,20 +8570,21 @@ packages:
   tabbable@6.2.0:
     resolution: {integrity: sha512-Cat63mxsVJlzYvN51JmVXIgNoUokrIaT2zLclCXjRd8boZ0004U4KCs/sToJ75C6sdlByWxpYnb5Boif1VSFew==}
 
-  tailwind-merge@3.0.2:
-    resolution: {integrity: sha512-l7z+OYZ7mu3DTqrL88RiKrKIqO3NcpEO8V/Od04bNpvk0kiIFndGEoqfuzvj4yuhRkHKjRkII2z+KS2HfPcSxw==}
-
   tailwind-merge@3.3.1:
     resolution: {integrity: sha512-gBXpgUm/3rp1lMZZrM/w7D8GKqshif0zAymAhbCyIt8KMe+0v9DQ7cdYLR4FHH/cKpdTXb+A/tKKU3eolfsI+g==}
 
-  tailwind-variants@1.0.0:
-    resolution: {integrity: sha512-2WSbv4ulEEyuBKomOunut65D8UZwxrHoRfYnxGcQNnHqlSCp2+B7Yz2W+yrNDrxRodOXtGD/1oCcKGNBnUqMqA==}
-    engines: {node: '>=16.x', pnpm: '>=7.x'}
-    peerDependencies:
-      tailwindcss: '*'
-
   tailwind-variants@2.1.0:
     resolution: {integrity: sha512-82m0eRex0z6A3GpvfoTCpHr+wWJmbecfVZfP3mqLoDxeya5tN4mYJQZwa5Aw1hRZTedwpu1D2JizYenoEdyD8w==}
+    engines: {node: '>=16.x', pnpm: '>=7.x'}
+    peerDependencies:
+      tailwind-merge: '>=3.0.0'
+      tailwindcss: '*'
+    peerDependenciesMeta:
+      tailwind-merge:
+        optional: true
+
+  tailwind-variants@3.1.0:
+    resolution: {integrity: sha512-ieiYaEfUr+sNhw/k++dosmZfVA4VIG5bV+G1eGdJSC4FcflqQv0iSIlOLj/RbzRuTu/VrIiNSlwh1esBM3BXUg==}
     engines: {node: '>=16.x', pnpm: '>=7.x'}
     peerDependencies:
       tailwind-merge: '>=3.0.0'
@@ -10760,9 +10761,9 @@ snapshots:
 
   '@expo/sudo-prompt@9.3.2': {}
 
-  '@expo/vector-icons@14.1.0(expo-font@13.3.2(expo@53.0.20(@babel/core@7.28.3)(react-native@0.80.1(@babel/core@7.28.3)(@types/react@19.1.10)(react@19.1.1))(react@19.1.1))(react@19.1.1))(react-native@0.80.1(@babel/core@7.28.3)(@types/react@19.1.10)(react@19.1.0))(react@19.1.0)':
+  '@expo/vector-icons@14.1.0(expo-font@13.3.2(expo@53.0.20(@babel/core@7.28.3)(react-native@0.80.1(@babel/core@7.28.3)(@types/react@19.1.10)(react@19.1.0))(react@19.1.0))(react@19.1.0))(react-native@0.80.1(@babel/core@7.28.3)(@types/react@19.1.10)(react@19.1.0))(react@19.1.0)':
     dependencies:
-      expo-font: 13.3.2(expo@53.0.20(@babel/core@7.28.3)(react-native@0.80.1(@babel/core@7.28.3)(@types/react@19.1.10)(react@19.1.1))(react@19.1.1))(react@19.1.1)
+      expo-font: 13.3.2(expo@53.0.20(@babel/core@7.28.3)(react-native@0.80.1(@babel/core@7.28.3)(@types/react@19.1.10)(react@19.1.0))(react@19.1.0))(react@19.1.0)
       react: 19.1.0
       react-native: 0.80.1(@babel/core@7.28.3)(@types/react@19.1.10)(react@19.1.0)
 
@@ -16148,7 +16149,7 @@ snapshots:
       '@expo/config-plugins': 10.1.2
       '@expo/fingerprint': 0.13.4
       '@expo/metro-config': 0.20.17
-      '@expo/vector-icons': 14.1.0(expo-font@13.3.2(expo@53.0.20(@babel/core@7.28.3)(react-native@0.80.1(@babel/core@7.28.3)(@types/react@19.1.10)(react@19.1.1))(react@19.1.1))(react@19.1.1))(react-native@0.80.1(@babel/core@7.28.3)(@types/react@19.1.10)(react@19.1.0))(react@19.1.0)
+      '@expo/vector-icons': 14.1.0(expo-font@13.3.2(expo@53.0.20(@babel/core@7.28.3)(react-native@0.80.1(@babel/core@7.28.3)(@types/react@19.1.10)(react@19.1.0))(react@19.1.0))(react@19.1.0))(react-native@0.80.1(@babel/core@7.28.3)(@types/react@19.1.10)(react@19.1.0))(react@19.1.0)
       babel-preset-expo: 13.2.3(@babel/core@7.28.3)
       expo-asset: 11.1.7(expo@53.0.20(@babel/core@7.28.3)(react-native@0.80.1(@babel/core@7.28.3)(@types/react@19.1.10)(react@19.1.0))(react@19.1.0))(react-native@0.80.1(@babel/core@7.28.3)(@types/react@19.1.10)(react@19.1.0))(react@19.1.0)
       expo-constants: 17.1.7(expo@53.0.20(@babel/core@7.28.3)(react-native@0.80.1(@babel/core@7.28.3)(@types/react@19.1.10)(react@19.1.0))(react@19.1.0))(react-native@0.80.1(@babel/core@7.28.3)(@types/react@19.1.10)(react@19.1.0))
@@ -20393,18 +20394,17 @@ snapshots:
 
   tabbable@6.2.0: {}
 
-  tailwind-merge@3.0.2: {}
-
   tailwind-merge@3.3.1: {}
-
-  tailwind-variants@1.0.0(tailwindcss@3.4.17(ts-node@10.9.2(@types/node@20.19.11)(typescript@5.9.2))):
-    dependencies:
-      tailwind-merge: 3.0.2
-      tailwindcss: 3.4.17(ts-node@10.9.2(@types/node@20.19.11)(typescript@5.9.2))
 
   tailwind-variants@2.1.0(tailwind-merge@3.3.1)(tailwindcss@4.1.12):
     dependencies:
       tailwindcss: 4.1.12
+    optionalDependencies:
+      tailwind-merge: 3.3.1
+
+  tailwind-variants@3.1.0(tailwind-merge@3.3.1)(tailwindcss@3.4.17(ts-node@10.9.2(@types/node@20.19.11)(typescript@5.9.2))):
+    dependencies:
+      tailwindcss: 3.4.17(ts-node@10.9.2(@types/node@20.19.11)(typescript@5.9.2))
     optionalDependencies:
       tailwind-merge: 3.3.1
 
