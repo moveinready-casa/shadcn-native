@@ -1,3 +1,4 @@
+import {useTheme} from "@/lib/utils/theme";
 import {useButton} from "@react-aria/button";
 import {useFocusRing} from "@react-aria/focus";
 import {
@@ -321,14 +322,31 @@ export function Alert({
   const getDefaultIcon = (variant: AlertProps["variant"]) => {
     switch (variant) {
       case "destructive":
-        return <AlertCircleIcon className={iconClass()} />;
+        return (
+          <AlertCircleIcon
+            className={iconClass()}
+            color={currentTheme.foreground}
+          />
+        );
       case "success":
-        return <CheckCircle2Icon className={iconClass()} />;
+        return (
+          <CheckCircle2Icon
+            className={iconClass()}
+            color={currentTheme.foreground}
+          />
+        );
       case "warning":
-        return <AlertTriangleIcon className={iconClass()} />;
+        return (
+          <AlertTriangleIcon
+            className={iconClass()}
+            color={currentTheme.foreground}
+          />
+        );
       case "default":
       default:
-        return <InfoIcon className={iconClass()} />;
+        return (
+          <InfoIcon className={iconClass()} color={currentTheme.foreground} />
+        );
     }
   };
 
@@ -360,6 +378,8 @@ export function Alert({
     },
   };
 
+  const currentTheme = useTheme();
+
   return alertState.state.isVisible ? (
     <AlertContext.Provider value={contextValue}>
       {asChild ? (
@@ -387,7 +407,7 @@ export function Alert({
               className={closeButton()}
               {...closeButtonProps}
             >
-              <XIcon className={closeIcon()} />
+              <XIcon className={closeIcon()} color={currentTheme.foreground} />
             </Pressable>
           )}
         </View>

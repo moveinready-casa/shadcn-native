@@ -1,13 +1,8 @@
+import {useTheme} from "@/lib/utils/theme";
 import {useButton} from "@react-aria/button";
 import {useFocusRing} from "@react-aria/focus";
 import {XIcon} from "lucide-react-native";
-import React, {
-  ComponentProps,
-  ReactNode,
-  useEffect,
-  useRef,
-  useState,
-} from "react";
+import {ComponentProps, ReactNode, useEffect, useRef, useState} from "react";
 import {Platform, Pressable, TextInput, View} from "react-native";
 import {tv} from "tailwind-variants";
 
@@ -329,6 +324,7 @@ export function Input({
   testID,
   ...textInputProps
 }: InputComponentProps) {
+  const currentTheme = useTheme();
   const {state, componentProps, inputProps, clearButtonProps} = useInput({
     variant,
     size,
@@ -371,7 +367,7 @@ export function Input({
         testID="input-clear-button"
         className={clearButton({className: clearButtonClassName})}
       >
-        <XIcon size={16} />
+        <XIcon size={16} color={currentTheme.foreground} />
       </Pressable>
       {endContent ? <View>{endContent}</View> : null}
     </View>

@@ -1,3 +1,4 @@
+import {useTheme} from "@/lib/utils/theme";
 import {useButton} from "@react-aria/button";
 import {useDisclosure as useAccordionAria} from "@react-aria/disclosure";
 import {useFocusRing} from "@react-aria/focus";
@@ -26,7 +27,6 @@ import Reanimated, {
   withTiming,
 } from "react-native-reanimated";
 import {tv} from "tailwind-variants";
-import {ThemeContext, themes} from "../theme";
 
 /**
  * Base props for the root `Accordion` component, context, and hook.
@@ -751,7 +751,7 @@ export function AccordionTrigger({
   ...props
 }: AccordionTriggerProps) {
   const {base, content, indicatorIcon} = accordionTrigger();
-  const {colorScheme} = useContext(ThemeContext);
+  const currentTheme = useTheme();
   const itemState = useContext(AccordionItemContext);
   const rotation = useSharedValue(0);
 
@@ -773,13 +773,13 @@ export function AccordionTrigger({
       {typeof indicator === "function" ? (
         indicator(itemState?.state.isExpanded ?? false)
       ) : itemState?.props.loading ? (
-        <ActivityIndicator color={themes[colorScheme]["--foreground"]} />
+        <ActivityIndicator color={currentTheme.foreground} />
       ) : (
         <Reanimated.View
           style={animatedIndicatorIconStyle}
           {...reanimatedProps}
         >
-          <ChevronDownIcon />
+          <ChevronDownIcon color={currentTheme.foreground} />
         </Reanimated.View>
       )}
     </View>
