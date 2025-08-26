@@ -1,9 +1,9 @@
 "use client";
 
-import * as React from "react";
+import {useTheme} from "@/lib/utils/theme";
 import * as TooltipPrimitive from "@radix-ui/react-tooltip";
+import * as React from "react";
 import {tv} from "tailwind-variants";
-import {ThemeContext, themes} from "../theme";
 
 /**
  * Tailwind variant function for tooltip content styling.
@@ -49,14 +49,14 @@ export const TooltipContent = ({
   sideOffset = 4,
   ...props
 }: React.ComponentPropsWithoutRef<typeof TooltipPrimitive.Content>) => {
-  const {colorScheme} = React.useContext(ThemeContext);
+  const currentTheme = useTheme();
   const colorStyles = {
-    backgroundColor: themes[colorScheme]["--primary"],
-    color: themes[colorScheme]["--primary-foreground"],
+    backgroundColor: currentTheme.primary,
+    color: currentTheme.primaryForeground,
   };
   const colorArrowStyles = {
-    backgroundColor: themes[colorScheme]["--primary"],
-    fill: themes[colorScheme]["--primary"],
+    backgroundColor: currentTheme.primary,
+    fill: currentTheme.primary,
   };
   return (
     <TooltipPrimitive.Portal>

@@ -11,7 +11,7 @@
     "skipLibCheck": true,
     "baseUrl": ".",
     "paths": {
-      "@/*": ["./*"]
+      "@/*": ["./registry/*"]
     }
   },
   "include": [

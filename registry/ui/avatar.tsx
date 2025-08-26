@@ -1,11 +1,11 @@
-import {
+import React, {
   ComponentProps,
   createContext,
   useContext,
   useEffect,
   useState,
 } from "react";
-import {Image, ImageProps, ImageURISource, View} from "react-native";
+import {Image, ImageProps, ImageURISource, Text, View} from "react-native";
 import {tv} from "tailwind-variants";
 
 /**
@@ -55,6 +55,7 @@ export type AvatarImageComponentProps = {
  * @param baseClassName - Custom tailwind classes applied to the fallback element. Takes precedence over the `className` prop.
  */
 export type AvatarFallbackComponentProps = {
+  asChild?: boolean;
   baseClassName?: string;
 } & ComponentProps<typeof View>;
 
@@ -234,6 +235,7 @@ export function AvatarImage({
 export function AvatarFallback({
   children,
   baseClassName,
+  asChild,
   ...props
 }: AvatarFallbackComponentProps) {
   const context = useContext(AvatarContext);
@@ -252,9 +254,14 @@ export function AvatarFallback({
     className: baseClassName || props.className,
   });
 
-  return (
+  return asChild ? (
+    React.cloneElement(
+      React.Children.only(children as React.ReactElement<{className?: string}>),
+      {className},
+    )
+  ) : (
     <View {...props} className={className}>
-      {children}
+      <Text>{children}</Text>
     </View>
   );
 }

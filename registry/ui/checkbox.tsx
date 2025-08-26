@@ -1,3 +1,4 @@
+import {useTheme} from "@/lib/utils/theme";
 import {AriaToggleButtonProps, useToggleButton} from "@react-aria/button";
 import {CheckIcon, DotIcon} from "lucide-react-native";
 import {ComponentProps, useEffect, useRef, useState} from "react";
@@ -152,9 +153,8 @@ export const useCheckbox = ({
  */
 export const checkbox = tv({
   slots: {
-    // Use absolute border color due to nativewind bug
-    base: "flex flex-row items-center justify-center bg-transparent border border-neutral-700 focus-visible:outline-none focus-visible:border-2 focus-visible:border-ring focus-visible:border-offset-2",
-    icon: "text-primary-foreground",
+    base: "flex flex-row items-center justify-center bg-transparent border border-border focus-visible:outline-none focus-visible:border-2 focus-visible:border-ring focus-visible:border-offset-2",
+    icon: "",
   },
   variants: {
     size: {
@@ -187,7 +187,7 @@ export const checkbox = tv({
       true: {
         base: "bg-primary",
       },
-      false: {base: "bg-transparent", icon: "opacity-0 text-white"},
+      false: {base: "bg-transparent", icon: "opacity-0"},
     },
     animation: {
       enhanced: {icon: "transition-all duration-300"},
@@ -249,6 +249,7 @@ export function Checkbox({
   iconClassName,
   ...props
 }: CheckboxComponentProps) {
+  const currentTheme = useTheme();
   const {props: ariaProps, state} = useCheckbox({
     checked,
     defaultChecked,
@@ -282,16 +283,19 @@ export function Checkbox({
         <DotIcon
           style={tw.style(icon({className: iconClassName}))}
           testID="checkbox-icon"
+          color={currentTheme.primaryForeground}
         />
       ) : state.isChecked ? (
         <CheckIcon
           style={tw.style(icon({className: iconClassName}))}
           testID="checkbox-icon"
+          color={currentTheme.primaryForeground}
         />
       ) : (
         <CheckIcon
           style={tw.style(icon({className: iconClassName}))}
           testID="checkbox-icon"
+          color={currentTheme.primaryForeground}
         />
       )}
     </Pressable>

@@ -124,10 +124,10 @@ describe("Progress", () => {
     ] as const;
 
     const expectedLightHex: Record<(typeof supportedColors)[number], string> = {
-      primary: "#171717",
-      success: "#166634",
-      warning: "#ebb517",
-      destructive: "#e7000b",
+      primary: "#343434",
+      success: "#22c55e",
+      warning: "#eab308",
+      destructive: "#ef4444",
     };
 
     it.each(supportedColors)(

@@ -1,7 +1,6 @@
-import {ComponentProps, lazy, Suspense, useContext} from "react";
-import {Platform, StyleProp} from "react-native";
+import {ComponentProps, lazy, Suspense} from "react";
+import {Platform, StyleProp, useColorScheme} from "react-native";
 import tw from "twrnc";
-import {ThemeContext} from "../theme";
 
 const SonnerNative = lazy(() =>
   import("sonner-native").then((module) => ({default: module.Toaster})),
@@ -47,11 +46,14 @@ function ToasterWeb({...props}: ComponentProps<any>) {
  * @param props - The props for the Toaster component.
  */
 export function Toaster({...props}: ComponentProps<any>) {
-  const {colorScheme} = useContext(ThemeContext);
+  const colorScheme = useColorScheme();
   return Platform.OS === "web" ? (
-    <ToasterWeb {...props} theme={colorScheme} />
+    <ToasterWeb {...props} theme={colorScheme || "light"} />
   ) : (
-    <ToasterNative {...(props as ComponentProps<any>)} theme={colorScheme} />
+    <ToasterNative
+      {...(props as ComponentProps<any>)}
+      theme={colorScheme || "light"}
+    />
   );
 }
 
