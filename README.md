@@ -24,11 +24,11 @@ Shadcn native is a port of [shadcn/ui](https://github.com/shadcn-ui/ui) for Reac
 
 ## Quick Start & Native Demo
 
-Checkout the [expo-starter](https://github.com/moveinready-casa/expo-starter) for a quick start.
+Check out the [expo-starter](https://github.com/moveinready-casa/expo-starter) for a quick start.
 
 ## Documentation
 
-Please visit the documentation website at [shadcn-native.movinready.casa](https://www.shadcn-native.moveinready.casa).
+Please visit the documentation website at [shadcn-native.moveinready.casa](https://www.shadcn-native.moveinready.casa).
 
 ## Storybook
 
