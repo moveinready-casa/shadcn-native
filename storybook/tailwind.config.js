@@ -1,8 +1,10 @@
 /** @type {import('tailwindcss').Config} */
 export default {
+  darkMode: "class",
   content: [
-    "./storybook/**/*.{js,jsx,ts,tsx}",
+    "./.storybook/**/*.{js,jsx,ts,tsx}",
     "../registry/**/*.{js,jsx,ts,tsx}",
+    "./.stories/**/*.{js,jsx,ts,tsx}",
   ],
   // eslint-disable-next-line
   presets: [require("nativewind/preset")],

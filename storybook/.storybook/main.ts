@@ -22,11 +22,15 @@ const config: StorybookConfig = {
   framework: {
     name: getAbsolutePath("@storybook/react-native-web-vite"),
     options: {
+      modulesToTranspile: [
+        "react-native-reanimated",
+        "react-native-vector-icons",
+        "nativewind",
+        "react-native-css-interop",
+      ],
       pluginReactOptions: {
-        jsxImportSource: "nativewind",
         babel: {
           presets: [["nativewind/babel", {mode: "transformOnly"}]],
-          plugins: ["react-native-reanimated/plugin"],
         },
       },
     },
