@@ -13,7 +13,7 @@ describe("Avatar", () => {
 
   const TestAvatar = ({
     size,
-    radius,
+    borderRadius,
     isBordered,
     isDisabled,
     variant = "shadcn",
@@ -26,7 +26,7 @@ describe("Avatar", () => {
   }) => (
     <Avatar
       size={size}
-      radius={radius}
+      borderRadius={borderRadius}
       isBordered={isBordered}
       isDisabled={isDisabled}
       variant={variant}
@@ -79,58 +79,40 @@ describe("Avatar", () => {
   });
 
   describe("Size variants", () => {
-    it("applies small size correctly", () => {
-      const {getByTestId} = render(<TestAvatar size="sm" />);
-      const avatar = getByTestId("avatar");
-      expect(avatar.props.className).toContain("w-8");
-      expect(avatar.props.className).toContain("h-8");
-    });
-
-    it("applies medium size correctly", () => {
-      const {getByTestId} = render(<TestAvatar size="md" />);
-      const avatar = getByTestId("avatar");
-      expect(avatar.props.className).toContain("w-10");
-      expect(avatar.props.className).toContain("h-10");
-    });
-
-    it("applies large size correctly", () => {
-      const {getByTestId} = render(<TestAvatar size="lg" />);
-      const avatar = getByTestId("avatar");
-      expect(avatar.props.className).toContain("w-12");
-      expect(avatar.props.className).toContain("h-12");
-    });
+    it.each([
+      ["sm", "w-8", "h-8"],
+      ["md", "w-10", "h-10"],
+      ["lg", "w-12", "h-12"],
+      ["xl", "w-16", "h-16"],
+    ] as const)(
+      "applies %s size correctly",
+      (size, widthClass, heightClass) => {
+        const {getByTestId} = render(<TestAvatar size={size} />);
+        const avatar = getByTestId("avatar");
+        expect(avatar.props.className).toContain(widthClass);
+        expect(avatar.props.className).toContain(heightClass);
+      },
+    );
   });
 
-  describe("Radius variants", () => {
-    it("applies none radius correctly", () => {
-      const {getByTestId} = render(<TestAvatar radius="none" />);
-      const avatar = getByTestId("avatar");
-      expect(avatar.props.className).toContain("rounded-none");
-    });
-
-    it("applies small radius correctly", () => {
-      const {getByTestId} = render(<TestAvatar radius="sm" />);
-      const avatar = getByTestId("avatar");
-      expect(avatar.props.className).toContain("rounded-sm");
-    });
-
-    it("applies medium radius correctly", () => {
-      const {getByTestId} = render(<TestAvatar radius="md" />);
-      const avatar = getByTestId("avatar");
-      expect(avatar.props.className).toContain("rounded-md");
-    });
-
-    it("applies large radius correctly", () => {
-      const {getByTestId} = render(<TestAvatar radius="lg" />);
-      const avatar = getByTestId("avatar");
-      expect(avatar.props.className).toContain("rounded-lg");
-    });
-
-    it("applies full radius correctly", () => {
-      const {getByTestId} = render(<TestAvatar radius="full" />);
-      const avatar = getByTestId("avatar");
-      expect(avatar.props.className).toContain("rounded-full");
-    });
+  describe("BorderRadius variants", () => {
+    it.each([
+      ["none", "rounded-none"],
+      ["sm", "rounded-sm"],
+      ["md", "rounded-md"],
+      ["lg", "rounded-lg"],
+      ["xl", "rounded-xl"],
+      ["full", "rounded-full"],
+    ] as const)(
+      "applies %s borderRadius correctly",
+      (borderRadius, expectedClass) => {
+        const {getByTestId} = render(
+          <TestAvatar borderRadius={borderRadius} />,
+        );
+        const avatar = getByTestId("avatar");
+        expect(avatar.props.className).toContain(expectedClass);
+      },
+    );
   });
 
   describe("Border and disabled states", () => {
@@ -150,28 +132,15 @@ describe("Avatar", () => {
   });
 
   describe("Variant styling", () => {
-    it("applies shadcn variant correctly", () => {
-      const {getByTestId} = render(<TestAvatar variant="shadcn" />);
+    it.each([
+      ["shadcn", "bg-muted"],
+      ["warning", "bg-warning"],
+      ["error", "bg-destructive"],
+      ["success", "bg-success"],
+    ] as const)("applies %s variant correctly", (variant, expectedClass) => {
+      const {getByTestId} = render(<TestAvatar variant={variant} />);
       const avatar = getByTestId("avatar");
-      expect(avatar.props.className).toContain("bg-muted");
-    });
-
-    it("applies warning variant correctly", () => {
-      const {getByTestId} = render(<TestAvatar variant="warning" />);
-      const avatar = getByTestId("avatar");
-      expect(avatar.props.className).toContain("bg-warning");
-    });
-
-    it("applies error variant correctly", () => {
-      const {getByTestId} = render(<TestAvatar variant="error" />);
-      const avatar = getByTestId("avatar");
-      expect(avatar.props.className).toContain("bg-destructive");
-    });
-
-    it("applies success variant correctly", () => {
-      const {getByTestId} = render(<TestAvatar variant="success" />);
-      const avatar = getByTestId("avatar");
-      expect(avatar.props.className).toContain("bg-success");
+      expect(avatar.props.className).toContain(expectedClass);
     });
   });
 

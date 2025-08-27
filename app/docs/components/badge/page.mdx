@@ -32,7 +32,8 @@ import {Badge} from "@/components/ui/badge";
 | Prop            | Type                                                     | Default     | Description                                                             |
 | --------------- | -------------------------------------------------------- | ----------- | ----------------------------------------------------------------------- |
 | `variant`       | `"default" \| "secondary" \| "destructive" \| "outline"` | `"default"` | The visual variant of the badge.                                        |
-| `borderRadius`  | `"none" \| "sm" \| "md" \| "lg" \| "full"`               | `"full"`    | Sets the border radius of the badge.                                    |
+| `size`          | `"sm" \| "md" \| "lg" \| "xl"`                           | `"md"`      | Sets the size of the badge. Controls padding, text size, and icon size. |
+| `borderRadius`  | `"none" \| "sm" \| "md" \| "lg" \| "xl"`                 | `"lg"`      | Sets the border radius of the badge.                                    |
 | `disabled`      | `boolean`                                                | `false`     | Whether the badge is disabled.                                          |
 | `status`        | `"idle" \| "loading" \| "error"`                         | `"idle"`    | Sets the status indicator state.                                        |
 | `loading`       | `boolean`                                                | `false`     | Convenience prop to show loading state. Overrides status.               |
@@ -54,9 +55,19 @@ The Badge component includes:
 The Badge component uses Tailwind variants for consistent styling. You can customize the appearance using:
 
 - `variant` prop for color schemes
+- `size` prop for sizing (padding, text size, and icon size)
 - `borderRadius` prop for corner styling
 - `baseClassName` prop for custom Tailwind classes
 - `disabled` prop for opacity changes
+
+### Size Variants
+
+The `size` prop controls multiple styling aspects:
+
+- **sm**: Compact badge with `px-1.5 py-0.5`, `text-xs`, and 12px icons
+- **md**: Default badge with `px-2 py-0.5`, `text-xs`, and 12px icons
+- **lg**: Large badge with `px-2.5 py-1`, `text-sm`, and 16px icons
+- **xl**: Extra large badge with `px-3 py-1.5`, `text-base`, and 20px icons
 
 ## Status Indicators
 

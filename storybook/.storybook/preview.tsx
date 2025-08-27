@@ -1,6 +1,6 @@
 import type {Preview} from "@storybook/react-native-web-vite";
 import "../output.css";
-import React, {useEffect} from "react";
+import React from "react";
 import {NavigationContainer} from "@react-navigation/native";
 import {Toaster} from "../.stories/ui/sonner";
 

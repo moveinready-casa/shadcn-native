@@ -136,7 +136,7 @@ export const Default: Story = {
   },
 };
 
-export const WithCustomBorderRadius: Story = {
+export const BorderRadius: Story = {
   render: () => (
     <View style={{gap: 12}}>
       <AlertDialog>
@@ -159,7 +159,66 @@ export const WithCustomBorderRadius: Story = {
           </AlertDialogContent>
         </AlertDialogPortal>
       </AlertDialog>
-
+      <AlertDialog>
+        <AlertDialogTrigger asChild>
+          <Button variant="outline">Rounded Sm</Button>
+        </AlertDialogTrigger>
+        <AlertDialogPortal>
+          <AlertDialogOverlay />
+          <AlertDialogContent borderRadius="sm">
+            <AlertDialogHeader>
+              <AlertDialogTitle>Small Border Radius</AlertDialogTitle>
+              <AlertDialogDescription>
+                This dialog has a small border radius.
+              </AlertDialogDescription>
+            </AlertDialogHeader>
+            <AlertDialogFooter>
+              <AlertDialogCancel>Cancel</AlertDialogCancel>
+              <AlertDialogAction>Continue</AlertDialogAction>
+            </AlertDialogFooter>
+          </AlertDialogContent>
+        </AlertDialogPortal>
+      </AlertDialog>
+      <AlertDialog>
+        <AlertDialogTrigger asChild>
+          <Button variant="outline">Rounded Md</Button>
+        </AlertDialogTrigger>
+        <AlertDialogPortal>
+          <AlertDialogOverlay />
+          <AlertDialogContent borderRadius="md">
+            <AlertDialogHeader>
+              <AlertDialogTitle>Medium Border Radius</AlertDialogTitle>
+              <AlertDialogDescription>
+                This dialog has a medium border radius.
+              </AlertDialogDescription>
+            </AlertDialogHeader>
+            <AlertDialogFooter>
+              <AlertDialogCancel>Cancel</AlertDialogCancel>
+              <AlertDialogAction>Continue</AlertDialogAction>
+            </AlertDialogFooter>
+          </AlertDialogContent>
+        </AlertDialogPortal>
+      </AlertDialog>
+      <AlertDialog>
+        <AlertDialogTrigger asChild>
+          <Button variant="outline">Rounded Lg</Button>
+        </AlertDialogTrigger>
+        <AlertDialogPortal>
+          <AlertDialogOverlay />
+          <AlertDialogContent borderRadius="lg">
+            <AlertDialogHeader>
+              <AlertDialogTitle>Large Border Radius</AlertDialogTitle>
+              <AlertDialogDescription>
+                This dialog has a large border radius.
+              </AlertDialogDescription>
+            </AlertDialogHeader>
+            <AlertDialogFooter>
+              <AlertDialogCancel>Cancel</AlertDialogCancel>
+              <AlertDialogAction>Continue</AlertDialogAction>
+            </AlertDialogFooter>
+          </AlertDialogContent>
+        </AlertDialogPortal>
+      </AlertDialog>
       <AlertDialog>
         <AlertDialogTrigger asChild>
           <Button variant="outline">Rounded XL</Button>
@@ -296,54 +355,6 @@ export const AsChild: Story = {
           <AlertDialogFooter>
             <AlertDialogCancel>Cancel</AlertDialogCancel>
             <AlertDialogAction>Continue</AlertDialogAction>
-          </AlertDialogFooter>
-        </AlertDialogContent>
-      </AlertDialogPortal>
-    </AlertDialog>
-  ),
-};
-
-export const ComplexContent: Story = {
-  render: () => (
-    <AlertDialog>
-      <AlertDialogTrigger asChild>
-        <Button variant="outline">Complex Content</Button>
-      </AlertDialogTrigger>
-      <AlertDialogPortal>
-        <AlertDialogOverlay />
-        <AlertDialogContent>
-          <AlertDialogHeader>
-            <AlertDialogTitle>Complex Alert Dialog</AlertDialogTitle>
-            <AlertDialogDescription>
-              This dialog demonstrates more complex content with multiple
-              sections and detailed information.
-            </AlertDialogDescription>
-          </AlertDialogHeader>
-
-          <View className="my-4 space-y-3">
-            <View className="bg-muted rounded-md p-3">
-              <Text className="text-sm font-medium">Warning</Text>
-              <Text className="text-muted-foreground text-sm">
-                This action will affect multiple items and cannot be undone.
-              </Text>
-            </View>
-
-            <View className="border-destructive border-l-4 pl-3">
-              <Text className="text-destructive text-sm font-medium">
-                Items to be deleted:
-              </Text>
-              <Text className="text-muted-foreground text-sm">
-                • User profile data{"\n"}• Associated files{"\n"}• Account
-                settings{"\n"}• Activity history
-              </Text>
-            </View>
-          </View>
-
-          <AlertDialogFooter>
-            <AlertDialogCancel variant="outline">Cancel</AlertDialogCancel>
-            <AlertDialogAction variant="destructive">
-              Delete Everything
-            </AlertDialogAction>
           </AlertDialogFooter>
         </AlertDialogContent>
       </AlertDialogPortal>

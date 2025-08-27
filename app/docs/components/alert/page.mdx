@@ -40,7 +40,7 @@ import {Alert, AlertDescription, AlertTitle} from "@/components/ui/alert";
 | ------------------ | ------------------------------------------------------ | ----------- | ------------------------------------------------------------------------------------------------------- |
 | `children`         | `React.ReactNode`                                      | -           | **Required.** The content of the alert.                                                                 |
 | `variant`          | `"default" \| "success" \| "warning" \| "destructive"` | `"default"` | The variant of the alert.                                                                               |
-| `radius`           | `"none" \| "sm" \| "md" \| "lg" \| "xl"`               | `"lg"`      | Sets the border radius of the alert.                                                                    |
+| `borderRadius`     | `"none" \| "sm" \| "md" \| "lg" \| "xl"`               | `"lg"`      | Sets the border radius of the alert.                                                                    |
 | `isVisible`        | `boolean`                                              | -           | Whether the alert is visible (controlled).                                                              |
 | `isVisibleDefault` | `boolean`                                              | `true`      | Default visibility state for uncontrolled usage.                                                        |
 | `isClosable`       | `boolean`                                              | `false`     | Whether the alert can be closed.                                                                        |
@@ -153,7 +153,7 @@ The Alert component is built with accessibility in mind and includes:
   - `success` - Success styling: `text-success`
   - `warning` - Warning styling: `text-warning`
   - `destructive` - Destructive styling (shadcn): `text-destructive`
-- `radius`:
+- `borderRadius`:
   - `none` - No radius: `rounded-none`
   - `sm` - Small radius: `rounded-sm`
   - `md` - Medium radius: `rounded-md`

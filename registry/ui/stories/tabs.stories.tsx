@@ -31,7 +31,7 @@ const meta: Meta<typeof Tabs> = {
           summary: "md",
         },
       },
-      options: ["sm", "md", "lg"],
+      options: ["sm", "md", "lg", "xl"],
     },
     variant: {
       control: "select",
@@ -266,6 +266,26 @@ export const Sizes: Story = {
       <View>
         <Text className="mb-2 text-sm font-medium">Large Size</Text>
         <Tabs defaultValue="account" size="lg" style={{width: 400}}>
+          <TabsList>
+            <TabsTrigger value="account">Account</TabsTrigger>
+            <TabsTrigger value="password">Password</TabsTrigger>
+          </TabsList>
+          <TabsContent value="account">
+            <View className="p-4">
+              <Text>Account content</Text>
+            </View>
+          </TabsContent>
+          <TabsContent value="password">
+            <View className="p-4">
+              <Text>Password content</Text>
+            </View>
+          </TabsContent>
+        </Tabs>
+      </View>
+
+      <View>
+        <Text className="mb-2 text-sm font-medium">Extra Large Size</Text>
+        <Tabs defaultValue="account" size="xl" style={{width: 400}}>
           <TabsList>
             <TabsTrigger value="account">Account</TabsTrigger>
             <TabsTrigger value="password">Password</TabsTrigger>

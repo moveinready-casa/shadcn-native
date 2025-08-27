@@ -30,7 +30,7 @@ const meta: Meta<typeof Slider> = {
     },
     borderRadius: {
       control: "select",
-      options: ["none", "sm", "md", "lg", "full"],
+      options: ["none", "sm", "md", "lg", "xl", "full"],
       description: "The border radius of the thumb",
       table: {defaultValue: {summary: "full"}},
     },
@@ -201,6 +201,13 @@ export const RoundedLarge: Story = {
   args: {
     ...Default.args,
     borderRadius: "lg",
+  },
+};
+
+export const RoundedExtraLarge: Story = {
+  args: {
+    ...Default.args,
+    borderRadius: "xl",
   },
 };
 

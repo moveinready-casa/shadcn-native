@@ -169,16 +169,20 @@ describe("Toggle", () => {
     describe("sizes", () => {
       test.each([
         {
-          size: "default",
-          expectedClasses: ["h-9", "px-2", "min-w-9"],
-        },
-        {
           size: "sm",
           expectedClasses: ["h-8", "px-1.5", "min-w-8"],
         },
         {
+          size: "md",
+          expectedClasses: ["h-9", "px-2", "min-w-9"],
+        },
+        {
           size: "lg",
           expectedClasses: ["h-10", "px-2.5", "min-w-10"],
+        },
+        {
+          size: "xl",
+          expectedClasses: ["h-11", "px-3", "min-w-11"],
         },
       ])(
         "applies $size size correctly",
@@ -192,7 +196,7 @@ describe("Toggle", () => {
           const {getByTestId} = render(
             <Toggle
               testID="toggle"
-              size={size as "default" | "sm" | "lg"}
+              size={size as "sm" | "md" | "lg" | "xl"}
               aria-label="t"
             />,
           );

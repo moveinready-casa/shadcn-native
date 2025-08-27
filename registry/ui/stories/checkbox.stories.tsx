@@ -28,7 +28,7 @@ const meta: Meta<typeof Checkbox> = {
       },
       options: ["primary", "secondary", "success", "warning", "destructive"],
     },
-    radius: {
+    borderRadius: {
       control: "select",
       description:
         "Sets the border radius of the checkbox. Controls the roundness of corners.",
@@ -37,7 +37,7 @@ const meta: Meta<typeof Checkbox> = {
           summary: "md",
         },
       },
-      options: ["none", "sm", "md", "lg", "full"],
+      options: ["none", "sm", "md", "lg", "xl", "full"],
     },
     disabled: {
       control: "boolean",
@@ -88,7 +88,7 @@ const meta: Meta<typeof Checkbox> = {
   args: {
     size: "md",
     color: "primary",
-    radius: "md",
+    borderRadius: "md",
     disabled: false,
     loading: false,
   },

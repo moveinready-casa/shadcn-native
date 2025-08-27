@@ -54,3 +54,15 @@ type Story = StoryObj<typeof meta>;
 export const Default: Story = {
   args: {},
 };
+
+export const BorderRadius: Story = {
+  render: (args) => (
+    <View style={{gap: 12}}>
+      <SkeletonStory {...args} borderRadius="none" />
+      <SkeletonStory {...args} borderRadius="sm" />
+      <SkeletonStory {...args} borderRadius="md" />
+      <SkeletonStory {...args} borderRadius="lg" />
+      <SkeletonStory {...args} borderRadius="xl" />
+    </View>
+  ),
+};

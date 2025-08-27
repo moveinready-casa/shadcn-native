@@ -151,6 +151,17 @@ export const Disabled: Story = {
   },
 };
 
+export const Side: Story = {
+  render: (args) => (
+    <View style={{gap: 12}}>
+      <SheetStory {...args} side="top" />
+      <SheetStory {...args} side="bottom" />
+      <SheetStory {...args} side="left" />
+      <SheetStory {...args} side="right" />
+    </View>
+  ),
+};
+
 export const ForceMount: Story = {
   args: {
     ...Default.args,

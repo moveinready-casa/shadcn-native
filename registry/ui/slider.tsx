@@ -9,12 +9,12 @@ import {tv} from "tailwind-variants";
  * Variant types for the slider component.
  * @param size - The size of the slider track and thumb.
  * @param color - The color theme of the slider.
- * @param borderRadius - The border radius of the slider thumb.
+ * @param borderRadius - The border radius of the slider thumb (none, sm, md, lg, xl, full).
  */
 type SliderVariants = {
   size?: "sm" | "md" | "lg";
   color?: "default" | "secondary" | "destructive" | "warning" | "success";
-  borderRadius?: "none" | "sm" | "md" | "lg" | "full";
+  borderRadius?: "none" | "sm" | "md" | "lg" | "xl" | "full";
 };
 
 /**
@@ -133,6 +133,9 @@ export const slider = tv({
       },
       lg: {
         thumb: "rounded-lg",
+      },
+      xl: {
+        thumb: "rounded-xl",
       },
       full: {
         thumb: "rounded-full",

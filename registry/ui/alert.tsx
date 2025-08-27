@@ -21,7 +21,7 @@ import {tv} from "tailwind-variants";
 /**
  * Base props for the Alert component, context, and hook.
  * @param variant - The variant of the alert.
- * @param radius - The border radius of the alert.
+ * @param borderRadius - The border radius of the alert.
  * @param isVisible - Whether the alert is visible.
  * @param isClosable - Whether the alert can be closed.
  * @param hideIcon - Whether to hide the icon.
@@ -33,7 +33,7 @@ import {tv} from "tailwind-variants";
  */
 export type AlertProps = {
   variant?: "default" | "success" | "warning" | "destructive";
-  radius?: "none" | "sm" | "md" | "lg" | "xl";
+  borderRadius?: "none" | "sm" | "md" | "lg" | "xl";
   isVisible?: boolean;
   isVisibleDefault?: boolean;
   isClosable?: boolean;
@@ -235,7 +235,7 @@ export const alert = tv({
         closeIcon: "text-destructive",
       },
     },
-    radius: {
+    borderRadius: {
       none: {
         base: "rounded-none",
       },
@@ -265,7 +265,7 @@ export const alert = tv({
   },
   defaultVariants: {
     variant: "default",
-    radius: "lg",
+    borderRadius: "lg",
     isClosable: false,
     hideIcon: false,
   },
@@ -289,7 +289,7 @@ export function Alert({
   children,
   asChild = false,
   variant = "default",
-  radius = "lg",
+  borderRadius = "lg",
   isVisible,
   isVisibleDefault = true,
   isClosable = false,
@@ -355,7 +355,7 @@ export function Alert({
     ...props,
     className: base({
       variant,
-      radius,
+      borderRadius,
       isClosable,
       hideIcon,
       className: baseClassName || props.className,
@@ -366,7 +366,7 @@ export function Alert({
     ...alertState,
     props: {
       variant,
-      radius,
+      borderRadius,
       isVisible,
       isVisibleDefault,
       isClosable,

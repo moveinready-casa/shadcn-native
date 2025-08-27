@@ -15,7 +15,7 @@ import tw from "twrnc";
  * @param loading - Whether the checkbox is in a loading state (adds a pulse animation and disables interaction).
  * @param size - Size of the checkbox (`"sm" | "md" | "lg" | "xl"`).
  * @param color - Color scheme applied when the checkbox is checked.
- * @param radius - Border radius of the checkbox container.
+ * @param borderRadius - Border radius of the checkbox container.
  */
 export type CheckboxProps = {
   checked?: boolean | "indeterminate";
@@ -25,7 +25,7 @@ export type CheckboxProps = {
   loading?: boolean;
   size?: "sm" | "md" | "lg" | "xl";
   color?: "primary" | "secondary" | "success" | "warning" | "destructive";
-  radius?: "none" | "sm" | "md" | "lg" | "full";
+  borderRadius?: "none" | "sm" | "md" | "lg" | "xl" | "full";
 } & AriaToggleButtonProps;
 
 /**
@@ -50,7 +50,7 @@ export type CheckboxReturn = {
  * @param iconClassName - Tailwind classes applied to the icon element.
  * @param size - Size variant of the checkbox.
  * @param color - Color variant of the checkbox.
- * @param radius - Border radius variant of the checkbox.
+ * @param borderRadius - Border radius variant of the checkbox.
  * @see CheckboxProps
  */
 export type CheckboxComponentProps = {
@@ -58,7 +58,7 @@ export type CheckboxComponentProps = {
   iconClassName?: string;
   size?: "sm" | "md" | "lg" | "xl";
   color?: "primary" | "secondary" | "success" | "warning" | "destructive";
-  radius?: "none" | "sm" | "md" | "lg" | "full";
+  borderRadius?: "none" | "sm" | "md" | "lg" | "xl" | "full";
   animation?: "shadcn" | "enhanced";
 } & CheckboxProps &
   ComponentProps<typeof Pressable>;
@@ -170,11 +170,12 @@ export const checkbox = tv({
       warning: {},
       destructive: {},
     },
-    radius: {
+    borderRadius: {
       none: {base: "rounded-none"},
       sm: {base: "rounded-[4px]"},
       md: {base: "rounded-md"},
       lg: {base: "rounded-lg"},
+      xl: {base: "rounded-xl"},
       full: {base: "rounded-full"},
     },
     disabled: {
@@ -224,7 +225,7 @@ export const checkbox = tv({
   defaultVariants: {
     size: "md",
     color: "primary",
-    radius: "md",
+    borderRadius: "md",
   },
 });
 
@@ -241,7 +242,7 @@ export function Checkbox({
   defaultChecked,
   size = "md",
   color,
-  radius = "md",
+  borderRadius = "md",
   disabled = false,
   loading = false,
   animation = "shadcn",
@@ -264,7 +265,7 @@ export function Checkbox({
   const {base, icon} = checkbox({
     size,
     color,
-    radius,
+    borderRadius,
     disabled: disabled || loading,
     loading,
     checked: state.isChecked || false,

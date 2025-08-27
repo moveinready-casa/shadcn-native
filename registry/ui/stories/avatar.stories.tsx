@@ -5,13 +5,13 @@ import {
   AvatarComponentProps,
 } from "../avatar";
 import {Meta, StoryObj} from "@storybook/react-native";
-import {UserIcon} from "lucide-react-native";
+import {UserIcon, View} from "lucide-react-native";
 
 const AVATAR_SRC = "https://picsum.photos/100";
 
 function AvatarStory({
   size,
-  radius,
+  borderRadius,
   isBordered,
   isDisabled,
   baseClassName,
@@ -21,7 +21,7 @@ function AvatarStory({
   return (
     <Avatar
       size={size}
-      radius={radius}
+      borderRadius={borderRadius}
       isBordered={isBordered}
       isDisabled={isDisabled}
       baseClassName={baseClassName}
@@ -41,13 +41,13 @@ const meta: Meta<typeof AvatarStory> = {
   argTypes: {
     size: {
       control: "select",
-      options: ["sm", "md", "lg"],
+      options: ["sm", "md", "lg", "xl"],
       description: "Avatar size: presets for width/height and font-size.",
       table: {defaultValue: {summary: "md"}},
     },
-    radius: {
+    borderRadius: {
       control: "select",
-      options: ["none", "sm", "md", "lg", "full"],
+      options: ["none", "sm", "md", "lg", "xl", "full"],
       description: "Border radius",
       table: {defaultValue: {summary: "full"}},
     },
@@ -83,6 +83,30 @@ type Story = StoryObj<typeof meta>;
 
 export const Default: Story = {};
 
+export const Sizes: Story = {
+  render: () => (
+    <View style={{gap: 12}}>
+      <AvatarStory size="sm" />
+      <AvatarStory size="md" />
+      <AvatarStory size="lg" />
+      <AvatarStory size="xl" />
+    </View>
+  ),
+};
+
+export const BorderRadius: Story = {
+  render: () => (
+    <View style={{gap: 12}}>
+      <AvatarStory borderRadius="none" />
+      <AvatarStory borderRadius="sm" />
+      <AvatarStory borderRadius="md" />
+      <AvatarStory borderRadius="lg" />
+      <AvatarStory borderRadius="xl" />
+      <AvatarStory borderRadius="full" />
+    </View>
+  ),
+};
+
 export const Bordered: Story = {
   args: {
     isBordered: true,
@@ -92,13 +116,6 @@ export const Bordered: Story = {
 export const Disabled: Story = {
   args: {
     isDisabled: true,
-  },
-};
-
-export const CustomRadius: Story = {
-  args: {
-    radius: "lg",
-    size: "lg",
   },
 };
 

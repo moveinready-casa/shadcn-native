@@ -28,10 +28,10 @@ const meta: Meta<typeof Toggle> = {
         "Sets the size of the toggle. Controls height, padding, and text size.",
       table: {
         defaultValue: {
-          summary: "default",
+          summary: "md",
         },
       },
-      options: ["default", "sm", "lg"],
+      options: ["sm", "md", "lg", "xl"],
     },
     pressed: {
       control: "boolean",
@@ -113,7 +113,10 @@ export const Variant: Story = {
 export const Size: Story = {
   render: () => (
     <View style={{gap: 12, alignItems: "flex-start"}}>
+      <Toggle size="sm">Small</Toggle>
+      <Toggle size="md">Medium</Toggle>
       <Toggle size="lg">Large</Toggle>
+      <Toggle size="xl">Extra Large</Toggle>
     </View>
   ),
 };

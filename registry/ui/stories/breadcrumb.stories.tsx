@@ -17,47 +17,36 @@ import {
 import {Text} from "react-native";
 
 const BreadcrumbStory = ({
-  // Breadcrumb props
   size,
   color,
   variant,
   borderRadius,
   asChild,
   baseClassName,
-  // BreadcrumbLink props
   startContent,
   endContent,
   href,
-  // BreadcrumbItem props
   itemDisabled,
   itemBaseClassName,
-  // BreadcrumbPage props
   pageAsChild,
   pageBaseClassName,
-  // BreadcrumbSeparator props
   separatorAsChild,
   separatorBaseClassName,
   separatorChildren,
-  // BreadcrumbEllipsis props
   ellipsisAsChild,
   ellipsisBaseClassName,
   ellipsisChildren,
 }: BreadcrumbComponentProps & {
-  // BreadcrumbLink props
   startContent: BreadcrumbLinkComponentProps["startContent"];
   endContent: BreadcrumbLinkComponentProps["endContent"];
   href: BreadcrumbLinkComponentProps["href"];
-  // BreadcrumbItem props
   itemDisabled: BreadcrumbItemComponentProps["disabled"];
   itemBaseClassName: BreadcrumbItemComponentProps["baseClassName"];
-  // BreadcrumbPage props
   pageAsChild: BreadcrumbPageComponentProps["asChild"];
   pageBaseClassName: BreadcrumbPageComponentProps["baseClassName"];
-  // BreadcrumbSeparator props
   separatorAsChild: BreadcrumbSeparatorComponentProps["asChild"];
   separatorBaseClassName: BreadcrumbSeparatorComponentProps["baseClassName"];
   separatorChildren: BreadcrumbSeparatorComponentProps["children"];
-  // BreadcrumbEllipsis props
   ellipsisAsChild: BreadcrumbEllipsisComponentProps["asChild"];
   ellipsisBaseClassName: BreadcrumbEllipsisComponentProps["baseClassName"];
   ellipsisChildren: BreadcrumbEllipsisComponentProps["children"];
@@ -136,7 +125,6 @@ const meta: Meta<typeof BreadcrumbStory> = {
   title: "Breadcrumb",
   component: BreadcrumbStory,
   argTypes: {
-    // Breadcrumb props
     size: {
       control: "select",
       options: ["sm", "md", "lg"],
@@ -194,7 +182,6 @@ const meta: Meta<typeof BreadcrumbStory> = {
       description:
         "Breadcrumb: Custom tailwind classes to apply to the base breadcrumb component. Takes priority over the className prop.",
     },
-    // BreadcrumbLink props
     startContent: {
       control: false,
       description:
@@ -215,7 +202,6 @@ const meta: Meta<typeof BreadcrumbStory> = {
         },
       },
     },
-    // BreadcrumbItem props
     itemDisabled: {
       control: "boolean",
       description: "BreadcrumbItem: Whether the breadcrumb item is disabled.",
@@ -230,7 +216,6 @@ const meta: Meta<typeof BreadcrumbStory> = {
       description:
         "BreadcrumbItem: Custom tailwind classes to apply to the base breadcrumb item component. Takes priority over the className prop.",
     },
-    // BreadcrumbPage props
     pageAsChild: {
       control: "boolean",
       description:
@@ -246,7 +231,6 @@ const meta: Meta<typeof BreadcrumbStory> = {
       description:
         "BreadcrumbPage: Custom tailwind classes to apply to the base breadcrumb page component. Takes priority over the className prop.",
     },
-    // BreadcrumbSeparator props
     separatorAsChild: {
       control: "boolean",
       description:
@@ -267,7 +251,6 @@ const meta: Meta<typeof BreadcrumbStory> = {
       description:
         "BreadcrumbSeparator: Custom separator content (ReactNode) to display instead of the default ChevronRightIcon.",
     },
-    // BreadcrumbEllipsis props
     ellipsisAsChild: {
       control: "boolean",
       description:

@@ -203,47 +203,40 @@ describe("Tabs", () => {
     });
 
     describe("size variants", () => {
-      const sizeTests = [
+      it.each([
         {size: "sm", expectedClass: "h-9"},
         {size: "md", expectedClass: "h-10"},
         {size: "lg", expectedClass: "h-11"},
-      ];
-
-      sizeTests.forEach(({size, expectedClass}) => {
-        it(`applies ${size} size variant correctly`, () => {
-          const {getByTestId} = render(
-            <TestTabs rootProps={{defaultValue: "account", size}} />,
-          );
-          expect(getByTestId("list").props.className ?? "").toEqual(
-            expect.stringContaining(expectedClass),
-          );
-        });
+        {size: "xl", expectedClass: "h-12"},
+      ])("applies $size size variant correctly", ({size, expectedClass}) => {
+        const {getByTestId} = render(
+          <TestTabs rootProps={{defaultValue: "account", size}} />,
+        );
+        expect(getByTestId("list").props.className ?? "").toEqual(
+          expect.stringContaining(expectedClass),
+        );
       });
     });
 
     describe("color variants", () => {
-      const colorTests = [
+      it.each([
         {color: "destructive", expectedClass: "destructive"},
         {color: "secondary", expectedClass: "secondary"},
-      ];
-
-      colorTests.forEach(({color, expectedClass}) => {
-        it(`applies ${color} color variant correctly`, () => {
-          const {getByTestId} = render(
-            <TestTabs
-              rootProps={{defaultValue: "account"}}
-              accountTriggerProps={{color}}
-            />,
-          );
-          expect(getByTestId("trigger-account").props.className ?? "").toEqual(
-            expect.stringContaining(expectedClass),
-          );
-        });
+      ])("applies $color color variant correctly", ({color, expectedClass}) => {
+        const {getByTestId} = render(
+          <TestTabs
+            rootProps={{defaultValue: "account"}}
+            accountTriggerProps={{color}}
+          />,
+        );
+        expect(getByTestId("trigger-account").props.className ?? "").toEqual(
+          expect.stringContaining(expectedClass),
+        );
       });
     });
 
     describe("variant styles", () => {
-      const variantTests = [
+      it.each([
         {
           variant: "shadcn",
           expectedListClass: "bg-muted",
@@ -264,53 +257,49 @@ describe("Tabs", () => {
           expectedTriggerClass: "",
           description: "applies no additional styling",
         },
-      ];
+      ])(
+        "$description for $variant variant",
+        ({variant, expectedListClass, expectedTriggerClass}) => {
+          const {getByTestId} = render(
+            <TestTabs rootProps={{defaultValue: "account", variant}} />,
+          );
 
-      variantTests.forEach(
-        ({variant, expectedListClass, expectedTriggerClass, description}) => {
-          it(`${description} for ${variant} variant`, () => {
-            const {getByTestId} = render(
-              <TestTabs rootProps={{defaultValue: "account", variant}} />,
+          if (expectedListClass) {
+            expect(getByTestId("list").props.className ?? "").toEqual(
+              expect.stringContaining(expectedListClass),
             );
+          }
 
-            if (expectedListClass) {
-              expect(getByTestId("list").props.className ?? "").toEqual(
-                expect.stringContaining(expectedListClass),
-              );
+          if (expectedTriggerClass !== undefined) {
+            if (expectedTriggerClass === "") {
+              expect(
+                getByTestId("trigger-account").props.className,
+              ).toBeDefined();
+            } else {
+              expect(
+                getByTestId("trigger-account").props.className ?? "",
+              ).toEqual(expect.stringContaining(expectedTriggerClass));
             }
-
-            if (expectedTriggerClass !== undefined) {
-              if (expectedTriggerClass === "") {
-                expect(
-                  getByTestId("trigger-account").props.className,
-                ).toBeDefined();
-              } else {
-                expect(
-                  getByTestId("trigger-account").props.className ?? "",
-                ).toEqual(expect.stringContaining(expectedTriggerClass));
-              }
-            }
-          });
+          }
         },
       );
     });
 
     describe("border radius", () => {
-      const borderRadiusTests = [
+      it.each([
         {borderRadius: "sm", expectedClass: "rounded-sm"},
         {borderRadius: "xl", expectedClass: "rounded-xl"},
-      ];
-
-      borderRadiusTests.forEach(({borderRadius, expectedClass}) => {
-        it(`applies ${borderRadius} border radius correctly`, () => {
+      ])(
+        "applies $borderRadius border radius correctly",
+        ({borderRadius, expectedClass}) => {
           const {getByTestId} = render(
             <TestTabs rootProps={{defaultValue: "account", borderRadius}} />,
           );
           expect(getByTestId("list").props.className ?? "").toEqual(
             expect.stringContaining(expectedClass),
           );
-        });
-      });
+        },
+      );
     });
   });
 

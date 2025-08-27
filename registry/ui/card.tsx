@@ -8,7 +8,7 @@ import {useFocusRing} from "@react-aria/focus";
  * Props for the main Card component.
  * @param children - React children to render inside the card
  * @param variant - The visual style variant of the card (shadcn, outline, ghost)
- * @param radius - Sets the border radius of the card (none, sm, md, lg, xl)
+ * @param borderRadius - Sets the border radius of the card (none, sm, md, lg, xl, 2xl)
  * @param asChild - If true, merges props with first child element instead of rendering wrapper
  * @param blurred - When true, applies blur effect to the card
  * @param pressable - When true, makes the card interactive with press states
@@ -21,7 +21,7 @@ import {useFocusRing} from "@react-aria/focus";
 export type CardProps = {
   children: ReactNode;
   variant?: "shadcn" | "outline" | "ghost";
-  radius?: "none" | "sm" | "md" | "lg" | "xl";
+  borderRadius?: "none" | "sm" | "md" | "lg" | "xl" | "2xl";
   asChild?: boolean;
   blurred?: boolean;
   pressable?: boolean;
@@ -233,12 +233,13 @@ export const card = tv({
       outline: "bg-transparent",
       ghost: "border-transparent bg-transparent shadow-none",
     },
-    radius: {
+    borderRadius: {
       none: "rounded-none",
       sm: "rounded-sm",
       md: "rounded-md",
       lg: "rounded-lg",
       xl: "rounded-xl",
+      "2xl": "rounded-2xl",
     },
     blurred: {
       true: "opacity-90 blur",
@@ -252,7 +253,7 @@ export const card = tv({
   },
   defaultVariants: {
     variant: "shadcn",
-    radius: "xl",
+    borderRadius: "xl",
     blurred: false,
     pressed: false,
     disabled: false,
@@ -381,7 +382,7 @@ export const cardFooter = tv({
 export function Card({
   children,
   variant = "shadcn",
-  radius = "xl",
+  borderRadius = "xl",
   asChild = false,
   className,
   blurred = false,
@@ -404,7 +405,7 @@ export function Card({
   const baseProps = {
     className: card({
       variant,
-      radius,
+      borderRadius,
       blurred,
       pressed: pressable && cardState.state.isPressed,
       disabled: disabled && pressable,

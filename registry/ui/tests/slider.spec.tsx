@@ -18,80 +18,62 @@ describe("Slider", () => {
       expect(slider).toBeTruthy();
     });
 
-    it("applies size variant styling", () => {
-      const {getByTestId: getSmallSlider} = render(
-        <Slider testID="small-slider" size="sm" />,
+    describe("Size variants", () => {
+      it.each([{size: "sm"}, {size: "md"}, {size: "lg"}])(
+        "applies $size size variant styling",
+        ({size}) => {
+          const {getByTestId} = render(
+            <Slider testID="slider" size={size as any} />,
+          );
+          expect(getByTestId("slider")).toBeTruthy();
+        },
       );
-      const {getByTestId: getMediumSlider} = render(
-        <Slider testID="medium-slider" size="md" />,
-      );
-      const {getByTestId: getLargeSlider} = render(
-        <Slider testID="large-slider" size="lg" />,
-      );
-
-      expect(getSmallSlider("small-slider")).toBeTruthy();
-      expect(getMediumSlider("medium-slider")).toBeTruthy();
-      expect(getLargeSlider("large-slider")).toBeTruthy();
     });
 
-    it("applies color variant styling", () => {
-      const {getByTestId: getDefaultSlider} = render(
-        <Slider testID="default-slider" color="default" />,
-      );
-      const {getByTestId: getSecondarySlider} = render(
-        <Slider testID="secondary-slider" color="secondary" />,
-      );
-      const {getByTestId: getDestructiveSlider} = render(
-        <Slider testID="destructive-slider" color="destructive" />,
-      );
-      const {getByTestId: getWarningSlider} = render(
-        <Slider testID="warning-slider" color="warning" />,
-      );
-      const {getByTestId: getSuccessSlider} = render(
-        <Slider testID="success-slider" color="success" />,
-      );
-
-      expect(getDefaultSlider("default-slider")).toBeTruthy();
-      expect(getSecondarySlider("secondary-slider")).toBeTruthy();
-      expect(getDestructiveSlider("destructive-slider")).toBeTruthy();
-      expect(getWarningSlider("warning-slider")).toBeTruthy();
-      expect(getSuccessSlider("success-slider")).toBeTruthy();
+    describe("Color variants", () => {
+      it.each([
+        {color: "default"},
+        {color: "secondary"},
+        {color: "destructive"},
+        {color: "warning"},
+        {color: "success"},
+      ])("applies $color color variant styling", ({color}) => {
+        const {getByTestId} = render(
+          <Slider testID="slider" color={color as any} />,
+        );
+        expect(getByTestId("slider")).toBeTruthy();
+      });
     });
 
-    it("applies border radius variant styling", () => {
-      const {getByTestId: getNoneSlider} = render(
-        <Slider testID="none-slider" borderRadius="none" />,
+    describe("Border radius variants", () => {
+      it.each([
+        {borderRadius: "none"},
+        {borderRadius: "sm"},
+        {borderRadius: "md"},
+        {borderRadius: "lg"},
+        {borderRadius: "xl"},
+        {borderRadius: "full"},
+      ])(
+        "applies $borderRadius border radius variant styling",
+        ({borderRadius}) => {
+          const {getByTestId} = render(
+            <Slider testID="slider" borderRadius={borderRadius as any} />,
+          );
+          expect(getByTestId("slider")).toBeTruthy();
+        },
       );
-      const {getByTestId: getSmallSlider} = render(
-        <Slider testID="small-radius-slider" borderRadius="sm" />,
-      );
-      const {getByTestId: getMediumSlider} = render(
-        <Slider testID="medium-radius-slider" borderRadius="md" />,
-      );
-      const {getByTestId: getLargeSlider} = render(
-        <Slider testID="large-radius-slider" borderRadius="lg" />,
-      );
-      const {getByTestId: getFullSlider} = render(
-        <Slider testID="full-radius-slider" borderRadius="full" />,
-      );
-
-      expect(getNoneSlider("none-slider")).toBeTruthy();
-      expect(getSmallSlider("small-radius-slider")).toBeTruthy();
-      expect(getMediumSlider("medium-radius-slider")).toBeTruthy();
-      expect(getLargeSlider("large-radius-slider")).toBeTruthy();
-      expect(getFullSlider("full-radius-slider")).toBeTruthy();
     });
 
-    it("applies orientation styling", () => {
-      const {getByTestId: getHorizontalSlider} = render(
-        <Slider testID="horizontal-slider" orientation="horizontal" />,
+    describe("Orientation variants", () => {
+      it.each([{orientation: "horizontal"}, {orientation: "vertical"}])(
+        "applies $orientation orientation styling",
+        ({orientation}) => {
+          const {getByTestId} = render(
+            <Slider testID="slider" orientation={orientation as any} />,
+          );
+          expect(getByTestId("slider")).toBeTruthy();
+        },
       );
-      const {getByTestId: getVerticalSlider} = render(
-        <Slider testID="vertical-slider" orientation="vertical" />,
-      );
-
-      expect(getHorizontalSlider("horizontal-slider")).toBeTruthy();
-      expect(getVerticalSlider("vertical-slider")).toBeTruthy();
     });
 
     it("applies disabled styling", () => {
