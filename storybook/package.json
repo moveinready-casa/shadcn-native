@@ -5,7 +5,8 @@
   "type": "module",
   "scripts": {
     "storybook": "storybook dev -p 6006",
-    "build-storybook": "storybook build"
+    "build-storybook": "storybook build",
+    "chromatic": "npx chromatic --project-token=chpt_e515c1f370347c0"
   },
   "dependencies": {
     "@storybook/builder-vite": "^9.1.3",
@@ -27,6 +28,7 @@
     "@storybook/addon-a11y": "^9.1.3",
     "@storybook/addon-docs": "^9.1.3",
     "@storybook/react-native-web-vite": "^9.1.3",
+    "chromatic": "^13.1.3",
     "eslint-plugin-storybook": "9.1.3",
     "glob": "^11.0.3",
     "react-native-web": "^0.20.0",
@@ -34,5 +36,6 @@
     "tailwindcss": "^3.4.17",
     "ts-node": "^10.9.2",
     "vite": "^6.3.5"
-  }
+  },
+  "packageManager": "pnpm@10.13.1"
 }
