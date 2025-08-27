@@ -101,78 +101,40 @@ describe("Checkbox", () => {
       expect(icon.props.style.width).toBe(24); // w-6 = 24px
     });
 
-    it("applies primary color correctly", () => {
-      const {getByTestId} = render(
-        <Checkbox testID="checkbox" color="primary" defaultChecked />,
+    describe("Colors", () => {
+      it.each([
+        {color: "primary", expectedClass: "bg-primary"},
+        {color: "secondary", expectedClass: "bg-secondary"},
+        {color: "success", expectedClass: "bg-success"},
+        {color: "warning", expectedClass: "bg-warning"},
+        {color: "destructive", expectedClass: "bg-destructive"},
+      ])("applies $color color correctly", ({color, expectedClass}) => {
+        const {getByTestId} = render(
+          <Checkbox testID="checkbox" color={color as any} defaultChecked />,
+        );
+        const checkbox = getByTestId("checkbox");
+        expect(checkbox.props.className).toContain(expectedClass);
+      });
+    });
+
+    describe("Border Radius", () => {
+      it.each([
+        {borderRadius: "none", expectedClass: "rounded-none"},
+        {borderRadius: "sm", expectedClass: "rounded-[4px]"},
+        {borderRadius: "md", expectedClass: "rounded-md"},
+        {borderRadius: "lg", expectedClass: "rounded-lg"},
+        {borderRadius: "xl", expectedClass: "rounded-xl"},
+        {borderRadius: "full", expectedClass: "rounded-full"},
+      ])(
+        "applies $borderRadius borderRadius correctly",
+        ({borderRadius, expectedClass}) => {
+          const {getByTestId} = render(
+            <Checkbox testID="checkbox" borderRadius={borderRadius as any} />,
+          );
+          const checkbox = getByTestId("checkbox");
+          expect(checkbox.props.className).toContain(expectedClass);
+        },
       );
-      const checkbox = getByTestId("checkbox");
-      expect(checkbox.props.className).toContain("bg-primary");
-    });
-
-    it("applies secondary color correctly", () => {
-      const {getByTestId} = render(
-        <Checkbox testID="checkbox" color="secondary" defaultChecked />,
-      );
-      const checkbox = getByTestId("checkbox");
-      expect(checkbox.props.className).toContain("bg-secondary");
-    });
-
-    it("applies success color correctly", () => {
-      const {getByTestId} = render(
-        <Checkbox testID="checkbox" color="success" defaultChecked />,
-      );
-      const checkbox = getByTestId("checkbox");
-      expect(checkbox.props.className).toContain("bg-success");
-    });
-
-    it("applies warning color correctly", () => {
-      const {getByTestId} = render(
-        <Checkbox testID="checkbox" color="warning" defaultChecked />,
-      );
-      const checkbox = getByTestId("checkbox");
-      expect(checkbox.props.className).toContain("bg-warning");
-    });
-
-    it("applies destructive color correctly", () => {
-      const {getByTestId} = render(
-        <Checkbox testID="checkbox" color="destructive" defaultChecked />,
-      );
-      const checkbox = getByTestId("checkbox");
-      expect(checkbox.props.className).toContain("bg-destructive");
-    });
-
-    it("applies none radius correctly", () => {
-      const {getByTestId} = render(
-        <Checkbox testID="checkbox" radius="none" />,
-      );
-      const checkbox = getByTestId("checkbox");
-      expect(checkbox.props.className).toContain("rounded-none");
-    });
-
-    it("applies sm radius correctly", () => {
-      const {getByTestId} = render(<Checkbox testID="checkbox" radius="sm" />);
-      const checkbox = getByTestId("checkbox");
-      expect(checkbox.props.className).toContain("rounded-[4px]");
-    });
-
-    it("applies md radius correctly", () => {
-      const {getByTestId} = render(<Checkbox testID="checkbox" radius="md" />);
-      const checkbox = getByTestId("checkbox");
-      expect(checkbox.props.className).toContain("rounded-md");
-    });
-
-    it("applies lg radius correctly", () => {
-      const {getByTestId} = render(<Checkbox testID="checkbox" radius="lg" />);
-      const checkbox = getByTestId("checkbox");
-      expect(checkbox.props.className).toContain("rounded-lg");
-    });
-
-    it("applies full radius correctly", () => {
-      const {getByTestId} = render(
-        <Checkbox testID="checkbox" radius="full" />,
-      );
-      const checkbox = getByTestId("checkbox");
-      expect(checkbox.props.className).toContain("rounded-full");
     });
 
     it("applies disabled style correctly", () => {

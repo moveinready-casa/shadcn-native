@@ -43,7 +43,7 @@ import {Checkbox} from "@/components/ui/checkbox";
 | `loading`         | `boolean`                                                             | `false`     | Whether the checkbox is in a loading state. Adds a pulse animation and disables interaction. |
 | `size`            | `"sm" \| "md" \| "lg"`                                                | `"md"`      | Size variant of the checkbox.                                                                |
 | `color`           | `"primary" \| "secondary" \| "success" \| "warning" \| "destructive"` | `"primary"` | Color scheme applied when the checkbox is checked.                                           |
-| `radius`          | `"none" \| "sm" \| "md" \| "lg" \| "full"`                            | `"md"`      | Border radius of the checkbox container.                                                     |
+| `borderRadius`    | `"none" \| "sm" \| "md" \| "lg" \| "xl" \| "full"`                    | `"md"`      | Border radius of the checkbox container.                                                     |
 | `baseClassName`   | `string`                                                              | -           | Tailwind classes applied to the root element (overrides `className`).                        |
 | `iconClassName`   | `string`                                                              | -           | Tailwind classes applied to the icon element.                                                |
 
@@ -119,8 +119,8 @@ The Checkbox component is built with accessibility in mind and includes:
   - `lg` Large icon size (`w-5 h-5`).
 - `color`:
   - `primary` (default), `secondary`, `success`, `warning`, `destructive` Used when `checked` is `true`.
-- `radius`:
-  - `none`, `sm`, `md` (default), `lg`, `full` Border radius of the checkbox.
+- `borderRadius`:
+  - `none`, `sm`, `md` (default), `lg`, `xl`, `full` Border radius of the checkbox.
 - `disabled`:
   - `true` Applies `opacity-50`.
 - `loading`:

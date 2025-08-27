@@ -1,6 +1,5 @@
 import type {Preview} from "@storybook/react-native-web-vite";
-import "../global.css";
-import Theme from "../.stories/theme";
+import "../output.css";
 import React from "react";
 import {NavigationContainer} from "@react-navigation/native";
 import {Toaster} from "../.stories/ui/sonner";
@@ -30,16 +29,26 @@ const preview: Preview = {
     backgrounds: {value: "dark"},
   },
   decorators: [
-    (Story, {context}) => (
-      <Theme
-        colorScheme={context.globals.backgrounds.value as "dark" | "light"}
-      >
-        <NavigationContainer>
-          <Story />
-        </NavigationContainer>
-        <Toaster />
-      </Theme>
-    ),
+    (Story, {globals}) => {
+      const colorScheme = globals.backgrounds.value;
+      const doc = (globalThis as any).document;
+      if (doc) {
+        const root = doc.documentElement;
+        if (colorScheme === "dark") {
+          root.classList.add("dark");
+        } else {
+          root.classList.remove("dark");
+        }
+      }
+      return (
+        <>
+          <NavigationContainer>
+            <Story />
+          </NavigationContainer>
+          <Toaster />
+        </>
+      );
+    },
   ],
 };
 

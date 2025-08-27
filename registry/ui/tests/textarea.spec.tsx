@@ -36,66 +36,57 @@ describe("Textarea", () => {
 
   describe("Styles", () => {
     describe("Variants", () => {
-      const variants = [
+      it.each([
         {variant: "shadcn", expectedClass: "border-input"},
         {variant: "ghost", expectedClass: "bg-transparent"},
-      ];
-
-      variants.forEach(({variant, expectedClass}) => {
-        it(`applies ${variant} variant correctly`, () => {
-          const {getByTestId} = render(
-            <Textarea
-              testID="textarea"
-              variant={variant as "shadcn" | "ghost"}
-            />,
-          );
-          const textarea = getByTestId("textarea");
-          expect(textarea.props.className).toContain(expectedClass);
-        });
+      ])("applies $variant variant correctly", ({variant, expectedClass}) => {
+        const {getByTestId} = render(
+          <Textarea
+            testID="textarea"
+            variant={variant as "shadcn" | "ghost"}
+          />,
+        );
+        const textarea = getByTestId("textarea");
+        expect(textarea.props.className).toContain(expectedClass);
       });
     });
 
     describe("Colors", () => {
-      const colors = [
+      it.each([
         {color: "default", expectedClass: "focus-visible:ring-ring"},
         {color: "secondary", expectedClass: "focus-visible:ring-secondary"},
         {color: "destructive", expectedClass: "focus-visible:ring-destructive"},
         {color: "warning", expectedClass: "focus-visible:ring-warning"},
         {color: "success", expectedClass: "focus-visible:ring-success"},
-      ];
-
-      colors.forEach(({color, expectedClass}) => {
-        it(`applies ${color} color correctly`, () => {
-          const {getByTestId} = render(
-            <Textarea
-              testID="textarea"
-              color={
-                color as
-                  | "default"
-                  | "secondary"
-                  | "destructive"
-                  | "warning"
-                  | "success"
-              }
-            />,
-          );
-          const textarea = getByTestId("textarea");
-          expect(textarea.props.className).toContain(expectedClass);
-        });
+      ])("applies $color color correctly", ({color, expectedClass}) => {
+        const {getByTestId} = render(
+          <Textarea
+            testID="textarea"
+            color={
+              color as
+                | "default"
+                | "secondary"
+                | "destructive"
+                | "warning"
+                | "success"
+            }
+          />,
+        );
+        const textarea = getByTestId("textarea");
+        expect(textarea.props.className).toContain(expectedClass);
       });
     });
 
     describe("Border Radius", () => {
-      const borderRadii = [
+      it.each([
         {borderRadius: "none", expectedClass: "rounded-none"},
         {borderRadius: "sm", expectedClass: "rounded-sm"},
         {borderRadius: "md", expectedClass: "rounded-md"},
         {borderRadius: "lg", expectedClass: "rounded-lg"},
         {borderRadius: "xl", expectedClass: "rounded-xl"},
-      ];
-
-      borderRadii.forEach(({borderRadius, expectedClass}) => {
-        it(`applies ${borderRadius} border radius correctly`, () => {
+      ])(
+        "applies $borderRadius border radius correctly",
+        ({borderRadius, expectedClass}) => {
           const {getByTestId} = render(
             <Textarea
               testID="textarea"
@@ -104,8 +95,8 @@ describe("Textarea", () => {
           );
           const textarea = getByTestId("textarea");
           expect(textarea.props.className).toContain(expectedClass);
-        });
-      });
+        },
+      );
     });
 
     it("applies disabled style correctly", () => {

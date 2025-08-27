@@ -29,7 +29,7 @@ const meta: Meta<typeof Card> = {
       },
       options: ["shadcn", "outline", "ghost"],
     },
-    radius: {
+    borderRadius: {
       control: "select",
       description:
         "Sets the border radius of the card. Controls the roundness of the card corners.",
@@ -82,7 +82,7 @@ const meta: Meta<typeof Card> = {
   },
   args: {
     variant: "shadcn",
-    radius: "xl",
+    borderRadius: "xl",
     blurred: false,
     pressable: false,
     disabled: false,

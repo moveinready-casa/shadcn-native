@@ -110,6 +110,10 @@ export const BorderRadius: Story = {
   render: (args) => (
     <View style={{gap: 12}}>
       <ScrollAreaStory {...args} borderRadius="none" />
+      <ScrollAreaStory {...args} borderRadius="sm" />
+      <ScrollAreaStory {...args} borderRadius="md" />
+      <ScrollAreaStory {...args} borderRadius="lg" />
+      <ScrollAreaStory {...args} borderRadius="xl" />
     </View>
   ),
 };

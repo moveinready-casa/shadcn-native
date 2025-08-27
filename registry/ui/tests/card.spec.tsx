@@ -120,42 +120,29 @@ describe("Card", () => {
     });
   });
 
-  describe("Radius prop", () => {
-    it("applies default radius (xl) correctly", () => {
+  describe("BorderRadius prop", () => {
+    it("applies default borderRadius (xl) correctly", () => {
       const {getByTestId} = render(<TestCard />);
       const card = getByTestId("card");
       expect(card.props.className).toContain("rounded-xl");
     });
 
-    it("applies none radius correctly", () => {
-      const {getByTestId} = render(<TestCard cardProps={{radius: "none"}} />);
-      const card = getByTestId("card");
-      expect(card.props.className).toContain("rounded-none");
-    });
-
-    it("applies sm radius correctly", () => {
-      const {getByTestId} = render(<TestCard cardProps={{radius: "sm"}} />);
-      const card = getByTestId("card");
-      expect(card.props.className).toContain("rounded-sm");
-    });
-
-    it("applies md radius correctly", () => {
-      const {getByTestId} = render(<TestCard cardProps={{radius: "md"}} />);
-      const card = getByTestId("card");
-      expect(card.props.className).toContain("rounded-md");
-    });
-
-    it("applies lg radius correctly", () => {
-      const {getByTestId} = render(<TestCard cardProps={{radius: "lg"}} />);
-      const card = getByTestId("card");
-      expect(card.props.className).toContain("rounded-lg");
-    });
-
-    it("applies xl radius correctly", () => {
-      const {getByTestId} = render(<TestCard cardProps={{radius: "xl"}} />);
-      const card = getByTestId("card");
-      expect(card.props.className).toContain("rounded-xl");
-    });
+    it.each([
+      {borderRadius: "none", expectedClass: "rounded-none"},
+      {borderRadius: "sm", expectedClass: "rounded-sm"},
+      {borderRadius: "md", expectedClass: "rounded-md"},
+      {borderRadius: "lg", expectedClass: "rounded-lg"},
+      {borderRadius: "xl", expectedClass: "rounded-xl"},
+    ])(
+      "applies $borderRadius borderRadius correctly",
+      ({borderRadius, expectedClass}) => {
+        const {getByTestId} = render(
+          <TestCard cardProps={{borderRadius: borderRadius as any}} />,
+        );
+        const card = getByTestId("card");
+        expect(card.props.className).toContain(expectedClass);
+      },
+    );
   });
 
   describe("Blurred prop", () => {
@@ -432,7 +419,7 @@ describe("Card", () => {
           cardProps={{
             baseClassName: "base-with-variant",
             variant: "outline",
-            radius: "sm",
+            borderRadius: "sm",
             blurred: true,
           }}
         />,
@@ -559,7 +546,7 @@ describe("Card", () => {
         <TestCard
           cardProps={{
             variant: "outline",
-            radius: "lg",
+            borderRadius: "lg",
             blurred: true,
             pressable: true,
             disabled: true,

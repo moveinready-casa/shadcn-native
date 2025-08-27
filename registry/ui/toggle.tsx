@@ -18,7 +18,7 @@ import {tv} from "tailwind-variants";
  * @param disabled Disables the toggle.
  * @param asChild Render prop to clone styles/props into child.
  * @param variant Visual variant.
- * @param size Size variant.
+ * @param size Size variant (sm, md, lg, xl).
  * @param className Tailwind className.
  * @param children Children content.
  * @param aria-label Web aria-label mapping support.
@@ -31,7 +31,7 @@ export type ToggleProps = {
   disabled?: boolean;
   asChild?: boolean;
   variant?: "default" | "outline";
-  size?: "default" | "sm" | "lg";
+  size?: "sm" | "md" | "lg" | "xl";
   className?: string;
   children?: ReactNode;
   "aria-label"?: string;
@@ -146,9 +146,10 @@ export const toggle = tv({
         "border border-input bg-transparent shadow-sm hover:bg-accent hover:text-accent-foreground",
     },
     size: {
-      default: "h-9 px-2 min-w-9",
       sm: "h-8 px-1.5 min-w-8",
+      md: "h-9 px-2 min-w-9",
       lg: "h-10 px-2.5 min-w-10",
+      xl: "h-11 px-3 min-w-11",
     },
     selected: {
       true: "bg-accent text-accent-foreground",
@@ -159,7 +160,7 @@ export const toggle = tv({
   },
   defaultVariants: {
     variant: "default",
-    size: "default",
+    size: "md",
   },
 });
 
@@ -177,7 +178,7 @@ export function Toggle({
   disabled = false,
   asChild = false,
   variant = "default",
-  size = "default",
+  size = "md",
   className,
   children,
   testID,

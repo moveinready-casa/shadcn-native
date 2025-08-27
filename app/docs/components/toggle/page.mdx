@@ -34,19 +34,19 @@ import {Toggle} from "@/components/ui/toggle";
 
 ### Toggle
 
-| Prop              | Type                         | Default     | Description                                                                                              |
-| ----------------- | ---------------------------- | ----------- | -------------------------------------------------------------------------------------------------------- |
-| `pressed`         | `boolean`                    | -           | Controlled pressed state. When provided, the component becomes controlled.                               |
-| `defaultPressed`  | `boolean`                    | `false`     | Uncontrolled initial pressed state. Used when `pressed` is not provided.                                 |
-| `onPressedChange` | `(pressed: boolean) => void` | -           | Callback fired when the pressed state should change.                                                     |
-| `disabled`        | `boolean`                    | `false`     | Disables the toggle. Prevents interaction and reduces opacity.                                           |
-| `asChild`         | `boolean`                    | `false`     | If true, clones props to the nearest child instead of rendering a Pressable. Useful for custom elements. |
-| `variant`         | `"default" \| "outline"`     | `"default"` | The visual variant of the toggle. Controls the styling approach.                                         |
-| `size`            | `"default" \| "sm" \| "lg"`  | `"default"` | Sets the size of the toggle. Controls height, padding, and text size.                                    |
-| `className`       | `string`                     | -           | Custom Tailwind CSS classes to apply to the toggle.                                                      |
-| `children`        | `ReactNode`                  | -           | Content to display inside the toggle.                                                                    |
-| `aria-label`      | `string`                     | -           | Web accessibility label for screen readers.                                                              |
-| `testID`          | `string`                     | -           | React Native test identifier for testing frameworks.                                                     |
+| Prop              | Type                           | Default     | Description                                                                                              |
+| ----------------- | ------------------------------ | ----------- | -------------------------------------------------------------------------------------------------------- |
+| `pressed`         | `boolean`                      | -           | Controlled pressed state. When provided, the component becomes controlled.                               |
+| `defaultPressed`  | `boolean`                      | `false`     | Uncontrolled initial pressed state. Used when `pressed` is not provided.                                 |
+| `onPressedChange` | `(pressed: boolean) => void`   | -           | Callback fired when the pressed state should change.                                                     |
+| `disabled`        | `boolean`                      | `false`     | Disables the toggle. Prevents interaction and reduces opacity.                                           |
+| `asChild`         | `boolean`                      | `false`     | If true, clones props to the nearest child instead of rendering a Pressable. Useful for custom elements. |
+| `variant`         | `"default" \| "outline"`       | `"default"` | The visual variant of the toggle. Controls the styling approach.                                         |
+| `size`            | `"sm" \| "md" \| "lg" \| "xl"` | `"md"`      | Sets the size of the toggle. Controls height, padding, and text size.                                    |
+| `className`       | `string`                       | -           | Custom Tailwind CSS classes to apply to the toggle.                                                      |
+| `children`        | `ReactNode`                    | -           | Content to display inside the toggle.                                                                    |
+| `aria-label`      | `string`                       | -           | Web accessibility label for screen readers.                                                              |
+| `testID`          | `string`                       | -           | React Native test identifier for testing frameworks.                                                     |
 
 ## Hooks
 
@@ -110,9 +110,10 @@ The Toggle component is built with accessibility in mind and includes:
 
 **Sizes:**
 
-- `default` (default) - Standard toggle size: `h-9 px-2 min-w-9`
 - `sm` - Small toggle size: `h-8 px-1.5 min-w-8`
+- `md` (default) - Medium toggle size: `h-9 px-2 min-w-9`
 - `lg` - Large toggle size: `h-10 px-2.5 min-w-10`
+- `xl` - Extra large toggle size: `h-11 px-3 min-w-11`
 
 **States:**
 

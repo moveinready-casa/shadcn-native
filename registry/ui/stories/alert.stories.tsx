@@ -10,7 +10,7 @@ import {HomeIcon} from "lucide-react-native";
 
 function AlertStory({
   variant,
-  radius,
+  borderRadius,
   isVisible,
   isClosable,
   hideIcon,
@@ -29,7 +29,7 @@ function AlertStory({
       asChild={asChild}
       baseClassName={baseClassName}
       variant={variant}
-      radius={radius}
+      borderRadius={borderRadius}
       isVisible={isVisible}
       isClosable={isClosable}
       hideIcon={hideIcon}
@@ -61,9 +61,9 @@ const meta: Meta<typeof AlertStory> = {
       },
       options: ["default", "destructive", "success", "warning"],
     },
-    radius: {
+    borderRadius: {
       control: "select",
-      options: ["none", "sm", "md", "lg"],
+      options: ["none", "sm", "md", "lg", "xl"],
       description: "Sets the border radius of the alert.",
       table: {
         defaultValue: {
@@ -137,24 +137,27 @@ export default meta;
 
 type Story = StoryObj<typeof meta>;
 
-export const Default: Story = {};
-
-export const Destructive: Story = {
-  args: {
-    variant: "destructive",
-  },
-};
-
-export const Success: Story = {
-  args: {
-    variant: "success",
-  },
-};
-
-export const Warning: Story = {
-  args: {
-    variant: "warning",
-  },
+export const AllVariants: Story = {
+  render: (args) => (
+    <View style={{gap: 12}}>
+      <Alert {...args} variant="default">
+        <AlertTitle>Default Alert</AlertTitle>
+        <AlertDescription>This is a default alert.</AlertDescription>
+      </Alert>
+      <Alert {...args} variant="destructive">
+        <AlertTitle>Destructive Alert</AlertTitle>
+        <AlertDescription>This is a destructive alert.</AlertDescription>
+      </Alert>
+      <Alert {...args} variant="success">
+        <AlertTitle>Success Alert</AlertTitle>
+        <AlertDescription>This is a success alert.</AlertDescription>
+      </Alert>
+      <Alert {...args} variant="warning">
+        <AlertTitle>Warning Alert</AlertTitle>
+        <AlertDescription>This is a warning alert.</AlertDescription>
+      </Alert>
+    </View>
+  ),
 };
 
 export const WithCustomIcon: Story = {
@@ -191,6 +194,6 @@ export const HiddenIcon: Story = {
 export const WithCustomStyling: Story = {
   args: {
     baseClassName: "bg-purple-300 border-purple-50 text-purple-900",
-    radius: "lg",
+    borderRadius: "lg",
   },
 };

@@ -87,174 +87,68 @@ describe("Button", () => {
   });
 
   describe("Classes", () => {
-    it("applies default variant correctly", () => {
-      const {getByTestId} = render(
-        <Button testID="button" variant="default">
-          Button
-        </Button>,
-      );
-      const button = getByTestId("button");
-      expect(button.props.className).toContain("bg-primary");
+    describe("Variants", () => {
+      it.each([
+        {variant: "default", expectedClasses: ["bg-primary"]},
+        {variant: "destructive", expectedClasses: ["bg-destructive"]},
+        {variant: "warning", expectedClasses: ["bg-warning"]},
+        {variant: "outline", expectedClasses: ["border", "bg-background"]},
+        {variant: "secondary", expectedClasses: ["bg-secondary"]},
+        {variant: "ghost", expectedClasses: ["hover:bg-accent"]},
+        {variant: "link", expectedClasses: ["underline-offset-4"]},
+      ])("applies $variant variant correctly", ({variant, expectedClasses}) => {
+        const {getByTestId} = render(
+          <Button testID="button" variant={variant as any}>
+            Button
+          </Button>,
+        );
+        const button = getByTestId("button");
+        expectedClasses.forEach((className) => {
+          expect(button.props.className).toContain(className);
+        });
+      });
     });
 
-    it("applies destructive variant correctly", () => {
-      const {getByTestId} = render(
-        <Button testID="button" variant="destructive">
-          Button
-        </Button>,
-      );
-      const button = getByTestId("button");
-      expect(button.props.className).toContain("bg-destructive");
+    describe("Sizes", () => {
+      it.each([
+        {size: "sm", expectedClasses: ["h-8", "px-3"]},
+        {size: "md", expectedClasses: ["h-9", "px-4"]},
+        {size: "lg", expectedClasses: ["h-10", "px-6"]},
+        {size: "xl", expectedClasses: ["h-11", "px-8"]},
+        {size: "icon", expectedClasses: ["size-9"]},
+      ])("applies $size size correctly", ({size, expectedClasses}) => {
+        const {getByTestId} = render(
+          <Button testID="button" size={size as any}>
+            Button
+          </Button>,
+        );
+        const button = getByTestId("button");
+        expectedClasses.forEach((className) => {
+          expect(button.props.className).toContain(className);
+        });
+      });
     });
 
-    it("applies warning variant correctly", () => {
-      const {getByTestId} = render(
-        <Button testID="button" variant="warning">
-          Button
-        </Button>,
+    describe("Border Radius", () => {
+      it.each([
+        {borderRadius: "none", expectedClass: "rounded-none"},
+        {borderRadius: "sm", expectedClass: "rounded-sm"},
+        {borderRadius: "md", expectedClass: "rounded-md"},
+        {borderRadius: "lg", expectedClass: "rounded-lg"},
+        {borderRadius: "xl", expectedClass: "rounded-xl"},
+      ])(
+        "applies $borderRadius radius correctly",
+        ({borderRadius, expectedClass}) => {
+          const {getByTestId} = render(
+            <Button testID="button" borderRadius={borderRadius as any}>
+              Button
+            </Button>,
+          );
+          expect(getByTestId("button").props.className).toContain(
+            expectedClass,
+          );
+        },
       );
-      const button = getByTestId("button");
-      expect(button.props.className).toContain("bg-warning");
-    });
-
-    it("applies outline variant correctly", () => {
-      const {getByTestId} = render(
-        <Button testID="button" variant="outline">
-          Button
-        </Button>,
-      );
-      const button = getByTestId("button");
-      expect(button.props.className).toContain("border");
-      expect(button.props.className).toContain("bg-background");
-    });
-
-    it("applies secondary variant correctly", () => {
-      const {getByTestId} = render(
-        <Button testID="button" variant="secondary">
-          Button
-        </Button>,
-      );
-      const button = getByTestId("button");
-      expect(button.props.className).toContain("bg-secondary");
-    });
-
-    it("applies ghost variant correctly", () => {
-      const {getByTestId} = render(
-        <Button testID="button" variant="ghost">
-          Button
-        </Button>,
-      );
-      const button = getByTestId("button");
-      expect(button.props.className).toContain("hover:bg-accent");
-    });
-
-    it("applies link variant correctly", () => {
-      const {getByTestId} = render(
-        <Button testID="button" variant="link">
-          Button
-        </Button>,
-      );
-      const button = getByTestId("button");
-      expect(button.props.className).toContain("underline-offset-4");
-    });
-
-    it("applies default size correctly", () => {
-      const {getByTestId} = render(
-        <Button testID="button" size="md">
-          Button
-        </Button>,
-      );
-      const button = getByTestId("button");
-      expect(button.props.className).toContain("h-9");
-      expect(button.props.className).toContain("px-4");
-    });
-
-    it("applies sm size correctly", () => {
-      const {getByTestId} = render(
-        <Button testID="button" size="sm">
-          Button
-        </Button>,
-      );
-      const button = getByTestId("button");
-      expect(button.props.className).toContain("h-8");
-      expect(button.props.className).toContain("px-3");
-    });
-
-    it("applies lg size correctly", () => {
-      const {getByTestId} = render(
-        <Button testID="button" size="lg">
-          Button
-        </Button>,
-      );
-      const button = getByTestId("button");
-      expect(button.props.className).toContain("h-10");
-      expect(button.props.className).toContain("px-6");
-    });
-
-    it("applies xl size correctly", () => {
-      const {getByTestId} = render(
-        <Button testID="button" size="xl">
-          Button
-        </Button>,
-      );
-      const button = getByTestId("button");
-      expect(button.props.className).toContain("h-11");
-      expect(button.props.className).toContain("px-8");
-    });
-
-    it("applies icon size correctly", () => {
-      const {getByTestId} = render(
-        <Button testID="button" size="icon">
-          Button
-        </Button>,
-      );
-      const button = getByTestId("button");
-      expect(button.props.className).toContain("size-9");
-    });
-
-    it("applies none radius correctly", () => {
-      const {getByTestId} = render(
-        <Button testID="button" borderRadius="none">
-          Button
-        </Button>,
-      );
-      expect(getByTestId("button").props.className).toContain("rounded-none");
-    });
-
-    it("applies sm radius correctly", () => {
-      const {getByTestId} = render(
-        <Button testID="button" borderRadius="sm">
-          Button
-        </Button>,
-      );
-      expect(getByTestId("button").props.className).toContain("rounded-sm");
-    });
-
-    it("applies md radius correctly", () => {
-      const {getByTestId} = render(
-        <Button testID="button" borderRadius="md">
-          Button
-        </Button>,
-      );
-      expect(getByTestId("button").props.className).toContain("rounded-md");
-    });
-
-    it("applies lg radius correctly", () => {
-      const {getByTestId} = render(
-        <Button testID="button" borderRadius="lg">
-          Button
-        </Button>,
-      );
-      expect(getByTestId("button").props.className).toContain("rounded-lg");
-    });
-
-    it("applies xl radius correctly", () => {
-      const {getByTestId} = render(
-        <Button testID="button" borderRadius="xl">
-          Button
-        </Button>,
-      );
-      expect(getByTestId("button").props.className).toContain("rounded-xl");
     });
 
     it("applies disabled style correctly", () => {

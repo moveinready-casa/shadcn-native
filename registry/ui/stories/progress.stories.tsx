@@ -74,6 +74,9 @@ export const Default: Story = {
 export const Size: Story = {
   render: () => (
     <View style={{gap: 12, width: 240}}>
+      <Progress size="sm" value={50} />
+      <Progress size="md" value={50} />
+      <Progress size="lg" value={50} />
       <Progress size="xl" value={50} />
     </View>
   ),
@@ -82,6 +85,9 @@ export const Size: Story = {
 export const Color: Story = {
   render: () => (
     <View style={{gap: 12, width: 240}}>
+      <Progress color="primary" value={50} />
+      <Progress color="warning" value={50} />
+      <Progress color="destructive" value={50} />
       <Progress color="success" value={60} />
     </View>
   ),

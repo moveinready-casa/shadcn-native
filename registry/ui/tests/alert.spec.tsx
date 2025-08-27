@@ -205,8 +205,10 @@ describe("Alert", () => {
         expect(alert).toBeTruthy();
       });
 
-      it("applies radius correctly", () => {
-        const {getByTestId} = render(<TestAlert alertProps={{radius: "lg"}} />);
+      it("applies borderRadius correctly", () => {
+        const {getByTestId} = render(
+          <TestAlert alertProps={{borderRadius: "lg"}} />,
+        );
         const alert = getByTestId("alert");
         expect(alert.props.className).toContain("rounded-lg");
       });

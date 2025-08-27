@@ -53,7 +53,7 @@ A single-value slider component.
 | `inverted`              | `boolean`                                                             | `false`        | Whether the slider is inverted.                               |
 | `size`                  | `"sm" \| "md" \| "lg"`                                                | `"md"`         | The size of the slider track and thumb.                       |
 | `color`                 | `"default" \| "secondary" \| "destructive" \| "warning" \| "success"` | `"default"`    | The color theme of the slider.                                |
-| `borderRadius`          | `"none" \| "sm" \| "md" \| "lg" \| "full"`                            | `"full"`       | The border radius of the slider thumb.                        |
+| `borderRadius`          | `"none" \| "sm" \| "md" \| "lg" \| "xl" \| "full"`                    | `"full"`       | The border radius of the slider thumb.                        |
 | `name`                  | `string`                                                              | -              | The name attribute of the slider.                             |
 | `dir`                   | `"ltr" \| "rtl"`                                                      | -              | The direction of the slider (left-to-right or right-to-left). |
 | `form`                  | `string`                                                              | -              | The form attribute of the slider.                             |
@@ -73,7 +73,7 @@ The draggable thumb component of the slider.
 | -------------- | --------------------------------------------------------------------- | ----------- | -------------------------------------- |
 | `size`         | `"sm" \| "md" \| "lg"`                                                | `"md"`      | The size of the slider thumb.          |
 | `color`        | `"default" \| "secondary" \| "destructive" \| "warning" \| "success"` | `"default"` | The color theme of the slider thumb.   |
-| `borderRadius` | `"none" \| "sm" \| "md" \| "lg" \| "full"`                            | `"full"`    | The border radius of the slider thumb. |
+| `borderRadius` | `"none" \| "sm" \| "md" \| "lg" \| "xl" \| "full"`                    | `"full"`    | The border radius of the slider thumb. |
 | `value`        | `number`                                                              | -           | The current value of the slider thumb. |
 
 ### SliderTrack
@@ -134,6 +134,7 @@ The backbone hook for the slider component that provides state management and ac
 - `sm` - Small radius: `rounded-sm`
 - `md` - Medium radius: `rounded-md`
 - `lg` - Large radius: `rounded-lg`
+- `xl` - Extra large radius: `rounded-xl`
 - `full` (default) - Full radius: `rounded-full`
 
 **Orientation:**

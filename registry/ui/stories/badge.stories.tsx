@@ -1,5 +1,5 @@
 import React from "react";
-import {Text} from "react-native";
+import {Text, View} from "react-native";
 import {Badge} from "../badge";
 import {Meta, StoryObj} from "@storybook/react-native";
 import {Loader2} from "lucide-react-native";
@@ -22,16 +22,27 @@ const meta: Meta<typeof Badge> = {
       },
       options: ["default", "secondary", "destructive", "outline"],
     },
+    size: {
+      control: "select",
+      description:
+        "Sets the size of the badge. Controls padding, text size, and icon size.",
+      table: {
+        defaultValue: {
+          summary: "md",
+        },
+      },
+      options: ["sm", "md", "lg", "xl"],
+    },
     borderRadius: {
       control: "select",
       description:
         "Sets the border radius of the badge. Mirrors the Avatar component radius options.",
       table: {
         defaultValue: {
-          summary: "full",
+          summary: "lg",
         },
       },
-      options: ["none", "sm", "md", "lg", "full"],
+      options: ["none", "sm", "md", "lg", "xl"],
     },
     disabled: {
       control: "boolean",
@@ -92,10 +103,27 @@ export const Default: Story = {
   },
 };
 
+export const Sizes: Story = {
+  render: () => (
+    <View style={{gap: 12}}>
+      <Badge size="sm">Small</Badge>
+      <Badge size="md">Medium</Badge>
+      <Badge size="lg">Large</Badge>
+      <Badge size="xl">Extra Large</Badge>
+    </View>
+  ),
+};
+
 export const BorderRadius: Story = {
-  args: {
-    borderRadius: "lg",
-  },
+  render: () => (
+    <View style={{gap: 12}}>
+      <Badge borderRadius="none">None</Badge>
+      <Badge borderRadius="sm">Small</Badge>
+      <Badge borderRadius="md">Medium</Badge>
+      <Badge borderRadius="lg">Large</Badge>
+      <Badge borderRadius="xl">Extra Large</Badge>
+    </View>
+  ),
 };
 
 export const StatusIndicators: Story = {

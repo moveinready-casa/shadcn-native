@@ -13,7 +13,7 @@ import {tv} from "tailwind-variants";
  * @param defaultValue - Uncontrolled default value for the tabs (which tab is selected).
  * @param onValueChange - Callback function called when the tab value changes.
  * @param orientation - The orientation of the tabs. Horizontal displays tabs in a row, vertical displays them in a column.
- * @param size - The size of the tabs. Controls the height and spacing of tab elements.
+ * @param size - The size of the tabs. Controls the height and spacing of tab elements (sm, md, lg, xl).
  * @param variant - The visual style variant for the entire tabs group.
  * @param borderRadius - The border radius applied to the list container.
  */
@@ -22,7 +22,7 @@ export type TabsProps = {
   defaultValue?: string;
   onValueChange?: (value: string) => void;
   orientation?: "horizontal" | "vertical";
-  size?: "sm" | "md" | "lg";
+  size?: "sm" | "md" | "lg" | "xl";
   variant?: "shadcn" | "underlined" | "outlined" | "ghost";
   borderRadius?: "none" | "sm" | "md" | "lg" | "xl";
 } & ComponentProps<typeof View>;
@@ -280,7 +280,7 @@ export const TabsListContext = createContext<TabsListReturn | null>(null);
  * Conditional classes for the tabs list component.
  * It includes the following variants:
  * - orientation: Controls the layout direction (horizontal/vertical)
- * - size: Controls the height and spacing (sm/md/lg)
+ * - size: Controls the height and spacing (sm/md/lg/xl)
  * - radius: Controls the border radius (none/sm/md/lg/xl)
  * - variant: Controls the visual style (shadcn/underlined/outlined/ghost)
  * @see TabsListComponentProps
@@ -296,6 +296,7 @@ export const tabsList = tv({
       sm: "h-9",
       md: "h-10",
       lg: "h-11",
+      xl: "h-12",
     },
     radius: {
       none: "rounded-none",

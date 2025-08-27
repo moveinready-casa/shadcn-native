@@ -19,83 +19,57 @@ describe("Badge", () => {
   });
 
   describe("Variant styling", () => {
-    it("applies default variant correctly", () => {
+    it.each([
+      ["default", "bg-primary"],
+      ["secondary", "bg-secondary"],
+      ["destructive", "bg-destructive"],
+      ["outline", "border"],
+    ])("applies %s variant correctly", (variant, expectedClass) => {
       const {getByTestId} = render(
-        <Badge testID="badge" variant="default">
+        <Badge testID="badge" variant={variant as any}>
           Badge
         </Badge>,
       );
       const badge = getByTestId("badge");
-      expect(badge.props.className).toContain("bg-primary");
-    });
-
-    it("applies secondary variant correctly", () => {
-      const {getByTestId} = render(
-        <Badge testID="badge" variant="secondary">
-          Badge
-        </Badge>,
-      );
-      const badge = getByTestId("badge");
-      expect(badge.props.className).toContain("bg-secondary");
-    });
-
-    it("applies destructive variant correctly", () => {
-      const {getByTestId} = render(
-        <Badge testID="badge" variant="destructive">
-          Badge
-        </Badge>,
-      );
-      const badge = getByTestId("badge");
-      expect(badge.props.className).toContain("bg-destructive");
-    });
-
-    it("applies outline variant correctly", () => {
-      const {getByTestId} = render(
-        <Badge testID="badge" variant="outline">
-          Badge
-        </Badge>,
-      );
-      const badge = getByTestId("badge");
-      expect(badge.props.className).toContain("border");
+      expect(badge.props.className).toContain(expectedClass);
     });
   });
 
   describe("Border radius variants", () => {
-    it("applies none radius correctly", () => {
+    it.each([
+      ["none", "rounded-none"],
+      ["sm", "rounded-sm"],
+      ["md", "rounded-md"],
+      ["lg", "rounded-lg"],
+      ["xl", "rounded-xl"],
+    ])("applies %s radius correctly", (radius, expectedClass) => {
       const {getByTestId} = render(
-        <Badge testID="badge" borderRadius="none">
+        <Badge testID="badge" borderRadius={radius as any}>
           Badge
         </Badge>,
       );
-      expect(getByTestId("badge").props.className).toContain("rounded-none");
+      expect(getByTestId("badge").props.className).toContain(expectedClass);
     });
+  });
 
-    it("applies sm radius correctly", () => {
-      const {getByTestId} = render(
-        <Badge testID="badge" borderRadius="sm">
-          Badge
-        </Badge>,
-      );
-      expect(getByTestId("badge").props.className).toContain("rounded-sm");
-    });
-
-    it("applies md radius correctly", () => {
-      const {getByTestId} = render(
-        <Badge testID="badge" borderRadius="md">
-          Badge
-        </Badge>,
-      );
-      expect(getByTestId("badge").props.className).toContain("rounded-md");
-    });
-
-    it("applies lg radius correctly", () => {
-      const {getByTestId} = render(
-        <Badge testID="badge" borderRadius="lg">
-          Badge
-        </Badge>,
-      );
-      expect(getByTestId("badge").props.className).toContain("rounded-lg");
-    });
+  describe("Size variants", () => {
+    it.each([
+      ["sm", "px-1.5", "py-0.5"],
+      ["md", "px-2", "py-0.5"],
+      ["lg", "px-2.5", "py-1"],
+      ["xl", "px-3", "py-1.5"],
+    ])(
+      "applies %s size correctly",
+      (size, expectedPxClass, expectedPyClass) => {
+        const {getByTestId} = render(
+          <Badge testID="badge" size={size as any}>
+            Badge
+          </Badge>,
+        );
+        expect(getByTestId("badge").props.className).toContain(expectedPxClass);
+        expect(getByTestId("badge").props.className).toContain(expectedPyClass);
+      },
+    );
   });
 
   describe("Disabled state", () => {

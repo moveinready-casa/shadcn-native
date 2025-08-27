@@ -51,7 +51,7 @@ import {Tabs, TabsContent, TabsList, TabsTrigger} from "@/components/ui/tabs";
 | `defaultValue`  | `string`                                            | -              | Uncontrolled default value for the tabs (which tab is selected).                                       |
 | `onValueChange` | `(value: string) => void`                           | -              | Callback function called when the tab value changes.                                                   |
 | `orientation`   | `"horizontal" \| "vertical"`                        | `"horizontal"` | The orientation of the tabs. Horizontal displays tabs in a row, vertical displays them in a column.    |
-| `size`          | `"sm" \| "md" \| "lg"`                              | `"md"`         | The size of the tabs. Controls the height and spacing of tab elements.                                 |
+| `size`          | `"sm" \| "md" \| "lg" \| "xl"`                      | `"md"`         | The size of the tabs. Controls the height and spacing of tab elements.                                 |
 | `variant`       | `"shadcn" \| "underlined" \| "outlined" \| "ghost"` | `"shadcn"`     | The visual style variant for the entire tabs group.                                                    |
 | `borderRadius`  | `"none" \| "sm" \| "md" \| "lg" \| "xl"`            | `"md"`         | The border radius applied to the list container.                                                       |
 | `asChild`       | `boolean`                                           | `false`        | If true clones the child and passes all functionality props to it.                                     |
@@ -233,6 +233,7 @@ The Tabs component is built with accessibility in mind and includes:
   - `sm` - Small height: `h-9`
   - `md` (default) - Medium height: `h-10`
   - `lg` - Large height: `h-11`
+  - `xl` - Extra large height: `h-12`
 
 - `radius`:
   - `none` - No radius: `rounded-none`

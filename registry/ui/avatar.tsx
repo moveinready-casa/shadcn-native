@@ -29,14 +29,14 @@ export type AvatarContextValue = {
  * Props for the `Avatar` component.
  * @param baseClassName - Custom tailwind classes applied to the root element. Takes precedence over the `className` prop.
  * @param size - Avatar size
- * @param radius - Border radius
+ * @param borderRadius - Border radius
  * @param isBordered - Adds a ring border
  * @param isDisabled - Disabled state
  */
 export type AvatarComponentProps = {
   baseClassName?: string;
-  size?: "sm" | "md" | "lg";
-  radius?: "none" | "sm" | "md" | "lg" | "full";
+  size?: "sm" | "md" | "lg" | "xl";
+  borderRadius?: "none" | "sm" | "md" | "lg" | "xl" | "full";
   variant?: "shadcn" | "warning" | "error" | "success";
   isBordered?: boolean;
   isDisabled?: boolean;
@@ -77,12 +77,14 @@ export const avatar = tv({
       sm: "w-8 h-8 text-sm",
       md: "w-10 h-10 text-base",
       lg: "w-12 h-12 text-lg",
+      xl: "w-16 h-16 text-xl",
     },
-    radius: {
+    borderRadius: {
       none: "rounded-none",
       sm: "rounded-sm",
       md: "rounded-md",
       lg: "rounded-lg",
+      xl: "rounded-xl",
       full: "rounded-full",
     },
     isBordered: {
@@ -112,7 +114,7 @@ export const avatar = tv({
   defaultVariants: {
     variant: "shadcn",
     size: "md",
-    radius: "full",
+    borderRadius: "full",
     isBordered: false,
     isDisabled: false,
   },
@@ -147,7 +149,7 @@ export function Avatar({
   children,
   baseClassName,
   size = "md",
-  radius = "full",
+  borderRadius = "full",
   isBordered = false,
   isDisabled = false,
   variant = "shadcn",
@@ -157,7 +159,7 @@ export function Avatar({
 
   const className = avatar({
     size,
-    radius,
+    borderRadius,
     isBordered,
     isDisabled,
     variant,
