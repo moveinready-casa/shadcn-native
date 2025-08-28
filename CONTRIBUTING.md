@@ -70,4 +70,4 @@ Once you are done you can open a pull request. Open it against the `dev` branch.
 
 ## Contribution ideas
 
-If you want to contribute but don't know what to do check our [Github projects board](https://github.com/orgs/moveinready-casa/projects/2/views/1?template_dialog_tab=all&layout_template=board).
+If you want to contribute but don't know what to do we suggest you start by adding missing components from shadcn/ui.
