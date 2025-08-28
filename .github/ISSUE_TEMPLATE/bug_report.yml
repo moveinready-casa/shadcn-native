@@ -1,0 +1,97 @@
+name: 🐛 Bug Report
+description: Report a bug to help us improve shadcn-native
+title: "[Bug]: "
+labels: ["bug", "triage"]
+assignees: []
+
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Thanks for taking the time to fill out this bug report! Please provide as much detail as possible to help us understand and reproduce the issue.
+
+  - type: checkboxes
+    id: affected-areas
+    attributes:
+      label: What is affected?
+      description: Check all areas that are affected by this bug
+      options:
+        - label: Documentation
+        - label: Storybook
+        - label: Tests
+        - label: Components
+        - label: Other (please specify in description)
+
+  - type: textarea
+    id: bug-description
+    attributes:
+      label: Description of the bug
+      description: A clear and concise description of the bug
+      placeholder: Describe what happened and what you expected to happen
+    validations:
+      required: true
+
+  - type: textarea
+    id: steps-to-reproduce
+    attributes:
+      label: Steps to reproduce
+      description: Steps to reproduce the behavior
+      placeholder: |
+        1. Go to '...'
+        2. Click on '....'
+        3. Scroll down to '....'
+        4. See error
+    validations:
+      required: true
+
+  - type: textarea
+    id: react-native-info
+    attributes:
+      label: React Native Info
+      description: Run `npx react-native info` and paste the output here
+      placeholder: Paste the output of `npx react-native info` here
+      render: shell
+    validations:
+      required: true
+
+  - type: checkboxes
+    id: affected-platforms
+    attributes:
+      label: Affected platforms
+      description: Check all platforms where you've observed this bug. Note these are currently the only supported platforms.
+      options:
+        - label: iOS
+        - label: Android
+        - label: Web
+    validations:
+      required: true
+
+  - type: textarea
+    id: reproduction-link
+    attributes:
+      label: Reproduction link
+      description: Please provide a link to a reproduction case (e.g., GitHub repository, Expo Snack, CodeSandbox)
+      placeholder: https://github.com/username/repo or https://snack.expo.dev/...
+    validations:
+      required: true
+
+  - type: textarea
+    id: additional-info
+    attributes:
+      label: Additional information
+      description: |
+        Add any other context about the problem here. This could include:
+        - Screenshots or videos showing the issue
+        - Error messages or logs
+        - Workarounds you've tried
+        - Any other relevant information
+      placeholder: Add any additional context, screenshots, error logs, or other relevant information here
+
+  - type: checkboxes
+    id: terms
+    attributes:
+      label: Code of Conduct
+      description: By submitting this issue, you agree to follow our Code of Conduct
+      options:
+        - label: I agree to follow this project's Code of Conduct
+          required: true
