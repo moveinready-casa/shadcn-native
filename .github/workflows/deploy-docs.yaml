@@ -36,10 +36,10 @@ jobs:
         run: |
           if [ "${{ github.ref }}" = "refs/heads/main" ]; then
             echo "Deploying to production..."
-            deployment_url=$(vercel --prod --token=${{ secrets.VERCEL_TOKEN }})
+            deployment_url=$(vercel --prod --token=${{ secrets.VERCEL_TOKEN }} --yes)
           else
             echo "Deploying preview..."
-            deployment_url=$(vercel --token=${{ secrets.VERCEL_TOKEN }})
+            deployment_url=$(vercel --token=${{ secrets.VERCEL_TOKEN }} --yes)
           fi
           echo "deployment_url=$deployment_url" >> $GITHUB_OUTPUT
           echo "### 🚀 Deployment Complete!" >> $GITHUB_STEP_SUMMARY
