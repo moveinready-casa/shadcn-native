@@ -69,6 +69,6 @@ export default {
   component: Colors,
 };
 
-export const AllColors = {
+export const Default = {
   render: () => <Colors />,
 };

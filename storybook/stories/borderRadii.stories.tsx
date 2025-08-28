@@ -71,6 +71,6 @@ export default {
   component: BorderRadii,
 };
 
-export const AllBorderRadii = {
+export const Default = {
   render: () => <BorderRadii />,
 };
