@@ -24,8 +24,10 @@ jobs:
           version: "10.13.1"
       - name: Install dependencies
         run: pnpm install --frozen-lockfile
+        working-directory: ./storybook
       - name: Run Chromatic
         uses: chromaui/action@latest
         with:
           projectToken: ${{ secrets.CHROMATIC_PROJECT_TOKEN }}
           autoAcceptChanges: "main"
+          workingDir: ./storybook
