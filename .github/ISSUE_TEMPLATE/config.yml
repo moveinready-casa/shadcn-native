@@ -6,6 +6,12 @@ contact_links:
   - name: 📚 Documentation
     url: https://shadcn-native.moveinready.casa/
     about: Check the documentation for usage guides and examples
+  - name: 🛡️ Security Policy
+    url: https://github.com/moveinready-casa/shadcn-native/security/policy
+    about: Report vulnerabilities privately (see supported info and process)
+  - name: 📜 Contributing
+    url: https://github.com/moveinready-casa/shadcn-native/blob/main/CONTRIBUTING.md
+    about: See how to contribute to this project
   - name: 🎨 Storybook
     url: https://main--68af7af75f72e5521a7e0f93.chromatic.com/?path=/docs/welcome--docs
     about: View component examples and demos in Storybook
