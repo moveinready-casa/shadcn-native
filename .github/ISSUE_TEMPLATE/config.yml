@@ -1,0 +1,11 @@
+blank_issues_enabled: true
+contact_links:
+  - name: 💬 Discussions
+    url: https://github.com/moveinready-casa/shadcn-native/discussions
+    about: Have a question? Ask it here.
+  - name: 📚 Documentation
+    url: https://shadcn-native.moveinready.casa/
+    about: Check the documentation for usage guides and examples
+  - name: 🎨 Storybook
+    url: https://main--68af7af75f72e5521a7e0f93.chromatic.com/?path=/docs/welcome--docs
+    about: View component examples and demos in Storybook
