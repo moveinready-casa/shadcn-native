@@ -122,7 +122,7 @@ const BreadcrumbStory = ({
 };
 
 const meta: Meta<typeof BreadcrumbStory> = {
-  title: "Breadcrumb",
+  title: "Components/Breadcrumb",
   component: BreadcrumbStory,
   argTypes: {
     size: {

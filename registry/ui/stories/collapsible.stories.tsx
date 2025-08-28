@@ -59,7 +59,7 @@ function CollapsibleStory({
 }
 
 const meta: Meta<typeof CollapsibleStory> = {
-  title: "Collapsible",
+  title: "Components/Collapsible",
   component: CollapsibleStory,
   tags: ["autodocs"],
   argTypes: {

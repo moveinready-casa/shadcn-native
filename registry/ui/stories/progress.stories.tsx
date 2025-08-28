@@ -12,7 +12,7 @@ function ProgressStory({...props}: ProgressComponentProps) {
 }
 
 const meta: Meta<typeof Progress> = {
-  title: "Progress",
+  title: "Components/Progress",
   component: ProgressStory,
   parameters: {
     layout: "centered",

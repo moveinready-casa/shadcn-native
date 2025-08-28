@@ -4,7 +4,7 @@ import {Meta, StoryObj} from "@storybook/react-native";
 import {Textarea} from "../textarea";
 
 const meta: Meta<typeof Textarea> = {
-  title: "Textarea",
+  title: "Components/Textarea",
   component: Textarea,
   parameters: {
     layout: "centered",

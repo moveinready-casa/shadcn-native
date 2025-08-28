@@ -25,7 +25,7 @@ function SeparatorStory({...props}: SeparatorComponentProps) {
 }
 
 const meta: Meta<typeof Separator> = {
-  title: "Separator",
+  title: "Components/Separator",
   component: SeparatorStory,
   parameters: {
     layout: "centered",

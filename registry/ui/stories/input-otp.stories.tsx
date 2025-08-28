@@ -29,7 +29,7 @@ function InputOTPStory() {
 }
 
 const meta: Meta<typeof InputOTPStory> = {
-  title: "InputOTP",
+  title: "Components/InputOTP",
   component: InputOTPStory,
   parameters: {
     layout: "centered",

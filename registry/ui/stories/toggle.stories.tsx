@@ -5,7 +5,7 @@ import {Meta, StoryObj} from "@storybook/react-native";
 import {ItalicIcon} from "lucide-react-native";
 
 const meta: Meta<typeof Toggle> = {
-  title: "Toggle",
+  title: "Components/Toggle",
   component: Toggle,
   parameters: {
     layout: "centered",

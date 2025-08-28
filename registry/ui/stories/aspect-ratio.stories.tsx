@@ -22,7 +22,7 @@ function AspectRatioStory({ratio, asChild, baseClassName}: AspectRatioProps) {
 }
 
 const meta: Meta<typeof AspectRatioStory> = {
-  title: "AspectRatio",
+  title: "Components/AspectRatio",
   component: AspectRatioStory,
   argTypes: {
     ratio: {

@@ -1,5 +1,5 @@
 import {BookOpen, Github, MoveRight} from "lucide-react";
-import {Button} from "@/components/ui/button";
+import {Button} from "../ui/button";
 import Link from "next/link";
 
 export const Hero = () => (
@@ -24,7 +24,7 @@ export const Hero = () => (
             </Link>
           </Button>
           <Button size="lg" className="gap-4" variant="outline" asChild>
-            <Link href="https://www.storybook.shadcn-native.moveinready.casa">
+            <Link href={process.env.STORYBOOK_URL || "/"}>
               Preview Components <BookOpen className="h-4 w-4" />
             </Link>
           </Button>

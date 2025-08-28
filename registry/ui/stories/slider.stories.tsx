@@ -10,7 +10,7 @@ function SliderStory({...props}) {
   );
 }
 const meta: Meta<typeof Slider> = {
-  title: "Slider",
+  title: "Components/Slider",
   component: SliderStory,
   parameters: {
     layout: "centered",

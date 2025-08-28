@@ -16,7 +16,7 @@ function SkeletonStory(props: SkeletonProps) {
 }
 
 const meta: Meta<typeof SkeletonStory> = {
-  title: "Skeleton",
+  title: "Components/Skeleton",
   component: SkeletonStory,
   parameters: {
     layout: "centered",

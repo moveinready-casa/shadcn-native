@@ -48,7 +48,7 @@ function AlertStory({
 }
 
 const meta: Meta<typeof AlertStory> = {
-  title: "Alert",
+  title: "Components/Alert",
   component: AlertStory,
   argTypes: {
     variant: {
