@@ -1,0 +1,101 @@
+name: 🧩 Component RFC
+description: Propose adding a new component from shadcn/ui to shadcn-native
+title: "[Component RFC]: "
+labels: ["rfc", "component", "enhancement"]
+assignees: []
+
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Thanks for proposing a new component! We currently only accept components that already exist in [shadcn/ui](https://ui.shadcn.com/docs/components).
+
+        Please make sure the component you're proposing exists in the official shadcn/ui library before submitting this RFC.
+
+  - type: input
+    id: component-name
+    attributes:
+      label: Component Name
+      description: Name of the component (e.g., "Data Table", "Command", "Calendar")
+      placeholder: Enter the component name
+    validations:
+      required: true
+
+  - type: input
+    id: shadcn-link
+    attributes:
+      label: shadcn/ui Component Link
+      description: Direct link to the component documentation on shadcn/ui
+      placeholder: https://ui.shadcn.com/docs/components/[component-name]
+    validations:
+      required: true
+
+  - type: textarea
+    id: functionality-summary
+    attributes:
+      label: Summary of Functionality
+      description: Describe what this component does and its primary use cases
+      placeholder: |
+        Explain:
+        - What the component is used for
+        - Key features and capabilities
+        - Common use cases
+        - Why it would be valuable for React Native developers
+    validations:
+      required: true
+
+  - type: textarea
+    id: additional-props
+    attributes:
+      label: Additional Props
+      description: |
+        List any additional props or modifications needed for React Native compatibility
+        beyond what exists in the original shadcn/ui component
+      placeholder: |
+        - `onPress` - For touch handling instead of onClick
+        - Any additional variants for ideas checkout [heroui](https://heroui.com/docs/components)
+
+  - type: checkboxes
+    id: supported-platforms
+    attributes:
+      label: Supported Platforms
+      description: Which platforms should this component support? (optional - defaults to all)
+      options:
+        - label: iOS
+        - label: Android
+        - label: Web
+
+  - type: textarea
+    id: implementation-notes
+    attributes:
+      label: Implementation Notes
+      description: Any specific considerations for implementing this component in React Native
+      placeholder: |
+        Consider:
+        - Dependencies that might need React Native alternatives
+        - Platform-specific styling considerations
+        - Accessibility requirements
+        - Animation or interaction differences
+
+  - type: textarea
+    id: motivation
+    attributes:
+      label: Motivation
+      description: Why should this component be added to shadcn-native?
+      placeholder: |
+        - What problem does this solve for React Native developers?
+        - How does it improve the developer experience?
+        - Are there existing alternatives and why is this better?
+    validations:
+      required: true
+
+  - type: checkboxes
+    id: terms
+    attributes:
+      label: Code of Conduct
+      description: By submitting this component RFC, you agree to follow our Code of Conduct
+      options:
+        - label: I agree to follow this project's Code of Conduct
+          required: true
+        - label: I confirm this component exists in the official shadcn/ui library
+          required: true

@@ -1,0 +1,117 @@
+name: 💡 RFC (Request for Comments)
+description: Propose a new feature or significant change to shadcn-native
+title: "[RFC]: "
+labels: ["rfc", "enhancement"]
+assignees: []
+
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Thanks for proposing a new feature or change! RFCs help us discuss and design new features collaboratively before implementation.
+
+  - type: textarea
+    id: summary
+    attributes:
+      label: Summary
+      description: Summarize your change in a few sentences
+      placeholder: Provide a brief overview of what you're proposing
+    validations:
+      required: true
+
+  - type: textarea
+    id: motivation
+    attributes:
+      label: Motivation
+      description: |
+        Describe the problem that this change intends to solve. Don't get into how it solves it yet.
+
+        This can be brief, but if there is any additional context or any empathy-building that you'd like to communicate, 
+        it can't hurt to include it with plenty of detail and hypothetical examples.
+      placeholder: |
+        What problem does this solve? Why is this change needed?
+
+        Include real-world examples or scenarios where this would be helpful.
+    validations:
+      required: true
+
+  - type: textarea
+    id: proposal
+    attributes:
+      label: Proposal
+      description: |
+        Describe your proposal in detail.
+
+        Things that can help: clearly defining terms, providing example content, pseudocode, etc.
+
+        Feel free to mention key implementation concerns.
+      placeholder: |
+        Describe your proposed solution. Include:
+        - How it works
+        - API design (if applicable)
+        - Example usage
+        - Implementation considerations
+    validations:
+      required: true
+
+  - type: textarea
+    id: open-questions
+    attributes:
+      label: Open Questions
+      description: Raise any concerns here for things you aren't sure about yet
+      placeholder: |
+        - What are the potential edge cases?
+        - Are there alternative approaches to consider?
+        - What implementation details need clarification?
+
+  - type: textarea
+    id: answered-questions
+    attributes:
+      label: Answered Questions
+      description: |
+        If there were any major concerns that have already (or eventually, through the RFC process) reached consensus, 
+        it can still help to include them along with their resolution, if it's otherwise unclear.
+
+        This can be especially useful for RFCs that have taken a long time and there were some subtle yet important details to get right.
+
+        This may very well be empty if the proposal is simple enough.
+      placeholder: |
+        Q: [Question that was raised]
+        A: [Resolution or answer]
+
+  - type: textarea
+    id: new-implications
+    attributes:
+      label: New Implications
+      description: |
+        What is the impact of this change, outside of the change itself? 
+        How might it change peoples' workflows today, good or bad?
+      placeholder: |
+        Consider:
+        - Breaking changes
+        - Migration path for existing users
+        - Impact on documentation
+        - Effect on bundle size or performance
+        - Changes to developer experience
+
+  - type: checkboxes
+    id: affected-areas
+    attributes:
+      label: Affected Areas
+      description: Check all areas that would be affected by this proposal. For components, use the component template.
+      options:
+        - label: Documentation
+        - label: Storybook
+        - label: Tests
+        - label: CLI/Tooling
+        - label: Build process
+        - label: Other (please specify in proposal)
+
+  - type: checkboxes
+    id: terms
+    attributes:
+      label: Code of Conduct
+      description: By submitting this RFC, you agree to follow our Code of Conduct
+      options:
+        - label: I agree to follow this project's Code of Conduct
+          required: true
