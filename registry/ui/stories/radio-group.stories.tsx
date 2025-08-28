@@ -60,7 +60,7 @@ function RadioGroupStory({
 }
 
 const meta: Meta<typeof RadioGroupStory> = {
-  title: "RadioGroup",
+  title: "Components/RadioGroup",
   component: RadioGroupStory,
   parameters: {
     layout: "centered",

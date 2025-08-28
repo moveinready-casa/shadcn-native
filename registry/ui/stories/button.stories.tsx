@@ -5,7 +5,7 @@ import {Meta, StoryObj} from "@storybook/react-native";
 import {Loader2, Download, ArrowRight} from "lucide-react-native";
 
 const meta: Meta<typeof Button> = {
-  title: "Button",
+  title: "Components/Button",
   component: Button,
   parameters: {
     layout: "centered",

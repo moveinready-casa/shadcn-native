@@ -69,7 +69,7 @@ function DialogStory({
 }
 
 const meta: Meta<typeof DialogStory> = {
-  title: "Dialog",
+  title: "Components/Dialog",
   component: DialogStory,
   parameters: {
     layout: "centered",

@@ -128,7 +128,7 @@ function AccordionStory({
 }
 
 const meta: Meta<typeof AccordionStory> = {
-  title: "Accordion",
+  title: "Components/Accordion",
   component: AccordionStory,
   argTypes: {
     type: {

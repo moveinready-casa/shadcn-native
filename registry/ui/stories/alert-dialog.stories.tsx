@@ -70,7 +70,7 @@ function AlertDialogStory({
 }
 
 const meta: Meta<typeof AlertDialogStory> = {
-  title: "AlertDialog",
+  title: "Components/AlertDialog",
   component: AlertDialogStory,
   parameters: {
     layout: "centered",

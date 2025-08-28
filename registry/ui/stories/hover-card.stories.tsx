@@ -75,7 +75,7 @@ function HoverCardStory({
 }
 
 const meta: Meta<typeof HoverCardStory> = {
-  title: "HoverCard",
+  title: "Components/HoverCard",
   component: HoverCardStory,
   parameters: {
     layout: "centered",

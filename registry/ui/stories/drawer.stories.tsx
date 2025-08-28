@@ -59,7 +59,7 @@ function DrawerStory({
 }
 
 const meta: Meta<typeof DrawerStory> = {
-  title: "Drawer",
+  title: "Components/Drawer",
   component: DrawerStory,
   parameters: {
     layout: "centered",

@@ -71,7 +71,7 @@ function SheetStory({
 }
 
 const meta: Meta<typeof SheetStory> = {
-  title: "Sheet",
+  title: "Components/Sheet",
   component: SheetStory,
   parameters: {
     layout: "centered",

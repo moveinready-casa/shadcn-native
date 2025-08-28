@@ -15,7 +15,7 @@ function SonnerStory() {
 }
 
 const meta: Meta<typeof SonnerStory> = {
-  title: "Sonner",
+  title: "Components/Sonner",
   component: SonnerStory,
   parameters: {
     layout: "centered",

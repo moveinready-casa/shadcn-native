@@ -38,7 +38,7 @@ function ScrollAreaStory({
 }
 
 const meta: Meta<typeof ScrollAreaStory> = {
-  title: "ScrollArea",
+  title: "Components/ScrollArea",
   component: ScrollAreaStory,
   parameters: {
     layout: "centered",

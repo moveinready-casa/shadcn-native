@@ -18,7 +18,7 @@ export const Footer = () => {
         },
         {
           title: "Storybook",
-          href: "https://www.storybook.shadcn-native.moveinready.casa",
+          href: "process.env.STORYBOOK_URL",
         },
         {
           title: "GitHub",

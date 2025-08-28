@@ -12,7 +12,7 @@ import {Meta, StoryObj} from "@storybook/react-native";
 import {Button} from "../button";
 
 const meta: Meta<typeof Card> = {
-  title: "Card",
+  title: "Components/Card",
   component: Card,
   parameters: {
     layout: "centered",

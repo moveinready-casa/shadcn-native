@@ -36,7 +36,7 @@ function AvatarStory({
 }
 
 const meta: Meta<typeof AvatarStory> = {
-  title: "Avatar",
+  title: "Components/Avatar",
   component: AvatarStory,
   argTypes: {
     size: {

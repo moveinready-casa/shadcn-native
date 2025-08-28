@@ -4,7 +4,7 @@ import {Meta, StoryObj} from "@storybook/react-native";
 import {Label} from "../label";
 
 const meta: Meta<typeof Label> = {
-  title: "Label",
+  title: "Components/Label",
   component: Label,
   parameters: {
     layout: "centered",

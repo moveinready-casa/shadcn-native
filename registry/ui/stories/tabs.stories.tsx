@@ -5,7 +5,7 @@ import {Meta, StoryObj} from "@storybook/react-native";
 import {Settings, User, Bell, Home} from "lucide-react-native";
 
 const meta: Meta<typeof Tabs> = {
-  title: "Tabs",
+  title: "Components/Tabs",
   component: Tabs,
   parameters: {
     layout: "centered",

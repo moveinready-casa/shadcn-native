@@ -55,10 +55,8 @@ export const Features = () => (
                 <p>Storybook</p>
                 <p className="text-muted-foreground text-sm">
                   We have included a{" "}
-                  <Link href="https://www.storybook.shadcn-native.moveinready.casa">
-                    storybook
-                  </Link>{" "}
-                  to let you play with all the variants.
+                  <Link href="process.env.STORYBOOK_URL">storybook</Link> to let
+                  you play with all the variants.
                 </p>
               </div>
             </div>

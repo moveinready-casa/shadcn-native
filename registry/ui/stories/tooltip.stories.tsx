@@ -10,7 +10,7 @@ import {Meta, StoryObj} from "@storybook/react-native";
 import {Info, HelpCircle, Settings, AlertCircle} from "lucide-react-native";
 
 const meta: Meta<typeof Tooltip> = {
-  title: "Tooltip",
+  title: "Components/Tooltip",
   component: Tooltip,
   parameters: {
     layout: "centered",

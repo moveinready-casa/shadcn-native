@@ -5,7 +5,7 @@ import {Meta, StoryObj} from "@storybook/react-native";
 import {Loader2} from "lucide-react-native";
 
 const meta: Meta<typeof Badge> = {
-  title: "Badge",
+  title: "Components/Badge",
   component: Badge,
   parameters: {
     layout: "centered",

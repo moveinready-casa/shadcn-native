@@ -2,7 +2,7 @@ import {Checkbox} from "../checkbox";
 import {Meta, StoryObj} from "@storybook/react-native";
 
 const meta: Meta<typeof Checkbox> = {
-  title: "Checkbox",
+  title: "Components/Checkbox",
   component: Checkbox,
   parameters: {
     layout: "centered",

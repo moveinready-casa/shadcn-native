@@ -48,7 +48,7 @@ function AlertStory({
 }
 
 const meta: Meta<typeof AlertStory> = {
-  title: "Alert",
+  title: "Components/Alert",
   component: AlertStory,
   argTypes: {
     variant: {
@@ -137,7 +137,13 @@ export default meta;
 
 type Story = StoryObj<typeof meta>;
 
-export const AllVariants: Story = {
+export const Default: Story = {
+  args: {
+    variant: "default",
+  },
+};
+
+export const Variants: Story = {
   render: (args) => (
     <View style={{gap: 12}}>
       <Alert {...args} variant="default">
