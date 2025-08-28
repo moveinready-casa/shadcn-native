@@ -32,7 +32,7 @@ Please visit the documentation website at [shadcn-native.moveinready.casa](https
 
 ## Storybook
 
-For quick previewing on the web checkout the [storybook](https://www.storybook.shadcn-native.moveinready.casa).
+For quick previewing on the web checkout the [storybook](https://68af7af75f72e5521a7e0f93-zdrzjwacxx.chromatic.com/).
 
 ## Contributing
 
