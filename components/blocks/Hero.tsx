@@ -16,7 +16,7 @@ export const Hero = () => (
             shadcn/ui making them a great choice for large scale applications.
           </p>
         </div>
-        <div className="flex flex-row flex-wrap gap-3">
+        <div className="flex flex-col justify-center gap-3 sm:flex-row">
           <Button size="lg" className="gap-4" variant="outline" asChild>
             <Link href="https://github.com/moveinready-casa/shadcn-native">
               View on GitHub <Github className="h-4 w-4" />

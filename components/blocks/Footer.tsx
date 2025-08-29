@@ -40,7 +40,7 @@ export const Footer = () => {
   ];
 
   return (
-    <div className="bg-foreground text-background w-full py-20 lg:py-40">
+    <div className="bg-foreground text-background w-full p-8 py-20 lg:py-40">
       <div className="container mx-auto">
         <div className="grid items-center gap-10 lg:grid-cols-2">
           <div className="flex flex-col items-start gap-8">
