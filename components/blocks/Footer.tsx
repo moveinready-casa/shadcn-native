@@ -1,4 +1,4 @@
-import Link from "next/link";
+import {Link} from "nextra-theme-docs";
 
 export const Footer = () => {
   const navigationItems = [

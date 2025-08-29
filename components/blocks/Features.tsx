@@ -1,5 +1,5 @@
 import {Check} from "lucide-react";
-import Link from "next/link";
+import {Link} from "nextra-theme-docs";
 
 export const Features = () => (
   <div className="w-full p-8 py-20 lg:py-40">
@@ -31,7 +31,7 @@ export const Features = () => (
                 <p>Accessible</p>
                 <p className="text-muted-foreground text-sm">
                   Our components are accessible on Native and the web. To
-                  achieve web accesibility we use
+                  achieve web accesibility we use{" "}
                   <Link href="https://react-spectrum.adobe.com/react-aria/index.html">
                     react-aria
                   </Link>
