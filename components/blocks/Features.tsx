@@ -1,8 +1,8 @@
 import {Check} from "lucide-react";
-import Link from "next/link";
+import {Link} from "nextra-theme-docs";
 
 export const Features = () => (
-  <div className="w-full py-20 lg:py-40">
+  <div className="w-full p-8 py-20 lg:py-40">
     <div className="container mx-auto">
       <div className="flex flex-col items-start gap-4 py-20 lg:py-40">
         <div className="flex flex-col gap-2">
@@ -14,7 +14,7 @@ export const Features = () => (
           </p>
         </div>
         <div className="flex w-full flex-col gap-10 pt-12">
-          <div className="grid grid-cols-2 items-start gap-10 lg:grid-cols-3">
+          <div className="grid grid-cols-1 items-start gap-10 sm:grid-cols-2 lg:grid-cols-3">
             <div className="flex w-full flex-row items-start gap-6">
               <Check className="text-primary mt-2 h-4 w-4" />
               <div className="flex flex-col gap-1">
@@ -31,7 +31,7 @@ export const Features = () => (
                 <p>Accessible</p>
                 <p className="text-muted-foreground text-sm">
                   Our components are accessible on Native and the web. To
-                  achieve web accesibility we use
+                  achieve web accesibility we use{" "}
                   <Link href="https://react-spectrum.adobe.com/react-aria/index.html">
                     react-aria
                   </Link>
@@ -55,8 +55,8 @@ export const Features = () => (
                 <p>Storybook</p>
                 <p className="text-muted-foreground text-sm">
                   We have included a{" "}
-                  <Link href="process.env.STORYBOOK_URL">storybook</Link> to let
-                  you play with all the variants.
+                  <Link href={process.env.STORYBOOK_URL || "/"}>storybook</Link>{" "}
+                  to let you play with all the variants.
                 </p>
               </div>
             </div>
