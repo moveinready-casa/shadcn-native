@@ -5,6 +5,7 @@ import React from "react";
 import "./globals.css";
 import {Banner} from "nextra/components";
 import {Footer} from "../components/blocks/Footer";
+import {Head} from "nextra/components";
 import {Analytics} from "@vercel/analytics/next";
 
 export const metadata = {
@@ -35,6 +36,7 @@ export default async function RootLayout({
 }) {
   return (
     <html lang="en" dir="ltr" suppressHydrationWarning>
+      <Head />
       <body>
         <Layout
           navbar={navbar}

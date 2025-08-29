@@ -30,4 +30,5 @@ jobs:
         with:
           projectToken: ${{ secrets.CHROMATIC_PROJECT_TOKEN }}
           autoAcceptChanges: "main"
+          forceRebuild: true
           workingDir: ./storybook
