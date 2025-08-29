@@ -11,13 +11,12 @@ export const Hero = () => (
             Build your React Native component library
           </h1>
           <p className="text-muted-foreground max-w-2xl text-center text-lg leading-relaxed tracking-tight md:text-xl">
-            Built with nativewind and react-aria, these components are accesible
-            and performant with the same design as shadcn/ui. Additionally,
-            these components have more variants than shadcn/ui making them a
-            great choice for large scale applications.
+            An unofficial port of shadcn/ui for React Native built with
+            Nativewind. Additionally, these components have more variants than
+            shadcn/ui making them a great choice for large scale applications.
           </p>
         </div>
-        <div className="flex flex-row gap-3">
+        <div className="flex flex-row flex-wrap gap-3">
           <Button size="lg" className="gap-4" variant="outline" asChild>
             <Link href="https://github.com/moveinready-casa/shadcn-native">
               View on GitHub <Github className="h-4 w-4" />
