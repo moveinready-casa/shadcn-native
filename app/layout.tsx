@@ -5,6 +5,7 @@ import React from "react";
 import "./globals.css";
 import {Banner} from "nextra/components";
 import {Footer} from "../components/blocks/Footer";
+import {Analytics} from "@vercel/analytics/next";
 
 export const metadata = {
   title: "shadcn-native",
@@ -44,6 +45,7 @@ export default async function RootLayout({
         >
           {children}
         </Layout>
+        <Analytics />
       </body>
     </html>
   );
