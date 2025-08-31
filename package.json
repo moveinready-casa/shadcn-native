@@ -16,6 +16,9 @@
   },
   "dependencies": {
     "@radix-ui/react-accordion": "^1.2.11",
+    "@radix-ui/react-dialog": "^1.1.15",
+    "@radix-ui/react-popover": "^1.1.15",
+    "@radix-ui/react-separator": "^1.1.7",
     "@radix-ui/react-slot": "^1.2.3",
     "@radix-ui/react-tooltip": "^1.2.8",
     "@react-aria/breadcrumbs": "^3.5.27",
@@ -90,6 +93,7 @@
     "@types/react": "^19.1",
     "@types/react-dom": "^19.1",
     "@types/react-native-web": "^0.19.1",
+    "@types/web": "^0.0.265",
     "@typescript-eslint/eslint-plugin": "^8.36.0",
     "@typescript-eslint/parser": "^8.36.0",
     "babel-jest": "^30.0.4",
