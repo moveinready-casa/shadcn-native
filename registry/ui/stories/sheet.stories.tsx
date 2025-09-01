@@ -44,7 +44,7 @@ function SheetStory({
         <SheetTrigger disabled={disabled} asChild>
           <Button>Open sheet</Button>
         </SheetTrigger>
-        <SheetPortal>
+        <SheetPortal name="sheet">
           <SheetOverlay />
           <SheetContent forceMount={forceMount} side={side}>
             <SheetHeader>
