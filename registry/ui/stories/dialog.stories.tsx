@@ -33,7 +33,7 @@ function DialogStory({
   borderRadius: "none" | "sm" | "md" | "lg" | "xl";
 }) {
   return (
-    <View className="bg-background flex-1 items-center justify-center p-6">
+    <View className="w-full flex-1 items-center justify-center p-6">
       <Dialog
         modal={modal}
         defaultOpen={defaultOpen}
@@ -44,7 +44,7 @@ function DialogStory({
         <DialogTrigger disabled={disabled} asChild>
           <Button>Open dialog</Button>
         </DialogTrigger>
-        <DialogPortal>
+        <DialogPortal name="dialog">
           <DialogOverlay />
           <DialogContent forceMount={forceMount} borderRadius={borderRadius}>
             <DialogHeader>

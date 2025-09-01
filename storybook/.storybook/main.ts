@@ -30,6 +30,7 @@ const config: StorybookConfig = {
         "react-native-vector-icons",
         "nativewind",
         "react-native-css-interop",
+        "@rn-primitives/portal",
       ],
       pluginReactOptions: {
         babel: {
@@ -41,6 +42,27 @@ const config: StorybookConfig = {
   async viteFinal(viteConfig) {
     viteConfig.plugins = viteConfig.plugins || [];
     viteConfig.plugins.push(createBuildStoriesPlugin());
+
+    // Ensure JSX inside ESM from certain node_modules is transpiled in build
+    const esbuild = require("esbuild");
+    viteConfig.plugins.push({
+      name: "transform-portal-mjs-jsx",
+      enforce: "pre",
+      async transform(code, id) {
+        const isPortal = id.includes("/node_modules/@rn-primitives/portal/");
+        const isJsLike = id.endsWith(".mjs") || id.endsWith(".js");
+        if (isPortal && isJsLike) {
+          const result = await esbuild.transform(code, {
+            loader: "jsx",
+            jsx: "automatic",
+            sourcemap: false,
+            sourcefile: id,
+          });
+          return {code: result.code};
+        }
+        return null;
+      },
+    });
 
     // Configure CSS processing for Tailwind
     viteConfig.css = {
@@ -55,7 +77,14 @@ const config: StorybookConfig = {
     };
 
     if (!viteConfig.optimizeDeps) {
-      viteConfig.optimizeDeps = {};
+      viteConfig.optimizeDeps = {
+        esbuildOptions: {
+          loader: {
+            ".js": "jsx",
+            ".mjs": "jsx",
+          },
+        },
+      };
     }
     if (!viteConfig.optimizeDeps.esbuildOptions) {
       viteConfig.optimizeDeps.esbuildOptions = {};
