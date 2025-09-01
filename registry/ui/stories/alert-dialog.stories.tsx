@@ -34,7 +34,7 @@ function AlertDialogStory({
   onOpenChange?: (isOpen: boolean) => void;
 }) {
   return (
-    <View className="bg-background flex-1 items-center justify-center p-6">
+    <View className="w-full flex-1 items-center justify-center p-6">
       <AlertDialog
         modal={modal}
         defaultOpen={defaultOpen}
@@ -45,7 +45,7 @@ function AlertDialogStory({
         <AlertDialogTrigger disabled={disabled} asChild>
           <Button variant="destructive">Delete Account</Button>
         </AlertDialogTrigger>
-        <AlertDialogPortal>
+        <AlertDialogPortal name="alert-dialog">
           <AlertDialogOverlay />
           <AlertDialogContent
             forceMount={forceMount}
@@ -143,7 +143,7 @@ export const BorderRadius: Story = {
         <AlertDialogTrigger asChild>
           <Button variant="outline">Rounded None</Button>
         </AlertDialogTrigger>
-        <AlertDialogPortal>
+        <AlertDialogPortal name="dialog">
           <AlertDialogOverlay />
           <AlertDialogContent borderRadius="none">
             <AlertDialogHeader>
@@ -163,7 +163,7 @@ export const BorderRadius: Story = {
         <AlertDialogTrigger asChild>
           <Button variant="outline">Rounded Sm</Button>
         </AlertDialogTrigger>
-        <AlertDialogPortal>
+        <AlertDialogPortal name="dialog">
           <AlertDialogOverlay />
           <AlertDialogContent borderRadius="sm">
             <AlertDialogHeader>
@@ -183,7 +183,7 @@ export const BorderRadius: Story = {
         <AlertDialogTrigger asChild>
           <Button variant="outline">Rounded Md</Button>
         </AlertDialogTrigger>
-        <AlertDialogPortal>
+        <AlertDialogPortal name="dialog">
           <AlertDialogOverlay />
           <AlertDialogContent borderRadius="md">
             <AlertDialogHeader>
@@ -203,7 +203,7 @@ export const BorderRadius: Story = {
         <AlertDialogTrigger asChild>
           <Button variant="outline">Rounded Lg</Button>
         </AlertDialogTrigger>
-        <AlertDialogPortal>
+        <AlertDialogPortal name="dialog">
           <AlertDialogOverlay />
           <AlertDialogContent borderRadius="lg">
             <AlertDialogHeader>
@@ -223,7 +223,7 @@ export const BorderRadius: Story = {
         <AlertDialogTrigger asChild>
           <Button variant="outline">Rounded XL</Button>
         </AlertDialogTrigger>
-        <AlertDialogPortal>
+        <AlertDialogPortal name="dialog">
           <AlertDialogOverlay />
           <AlertDialogContent borderRadius="xl">
             <AlertDialogHeader>
@@ -289,7 +289,7 @@ export const CustomActionVariants: Story = {
       <AlertDialogTrigger asChild>
         <Button variant="outline">Custom Actions</Button>
       </AlertDialogTrigger>
-      <AlertDialogPortal>
+      <AlertDialogPortal name="dialog">
         <AlertDialogOverlay />
         <AlertDialogContent>
           <AlertDialogHeader>
@@ -314,7 +314,7 @@ export const CustomActionSizes: Story = {
       <AlertDialogTrigger asChild>
         <Button variant="outline">Custom Sizes</Button>
       </AlertDialogTrigger>
-      <AlertDialogPortal>
+      <AlertDialogPortal name="dialog">
         <AlertDialogOverlay />
         <AlertDialogContent>
           <AlertDialogHeader>
@@ -343,7 +343,7 @@ export const AsChild: Story = {
           </Text>
         </View>
       </AlertDialogTrigger>
-      <AlertDialogPortal>
+      <AlertDialogPortal name="dialog">
         <AlertDialogOverlay />
         <AlertDialogContent>
           <AlertDialogHeader>

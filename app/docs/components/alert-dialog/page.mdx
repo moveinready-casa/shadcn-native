@@ -24,6 +24,16 @@ A modal dialog that interrupts the user workflow to request confirmation or pres
 
 ## Usage
 
+### Root Layout
+
+```tsx
+import {PortalHost} from "@rn-primitives/portal";
+
+<PortalHost name="dialog" />;
+```
+
+### Alert Dialog
+
 ```tsx
 import {
   AlertDialog,
@@ -41,19 +51,22 @@ import {
   <AlertDialogTrigger asChild>
     <Button variant="outline">Delete Account</Button>
   </AlertDialogTrigger>
-  <AlertDialogContent>
-    <AlertDialogHeader>
-      <AlertDialogTitle>Are you absolutely sure?</AlertDialogTitle>
-      <AlertDialogDescription>
-        This action cannot be undone. This will permanently delete your account
-        and remove your data from our servers.
-      </AlertDialogDescription>
-    </AlertDialogHeader>
-    <AlertDialogFooter>
-      <AlertDialogCancel>Cancel</AlertDialogCancel>
-      <AlertDialogAction>Delete Account</AlertDialogAction>
-    </AlertDialogFooter>
-  </AlertDialogContent>
+  <AlertDialogPortal name="dialog">
+    <AlertDialogOverlay />
+    <AlertDialogContent>
+      <AlertDialogHeader>
+        <AlertDialogTitle>Are you absolutely sure?</AlertDialogTitle>
+        <AlertDialogDescription>
+          This action cannot be undone. This will permanently delete your
+          account and remove your data from our servers.
+        </AlertDialogDescription>
+      </AlertDialogHeader>
+      <AlertDialogFooter>
+        <AlertDialogCancel>Cancel</AlertDialogCancel>
+        <AlertDialogAction>Delete Account</AlertDialogAction>
+      </AlertDialogFooter>
+    </AlertDialogContent>
+  </AlertDialogPortal>
 </AlertDialog>;
 ```
 
@@ -163,16 +176,22 @@ _Also extends all React Native `Pressable` component props._
 
 ### AlertDialogPortal
 
-**Note:** The AlertDialogPortal is not used in this library as there is no body element in React Native, it is only here for compatibility with the Radix UI and Shadcn UI and can be removed if not used.
+If you are using this component you must add a `PortalHost` to your root layout. See [Portal](https://rnprimitives.com/portal/) for more information.
 
-_Extends all React Native `View` component props._
+| Prop         | Type      | Default | Description                                         |
+| ------------ | --------- | ------- | --------------------------------------------------- |
+| `forceMount` | `boolean` | `false` | Whether to force mount the dialog even when closed. |
+
+_Also extends all React Native `Portal` component props._
 
 ### AlertDialogOverlay
 
-| Prop            | Type      | Default | Description                                                                                                               |
-| --------------- | --------- | ------- | ------------------------------------------------------------------------------------------------------------------------- |
-| `asChild`       | `boolean` | `false` | If true clones the child and passes all accessibility and functionality props to it. Available on any exported component. |
-| `baseClassName` | `string`  | -       | Custom tailwind classes to apply to the base alert dialog overlay component. Takes priority over the `className` prop.    |
+If you are using this component you must add a `PortalHost` to your root layout. See [Portal](https://rnprimitives.com/portal/) for more information.
+
+| Prop            | Type      | Default | Description                                                                                                            |
+| --------------- | --------- | ------- | ---------------------------------------------------------------------------------------------------------------------- |
+| `forceMount`    | `boolean` | `false` | Whether to force mount the alert dialog overlay even when closed.                                                      |
+| `baseClassName` | `string`  | -       | Custom tailwind classes to apply to the base alert dialog overlay component. Takes priority over the `className` prop. |
 
 _Also extends all React Native `View` component props._
 
