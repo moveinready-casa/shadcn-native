@@ -614,7 +614,9 @@ export function AlertDialogPortal({
   return Platform.OS === "web" ? (
     createPortal(
       <AlertDialogContext.Provider value={context}>
-        <div {...props}>{children}</div>
+        <div {...props} className="absolute inset-0 h-full w-full">
+          {children}
+        </div>
       </AlertDialogContext.Provider>,
       // @ts-expect-error - Document is only used on web
       document.body,

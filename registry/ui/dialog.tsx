@@ -2,6 +2,7 @@ import {useTheme} from "@/lib/utils/theme";
 import {AriaButtonProps, useButton} from "@react-aria/button";
 import {AriaDialogProps, useDialog as useDialogAria} from "@react-aria/dialog";
 import {useFocusRing} from "@react-aria/focus";
+import {Portal} from "@rn-primitives/portal";
 import {XIcon} from "lucide-react-native";
 import React, {
   ComponentProps,
@@ -11,6 +12,7 @@ import React, {
   useRef,
   useState,
 } from "react";
+import {createPortal} from "react-dom";
 import {
   Dimensions,
   GestureResponderEvent,
@@ -22,8 +24,6 @@ import {
 } from "react-native";
 import Reanimated, {FadeIn, FadeOut} from "react-native-reanimated";
 import {tv} from "tailwind-variants";
-import {Portal} from "@rn-primitives/portal";
-import {createPortal} from "react-dom";
 
 /**
  * Base props for the root `Dialog` component, context, and hook.
@@ -209,12 +209,10 @@ export type DialogCloseComponentProps = {
 /**
  * Props for the `DialogPortal` component.
  * @param children - The content to render inside the dialog portal.
- * @param forceMount - Whether to force mount the dialog content even when closed.
  * @see ComponentProps
  */
 export type DialogPortalComponentProps = {
   children: React.ReactNode;
-  forceMount?: boolean;
 } & ComponentProps<typeof Portal>;
 
 /**
@@ -554,21 +552,19 @@ export function DialogTrigger({
 /**
  * The dialog portal component.
  * @param param0 - Props to configure the behavior of the dialog portal. @see DialogPortalComponentProps
- * @returns Returns a `Portal` which wraps the dialog content.
+ * @returns Returns a `View` which wraps the dialog content.
  */
-export function DialogPortal({
-  children,
-  forceMount,
-  ...props
-}: DialogPortalComponentProps) {
+export function DialogPortal({children, ...props}: DialogPortalComponentProps) {
   const context = useContext(DialogContext);
-  if (!context.state.isOpen && !forceMount) {
-    return null;
+  if (!context.state.isOpen) {
+    return;
   }
   return Platform.OS === "web" ? (
     createPortal(
       <DialogContext.Provider value={context}>
-        <div {...props}>{children}</div>
+        <div {...props} className="absolute inset-0 h-full w-full">
+          {children}
+        </div>
       </DialogContext.Provider>,
       // @ts-expect-error - Document is only used on web
       document.body,
@@ -576,7 +572,7 @@ export function DialogPortal({
   ) : (
     <Portal {...props}>
       <DialogContext.Provider value={context}>
-        {children}
+        <View className="absolute inset-0 h-full w-full">{children}</View>
       </DialogContext.Provider>
     </Portal>
   );
