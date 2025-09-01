@@ -3,7 +3,6 @@ import "../global.css";
 import React from "react";
 import {NavigationContainer} from "@react-navigation/native";
 import {Toaster} from "../.stories/ui/sonner";
-import {PortalHost} from "@rn-primitives/portal";
 
 const preview: Preview = {
   parameters: {
@@ -46,7 +45,6 @@ const preview: Preview = {
           <NavigationContainer>
             <Story />
           </NavigationContainer>
-          <PortalHost />
           <Toaster />
         </>
       );
