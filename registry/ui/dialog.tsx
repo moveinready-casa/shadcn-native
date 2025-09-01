@@ -213,6 +213,7 @@ export type DialogCloseComponentProps = {
  */
 export type DialogPortalComponentProps = {
   children: React.ReactNode;
+  forceMount?: boolean;
 } & ComponentProps<typeof Portal>;
 
 /**
@@ -554,9 +555,13 @@ export function DialogTrigger({
  * @param param0 - Props to configure the behavior of the dialog portal. @see DialogPortalComponentProps
  * @returns Returns a `View` which wraps the dialog content.
  */
-export function DialogPortal({children, ...props}: DialogPortalComponentProps) {
+export function DialogPortal({
+  children,
+  forceMount,
+  ...props
+}: DialogPortalComponentProps) {
   const context = useContext(DialogContext);
-  if (!context.state.isOpen) {
+  if (!context.state.isOpen && !context.state.controlledOpen && !forceMount) {
     return;
   }
   return Platform.OS === "web" ? (

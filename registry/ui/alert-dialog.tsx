@@ -197,6 +197,7 @@ export type AlertDialogFooterComponentProps = {
 /**
  * Props for the `AlertDialogPortal` component.
  * @param children - The content to render inside the alert dialog portal.
+ * @param forceMount - Whether to force mount the alert dialog content even when closed.
  * @see ComponentProps
  */
 export type AlertDialogPortalComponentProps = {
@@ -603,7 +604,7 @@ export function AlertDialogTrigger({
  */
 export function AlertDialogPortal({
   children,
-  forceMount,
+  forceMount = false,
   ...props
 }: AlertDialogPortalComponentProps) {
   const context = useContext(AlertDialogContext);

@@ -223,10 +223,12 @@ export type SheetCloseComponentProps = {
 /**
  * Props for the `SheetPortal` component.
  * @param children - The content to render inside the sheet portal.
+ * @param forceMount - Whether to force mount the sheet content even when closed.
  * @see ComponentProps
  */
 export type SheetPortalComponentProps = {
   children: React.ReactNode;
+  forceMount?: boolean;
 } & ComponentProps<typeof Portal>;
 
 /**
@@ -573,9 +575,13 @@ export function SheetTrigger({
  * @param param0 - Props to configure the behavior of the sheet portal. @see SheetPortalComponentProps
  * @returns Returns a `View` which wraps the sheet content.
  */
-export function SheetPortal({children, ...props}: SheetPortalComponentProps) {
+export function SheetPortal({
+  children,
+  forceMount,
+  ...props
+}: SheetPortalComponentProps) {
   const context = useContext(SheetContext);
-  if (!context.state.isOpen) {
+  if (!context.state.isOpen && !context.state.controlledOpen && !forceMount) {
     return;
   }
 
