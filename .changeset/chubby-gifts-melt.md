@@ -2,15 +2,15 @@
 "shadcn-native": minor
 ---
 
-Added portling to the following components:
+Added portaling to the following components:
 
 - Alert Dialog
 - Dialog
 - Sheet
 
-This change adds functionality to the above components `Portal` component which before was non-functional.
+This change wires up the `Portal` integration for the components below (it was previously non-functional).
 
-If you are not using the above components now you do not need to make any changes. However, if you are using the above component with and want to add portling please add the following:
+If you are not using these components, no action is required. If you are using them and want to enable portaling, follow the steps below:
 
 Install the new dependencies:
 
