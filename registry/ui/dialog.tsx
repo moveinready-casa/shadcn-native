@@ -22,6 +22,8 @@ import {
 } from "react-native";
 import Reanimated, {FadeIn, FadeOut} from "react-native-reanimated";
 import {tv} from "tailwind-variants";
+import {Portal} from "@rn-primitives/portal";
+import {createPortal} from "react-dom";
 
 /**
  * Base props for the root `Dialog` component, context, and hook.
@@ -207,11 +209,13 @@ export type DialogCloseComponentProps = {
 /**
  * Props for the `DialogPortal` component.
  * @param children - The content to render inside the dialog portal.
+ * @param forceMount - Whether to force mount the dialog content even when closed.
  * @see ComponentProps
  */
 export type DialogPortalComponentProps = {
   children: React.ReactNode;
-} & ComponentProps<typeof View>;
+  forceMount?: boolean;
+} & ComponentProps<typeof Portal>;
 
 /**
  * Props for the `DialogOverlay` component.
@@ -548,12 +552,34 @@ export function DialogTrigger({
 }
 
 /**
- * The dialog portal component. The portal is not used in this library as there is no body element in React Native, it is only here for compatibility with the Radix UI and Shadcn UI and can be removed if not used.
+ * The dialog portal component.
  * @param param0 - Props to configure the behavior of the dialog portal. @see DialogPortalComponentProps
- * @returns Returns a `View` which wraps the dialog content.
+ * @returns Returns a `Portal` which wraps the dialog content.
  */
-export function DialogPortal({children, ...props}: DialogPortalComponentProps) {
-  return <View {...props}>{children}</View>;
+export function DialogPortal({
+  children,
+  forceMount,
+  ...props
+}: DialogPortalComponentProps) {
+  const context = useContext(DialogContext);
+  if (!context.state.isOpen && !forceMount) {
+    return null;
+  }
+  return Platform.OS === "web" ? (
+    createPortal(
+      <DialogContext.Provider value={context}>
+        <div {...props}>{children}</div>
+      </DialogContext.Provider>,
+      // @ts-expect-error - Document is only used on web
+      document.body,
+    )
+  ) : (
+    <Portal {...props}>
+      <DialogContext.Provider value={context}>
+        {children}
+      </DialogContext.Provider>
+    </Portal>
+  );
 }
 
 /**
