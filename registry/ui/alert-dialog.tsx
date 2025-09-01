@@ -1,6 +1,7 @@
 import {AriaButtonProps, useButton as useAriaButton} from "@react-aria/button";
 import {AriaDialogProps, useDialog as useDialogAria} from "@react-aria/dialog";
 import {useFocusRing} from "@react-aria/focus";
+import {Portal} from "@rn-primitives/portal";
 import React, {
   ComponentProps,
   createContext,
@@ -9,6 +10,7 @@ import React, {
   useRef,
   useState,
 } from "react";
+import {createPortal} from "react-dom";
 import {
   GestureResponderEvent,
   Platform,
@@ -199,7 +201,8 @@ export type AlertDialogFooterComponentProps = {
  */
 export type AlertDialogPortalComponentProps = {
   children: React.ReactNode;
-} & ComponentProps<typeof View>;
+  forceMount?: boolean;
+} & ComponentProps<typeof Portal>;
 
 /**
  * Props for the `AlertDialogOverlay` component.
@@ -366,7 +369,10 @@ export const useAlertDialogContent = ({
   }
 
   const dialogRef = useRef<View | HTMLDivElement>(null);
-  const dialogAria = useDialogAria({...props}, dialogRef);
+  const dialogAria = useDialogAria(
+    Platform.OS === "web" ? {...props} : {},
+    Platform.OS === "web" ? dialogRef : {current: {contains: () => true}},
+  );
 
   return {
     componentProps: {
@@ -591,15 +597,35 @@ export function AlertDialogTrigger({
 }
 
 /**
- * The alert dialog portal component. The portal is not used in this library as there is no body element in React Native, it is only here for compatibility with the Radix UI and Shadcn UI and can be removed if not used.
+ * The alert dialog portal component.
  * @param param0 - Props to configure the behavior of the alert dialog portal. @see AlertDialogPortalComponentProps
- * @returns Returns a `View` which wraps the alert dialog content.
+ * @returns Returns a `Portal` which wraps the alert dialog content.
  */
 export function AlertDialogPortal({
   children,
+  forceMount,
   ...props
 }: AlertDialogPortalComponentProps) {
-  return <View {...props}>{children}</View>;
+  const context = useContext(AlertDialogContext);
+  if (!context.state.isOpen && !forceMount) {
+    return null;
+  }
+
+  return Platform.OS === "web" ? (
+    createPortal(
+      <AlertDialogContext.Provider value={context}>
+        <div {...props}>{children}</div>
+      </AlertDialogContext.Provider>,
+      // @ts-expect-error - Document is only used on web
+      document.body,
+    )
+  ) : (
+    <Portal {...props}>
+      <AlertDialogContext.Provider value={context}>
+        <View className="absolute inset-0 h-full w-full">{children}</View>
+      </AlertDialogContext.Provider>
+    </Portal>
+  );
 }
 
 /**
