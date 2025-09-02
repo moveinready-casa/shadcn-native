@@ -129,8 +129,8 @@ importers:
         specifier: ^2.28.0
         version: 2.28.0(react-native@0.80.1(@babel/core@7.28.3)(@types/react@19.1.10)(react@19.1.1))(react@19.1.1)
       react-native-input-code-otp:
-        specifier: ^1.0.1
-        version: 1.0.2(react-native@0.80.1(@babel/core@7.28.3)(@types/react@19.1.10)(react@19.1.1))(react@19.1.1)
+        specifier: ^1.0.3
+        version: 1.0.3(react-native@0.80.1(@babel/core@7.28.3)(@types/react@19.1.10)(react@19.1.1))(react@19.1.1)
       react-native-reanimated:
         specifier: ^3.18.0
         version: 3.19.1(@babel/core@7.28.3)(react-native@0.80.1(@babel/core@7.28.3)(@types/react@19.1.10)(react@19.1.1))(react@19.1.1)
@@ -336,9 +336,6 @@ importers:
       react-native-css-interop:
         specifier: ^0.1.22
         version: 0.1.22(react-native-reanimated@3.19.1(@babel/core@7.28.3)(react-native@0.80.1(@babel/core@7.28.3)(@types/react@19.1.10)(react@19.1.0))(react@19.1.0))(react-native-safe-area-context@5.4.0(react-native@0.80.1(@babel/core@7.28.3)(@types/react@19.1.10)(react@19.1.0))(react@19.1.0))(react-native-svg@15.12.1(react-native@0.80.1(@babel/core@7.28.3)(@types/react@19.1.10)(react@19.1.1))(react@19.1.1))(react-native@0.80.1(@babel/core@7.28.3)(@types/react@19.1.10)(react@19.1.0))(react@19.1.0)(tailwindcss@3.4.17(ts-node@10.9.2(@types/node@24.3.0)(typescript@5.9.2)))
-      react-native-input-code-otp:
-        specifier: ^1.0.2
-        version: 1.0.2(react-native@0.80.1(@babel/core@7.28.3)(@types/react@19.1.10)(react@19.1.0))(react@19.1.0)
       react-native-reanimated:
         specifier: ^3.18.0
         version: 3.19.1(@babel/core@7.28.3)(react-native@0.80.1(@babel/core@7.28.3)(@types/react@19.1.10)(react@19.1.0))(react@19.1.0)
@@ -8295,8 +8292,8 @@ packages:
       react: '*'
       react-native: '*'
 
-  react-native-input-code-otp@1.0.2:
-    resolution: {integrity: sha512-tYXMQMCBhijEYy3I8EwAmTdDgUK+iqicf4eO6jjEdS+m6SQkkq9+uC2MOJ0s9WeM38v17a5umG705f12juMKTQ==}
+  react-native-input-code-otp@1.0.3:
+    resolution: {integrity: sha512-4TtfLKNI+oj03k1oRH9PKvdonwdJA9Plqt9E2PJq3Ri3QWmeUUPPsrmKOe+/1CW+cY3uw6B4/5hHEGGy92JYGQ==}
     peerDependencies:
       react: '*'
       react-native: '*'
@@ -20414,12 +20411,7 @@ snapshots:
       react: 19.1.1
       react-native: 0.80.1(@babel/core@7.28.3)(@types/react@19.1.10)(react@19.1.1)
 
-  react-native-input-code-otp@1.0.2(react-native@0.80.1(@babel/core@7.28.3)(@types/react@19.1.10)(react@19.1.0))(react@19.1.0):
-    dependencies:
-      react: 19.1.0
-      react-native: 0.80.1(@babel/core@7.28.3)(@types/react@19.1.10)(react@19.1.0)
-
-  react-native-input-code-otp@1.0.2(react-native@0.80.1(@babel/core@7.28.3)(@types/react@19.1.10)(react@19.1.1))(react@19.1.1):
+  react-native-input-code-otp@1.0.3(react-native@0.80.1(@babel/core@7.28.3)(@types/react@19.1.10)(react@19.1.1))(react@19.1.1):
     dependencies:
       react: 19.1.1
       react-native: 0.80.1(@babel/core@7.28.3)(@types/react@19.1.10)(react@19.1.1)
