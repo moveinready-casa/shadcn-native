@@ -1,5 +1,17 @@
 # shadcn-native
 
+## 0.2.1
+
+### Patch Changes
+
+- 0f40046: Fix dark mode handling for the tabs component
+
+  To upgrade change the following line (#542) in the Tabs component to:
+
+  ```tsx
+  <Text className="text-foreground">{children}</Text>
+  ```
+
 ## 0.2.0
 
 ### Minor Changes

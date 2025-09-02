@@ -539,7 +539,7 @@ export function TabsTrigger({
     <View className="flex flex-row items-center gap-2">
       {startContent ? <View>{startContent}</View> : null}
       <View>
-        <Text>{children}</Text>
+        <Text className="text-foreground">{children}</Text>
       </View>
       {endContent ? <View>{endContent}</View> : null}
     </View>
