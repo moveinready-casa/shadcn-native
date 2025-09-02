@@ -89,7 +89,7 @@
     "@tailwindcss/postcss": "^4.1.11",
     "@testing-library/react-native": "^13.2.0",
     "@tsconfig/react-native": "^3.0.6",
-    "@types/node": "^20",
+    "@types/node": "^24",
     "@types/react": "^19.1",
     "@types/react-dom": "^19.1",
     "@types/react-native-web": "^0.19.1",
