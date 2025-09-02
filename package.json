@@ -43,7 +43,7 @@
     "clsx": "^2.1.1",
     "expo-image": "^2.4.0",
     "lucide-react": "^0.525.0",
-    "lucide-react-native": "^0.525.0",
+    "lucide-react-native": "^0.542.0",
     "motion": "^12.23.12",
     "nativewind": "^4.1.23",
     "next": "15.5.0",

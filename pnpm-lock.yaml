@@ -93,8 +93,8 @@ importers:
         specifier: ^0.525.0
         version: 0.525.0(react@19.1.1)
       lucide-react-native:
-        specifier: ^0.525.0
-        version: 0.525.0(react-native-svg@15.12.1(react-native@0.80.1(@babel/core@7.28.3)(@types/react@19.1.10)(react@19.1.1))(react@19.1.1))(react-native@0.80.1(@babel/core@7.28.3)(@types/react@19.1.10)(react@19.1.1))(react@19.1.1)
+        specifier: ^0.542.0
+        version: 0.542.0(react-native-svg@15.12.1(react-native@0.80.1(@babel/core@7.28.3)(@types/react@19.1.10)(react@19.1.1))(react@19.1.1))(react-native@0.80.1(@babel/core@7.28.3)(@types/react@19.1.10)(react@19.1.1))(react@19.1.1)
       motion:
         specifier: ^12.23.12
         version: 12.23.12(react-dom@19.1.1(react@19.1.1))(react@19.1.1)
@@ -7032,8 +7032,8 @@ packages:
   lru-cache@5.1.1:
     resolution: {integrity: sha512-KpNARQA3Iwv+jTA0utUVVbrh+Jlrr1Fv0e56GGzAFOXN7dk/FviaDW8LHmK52DlcH4WP2n6gI8vN1aesBFgo9w==}
 
-  lucide-react-native@0.525.0:
-    resolution: {integrity: sha512-f9iIdoZJCDIXhzAMQCNgaiWdiq42ls5ieXvVXwlNHN1q7c5zC1n1U0yOVu6J0oNSF8zvYqY3pK3UPOX+T2YpIQ==}
+  lucide-react-native@0.542.0:
+    resolution: {integrity: sha512-9iI59TPMm7oqdq4/k5zd9DL5bl6s0a772KvpoafzTKEBZTMdu0rd7wg0mSMrCvMDD7SuCiKXk0tg55FyJH8i7Q==}
     peerDependencies:
       react: ^16.5.1 || ^17.0.0 || ^18.0.0 || ^19.0.0
       react-native: '*'
@@ -11086,9 +11086,9 @@ snapshots:
 
   '@expo/sudo-prompt@9.3.2': {}
 
-  '@expo/vector-icons@14.1.0(expo-font@13.3.2(expo@53.0.20(@babel/core@7.28.3)(react-native@0.80.1(@babel/core@7.28.3)(@types/react@19.1.10)(react@19.1.1))(react@19.1.1))(react@19.1.1))(react-native@0.80.1(@babel/core@7.28.3)(@types/react@19.1.10)(react@19.1.0))(react@19.1.0)':
+  '@expo/vector-icons@14.1.0(expo-font@13.3.2(expo@53.0.20(@babel/core@7.28.3)(react-native@0.80.1(@babel/core@7.28.3)(@types/react@19.1.10)(react@19.1.0))(react@19.1.0))(react@19.1.0))(react-native@0.80.1(@babel/core@7.28.3)(@types/react@19.1.10)(react@19.1.0))(react@19.1.0)':
     dependencies:
-      expo-font: 13.3.2(expo@53.0.20(@babel/core@7.28.3)(react-native@0.80.1(@babel/core@7.28.3)(@types/react@19.1.10)(react@19.1.1))(react@19.1.1))(react@19.1.1)
+      expo-font: 13.3.2(expo@53.0.20(@babel/core@7.28.3)(react-native@0.80.1(@babel/core@7.28.3)(@types/react@19.1.10)(react@19.1.0))(react@19.1.0))(react@19.1.0)
       react: 19.1.0
       react-native: 0.80.1(@babel/core@7.28.3)(@types/react@19.1.10)(react@19.1.0)
 
@@ -16774,7 +16774,7 @@ snapshots:
       '@expo/config-plugins': 10.1.2
       '@expo/fingerprint': 0.13.4
       '@expo/metro-config': 0.20.17
-      '@expo/vector-icons': 14.1.0(expo-font@13.3.2(expo@53.0.20(@babel/core@7.28.3)(react-native@0.80.1(@babel/core@7.28.3)(@types/react@19.1.10)(react@19.1.1))(react@19.1.1))(react@19.1.1))(react-native@0.80.1(@babel/core@7.28.3)(@types/react@19.1.10)(react@19.1.0))(react@19.1.0)
+      '@expo/vector-icons': 14.1.0(expo-font@13.3.2(expo@53.0.20(@babel/core@7.28.3)(react-native@0.80.1(@babel/core@7.28.3)(@types/react@19.1.10)(react@19.1.0))(react@19.1.0))(react@19.1.0))(react-native@0.80.1(@babel/core@7.28.3)(@types/react@19.1.10)(react@19.1.0))(react@19.1.0)
       babel-preset-expo: 13.2.3(@babel/core@7.28.3)
       expo-asset: 11.1.7(expo@53.0.20(@babel/core@7.28.3)(react-native@0.80.1(@babel/core@7.28.3)(@types/react@19.1.10)(react@19.1.0))(react@19.1.0))(react-native@0.80.1(@babel/core@7.28.3)(@types/react@19.1.10)(react@19.1.0))(react@19.1.0)
       expo-constants: 17.1.7(expo@53.0.20(@babel/core@7.28.3)(react-native@0.80.1(@babel/core@7.28.3)(@types/react@19.1.10)(react@19.1.0))(react@19.1.0))(react-native@0.80.1(@babel/core@7.28.3)(@types/react@19.1.10)(react@19.1.0))
@@ -18367,7 +18367,7 @@ snapshots:
     dependencies:
       yallist: 3.1.1
 
-  lucide-react-native@0.525.0(react-native-svg@15.12.1(react-native@0.80.1(@babel/core@7.28.3)(@types/react@19.1.10)(react@19.1.1))(react@19.1.1))(react-native@0.80.1(@babel/core@7.28.3)(@types/react@19.1.10)(react@19.1.1))(react@19.1.1):
+  lucide-react-native@0.542.0(react-native-svg@15.12.1(react-native@0.80.1(@babel/core@7.28.3)(@types/react@19.1.10)(react@19.1.1))(react@19.1.1))(react-native@0.80.1(@babel/core@7.28.3)(@types/react@19.1.10)(react@19.1.1))(react@19.1.1):
     dependencies:
       react: 19.1.1
       react-native: 0.80.1(@babel/core@7.28.3)(@types/react@19.1.10)(react@19.1.1)
