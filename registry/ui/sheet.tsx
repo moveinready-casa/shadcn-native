@@ -5,6 +5,7 @@ import {
   useDialog as useSheetAria,
 } from "@react-aria/dialog";
 import {useFocusRing} from "@react-aria/focus";
+import {Portal} from "@rn-primitives/portal";
 import {XIcon} from "lucide-react-native";
 import React, {
   ComponentProps,
@@ -14,6 +15,7 @@ import React, {
   useRef,
   useState,
 } from "react";
+import {createPortal} from "react-dom";
 import {
   Dimensions,
   GestureResponderEvent,
@@ -221,11 +223,13 @@ export type SheetCloseComponentProps = {
 /**
  * Props for the `SheetPortal` component.
  * @param children - The content to render inside the sheet portal.
+ * @param forceMount - Whether to force mount the sheet content even when closed.
  * @see ComponentProps
  */
 export type SheetPortalComponentProps = {
   children: React.ReactNode;
-} & ComponentProps<typeof View>;
+  forceMount?: boolean;
+} & ComponentProps<typeof Portal>;
 
 /**
  * Props for the `SheetOverlay` component.
@@ -493,27 +497,30 @@ export const sheetDescription = tv({
  * ```tsx
  * <Sheet>
  *   <SheetTrigger>Open Sheet</SheetTrigger>
- *   <SheetContent>
- *     <SheetHeader>
- *       <SheetTitle>Edit Profile</SheetTitle>
- *       <SheetDescription>
- *         Make changes to your profile here. Click save when you're done.
- *       </SheetDescription>
- *     </SheetHeader>
- *     <View className="grid gap-4 py-4">
- *       <View className="grid grid-cols-4 items-center gap-4">
- *         <Text className="text-right">Name</Text>
- *         <Text className="col-span-3">John Doe</Text>
+ *   <SheetPortal name="sheet">
+ *     <SheetOverlay />
+ *     <SheetContent>
+ *       <SheetHeader>
+ *         <SheetTitle>Edit Profile</SheetTitle>
+ *         <SheetDescription>
+ *           Make changes to your profile here. Click save when you're done.
+ *         </SheetDescription>
+ *       </SheetHeader>
+ *       <View className="grid gap-4 py-4">
+ *         <View className="grid grid-cols-4 items-center gap-4">
+ *           <Text className="text-right">Name</Text>
+ *           <Text className="col-span-3">John Doe</Text>
+ *         </View>
+ *         <View className="grid grid-cols-4 items-center gap-4">
+ *           <Text className="text-right">Username</Text>
+ *           <Text className="col-span-3">@johndoe</Text>
+ *         </View>
  *       </View>
- *       <View className="grid grid-cols-4 items-center gap-4">
- *         <Text className="text-right">Username</Text>
- *         <Text className="col-span-3">@johndoe</Text>
- *       </View>
- *     </View>
- *     <SheetFooter>
- *       <SheetClose>Save changes</SheetClose>
- *     </SheetFooter>
- *   </SheetContent>
+ *       <SheetFooter>
+ *         <SheetClose>Save changes</SheetClose>
+ *       </SheetFooter>
+ *     </SheetContent>
+ *   </SheetPortal>
  * </Sheet>
  * ```
  * @param param0 - Props to configure the behavior of the sheet. @see SheetComponentProps
@@ -564,12 +571,37 @@ export function SheetTrigger({
 }
 
 /**
- * The sheet portal component. The portal is not used in this library as there is no body element in React Native, it is only here for compatibility with the Radix UI and Shadcn UI and can be removed if not used.
+ * The sheet portal component.
  * @param param0 - Props to configure the behavior of the sheet portal. @see SheetPortalComponentProps
  * @returns Returns a `View` which wraps the sheet content.
  */
-export function SheetPortal({children, ...props}: SheetPortalComponentProps) {
-  return <View {...props}>{children}</View>;
+export function SheetPortal({
+  children,
+  forceMount,
+  ...props
+}: SheetPortalComponentProps) {
+  const context = useContext(SheetContext);
+  if (!context.state.isOpen && !context.state.controlledOpen && !forceMount) {
+    return;
+  }
+
+  return Platform.OS === "web" ? (
+    createPortal(
+      <SheetContext.Provider value={context}>
+        <div {...props} className="absolute inset-0 h-full w-full">
+          {children}
+        </div>
+      </SheetContext.Provider>,
+      // @ts-expect-error - Document is only used on web
+      document.body,
+    )
+  ) : (
+    <Portal {...props}>
+      <SheetContext.Provider value={context}>
+        <View className="absolute inset-0 h-full w-full">{children}</View>
+      </SheetContext.Provider>
+    </Portal>
+  );
 }
 
 /**

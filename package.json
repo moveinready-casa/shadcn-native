@@ -1,8 +1,7 @@
 {
   "name": "shadcn-native",
-  "version": "0.1.0",
+  "version": "0.2.1",
   "type": "module",
-  "private": true,
   "scripts": {
     "build": "next build",
     "start": "next start",
@@ -11,8 +10,10 @@
     "format:write": "pnpx prettier --write .",
     "test": "node --experimental-vm-modules node_modules/jest/bin/jest.js",
     "prepare": "husky",
+    "prebuild": "node scripts/buildChangelog.mjs",
     "postbuild": "pagefind --site .next/server/app --output-path public/_pagefind && pnpm dlx shadcn@latest build",
-    "storybook": "pnpm --filter storybook storybook"
+    "storybook": "pnpm --filter storybook storybook",
+    "changeset": "changeset"
   },
   "dependencies": {
     "@radix-ui/react-accordion": "^1.2.11",
@@ -29,7 +30,7 @@
     "@react-aria/interactions": "^3.25.4",
     "@react-aria/overlays": "^3.28.0",
     "@react-aria/radio": "^3.12.0",
-    "@react-aria/separator": "^3.4.11",
+    "@react-aria/separator": "^3.4.12",
     "@react-aria/utils": "^3.29.1",
     "@react-native-aria/accordion": "^0.0.2",
     "@react-native-assets/slider": "^11.0.10",
@@ -37,6 +38,7 @@
     "@react-navigation/native": "^7.1.17",
     "@react-navigation/native-stack": "^7.3.25",
     "@react-stately/disclosure": "^3.0.5",
+    "@rn-primitives/portal": "^1.3.0",
     "@storybook/icons": "^1.4.0",
     "@vercel/analytics": "^1.5.0",
     "class-variance-authority": "^0.7.1",
@@ -115,6 +117,7 @@
     "tw-animate-css": "^1.3.7",
     "typescript": "^5",
     "typescript-eslint": "^8.41.0"
+    "@changesets/cli": "^2.29.6"
   },
   "packageManager": "pnpm@10.13.1",
   "engines": {

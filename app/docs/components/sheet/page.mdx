@@ -21,6 +21,16 @@ Extends the Dialog component to display content that complements the main conten
 
 ## Usage
 
+### Root Layout
+
+```tsx
+import {PortalHost} from "@rn-primitives/portal";
+
+<PortalHost name="sheet" />;
+```
+
+### Sheet
+
 ```tsx
 import {
   Sheet,
@@ -39,7 +49,7 @@ import {
   <SheetTrigger asChild>
     <Button>Open sheet</Button>
   </SheetTrigger>
-  <SheetPortal>
+  <SheetPortal name="sheet">
     <SheetOverlay />
     <SheetContent side="right">
       <SheetHeader>
@@ -133,6 +143,12 @@ _Also extends all React Native `Text` component props._
 | `asChild` | `boolean` | `false` | If true clones the child and passes all accessibility and functionality props to it. Available on any exported component. |
 
 _Also extends all React Native `Pressable` component props._
+
+### SheetPortal
+
+If you are using this component you must add a `PortalHost` to your root layout. See [Portal](https://rnprimitives.com/portal/) for more information.
+
+_Extends all React Native `View` component props._
 
 ## Hooks
 

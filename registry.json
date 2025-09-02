@@ -54,7 +54,7 @@
         "@react-aria/dialog",
         "@react-aria/button",
         "@react-aria/focus",
-        "react-native-reanimated"
+        "@rn-primitives/portal"
       ],
       "registryDependencies": [
         "https://shadcn-native.moveinready.casa/registry/button"
@@ -188,7 +188,8 @@
         "@react-aria/button",
         "@react-aria/focus",
         "lucide-react-native",
-        "react-native-reanimated"
+        "react-native-reanimated",
+        "@rn-primitives/portal"
       ],
       "registryDependencies": []
     },
@@ -347,7 +348,8 @@
         "@react-aria/button",
         "@react-aria/focus",
         "lucide-react-native",
-        "react-native-reanimated"
+        "react-native-reanimated",
+        "@rn-primitives/portal"
       ],
       "registryDependencies": []
     },

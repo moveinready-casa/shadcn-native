@@ -24,6 +24,16 @@ A window overlaid on either the primary window or another dialog window, renderi
 
 ## Usage
 
+### Root Layout
+
+```tsx
+import {PortalHost} from "@rn-primitives/portal";
+
+<PortalHost name="dialog" />;
+```
+
+### Dialog
+
 ```tsx
 import {
   Dialog,
@@ -152,16 +162,16 @@ _Also extends all React Native `Pressable` component props._
 
 ### DialogPortal
 
-**Note:** The DialogPortal is not used in this library as there is no body element in React Native, it is only here for compatibility with the Radix UI and Shadcn UI and can be removed if not used.
-
 _Extends all React Native `View` component props._
 
 ### DialogOverlay
 
-| Prop            | Type      | Default | Description                                                                                                               |
-| --------------- | --------- | ------- | ------------------------------------------------------------------------------------------------------------------------- |
-| `asChild`       | `boolean` | `false` | If true clones the child and passes all accessibility and functionality props to it. Available on any exported component. |
-| `baseClassName` | `string`  | -       | Custom tailwind classes to apply to the base dialog overlay component. Takes priority over the `className` prop.          |
+If you are using this component you must add a `PortalHost` to your root layout. See [Portal](https://rnprimitives.com/portal/) for more information.
+
+| Prop            | Type      | Default | Description                                                                                                      |
+| --------------- | --------- | ------- | ---------------------------------------------------------------------------------------------------------------- |
+| `forceMount`    | `boolean` | `false` | Whether to force mount the dialog overlay even when closed.                                                      |
+| `baseClassName` | `string`  | -       | Custom tailwind classes to apply to the base dialog overlay component. Takes priority over the `className` prop. |
 
 _Also extends all React Native `View` component props._
 
