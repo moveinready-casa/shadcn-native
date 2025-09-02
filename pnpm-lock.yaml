@@ -205,8 +205,8 @@ importers:
         specifier: ^0.80.1
         version: 0.80.2(eslint@9.33.0(jiti@2.5.1))(jest@30.0.5(@types/node@20.19.11)(esbuild-register@3.6.0(esbuild@0.25.9))(ts-node@10.9.2(@types/node@20.19.11)(typescript@5.9.2)))(prettier@3.6.2)(typescript@5.9.2)
       '@react-native/eslint-plugin':
-        specifier: ^0.80.1
-        version: 0.80.2
+        specifier: ^0.81.1
+        version: 0.81.1
       '@react-native/typescript-config':
         specifier: ^0.81.0
         version: 0.81.0
@@ -2938,6 +2938,10 @@ packages:
   '@react-native/eslint-plugin@0.80.2':
     resolution: {integrity: sha512-I0HDmMGtChz6s9EShHasgZfiMUc6XtCAPMjR//jqTTav746eng98Z/zk25/nVeGCCD+X8KtlzHH9AUUqYv5sNQ==}
     engines: {node: '>=18'}
+
+  '@react-native/eslint-plugin@0.81.1':
+    resolution: {integrity: sha512-uo/3+yz7IpHRBnZOyvWBGQgPSzXqLyBlRRGsAG5s5wHK+8B1+sbUd3JeZn11A01KnZtYry7kBPJ59IpHk1Hn4g==}
+    engines: {node: '>= 20.19.4'}
 
   '@react-native/gradle-plugin@0.80.1':
     resolution: {integrity: sha512-6B7bWUk27ne/g/wCgFF4MZFi5iy6hWOcBffqETJoab6WURMyZ6nU+EAMn+Vjhl5ishhUvTVSrJ/1uqrxxYQO2Q==}
@@ -11086,9 +11090,9 @@ snapshots:
 
   '@expo/sudo-prompt@9.3.2': {}
 
-  '@expo/vector-icons@14.1.0(expo-font@13.3.2(expo@53.0.20(@babel/core@7.28.3)(react-native@0.80.1(@babel/core@7.28.3)(@types/react@19.1.10)(react@19.1.1))(react@19.1.1))(react@19.1.1))(react-native@0.80.1(@babel/core@7.28.3)(@types/react@19.1.10)(react@19.1.0))(react@19.1.0)':
+  '@expo/vector-icons@14.1.0(expo-font@13.3.2(expo@53.0.20(@babel/core@7.28.3)(react-native@0.80.1(@babel/core@7.28.3)(@types/react@19.1.10)(react@19.1.0))(react@19.1.0))(react@19.1.0))(react-native@0.80.1(@babel/core@7.28.3)(@types/react@19.1.10)(react@19.1.0))(react@19.1.0)':
     dependencies:
-      expo-font: 13.3.2(expo@53.0.20(@babel/core@7.28.3)(react-native@0.80.1(@babel/core@7.28.3)(@types/react@19.1.10)(react@19.1.1))(react@19.1.1))(react@19.1.1)
+      expo-font: 13.3.2(expo@53.0.20(@babel/core@7.28.3)(react-native@0.80.1(@babel/core@7.28.3)(@types/react@19.1.10)(react@19.1.0))(react@19.1.0))(react@19.1.0)
       react: 19.1.0
       react-native: 0.80.1(@babel/core@7.28.3)(@types/react@19.1.10)(react@19.1.0)
 
@@ -13295,6 +13299,8 @@ snapshots:
       - typescript
 
   '@react-native/eslint-plugin@0.80.2': {}
+
+  '@react-native/eslint-plugin@0.81.1': {}
 
   '@react-native/gradle-plugin@0.80.1': {}
 
@@ -16774,7 +16780,7 @@ snapshots:
       '@expo/config-plugins': 10.1.2
       '@expo/fingerprint': 0.13.4
       '@expo/metro-config': 0.20.17
-      '@expo/vector-icons': 14.1.0(expo-font@13.3.2(expo@53.0.20(@babel/core@7.28.3)(react-native@0.80.1(@babel/core@7.28.3)(@types/react@19.1.10)(react@19.1.1))(react@19.1.1))(react@19.1.1))(react-native@0.80.1(@babel/core@7.28.3)(@types/react@19.1.10)(react@19.1.0))(react@19.1.0)
+      '@expo/vector-icons': 14.1.0(expo-font@13.3.2(expo@53.0.20(@babel/core@7.28.3)(react-native@0.80.1(@babel/core@7.28.3)(@types/react@19.1.10)(react@19.1.0))(react@19.1.0))(react@19.1.0))(react-native@0.80.1(@babel/core@7.28.3)(@types/react@19.1.10)(react@19.1.0))(react@19.1.0)
       babel-preset-expo: 13.2.3(@babel/core@7.28.3)
       expo-asset: 11.1.7(expo@53.0.20(@babel/core@7.28.3)(react-native@0.80.1(@babel/core@7.28.3)(@types/react@19.1.10)(react@19.1.0))(react@19.1.0))(react-native@0.80.1(@babel/core@7.28.3)(@types/react@19.1.10)(react@19.1.0))(react@19.1.0)
       expo-constants: 17.1.7(expo@53.0.20(@babel/core@7.28.3)(react-native@0.80.1(@babel/core@7.28.3)(@types/react@19.1.10)(react@19.1.0))(react@19.1.0))(react-native@0.80.1(@babel/core@7.28.3)(@types/react@19.1.10)(react@19.1.0))
