@@ -33,7 +33,7 @@
     "@react-aria/separator": "^3.4.11",
     "@react-aria/utils": "^3.29.1",
     "@react-native-aria/accordion": "^0.0.2",
-    "@react-native-assets/slider": "^11.0.10",
+    "@react-native-assets/slider": "^11.0.11",
     "@react-native-menu/menu": "^1.2.4",
     "@react-navigation/native": "^7.1.17",
     "@react-navigation/native-stack": "^7.3.25",
