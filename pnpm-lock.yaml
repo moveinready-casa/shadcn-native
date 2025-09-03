@@ -60,8 +60,8 @@ importers:
         specifier: ^0.0.2
         version: 0.0.2(react-native@0.80.1(@babel/core@7.28.3)(@types/react@19.1.10)(react@19.1.1))(react@19.1.1)
       '@react-native-assets/slider':
-        specifier: ^11.0.10
-        version: 11.0.10(react-native@0.80.1(@babel/core@7.28.3)(@types/react@19.1.10)(react@19.1.1))(react@19.1.1)
+        specifier: ^11.0.11
+        version: 11.0.11(react-native@0.80.1(@babel/core@7.28.3)(@types/react@19.1.10)(react@19.1.1))(react@19.1.1)
       '@react-native-menu/menu':
         specifier: ^1.2.4
         version: 1.2.4(react-native@0.80.1(@babel/core@7.28.3)(@types/react@19.1.10)(react@19.1.1))(react@19.1.1)
@@ -2822,8 +2822,8 @@ packages:
       react: '*'
       react-native: '*'
 
-  '@react-native-assets/slider@11.0.10':
-    resolution: {integrity: sha512-iQmY4p4Ws6qk76WeEtMjdEQIq1AoEZEqMJPRP2FEx2bieMWmadW7nO1ZhWnPZ65G3RlwqIef4zphJQPvQO81Qg==}
+  '@react-native-assets/slider@11.0.11':
+    resolution: {integrity: sha512-nj45JFe+fLUBw8cdv+uqnzh5VxTF6L9FF3AOgr+66uhd7Oc88KrCSC625Ou+kaidDKSsVKfjBYa7+JFRtp7Gww==}
     peerDependencies:
       react: '>=16.13.1'
       react-native: '>=0.61.4'
@@ -11086,9 +11086,9 @@ snapshots:
 
   '@expo/sudo-prompt@9.3.2': {}
 
-  '@expo/vector-icons@14.1.0(expo-font@13.3.2(expo@53.0.20(@babel/core@7.28.3)(react-native@0.80.1(@babel/core@7.28.3)(@types/react@19.1.10)(react@19.1.1))(react@19.1.1))(react@19.1.1))(react-native@0.80.1(@babel/core@7.28.3)(@types/react@19.1.10)(react@19.1.0))(react@19.1.0)':
+  '@expo/vector-icons@14.1.0(expo-font@13.3.2(expo@53.0.20(@babel/core@7.28.3)(react-native@0.80.1(@babel/core@7.28.3)(@types/react@19.1.10)(react@19.1.0))(react@19.1.0))(react@19.1.0))(react-native@0.80.1(@babel/core@7.28.3)(@types/react@19.1.10)(react@19.1.0))(react@19.1.0)':
     dependencies:
-      expo-font: 13.3.2(expo@53.0.20(@babel/core@7.28.3)(react-native@0.80.1(@babel/core@7.28.3)(@types/react@19.1.10)(react@19.1.1))(react@19.1.1))(react@19.1.1)
+      expo-font: 13.3.2(expo@53.0.20(@babel/core@7.28.3)(react-native@0.80.1(@babel/core@7.28.3)(@types/react@19.1.10)(react@19.1.0))(react@19.1.0))(react@19.1.0)
       react: 19.1.0
       react-native: 0.80.1(@babel/core@7.28.3)(@types/react@19.1.10)(react@19.1.0)
 
@@ -13016,7 +13016,7 @@ snapshots:
       react: 19.1.1
       react-native: 0.80.1(@babel/core@7.28.3)(@types/react@19.1.10)(react@19.1.1)
 
-  '@react-native-assets/slider@11.0.10(react-native@0.80.1(@babel/core@7.28.3)(@types/react@19.1.10)(react@19.1.1))(react@19.1.1)':
+  '@react-native-assets/slider@11.0.11(react-native@0.80.1(@babel/core@7.28.3)(@types/react@19.1.10)(react@19.1.1))(react@19.1.1)':
     dependencies:
       react: 19.1.1
       react-native: 0.80.1(@babel/core@7.28.3)(@types/react@19.1.10)(react@19.1.1)
@@ -16774,7 +16774,7 @@ snapshots:
       '@expo/config-plugins': 10.1.2
       '@expo/fingerprint': 0.13.4
       '@expo/metro-config': 0.20.17
-      '@expo/vector-icons': 14.1.0(expo-font@13.3.2(expo@53.0.20(@babel/core@7.28.3)(react-native@0.80.1(@babel/core@7.28.3)(@types/react@19.1.10)(react@19.1.1))(react@19.1.1))(react@19.1.1))(react-native@0.80.1(@babel/core@7.28.3)(@types/react@19.1.10)(react@19.1.0))(react@19.1.0)
+      '@expo/vector-icons': 14.1.0(expo-font@13.3.2(expo@53.0.20(@babel/core@7.28.3)(react-native@0.80.1(@babel/core@7.28.3)(@types/react@19.1.10)(react@19.1.0))(react@19.1.0))(react@19.1.0))(react-native@0.80.1(@babel/core@7.28.3)(@types/react@19.1.10)(react@19.1.0))(react@19.1.0)
       babel-preset-expo: 13.2.3(@babel/core@7.28.3)
       expo-asset: 11.1.7(expo@53.0.20(@babel/core@7.28.3)(react-native@0.80.1(@babel/core@7.28.3)(@types/react@19.1.10)(react@19.1.0))(react@19.1.0))(react-native@0.80.1(@babel/core@7.28.3)(@types/react@19.1.10)(react@19.1.0))(react@19.1.0)
       expo-constants: 17.1.7(expo@53.0.20(@babel/core@7.28.3)(react-native@0.80.1(@babel/core@7.28.3)(@types/react@19.1.10)(react@19.1.0))(react@19.1.0))(react-native@0.80.1(@babel/core@7.28.3)(@types/react@19.1.10)(react@19.1.0))
