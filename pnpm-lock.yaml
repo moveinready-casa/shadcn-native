@@ -199,8 +199,8 @@ importers:
         specifier: ^3
         version: 3.3.1
       '@eslint/js':
-        specifier: ^9.30.1
-        version: 9.33.0
+        specifier: ^9.35.0
+        version: 9.35.0
       '@jest/globals':
         specifier: ^30.1.1
         version: 30.1.1
@@ -1571,6 +1571,10 @@ packages:
     resolution: {integrity: sha512-5K1/mKhWaMfreBGJTwval43JJmkip0RmM+3+IuqupeSKNC/Th2Kc7ucaq5ovTSra/OOKB9c58CGSz3QMVbWt0A==}
     engines: {node: ^18.18.0 || ^20.9.0 || >=21.1.0}
 
+  '@eslint/js@9.35.0':
+    resolution: {integrity: sha512-30iXE9whjlILfWobBkNerJo+TXYsgVM5ERQwMcMKCHckHflCmf7wXDAHlARoWnh0s1U72WqlbeyE7iAcCzuCPw==}
+    engines: {node: ^18.18.0 || ^20.9.0 || >=21.1.0}
+
   '@eslint/object-schema@2.1.6':
     resolution: {integrity: sha512-RBMg5FRL0I0gs51M/guSAj5/e14VQ4tpZnQNWwuDT66P14I43ItmPfIZRhO9fUVIPOAQXU47atlywZ/czoqFPA==}
     engines: {node: ^18.18.0 || ^20.9.0 || >=21.1.0}
@@ -1621,8 +1625,8 @@ packages:
     resolution: {integrity: sha512-IClSOXxR0YUFxIriUJVqyYki7lLMIHrrzOaP01yxAL1G8pj2DWV5eW1y5jSzIcIfSCNhtGsshGd1tU/AYup5iQ==}
     engines: {node: '>=12'}
 
-  '@expo/package-manager@1.9.7':
-    resolution: {integrity: sha512-k3uky8Qzlv21rxuPvP2KUTAy8NI0b/LP7BSXcwJpS/rH7RmiAqUXgzPar3I1OmKGgxpod78Y9Mae//F8d3aiOQ==}
+  '@expo/package-manager@1.9.8':
+    resolution: {integrity: sha512-4/I6OWquKXYnzo38pkISHCOCOXxfeEmu4uDoERq1Ei/9Ur/s9y3kLbAamEkitUkDC7gHk1INxRWEfFNzGbmOrA==}
 
   '@expo/plist@0.3.5':
     resolution: {integrity: sha512-9RYVU1iGyCJ7vWfg3e7c/NVyMFs8wbl+dMWZphtFtsqyN9zppGREU3ctlD3i8KUE0sCUTVnLjCWr+VeUIDep2g==}
@@ -11279,6 +11283,8 @@ snapshots:
 
   '@eslint/js@9.33.0': {}
 
+  '@eslint/js@9.35.0': {}
+
   '@eslint/object-schema@2.1.6': {}
 
   '@eslint/plugin-kit@0.3.5':
@@ -11299,7 +11305,7 @@ snapshots:
       '@expo/json-file': 9.1.5
       '@expo/metro-config': 0.20.17
       '@expo/osascript': 2.3.7
-      '@expo/package-manager': 1.9.7
+      '@expo/package-manager': 1.9.8
       '@expo/plist': 0.3.5
       '@expo/prebuild-config': 9.0.12
       '@expo/spawn-async': 1.7.2
@@ -11485,7 +11491,7 @@ snapshots:
       '@expo/spawn-async': 1.7.2
       exec-async: 2.2.0
 
-  '@expo/package-manager@1.9.7':
+  '@expo/package-manager@1.9.8':
     dependencies:
       '@expo/json-file': 10.0.7
       '@expo/spawn-async': 1.7.2
