@@ -17,7 +17,6 @@
     "react-dom": "^19.1.1",
     "react-native": "^0.80.1",
     "react-native-css-interop": "^0.1.22",
-    "react-native-input-code-otp": "^1.0.2",
     "react-native-reanimated": "^3.18.0",
     "react-native-render-html": "^6.3.4",
     "react-native-safe-area-context": "5.4.0",
