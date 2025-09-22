@@ -20,7 +20,7 @@
     "react-native-reanimated": "^3.18.0",
     "react-native-render-html": "^6.3.4",
     "react-native-safe-area-context": "5.4.0",
-    "tailwind-variants": "^3.1.0"
+    "tailwind-variants": "^3.1.1"
   },
   "devDependencies": {
     "@chromatic-com/storybook": "^4.1.1",
