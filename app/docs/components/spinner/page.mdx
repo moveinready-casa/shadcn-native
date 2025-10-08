@@ -1,0 +1,70 @@
+import Preview from "../../../../components/Preview";
+import {GithubIcon, StorybookIcon} from "@storybook/icons";
+
+<div style={{display: "flex", flexDirection: "row", gap: "2rem"}}>
+  <a
+    href={`${process.env.STORYBOOK_URL}/?path=/story/spinner--default&globals=backgrounds.value:light`}
+  >
+    <StorybookIcon color="#FE4785" width={25} height={25} />
+  </a>
+  <a href="https://github.com/moveinready-casa/shadcn-native/tree/main/registry/ui/spinner.tsx">
+    <GithubIcon width={25} height={25} />
+  </a>
+</div>
+
+# Spinner
+
+A loading indicator component that displays an animated spinner to indicate ongoing processes.
+
+<Preview component="spinner" />
+
+## Usage
+
+```tsx
+import {Spinner} from "@/components/ui/spinner";
+
+<Spinner />;
+```
+
+## Components
+
+### Spinner
+
+| Prop            | Type                                                     | Default     | Description                                                           |
+| --------------- | -------------------------------------------------------- | ----------- | --------------------------------------------------------------------- |
+| `color`         | `"default" \| "secondary" \| "destructive" \| "warning"` | `"default"` | The visual color of the spinner. Controls the color scheme.           |
+| `size`          | `"sm" \| "md" \| "lg" \| "xl"`                           | `"md"`      | Sets the size of the spinner. Controls the icon dimensions.           |
+| `baseClassName` | `string`                                                 | -           | Tailwind classes to apply to the spinner. Overrides `className`.      |
+| `className`     | `string`                                                 | -           | Additional Tailwind classes (merged unless `baseClassName` provided). |
+
+Accepts all other `ActivityIndicator` props from React Native. **Note: this is different from shadcn/ui accepting svg props, which don't all exist in React Native.**
+
+## Accessibility
+
+The Spinner component uses React Native's `ActivityIndicator`, which includes:
+
+- Native accessibility support for loading states
+- Automatic announcement by screen readers
+- Proper semantic role for loading indicators
+
+## Styling
+
+The Spinner component uses Tailwind variants for consistent styling and integrates with the theme system.
+
+### Color Variants
+
+The `color` prop maps to theme colors:
+
+- **default**: Uses the foreground color from the current theme
+- **secondary**: Uses the secondary foreground color
+- **destructive**: Uses the destructive color (typically red)
+- **warning**: Uses the warning color (typically orange/yellow)
+
+### Size Variants
+
+The `size` prop controls the spinner dimensions:
+
+- **sm**: `12px` (ActivityIndicator size: `small`)
+- **md**: `16px` (ActivityIndicator size: `small`)
+- **lg**: `24px` (ActivityIndicator size: `large`)
+- **xl**: `32px` (ActivityIndicator size: `large`)
