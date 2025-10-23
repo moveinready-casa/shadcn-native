@@ -229,8 +229,8 @@ importers:
         specifier: ^4.1.11
         version: 4.1.12
       '@testing-library/react-native':
-        specifier: ^13.2.0
-        version: 13.3.0(jest@30.0.5(@types/node@20.19.11)(esbuild-register@3.6.0(esbuild@0.25.9))(ts-node@10.9.2(@types/node@20.19.11)(typescript@5.9.2)))(react-native@0.80.1(@babel/core@7.28.3)(@types/react@19.1.10)(react@19.1.1))(react-test-renderer@19.1.1(react@19.1.1))(react@19.1.1)
+        specifier: ^13.3.3
+        version: 13.3.3(jest@30.0.5(@types/node@20.19.11)(esbuild-register@3.6.0(esbuild@0.25.9))(ts-node@10.9.2(@types/node@20.19.11)(typescript@5.9.2)))(react-native@0.80.1(@babel/core@7.28.3)(@types/react@19.1.10)(react@19.1.1))(react-test-renderer@19.1.1(react@19.1.1))(react@19.1.1)
       '@tsconfig/react-native':
         specifier: ^3.0.6
         version: 3.0.6
@@ -3838,8 +3838,8 @@ packages:
     resolution: {integrity: sha512-RI2e97YZ7MRa+vxP4UUnMuMFL2buSsf0ollxUbTgrbPLKhMn8KVTx7raS6DYjC7v1NDVrioOvaShxsguLNISCA==}
     engines: {node: '>=14', npm: '>=6', yarn: '>=1'}
 
-  '@testing-library/react-native@13.3.0':
-    resolution: {integrity: sha512-6zBcjzweMZ6w4pvVtHrcv+FuTr3lC91UAKobcsOt4YTopCGee+xq9g1bP7W+OksSVpp71fkOm/I5stjU+UPLPw==}
+  '@testing-library/react-native@13.3.3':
+    resolution: {integrity: sha512-k6Mjsd9dbZgvY4Bl7P1NIpePQNi+dfYtlJ5voi9KQlynxSyQkfOgJmYGCYmw/aSgH/rUcFvG8u5gd4npzgRDyg==}
     engines: {node: '>=18'}
     peerDependencies:
       jest: '>=29.0.0'
@@ -14858,9 +14858,9 @@ snapshots:
       picocolors: 1.1.1
       redent: 3.0.0
 
-  '@testing-library/react-native@13.3.0(jest@30.0.5(@types/node@20.19.11)(esbuild-register@3.6.0(esbuild@0.25.9))(ts-node@10.9.2(@types/node@20.19.11)(typescript@5.9.2)))(react-native@0.80.1(@babel/core@7.28.3)(@types/react@19.1.10)(react@19.1.1))(react-test-renderer@19.1.1(react@19.1.1))(react@19.1.1)':
+  '@testing-library/react-native@13.3.3(jest@30.0.5(@types/node@20.19.11)(esbuild-register@3.6.0(esbuild@0.25.9))(ts-node@10.9.2(@types/node@20.19.11)(typescript@5.9.2)))(react-native@0.80.1(@babel/core@7.28.3)(@types/react@19.1.10)(react@19.1.1))(react-test-renderer@19.1.1(react@19.1.1))(react@19.1.1)':
     dependencies:
-      jest-matcher-utils: 30.0.5
+      jest-matcher-utils: 30.1.1
       picocolors: 1.1.1
       pretty-format: 30.0.5
       react: 19.1.1
