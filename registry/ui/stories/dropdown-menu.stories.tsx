@@ -8,6 +8,7 @@ import {
   DropdownMenuLabel,
   DropdownMenuGroup,
   DropdownMenuItem,
+  DropdownMenuItemTitle,
   DropdownMenuCheckboxItem,
   DropdownMenuSeparator,
   DropdownMenuShortcut,
@@ -28,9 +29,11 @@ function DropdownMenuStory() {
         <DropdownMenuContent>
           <DropdownMenuLabel>My Account</DropdownMenuLabel>
           <DropdownMenuGroup>
-            <DropdownMenuItem key="profile">Profile</DropdownMenuItem>
+            <DropdownMenuItem key="profile">
+              <DropdownMenuItemTitle>Profile</DropdownMenuItemTitle>
+            </DropdownMenuItem>
             <DropdownMenuItem key="settings">
-              Settings
+              <DropdownMenuItemTitle>Settings</DropdownMenuItemTitle>
               <DropdownMenuShortcut>⌘S</DropdownMenuShortcut>
             </DropdownMenuItem>
           </DropdownMenuGroup>
@@ -44,15 +47,19 @@ function DropdownMenuStory() {
           <DropdownMenuSub>
             <DropdownMenuSubTrigger key="more">More</DropdownMenuSubTrigger>
             <DropdownMenuSubContent>
-              <DropdownMenuItem key="about">About</DropdownMenuItem>
-              <DropdownMenuItem key="help">Help</DropdownMenuItem>
+              <DropdownMenuItem key="about">
+                <DropdownMenuItemTitle>About</DropdownMenuItemTitle>
+              </DropdownMenuItem>
+              <DropdownMenuItem key="help">
+                <DropdownMenuItemTitle>Help</DropdownMenuItemTitle>
+              </DropdownMenuItem>
             </DropdownMenuSubContent>
           </DropdownMenuSub>
 
           <DropdownMenuSeparator />
 
           <DropdownMenuItem key="logout" variant="destructive">
-            Log out
+            <DropdownMenuItemTitle>Log out</DropdownMenuItemTitle>
           </DropdownMenuItem>
         </DropdownMenuContent>
       </DropdownMenu>

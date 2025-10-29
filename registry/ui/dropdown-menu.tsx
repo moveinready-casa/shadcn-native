@@ -245,9 +245,12 @@ export const dropdownMenuContentStyles = tv({
  * @param props - Props for the dropdown menu root
  * @returns The dropdown menu root component
  */
-export function DropdownMenu({...props}: DropdownMenuProps) {
-  return <DropdownMenuPrimitive.Root data-slot="dropdown-menu" {...props} />;
-}
+export const DropdownMenu = DropdownMenuPrimitive.create(
+  ({...props}: DropdownMenuProps) => {
+    return <DropdownMenuPrimitive.Root data-slot="dropdown-menu" {...props} />;
+  },
+  "Root",
+);
 
 /**
  * Trigger component for the dropdown menu.
@@ -255,14 +258,17 @@ export function DropdownMenu({...props}: DropdownMenuProps) {
  * @param props - Props for the dropdown menu trigger
  * @returns The dropdown menu trigger component
  */
-export function DropdownMenuTrigger({...props}: DropdownMenuTriggerProps) {
-  return (
-    <DropdownMenuPrimitive.Trigger
-      data-slot="dropdown-menu-trigger"
-      {...props}
-    />
-  );
-}
+export const DropdownMenuTrigger = DropdownMenuPrimitive.create(
+  ({...props}: DropdownMenuTriggerProps) => {
+    return (
+      <DropdownMenuPrimitive.Trigger
+        data-slot="dropdown-menu-trigger"
+        {...props}
+      />
+    );
+  },
+  "Trigger",
+);
 
 /**
  * Group component for organizing dropdown menu items.
@@ -270,11 +276,14 @@ export function DropdownMenuTrigger({...props}: DropdownMenuTriggerProps) {
  * @param props - Props for the dropdown menu group
  * @returns The dropdown menu group component
  */
-export function DropdownMenuGroup({...props}: DropdownMenuGroupProps) {
-  return (
-    <DropdownMenuPrimitive.Group data-slot="dropdown-menu-group" {...props} />
-  );
-}
+export const DropdownMenuGroup = DropdownMenuPrimitive.create(
+  ({...props}: DropdownMenuGroupProps) => {
+    return (
+      <DropdownMenuPrimitive.Group data-slot="dropdown-menu-group" {...props} />
+    );
+  },
+  "Group",
+);
 
 /**
  * Individual menu item component for the dropdown menu.
@@ -286,27 +295,30 @@ export function DropdownMenuGroup({...props}: DropdownMenuGroupProps) {
  * @param props - Additional props for the menu item
  * @returns The dropdown menu item component
  */
-export function DropdownMenuItem({
-  className,
-  baseClassName,
-  inset,
-  variant = "default",
-  ...props
-}: DropdownMenuItemProps) {
-  return (
-    <DropdownMenuPrimitive.Item
-      data-slot="dropdown-menu-item"
-      data-inset={inset}
-      data-variant={variant}
-      className={dropdownMenuItemStyles({
-        variant,
-        inset,
-        class: baseClassName || className,
-      })}
-      {...props}
-    />
-  );
-}
+export const DropdownMenuItem = DropdownMenuPrimitive.create(
+  ({
+    className,
+    baseClassName,
+    inset,
+    variant = "default",
+    ...props
+  }: DropdownMenuItemProps) => {
+    return (
+      <DropdownMenuPrimitive.Item
+        data-slot="dropdown-menu-item"
+        data-inset={inset}
+        data-variant={variant}
+        className={dropdownMenuItemStyles({
+          variant,
+          inset,
+          class: baseClassName || className,
+        })}
+        {...props}
+      />
+    );
+  },
+  "Item",
+);
 
 /**
  * Checkbox menu item component for the dropdown menu.
@@ -319,33 +331,36 @@ export function DropdownMenuItem({
  * @param props - Additional props for the checkbox item
  * @returns The dropdown menu checkbox item component
  */
-export function DropdownMenuCheckboxItem({
-  className,
-  baseClassName,
-  iconClassName,
-  children,
-  checked,
-  ...props
-}: DropdownMenuCheckboxItemProps) {
-  const {base, icon} = dropdownMenuCheckboxItemStyles();
-  return (
-    <DropdownMenuPrimitive.CheckboxItem
-      data-slot="dropdown-menu-checkbox-item"
-      className={base({
-        class: baseClassName || className,
-      })}
-      checked={checked}
-      {...props}
-    >
-      <Text className={icon({class: iconClassName})}>
-        <DropdownMenuPrimitive.ItemIndicator>
-          <CheckIcon className="size-4" />
-        </DropdownMenuPrimitive.ItemIndicator>
-      </Text>
-      {children}
-    </DropdownMenuPrimitive.CheckboxItem>
-  );
-}
+export const DropdownMenuCheckboxItem = DropdownMenuPrimitive.create(
+  ({
+    className,
+    baseClassName,
+    iconClassName,
+    children,
+    checked,
+    ...props
+  }: DropdownMenuCheckboxItemProps) => {
+    const {base, icon} = dropdownMenuCheckboxItemStyles();
+    return (
+      <DropdownMenuPrimitive.CheckboxItem
+        data-slot="dropdown-menu-checkbox-item"
+        className={base({
+          class: baseClassName || className,
+        })}
+        checked={checked}
+        {...props}
+      >
+        <Text className={icon({class: iconClassName})}>
+          <DropdownMenuPrimitive.ItemIndicator>
+            <CheckIcon className="size-4" />
+          </DropdownMenuPrimitive.ItemIndicator>
+        </Text>
+        {children}
+      </DropdownMenuPrimitive.CheckboxItem>
+    );
+  },
+  "CheckboxItem",
+);
 
 /**
  * Label component for the dropdown menu.
@@ -356,24 +371,22 @@ export function DropdownMenuCheckboxItem({
  * @param props - Additional props for the label
  * @returns The dropdown menu label component
  */
-export function DropdownMenuLabel({
-  className,
-  baseClassName,
-  inset,
-  ...props
-}: DropdownMenuLabelProps) {
-  return (
-    <DropdownMenuPrimitive.Label
-      data-slot="dropdown-menu-label"
-      data-inset={inset}
-      className={dropdownMenuLabelStyles({
-        inset,
-        class: baseClassName || className,
-      })}
-      {...props}
-    />
-  );
-}
+export const DropdownMenuLabel = DropdownMenuPrimitive.create(
+  ({className, baseClassName, inset, ...props}: DropdownMenuLabelProps) => {
+    return (
+      <DropdownMenuPrimitive.Label
+        data-slot="dropdown-menu-label"
+        data-inset={inset}
+        className={dropdownMenuLabelStyles({
+          inset,
+          class: baseClassName || className,
+        })}
+        {...props}
+      />
+    );
+  },
+  "Label",
+);
 
 /**
  * Separator component for the dropdown menu.
@@ -383,21 +396,20 @@ export function DropdownMenuLabel({
  * @param props - Additional props for the separator
  * @returns The dropdown menu separator component
  */
-export function DropdownMenuSeparator({
-  className,
-  baseClassName,
-  ...props
-}: DropdownMenuSeparatorProps) {
-  return (
-    <DropdownMenuPrimitive.Separator
-      data-slot="dropdown-menu-separator"
-      className={dropdownMenuSeparatorStyles({
-        class: baseClassName || className,
-      })}
-      {...props}
-    />
-  );
-}
+export const DropdownMenuSeparator = DropdownMenuPrimitive.create(
+  ({className, baseClassName, ...props}: DropdownMenuSeparatorProps) => {
+    return (
+      <DropdownMenuPrimitive.Separator
+        data-slot="dropdown-menu-separator"
+        className={dropdownMenuSeparatorStyles({
+          class: baseClassName || className,
+        })}
+        {...props}
+      />
+    );
+  },
+  "Separator",
+);
 
 /**
  * Shortcut component for the dropdown menu.
@@ -429,9 +441,14 @@ export function DropdownMenuShortcut({
  * @param props - Props for the dropdown menu sub
  * @returns The dropdown menu sub component
  */
-export function DropdownMenuSub({...props}: DropdownMenuSubProps) {
-  return <DropdownMenuPrimitive.Sub data-slot="dropdown-menu-sub" {...props} />;
-}
+export const DropdownMenuSub = DropdownMenuPrimitive.create(
+  ({...props}: DropdownMenuSubProps) => {
+    return (
+      <DropdownMenuPrimitive.Sub data-slot="dropdown-menu-sub" {...props} />
+    );
+  },
+  "Sub",
+);
 
 /**
  * Sub trigger component for the dropdown menu.
@@ -443,28 +460,31 @@ export function DropdownMenuSub({...props}: DropdownMenuSubProps) {
  * @param props - Additional props for the sub trigger
  * @returns The dropdown menu sub trigger component
  */
-export function DropdownMenuSubTrigger({
-  className,
-  baseClassName,
-  inset,
-  children,
-  ...props
-}: DropdownMenuSubTriggerProps) {
-  return (
-    <DropdownMenuPrimitive.SubTrigger
-      data-slot="dropdown-menu-sub-trigger"
-      data-inset={inset}
-      className={dropdownMenuSubTriggerStyles({
-        inset,
-        class: baseClassName || className,
-      })}
-      {...props}
-    >
-      {children}
-      <ChevronRightIcon className="ml-auto size-4" />
-    </DropdownMenuPrimitive.SubTrigger>
-  );
-}
+export const DropdownMenuSubTrigger = DropdownMenuPrimitive.create(
+  ({
+    className,
+    baseClassName,
+    inset,
+    children,
+    ...props
+  }: DropdownMenuSubTriggerProps) => {
+    return (
+      <DropdownMenuPrimitive.SubTrigger
+        data-slot="dropdown-menu-sub-trigger"
+        data-inset={inset}
+        className={dropdownMenuSubTriggerStyles({
+          inset,
+          class: baseClassName || className,
+        })}
+        {...props}
+      >
+        {children}
+        <ChevronRightIcon className="ml-auto size-4" />
+      </DropdownMenuPrimitive.SubTrigger>
+    );
+  },
+  "SubTrigger",
+);
 
 /**
  * Sub content component for the dropdown menu.
@@ -474,21 +494,20 @@ export function DropdownMenuSubTrigger({
  * @param props - Additional props for the sub content
  * @returns The dropdown menu sub content component
  */
-export function DropdownMenuSubContent({
-  className,
-  baseClassName,
-  ...props
-}: DropdownMenuSubContentProps) {
-  return (
-    <DropdownMenuPrimitive.SubContent
-      data-slot="dropdown-menu-sub-content"
-      className={dropdownMenuSubContentStyles({
-        class: baseClassName || className,
-      })}
-      {...props}
-    />
-  );
-}
+export const DropdownMenuSubContent = DropdownMenuPrimitive.create(
+  ({className, baseClassName, ...props}: DropdownMenuSubContentProps) => {
+    return (
+      <DropdownMenuPrimitive.SubContent
+        data-slot="dropdown-menu-sub-content"
+        className={dropdownMenuSubContentStyles({
+          class: baseClassName || className,
+        })}
+        {...props}
+      />
+    );
+  },
+  "SubContent",
+);
 
 /**
  * Content component for the dropdown menu.
@@ -498,18 +517,49 @@ export function DropdownMenuSubContent({
  * @param props - Additional props for the content
  * @returns The dropdown menu content component
  */
-export function DropdownMenuContent({
-  className,
-  baseClassName,
-  ...props
-}: DropdownMenuContentProps) {
-  return (
-    <DropdownMenuPrimitive.Content
-      data-slot="dropdown-menu-content"
-      className={dropdownMenuContentStyles({
-        class: baseClassName || className,
-      })}
-      {...props}
-    />
-  );
-}
+export const DropdownMenuContent = DropdownMenuPrimitive.create(
+  ({className, baseClassName, ...props}: DropdownMenuContentProps) => {
+    return (
+      <DropdownMenuPrimitive.Content
+        data-slot="dropdown-menu-content"
+        className={dropdownMenuContentStyles({
+          class: baseClassName || className,
+        })}
+        {...props}
+      />
+    );
+  },
+  "Content",
+);
+
+/**
+ * ItemTitle component for the dropdown menu.
+ * Used to provide the title text for menu items.
+ * @param props - Props for the item title
+ * @returns The dropdown menu item title component
+ */
+export const DropdownMenuItemTitle = DropdownMenuPrimitive.ItemTitle;
+
+/**
+ * ItemSubtitle component for the dropdown menu.
+ * Used to provide subtitle text for menu items.
+ * @param props - Props for the item subtitle
+ * @returns The dropdown menu item subtitle component
+ */
+export const DropdownMenuItemSubtitle = DropdownMenuPrimitive.ItemSubtitle;
+
+/**
+ * ItemIcon component for the dropdown menu.
+ * Used to provide icons for menu items.
+ * @param props - Props for the item icon
+ * @returns The dropdown menu item icon component
+ */
+export const DropdownMenuItemIcon = DropdownMenuPrimitive.ItemIcon;
+
+/**
+ * ItemImage component for the dropdown menu.
+ * Used to provide images for menu items.
+ * @param props - Props for the item image
+ * @returns The dropdown menu item image component
+ */
+export const DropdownMenuItemImage = DropdownMenuPrimitive.ItemImage;
