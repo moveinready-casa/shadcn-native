@@ -99,7 +99,7 @@ export type SelectSeparatorProps = React.ComponentProps<
  * Provides base styles and size variants for the trigger button.
  * @param size - Size variant: "sm" for small, "default" for standard sizing
  */
-export const selectTriggerStyles = tv({
+export const selectTrigger = tv({
   base: "focus:ring-ring data-[placeholder]:text-muted-foreground flex flex-row h-9 w-full items-center justify-between gap-2 whitespace-nowrap rounded-md border border-input bg-transparent px-3 py-2 text-sm shadow-sm focus:outline-hidden focus:ring-1 disabled:cursor-not-allowed disabled:opacity-50 [&>span]:line-clamp-1 [&_svg]:pointer-events-none [&_svg]:shrink-0 [&_svg:not([class*='size-'])]:size-4 [&_svg]:opacity-50",
   variants: {
     size: {
@@ -116,7 +116,7 @@ export const selectTriggerStyles = tv({
  * Tailwind variants for select content styling.
  * Provides base styles with animations and positioning for select dropdown content.
  */
-export const selectContentStyles = tv({
+export const selectContent = tv({
   base: "bg-popover text-popover-foreground data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0 data-[state=closed]:zoom-out-95 data-[state=open]:zoom-in-95 data-[side=bottom]:slide-in-from-top-2 data-[side=left]:slide-in-from-right-2 data-[side=right]:slide-in-from-left-2 data-[side=top]:slide-in-from-bottom-2 relative z-50 max-h-96 min-w-[8rem] overflow-hidden rounded-md border shadow-md",
   variants: {
     position: {
@@ -134,7 +134,7 @@ export const selectContentStyles = tv({
  * Tailwind variants for select label styling.
  * Provides base styles for select labels.
  */
-export const selectLabelStyles = tv({
+export const selectLabel = tv({
   base: "px-2 py-1.5 text-sm font-medium flex flex-row",
 });
 
@@ -142,7 +142,7 @@ export const selectLabelStyles = tv({
  * Tailwind variants for select item styling.
  * Provides base styles for select items with focus and selection states.
  */
-export const selectItemStyles = tv({
+export const selectItem = tv({
   base: "focus:bg-accent focus:text-accent-foreground relative flex w-full cursor-default items-center rounded-sm py-1.5 pr-2 pl-8 text-sm outline-hidden select-none data-[disabled]:pointer-events-none data-[disabled]:opacity-50 [&_svg]:pointer-events-none [&_svg]:shrink-0 [&_svg:not([class*='size-'])]:size-4",
 });
 
@@ -150,7 +150,7 @@ export const selectItemStyles = tv({
  * Tailwind variants for select separator styling.
  * Provides base styles for select separators.
  */
-export const selectSeparatorStyles = tv({
+export const selectSeparator = tv({
   base: "bg-muted -mx-1 my-1 h-px flex flex-row",
 });
 
@@ -214,7 +214,7 @@ export const SelectTrigger = SelectPrimitive.create(
       <SelectPrimitive.Trigger
         data-slot="select-trigger"
         data-size={size}
-        className={selectTriggerStyles({
+        className={selectTrigger({
           size,
           class: baseClassName || className,
         })}
@@ -255,7 +255,7 @@ export const SelectContent = SelectPrimitive.create(
         data-slot="select-content"
         data-position={position}
         data-align={align}
-        className={selectContentStyles({
+        className={selectContent({
           position,
           class: baseClassName || className,
         })}
@@ -282,7 +282,7 @@ export const SelectLabel = SelectPrimitive.create(
     return (
       <SelectPrimitive.Label
         data-slot="select-label"
-        className={selectLabelStyles({
+        className={selectLabel({
           class: baseClassName || className,
         })}
         {...props}
@@ -306,7 +306,7 @@ export const SelectItem = SelectPrimitive.create(
     return (
       <SelectPrimitive.Item
         data-slot="select-item"
-        className={selectItemStyles({
+        className={selectItem({
           class: baseClassName || className,
         })}
         {...props}
@@ -331,7 +331,7 @@ export const SelectSeparator = SelectPrimitive.create(
     return (
       <SelectPrimitive.Separator
         data-slot="select-separator"
-        className={selectSeparatorStyles({
+        className={selectSeparator({
           class: baseClassName || className,
         })}
         {...props}

@@ -148,7 +148,7 @@ export type DropdownMenuContentProps = React.ComponentProps<
  * @param variant - Visual variant: "default" for standard styling, "destructive" for destructive actions
  * @param inset - Whether to apply inset padding (pl-8)
  */
-export const dropdownMenuItemStyles = tv({
+export const dropdownMenuItem = tv({
   base: "relative flex flex-row cursor-default items-center gap-2 rounded-sm px-2 py-1.5 text-sm outline-hidden select-none data-[disabled]:pointer-events-none data-[disabled]:opacity-50 [&_svg]:pointer-events-none [&_svg]:shrink-0 [&_svg:not([class*='size-'])]:size-4",
   variants: {
     variant: {
@@ -172,7 +172,7 @@ export const dropdownMenuItemStyles = tv({
  * @param base - Base styles for the checkbox item container
  * @param icon - Styles for the check icon positioning
  */
-export const dropdownMenuCheckboxItemStyles = tv({
+export const dropdownMenuCheckboxItem = tv({
   slots: {
     base: "focus:bg-accent focus:text-accent-foreground relative flex flex-row cursor-default items-center gap-2 rounded-sm py-1.5 pr-2 pl-8 text-sm outline-hidden select-none data-[disabled]:pointer-events-none data-[disabled]:opacity-50 [&_svg]:pointer-events-none [&_svg]:shrink-0 [&_svg:not([class*='size-'])]:size-4",
     icon: "pointer-events-none absolute left-2 flex size-3.5 items-center justify-center",
@@ -184,7 +184,7 @@ export const dropdownMenuCheckboxItemStyles = tv({
  * Provides base styles and inset option for menu labels.
  * @param inset - Whether to apply inset padding (pl-8)
  */
-export const dropdownMenuLabelStyles = tv({
+export const dropdownMenuLabel = tv({
   base: "px-2 py-1.5 text-sm font-medium flex flex-row",
   variants: {
     inset: {
@@ -197,7 +197,7 @@ export const dropdownMenuLabelStyles = tv({
  * Tailwind variants for dropdown menu separator styling.
  * Provides base styles for menu separators.
  */
-export const dropdownMenuSeparatorStyles = tv({
+export const dropdownMenuSeparator = tv({
   base: "bg-border -mx-1 my-1 h-px flex flex-row",
 });
 
@@ -205,7 +205,7 @@ export const dropdownMenuSeparatorStyles = tv({
  * Tailwind variants for dropdown menu shortcut styling.
  * Provides base styles for keyboard shortcuts display.
  */
-export const dropdownMenuShortcutStyles = tv({
+export const dropdownMenuShortcut = tv({
   base: "text-muted-foreground ml-auto text-xs tracking-widest",
 });
 
@@ -214,7 +214,7 @@ export const dropdownMenuShortcutStyles = tv({
  * Provides base styles and inset option for sub menu triggers.
  * @param inset - Whether to apply inset padding (pl-8)
  */
-export const dropdownMenuSubTriggerStyles = tv({
+export const dropdownMenuSubTrigger = tv({
   base: "focus:bg-accent focus:text-accent-foreground data-[state=open]:bg-accent data-[state=open]:text-accent-foreground flex cursor-default items-center rounded-sm px-2 py-1.5 text-sm outline-hidden select-none",
   variants: {
     inset: {
@@ -227,7 +227,7 @@ export const dropdownMenuSubTriggerStyles = tv({
  * Tailwind variants for dropdown menu sub content styling.
  * Provides base styles with animations and positioning for sub menu content.
  */
-export const dropdownMenuSubContentStyles = tv({
+export const dropdownMenuSubContent = tv({
   base: "bg-popover text-popover-foreground data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0 data-[state=closed]:zoom-out-95 data-[state=open]:zoom-in-95 data-[side=bottom]:slide-in-from-top-2 data-[side=left]:slide-in-from-right-2 data-[side=right]:slide-in-from-left-2 data-[side=top]:slide-in-from-bottom-2 z-50 min-w-[8rem] origin-(--radix-dropdown-menu-content-transform-origin) overflow-hidden rounded-md border p-1 shadow-lg",
 });
 
@@ -235,7 +235,7 @@ export const dropdownMenuSubContentStyles = tv({
  * Tailwind variants for dropdown menu content styling.
  * Provides base styles with animations and positioning for main menu content.
  */
-export const dropdownMenuContentStyles = tv({
+export const dropdownMenuContent = tv({
   base: "bg-popover text-popover-foreground data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0 data-[state=closed]:zoom-out-95 data-[state=open]:zoom-in-95 data-[side=bottom]:slide-in-from-top-2 data-[side=left]:slide-in-from-right-2 data-[side=right]:slide-in-from-left-2 data-[side=top]:slide-in-from-bottom-2 z-50 min-w-[8rem] origin-(--radix-dropdown-menu-content-transform-origin) overflow-hidden rounded-md border p-1 shadow-lg",
 });
 
@@ -308,7 +308,7 @@ export const DropdownMenuItem = DropdownMenuPrimitive.create(
         data-slot="dropdown-menu-item"
         data-inset={inset}
         data-variant={variant}
-        className={dropdownMenuItemStyles({
+        className={dropdownMenuItem({
           variant,
           inset,
           class: baseClassName || className,
@@ -340,7 +340,7 @@ export const DropdownMenuCheckboxItem = DropdownMenuPrimitive.create(
     checked,
     ...props
   }: DropdownMenuCheckboxItemProps) => {
-    const {base, icon} = dropdownMenuCheckboxItemStyles();
+    const {base, icon} = dropdownMenuCheckboxItem();
     return (
       <DropdownMenuPrimitive.CheckboxItem
         data-slot="dropdown-menu-checkbox-item"
@@ -377,7 +377,7 @@ export const DropdownMenuLabel = DropdownMenuPrimitive.create(
       <DropdownMenuPrimitive.Label
         data-slot="dropdown-menu-label"
         data-inset={inset}
-        className={dropdownMenuLabelStyles({
+        className={dropdownMenuLabel({
           inset,
           class: baseClassName || className,
         })}
@@ -401,7 +401,7 @@ export const DropdownMenuSeparator = DropdownMenuPrimitive.create(
     return (
       <DropdownMenuPrimitive.Separator
         data-slot="dropdown-menu-separator"
-        className={dropdownMenuSeparatorStyles({
+        className={dropdownMenuSeparator({
           class: baseClassName || className,
         })}
         {...props}
@@ -427,7 +427,7 @@ export function DropdownMenuShortcut({
   return (
     <Text
       data-slot="dropdown-menu-shortcut"
-      className={dropdownMenuShortcutStyles({
+      className={dropdownMenuShortcut({
         class: baseClassName || className,
       })}
       {...props}
@@ -472,7 +472,7 @@ export const DropdownMenuSubTrigger = DropdownMenuPrimitive.create(
       <DropdownMenuPrimitive.SubTrigger
         data-slot="dropdown-menu-sub-trigger"
         data-inset={inset}
-        className={dropdownMenuSubTriggerStyles({
+        className={dropdownMenuSubTrigger({
           inset,
           class: baseClassName || className,
         })}
@@ -499,7 +499,7 @@ export const DropdownMenuSubContent = DropdownMenuPrimitive.create(
     return (
       <DropdownMenuPrimitive.SubContent
         data-slot="dropdown-menu-sub-content"
-        className={dropdownMenuSubContentStyles({
+        className={dropdownMenuSubContent({
           class: baseClassName || className,
         })}
         {...props}
@@ -522,7 +522,7 @@ export const DropdownMenuContent = DropdownMenuPrimitive.create(
     return (
       <DropdownMenuPrimitive.Content
         data-slot="dropdown-menu-content"
-        className={dropdownMenuContentStyles({
+        className={dropdownMenuContent({
           class: baseClassName || className,
         })}
         {...props}

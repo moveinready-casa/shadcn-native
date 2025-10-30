@@ -1,3 +1,259 @@
+import Preview from "../../../../components/Preview";
+import {GithubIcon, StorybookIcon} from "@storybook/icons";
+
+<div style={{display: "flex", flexDirection: "row", gap: "2rem"}}>
+  <a
+    href={`${process.env.STORYBOOK_URL}/?path=/story/dropdownmenu--default&globals=backgrounds.value:light`}
+  >
+    <StorybookIcon color="#FE4785" width={25} height={25} />
+  </a>
+  <a href="https://github.com/moveinready-casa/shadcn-native/tree/main/registry/ui/dropdown-menu.tsx">
+    <GithubIcon width={25} height={25} />
+  </a>
+  <a href="https://ui.shadcn.com/docs/components/dropdown-menu">Shadcn Docs</a>
+  <a href="https://zeego.dev">Zeego Docs</a>
+</div>
+
 # Dropdown Menu
 
-We currently do not provide a dropdown menu. We recommend [Zeego](https://zeego.dev).
+Displays a menu to the user — such as a set of actions or functions — triggered by a button. **Built with [Zeego](https://zeego.dev)**.
+
+<Preview component="dropdown-menu" />
+
+## Usage
+
+```tsx
+import {
+  DropdownMenu,
+  DropdownMenuCheckboxItem,
+  DropdownMenuContent,
+  DropdownMenuGroup,
+  DropdownMenuItem,
+  DropdownMenuItemIcon,
+  DropdownMenuItemImage,
+  DropdownMenuItemSubtitle,
+  DropdownMenuItemTitle,
+  DropdownMenuLabel,
+  DropdownMenuSeparator,
+  DropdownMenuShortcut,
+  DropdownMenuSub,
+  DropdownMenuSubContent,
+  DropdownMenuSubTrigger,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
+import {Button} from "@/components/ui/button";
+
+<DropdownMenu>
+  <DropdownMenuTrigger asChild>
+    <Button>Open menu</Button>
+  </DropdownMenuTrigger>
+  <DropdownMenuContent>
+    <DropdownMenuLabel>My Account</DropdownMenuLabel>
+    <DropdownMenuGroup>
+      <DropdownMenuItem key="profile">
+        <DropdownMenuItemTitle>Profile</DropdownMenuItemTitle>
+      </DropdownMenuItem>
+      <DropdownMenuItem key="settings">
+        <DropdownMenuItemTitle>Settings</DropdownMenuItemTitle>
+        <DropdownMenuShortcut>⌘S</DropdownMenuShortcut>
+      </DropdownMenuItem>
+    </DropdownMenuGroup>
+    <DropdownMenuSeparator />
+    <DropdownMenuCheckboxItem key="notifications" value="on">
+      Email Notifications
+    </DropdownMenuCheckboxItem>
+    <DropdownMenuSeparator />
+    <DropdownMenuItem key="logout" variant="destructive">
+      <DropdownMenuItemTitle>Log out</DropdownMenuItemTitle>
+    </DropdownMenuItem>
+  </DropdownMenuContent>
+</DropdownMenu>;
+```
+
+## Components
+
+### DropdownMenu
+
+| Prop           | Type                        | Default | Description                                                         |
+| -------------- | --------------------------- | ------- | ------------------------------------------------------------------- |
+| `open`         | `boolean`                   | -       | Controlled open state of the dropdown menu.                         |
+| `onOpenChange` | `(isOpen: boolean) => void` | -       | Callback function called when the dropdown menu open state changes. |
+
+_Also extends all [Zeego DropdownMenu.Root](https://zeego.dev/menu) component props._
+
+### DropdownMenuTrigger
+
+| Prop       | Type      | Default | Description                                                                  |
+| ---------- | --------- | ------- | ---------------------------------------------------------------------------- |
+| `asChild`  | `boolean` | `false` | If true, merges props with first child element instead of rendering wrapper. |
+| `disabled` | `boolean` | `false` | Whether the trigger is disabled.                                             |
+
+_Also extends all [Zeego DropdownMenu.Trigger](https://zeego.dev/menu) component props._
+
+### DropdownMenuContent
+
+| Prop            | Type     | Default | Description                                                                                                         |
+| --------------- | -------- | ------- | ------------------------------------------------------------------------------------------------------------------- |
+| `className`     | `string` | -       | Additional CSS classes to apply to the dropdown menu content.                                                       |
+| `baseClassName` | `string` | -       | Custom tailwind classes to apply to the base dropdown menu content component. Takes priority over `className` prop. |
+
+_Also extends all [Zeego DropdownMenu.Content](https://zeego.dev/menu) component props._
+
+### DropdownMenuGroup
+
+Used to group related menu items together.
+
+_Extends all [Zeego DropdownMenu.Group](https://zeego.dev/menu) component props._
+
+### DropdownMenuItem
+
+| Prop            | Type                         | Default     | Description                                                                                                      |
+| --------------- | ---------------------------- | ----------- | ---------------------------------------------------------------------------------------------------------------- |
+| `variant`       | `"default" \| "destructive"` | `"default"` | The visual variant of the menu item. Controls the color scheme and styling approach.                             |
+| `inset`         | `boolean`                    | `false`     | Whether the item should have inset padding (pl-8).                                                               |
+| `className`     | `string`                     | -           | Additional CSS classes to apply to the dropdown menu item.                                                       |
+| `baseClassName` | `string`                     | -           | Custom tailwind classes to apply to the base dropdown menu item component. Takes priority over `className` prop. |
+
+_Also extends all [Zeego DropdownMenu.Item](https://zeego.dev/menu) component props._
+
+### DropdownMenuCheckboxItem
+
+| Prop            | Type      | Default | Description                                                                                                               |
+| --------------- | --------- | ------- | ------------------------------------------------------------------------------------------------------------------------- |
+| `checked`       | `boolean` | -       | Whether the checkbox is checked.                                                                                          |
+| `className`     | `string`  | -       | Additional CSS classes to apply to the dropdown menu checkbox item.                                                       |
+| `baseClassName` | `string`  | -       | Custom tailwind classes to apply to the base dropdown menu checkbox item component. Takes priority over `className` prop. |
+| `iconClassName` | `string`  | -       | Custom tailwind classes to apply to the check icon.                                                                       |
+
+_Also extends all [Zeego DropdownMenu.CheckboxItem](https://zeego.dev/menu) component props._
+
+### DropdownMenuLabel
+
+| Prop            | Type      | Default | Description                                                                                                       |
+| --------------- | --------- | ------- | ----------------------------------------------------------------------------------------------------------------- |
+| `inset`         | `boolean` | `false` | Whether the label should have inset padding (pl-8).                                                               |
+| `className`     | `string`  | -       | Additional CSS classes to apply to the dropdown menu label.                                                       |
+| `baseClassName` | `string`  | -       | Custom tailwind classes to apply to the base dropdown menu label component. Takes priority over `className` prop. |
+
+_Also extends all [Zeego DropdownMenu.Label](https://zeego.dev/menu) component props._
+
+### DropdownMenuSeparator
+
+| Prop            | Type     | Default | Description                                                                                                           |
+| --------------- | -------- | ------- | --------------------------------------------------------------------------------------------------------------------- |
+| `className`     | `string` | -       | Additional CSS classes to apply to the dropdown menu separator.                                                       |
+| `baseClassName` | `string` | -       | Custom tailwind classes to apply to the base dropdown menu separator component. Takes priority over `className` prop. |
+
+_Also extends all [Zeego DropdownMenu.Separator](https://zeego.dev/menu) component props._
+
+### DropdownMenuShortcut
+
+| Prop            | Type     | Default | Description                                                                                                          |
+| --------------- | -------- | ------- | -------------------------------------------------------------------------------------------------------------------- |
+| `className`     | `string` | -       | Additional CSS classes to apply to the dropdown menu shortcut text.                                                  |
+| `baseClassName` | `string` | -       | Custom tailwind classes to apply to the base dropdown menu shortcut component. Takes priority over `className` prop. |
+
+_Also extends all React Native `Text` component props._
+
+### DropdownMenuSub
+
+Used to create nested submenu structures.
+
+_Extends all [Zeego DropdownMenu.Sub](https://zeego.dev/menu) component props._
+
+### DropdownMenuSubTrigger
+
+| Prop            | Type      | Default | Description                                                                                                             |
+| --------------- | --------- | ------- | ----------------------------------------------------------------------------------------------------------------------- |
+| `inset`         | `boolean` | `false` | Whether the sub trigger should have inset padding (pl-8).                                                               |
+| `className`     | `string`  | -       | Additional CSS classes to apply to the dropdown menu sub trigger.                                                       |
+| `baseClassName` | `string`  | -       | Custom tailwind classes to apply to the base dropdown menu sub trigger component. Takes priority over `className` prop. |
+
+_Also extends all [Zeego DropdownMenu.SubTrigger](https://zeego.dev/menu) component props._
+
+### DropdownMenuSubContent
+
+| Prop            | Type     | Default | Description                                                                                                             |
+| --------------- | -------- | ------- | ----------------------------------------------------------------------------------------------------------------------- |
+| `className`     | `string` | -       | Additional CSS classes to apply to the dropdown menu sub content.                                                       |
+| `baseClassName` | `string` | -       | Custom tailwind classes to apply to the base dropdown menu sub content component. Takes priority over `className` prop. |
+
+_Also extends all [Zeego DropdownMenu.SubContent](https://zeego.dev/menu) component props._
+
+### DropdownMenuItemTitle
+
+Used to provide the title text for menu items.
+
+_Extends all [Zeego DropdownMenu.ItemTitle](https://zeego.dev/menu) component props._
+
+### DropdownMenuItemSubtitle
+
+Used to provide subtitle text for menu items.
+
+_Extends all [Zeego DropdownMenu.ItemSubtitle](https://zeego.dev/menu) component props._
+
+### DropdownMenuItemIcon
+
+Used to provide icons for menu items.
+
+_Extends all [Zeego DropdownMenu.ItemIcon](https://zeego.dev/menu) component props._
+
+### DropdownMenuItemImage
+
+Used to provide images for menu items.
+
+_Extends all [Zeego DropdownMenu.ItemImage](https://zeego.dev/menu) component props._
+
+## Styling
+
+### DropdownMenuItem Classes
+
+**Variants:**
+
+- `default` (default) - Standard menu item styling with focus states
+- `destructive` - Red/destructive styling for dangerous actions
+
+**Inset Option:**
+
+- When `inset={true}`, applies `pl-8` padding for alignment with items that have icons
+
+**Base Classes:**
+
+- `base`: `relative flex flex-row cursor-default items-center gap-2 rounded-sm px-2 py-1.5 text-sm outline-hidden select-none data-[disabled]:pointer-events-none data-[disabled]:opacity-50 [&_svg]:pointer-events-none [&_svg]:shrink-0 [&_svg:not([class*='size-'])]:size-4`
+- `default`: `focus:bg-accent focus:text-accent-foreground [&_svg:not([class*='text-'])]:text-muted-foreground`
+- `destructive`: `text-destructive focus:bg-destructive/10 dark:focus:bg-destructive/20 focus:text-destructive *:[svg]:!text-destructive`
+
+### DropdownMenuCheckboxItem Classes
+
+**Base Classes:**
+
+- `base`: `focus:bg-accent focus:text-accent-foreground relative flex flex-row cursor-default items-center gap-2 rounded-sm py-1.5 pr-2 pl-8 text-sm outline-hidden select-none data-[disabled]:pointer-events-none data-[disabled]:opacity-50 [&_svg]:pointer-events-none [&_svg]:shrink-0 [&_svg:not([class*='size-'])]:size-4`
+- `icon`: `pointer-events-none absolute left-2 flex size-3.5 items-center justify-center`
+
+### DropdownMenuLabel Classes
+
+**Base Classes:** `px-2 py-1.5 text-sm font-medium flex flex-row`
+
+**Inset Option:** When `inset={true}`, applies `pl-8` padding
+
+### DropdownMenuSeparator Classes
+
+**Base Classes:** `bg-border -mx-1 my-1 h-px flex flex-row`
+
+### DropdownMenuShortcut Classes
+
+**Base Classes:** `text-muted-foreground ml-auto text-xs tracking-widest`
+
+### DropdownMenuSubTrigger Classes
+
+**Base Classes:** `focus:bg-accent focus:text-accent-foreground data-[state=open]:bg-accent data-[state=open]:text-accent-foreground flex cursor-default items-center rounded-sm px-2 py-1.5 text-sm outline-hidden select-none`
+
+**Inset Option:** When `inset={true}`, applies `pl-8` padding
+
+### DropdownMenuSubContent Classes
+
+**Base Classes:** `bg-popover text-popover-foreground data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0 data-[state=closed]:zoom-out-95 data-[state=open]:zoom-in-95 data-[side=bottom]:slide-in-from-top-2 data-[side=left]:slide-in-from-right-2 data-[side=right]:slide-in-from-left-2 data-[side=top]:slide-in-from-bottom-2 z-50 min-w-[8rem] origin-(--radix-dropdown-menu-content-transform-origin) overflow-hidden rounded-md border p-1 shadow-lg`
+
+### DropdownMenuContent Classes
+
+**Base Classes:** `bg-popover text-popover-foreground data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0 data-[state=closed]:zoom-out-95 data-[state=open]:zoom-in-95 data-[side=bottom]:slide-in-from-top-2 data-[side=left]:slide-in-from-right-2 data-[side=right]:slide-in-from-left-2 data-[side=top]:slide-in-from-bottom-2 z-50 min-w-[8rem] origin-(--radix-dropdown-menu-content-transform-origin) overflow-hidden rounded-md border p-1 shadow-lg`

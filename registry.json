@@ -194,6 +194,20 @@
       "registryDependencies": []
     },
     {
+      "name": "dropdown-menu",
+      "type": "registry:ui",
+      "title": "Dropdown Menu",
+      "description": "A dropdown menu component for React Native applications.",
+      "files": [
+        {
+          "path": "registry/ui/dropdown-menu.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": ["zeego", "lucide-react-native"],
+      "registryDependencies": []
+    },
+    {
       "name": "drawer",
       "type": "registry:ui",
       "title": "Drawer",
