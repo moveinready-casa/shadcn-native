@@ -319,6 +319,20 @@
       "registryDependencies": []
     },
     {
+      "name": "select",
+      "type": "registry:ui",
+      "title": "Select",
+      "description": "A select component for React Native applications.",
+      "files": [
+        {
+          "path": "registry/ui/select.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": ["zeego", "lucide-react-native"],
+      "registryDependencies": []
+    },
+    {
       "name": "separator",
       "type": "registry:ui",
       "title": "Separator",
