@@ -2,4 +2,4 @@
 "shadcn-native": minor
 ---
 
-Add the spinner component.
+Add the [spinner](https://shadcn-native.moveinready.casa/docs/components/spinner) component.
