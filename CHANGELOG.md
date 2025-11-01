@@ -1,5 +1,12 @@
 # shadcn-native
 
+## 0.3.0
+
+### Minor Changes
+
+- 2bb56ff: Adds new menu components. See the documentation for [select](https://shadcn-native.moveinready.casa/docs/components/select) and [dropdown-menu](https://shadcn-native.moveinready.casa/docs/components/dropdown-menu) to learn more.
+- 056db9d: Add the [spinner](https://shadcn-native.moveinready.casa/docs/components/spinner) component.
+
 ## 0.2.1
 
 ### Patch Changes
