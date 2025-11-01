@@ -194,6 +194,20 @@
       "registryDependencies": []
     },
     {
+      "name": "dropdown-menu",
+      "type": "registry:ui",
+      "title": "Dropdown Menu",
+      "description": "A dropdown menu component for React Native applications.",
+      "files": [
+        {
+          "path": "registry/ui/dropdown-menu.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": ["zeego", "lucide-react-native"],
+      "registryDependencies": []
+    },
+    {
       "name": "drawer",
       "type": "registry:ui",
       "title": "Drawer",
@@ -319,6 +333,20 @@
       "registryDependencies": []
     },
     {
+      "name": "select",
+      "type": "registry:ui",
+      "title": "Select",
+      "description": "A select component for React Native applications.",
+      "files": [
+        {
+          "path": "registry/ui/select.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": ["zeego", "lucide-react-native"],
+      "registryDependencies": []
+    },
+    {
       "name": "separator",
       "type": "registry:ui",
       "title": "Separator",
@@ -361,6 +389,20 @@
       "files": [
         {
           "path": "registry/ui/skeleton.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [],
+      "registryDependencies": []
+    },
+    {
+      "name": "spinner",
+      "type": "registry:ui",
+      "title": "Spinner",
+      "description": "A loading indicator component that displays an animated spinner.",
+      "files": [
+        {
+          "path": "registry/ui/spinner.tsx",
           "type": "registry:ui"
         }
       ],

@@ -1,6 +1,6 @@
 {
   "name": "shadcn-native",
-  "version": "0.2.1",
+  "version": "0.3.0",
   "type": "module",
   "scripts": {
     "build": "next build",
@@ -68,7 +68,8 @@
     "sonner-native": "^0.21.0",
     "tailwind-merge": "^3.3.1",
     "tailwind-variants": "^3.1.0",
-    "twrnc": "^4.9.1"
+    "twrnc": "^4.9.1",
+    "zeego": "^3.0.6"
   },
   "devDependencies": {
     "@babel/core": "^7.28.0",
@@ -113,6 +114,7 @@
     "pagefind": "^1.3.0",
     "prettier": "^3.6.2",
     "prettier-plugin-tailwindcss": "^0.6.14",
+    "react-native-renderer": "15.5.3",
     "react-test-renderer": "19.1.1",
     "tailwindcss": "^4.0.0",
     "tw-animate-css": "^1.3.7",
@@ -122,10 +124,5 @@
   "packageManager": "pnpm@10.13.1",
   "engines": {
     "node": ">=22"
-  },
-  "pnpm": {
-    "overrides": {
-      "react-native-renderer": "19.1.1"
-    }
   }
 }

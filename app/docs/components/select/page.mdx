@@ -1,0 +1,206 @@
+import Preview from "../../../../components/Preview";
+import {GithubIcon, StorybookIcon} from "@storybook/icons";
+
+<div style={{display: "flex", flexDirection: "row", gap: "2rem"}}>
+  <a
+    href={`${process.env.STORYBOOK_URL}/?path=/story/select--default&globals=backgrounds.value:light`}
+  >
+    <StorybookIcon color="#FE4785" width={25} height={25} />
+  </a>
+  <a href="https://github.com/moveinready-casa/shadcn-native/tree/main/registry/ui/select.tsx">
+    <GithubIcon width={25} height={25} />
+  </a>
+  <a href="https://ui.shadcn.com/docs/components/select">Shadcn Docs</a>
+  <a href="https://zeego.dev">Zeego Docs</a>
+</div>
+
+# Select
+
+Displays a list of options for the user to pick from — triggered by a button. **Built with [Zeego](https://zeego.dev)**.
+
+<Preview component="select" />
+
+## Usage
+
+```tsx
+import {
+  Select,
+  SelectContent,
+  SelectGroup,
+  SelectItem,
+  SelectItemIcon,
+  SelectItemImage,
+  SelectItemSubtitle,
+  SelectItemTitle,
+  SelectLabel,
+  SelectSeparator,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
+
+const [selectedValue, setSelectedValue] = React.useState<string | null>(null);
+
+const options = [
+  {label: "Apple", value: "apple"},
+  {label: "Banana", value: "banana"},
+  {label: "Orange", value: "orange"},
+];
+
+const selectedOption = options.find((opt) => opt.value === selectedValue);
+
+<Select>
+  <SelectTrigger className="w-[180px]">
+    <SelectValue placeholder="Select a fruit">
+      {selectedOption && selectedOption.label}
+    </SelectValue>
+  </SelectTrigger>
+  <SelectContent>
+    <SelectGroup>
+      <SelectLabel>Fruits</SelectLabel>
+      <SelectItem key="apple" onSelect={() => setSelectedValue("apple")}>
+        <SelectItemTitle>Apple</SelectItemTitle>
+      </SelectItem>
+      <SelectItem key="banana" onSelect={() => setSelectedValue("banana")}>
+        <SelectItemTitle>Banana</SelectItemTitle>
+      </SelectItem>
+      <SelectItem key="orange" onSelect={() => setSelectedValue("orange")}>
+        <SelectItemTitle>Orange</SelectItemTitle>
+      </SelectItem>
+    </SelectGroup>
+  </SelectContent>
+</Select>;
+```
+
+## Components
+
+### Select
+
+| Prop           | Type                        | Default | Description                                                  |
+| -------------- | --------------------------- | ------- | ------------------------------------------------------------ |
+| `open`         | `boolean`                   | -       | Controlled open state of the select.                         |
+| `onOpenChange` | `(isOpen: boolean) => void` | -       | Callback function called when the select open state changes. |
+
+_Also extends all [Zeego DropdownMenu.Root](https://zeego.dev/menu) component props._
+
+### SelectTrigger
+
+| Prop            | Type                | Default     | Description                                                                                                  |
+| --------------- | ------------------- | ----------- | ------------------------------------------------------------------------------------------------------------ |
+| `size`          | `"default" \| "sm"` | `"default"` | Sets the size of the select trigger. Controls height, padding, and text size.                                |
+| `className`     | `string`            | -           | Additional CSS classes to apply to the select trigger.                                                       |
+| `baseClassName` | `string`            | -           | Custom tailwind classes to apply to the base select trigger component. Takes priority over `className` prop. |
+
+_Also extends all [Zeego DropdownMenu.Trigger](https://zeego.dev/menu) component props._
+
+### SelectValue
+
+| Prop          | Type              | Default | Description                                            |
+| ------------- | ----------------- | ------- | ------------------------------------------------------ |
+| `placeholder` | `string`          | -       | Placeholder text to display when no value is selected. |
+| `children`    | `React.ReactNode` | -       | The selected value content to display.                 |
+
+### SelectContent
+
+| Prop            | Type                           | Default    | Description                                                                                                  |
+| --------------- | ------------------------------ | ---------- | ------------------------------------------------------------------------------------------------------------ |
+| `position`      | `"popper" \| "item-aligned"`   | `"popper"` | Position strategy for the select content.                                                                    |
+| `align`         | `"start" \| "center" \| "end"` | `"center"` | Alignment of the select content relative to the trigger.                                                     |
+| `className`     | `string`                       | -          | Additional CSS classes to apply to the select content.                                                       |
+| `baseClassName` | `string`                       | -          | Custom tailwind classes to apply to the base select content component. Takes priority over `className` prop. |
+
+_Also extends all [Zeego DropdownMenu.Content](https://zeego.dev/menu) component props._
+
+### SelectGroup
+
+Used to group related select items together.
+
+_Extends all [Zeego DropdownMenu.Group](https://zeego.dev/menu) component props._
+
+### SelectLabel
+
+| Prop            | Type     | Default | Description                                                                                                |
+| --------------- | -------- | ------- | ---------------------------------------------------------------------------------------------------------- |
+| `className`     | `string` | -       | Additional CSS classes to apply to the select label.                                                       |
+| `baseClassName` | `string` | -       | Custom tailwind classes to apply to the base select label component. Takes priority over `className` prop. |
+
+_Also extends all [Zeego DropdownMenu.Label](https://zeego.dev/menu) component props._
+
+### SelectItem
+
+| Prop            | Type     | Default | Description                                                                                               |
+| --------------- | -------- | ------- | --------------------------------------------------------------------------------------------------------- |
+| `className`     | `string` | -       | Additional CSS classes to apply to the select item.                                                       |
+| `baseClassName` | `string` | -       | Custom tailwind classes to apply to the base select item component. Takes priority over `className` prop. |
+
+_Also extends all [Zeego DropdownMenu.Item](https://zeego.dev/menu) component props._
+
+### SelectSeparator
+
+| Prop            | Type     | Default | Description                                                                                                    |
+| --------------- | -------- | ------- | -------------------------------------------------------------------------------------------------------------- |
+| `className`     | `string` | -       | Additional CSS classes to apply to the select separator.                                                       |
+| `baseClassName` | `string` | -       | Custom tailwind classes to apply to the base select separator component. Takes priority over `className` prop. |
+
+_Also extends all [Zeego DropdownMenu.Separator](https://zeego.dev/menu) component props._
+
+### SelectItemTitle
+
+Used to provide the title text for select items.
+
+_Extends all [Zeego DropdownMenu.ItemTitle](https://zeego.dev/menu) component props._
+
+### SelectItemSubtitle
+
+Used to provide subtitle text for select items.
+
+_Extends all [Zeego DropdownMenu.ItemSubtitle](https://zeego.dev/menu) component props._
+
+### SelectItemIcon
+
+Used to provide icons for select items.
+
+_Extends all [Zeego DropdownMenu.ItemIcon](https://zeego.dev/menu) component props._
+
+### SelectItemImage
+
+Used to provide images for select items.
+
+_Extends all [Zeego DropdownMenu.ItemImage](https://zeego.dev/menu) component props._
+
+## Styling
+
+### SelectTrigger Classes
+
+**Sizes:**
+
+- `default` (default) - Standard trigger size: `h-9 px-3 py-2`
+- `sm` - Small trigger size: `h-8 px-2 py-1 text-xs`
+
+**Base Classes:**
+
+`focus:ring-ring data-[placeholder]:text-muted-foreground flex flex-row h-9 w-full items-center justify-between gap-2 whitespace-nowrap rounded-md border border-input bg-transparent px-3 py-2 text-sm shadow-sm focus:outline-hidden focus:ring-1 disabled:cursor-not-allowed disabled:opacity-50 [&>span]:line-clamp-1 [&_svg]:pointer-events-none [&_svg]:shrink-0 [&_svg:not([class*='size-'])]:size-4 [&_svg]:opacity-50`
+
+### SelectContent Classes
+
+**Position Variants:**
+
+- `popper` - Uses popper positioning with offset transforms
+- `item-aligned` - Aligns content with selected item
+
+**Base Classes:**
+
+`bg-popover text-popover-foreground data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0 data-[state=closed]:zoom-out-95 data-[state=open]:zoom-in-95 data-[side=bottom]:slide-in-from-top-2 data-[side=left]:slide-in-from-right-2 data-[side=right]:slide-in-from-left-2 data-[side=top]:slide-in-from-bottom-2 relative z-50 max-h-96 min-w-[8rem] overflow-hidden rounded-md border shadow-md`
+
+### SelectLabel Classes
+
+**Base Classes:** `px-2 py-1.5 text-sm font-medium flex flex-row`
+
+### SelectItem Classes
+
+**Base Classes:**
+
+`focus:bg-accent focus:text-accent-foreground relative flex w-full cursor-default items-center rounded-sm py-1.5 pr-2 pl-8 text-sm outline-hidden select-none data-[disabled]:pointer-events-none data-[disabled]:opacity-50 [&_svg]:pointer-events-none [&_svg]:shrink-0 [&_svg:not([class*='size-'])]:size-4`
+
+### SelectSeparator Classes
+
+**Base Classes:** `bg-muted -mx-1 my-1 h-px flex flex-row`
