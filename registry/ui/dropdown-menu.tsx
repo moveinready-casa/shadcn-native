@@ -313,6 +313,7 @@ export const DropdownMenuItem = DropdownMenuPrimitive.create(
           inset,
           class: baseClassName || className,
         })}
+        destructive={variant === "destructive"}
         {...props}
       />
     );
