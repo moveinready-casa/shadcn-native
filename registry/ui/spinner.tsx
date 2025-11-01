@@ -23,8 +23,7 @@ export const spinner = tv({
   base: "",
   variants: {
     color: {
-      default: "text-foreground",
-      primary: "text-primary",
+      default: "text-primary",
       secondary: "text-secondary-foreground",
       destructive: "text-destructive",
       warning: "text-warning",
