@@ -396,6 +396,20 @@
       "registryDependencies": []
     },
     {
+      "name": "spinner",
+      "type": "registry:ui",
+      "title": "Spinner",
+      "description": "A loading indicator component that displays an animated spinner.",
+      "files": [
+        {
+          "path": "registry/ui/spinner.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "dependencies": [],
+      "registryDependencies": []
+    },
+    {
       "name": "slider",
       "type": "registry:ui",
       "title": "Slider",
