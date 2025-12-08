@@ -206,7 +206,7 @@ export const dropdownMenuSeparator = tv({
  * Provides base styles for keyboard shortcuts display.
  */
 export const dropdownMenuShortcut = tv({
-  base: "text-muted-foreground ml-auto text-xs tracking-widest",
+  base: "text-muted-foreground ml-auto text-xs tracking",
 });
 
 /**
