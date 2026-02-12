@@ -78,7 +78,7 @@
     "@babel/preset-env": "^7.28.0",
     "@babel/preset-typescript": "^7.27.1",
     "@babel/runtime": "^7.27.6",
-    "@changesets/cli": "^2.29.6",
+    "@changesets/cli": "^2.29.7",
     "@commitlint/cli": "^19.8.1",
     "@commitlint/config-conventional": "^19.8.1",
     "@eslint/eslintrc": "^3",
